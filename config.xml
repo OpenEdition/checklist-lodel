@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LodelPlugin>
+	<title>checklist</title>
+	<description>OpenEdition Checklist</description>
+	<sql>0</sql>
+	<hookType>class</hookType>
+	<hook>class</hook>
+	<triggers>postview</triggers>
+	<parameters></parameters>
+</LodelPlugin>
