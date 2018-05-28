@@ -4,4 +4,47 @@
  * Main article.
  */
 <DEFMACRO NAME="CKL_A_MAIN">
+  <LOOP NAME="ckl_a_main"
+        TABLE="textes"
+        WHERE="id=[#ID_ARTICLE]">
+    <DO>
+      <MACRO NAME="CKL_A_HEADER"/>
+    </DO>
+    <ALTERNATIVE>
+      <p>Article [#ID_ARTICLE] not found.</p>
+    </ALTERNATIVE>
+  </LOOP>
+</DEFMACRO>
+
+/**
+ * Header.
+ */
+<DEFMACRO NAME="CKL_A_HEADER">
+  ID [#ID]
+  <!--[ Numéro de document ]-->
+  <IF COND="[#NUMERODOCUMENT] AND [#NUMERODOCUMENT] NE '0'">
+    <FUNC NAME="CKL_FIELD" FIELD="numerodocument" VALUE="[#NUMERODOCUMENT]"/>
+  </IF>
+
+  <!--[ Titre du document ]-->
+  <FUNC NAME="CKL_FIELD" FIELD="titre" VALUE="[#TITRE]"/>
+
+  <!--[ Sous-titre du document ]-->
+  <FUNC NAME="CKL_FIELD" FIELD="soustitre" VALUE="[#SOUSTITRE]"/>
+
+  <!--[ Titres alternatifs ]-->
+  <IF COND="[#ALTERTITRE]">
+    <FUNC NAME="CKL_ALTERTITRES" ALTERTITRE="[#ALTERTITRE]"/>
+  </IF>
+
+  <!--[ Auteurs ]-->
+  <FUNC NAME="CKL_PERSONNES" TYPE="auteur"/>
+
+  <!--[ Traducteurs ]-->
+  <FUNC NAME="CKL_PERSONNES" TYPE="traducteur"/>
+
+  <!--[ Pagination ]-->
+  <FUNC NAME="CKL_FIELD" FIELD="pagination" VALUE="[#PAGINATION]"/>
+
+  <!--[ TODO: Alias de traduction ]-->
 </DEFMACRO>
