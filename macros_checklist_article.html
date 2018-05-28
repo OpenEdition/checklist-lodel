@@ -11,6 +11,7 @@
       <MACRO NAME="CKL_A_HEADER"/>
       <MACRO NAME="CKL_A_RESUMES"/>
       <MACRO NAME="CKL_A_ENTRIES"/>
+      <MACRO NAME="CKL_A_TOC"/>
     </DO>
     <ALTERNATIVE>
       <p>Article [#ID_ARTICLE] not found.</p>
@@ -85,4 +86,43 @@
         </div>
       </AFTER>
   </LOOP>
+</DEFMACRO>
+
+/**
+ * Table des matières de l'article.
+ */
+<DEFMACRO NAME="CKL_A_TOC">
+  <IF COND="[#TEXTE]">
+    <LET VAR="TOC_PREV_NIVEAU" GLOBAL="1">1</LET>
+    <LET VAR="OUVRIR_UL"><li><ul></LET>
+    <LET VAR="FERMER_UL"></ul></li></LET>
+    <LOOP NAME="toc" TEXT="[#TEXTE]">
+      <BEFORE>
+        <div class="ckl-toc">
+          <ul>
+      </BEFORE>
+      <DO>
+        <LET VAR="ECART">[#NIVEAU|lmath('-', [%TOC_PREV_NIVEAU])]</LET>
+        <LET VAR="LIEN"><a href="#tocto[#TOCID]" id="tocfrom[#TOCID]">[#TITRE|removenotes]</a></LET>
+          <IF COND="[#ECART] EQ 0">
+            <li dir="[#DIR]">[#LIEN]</li>
+          <ELSEIF COND="[#ECART] GT 0"/>
+            [#OUVRIR_UL|str_repeat([#ECART])]
+            <li dir="[#DIR]">[#LIEN]</li>
+          <ELSE/>
+            [#FERMER_UL|str_repeat([#ECART])]
+            <li dir="[#DIR]">[#LIEN]</li>
+          </IF>
+          <LET VAR="TOC_PREV_NIVEAU" GLOBAL="1">[#NIVEAU]</LET>
+        </DO>
+        <AFTER>
+              <!--[ Fermeture des derniers ul/li ]-->
+              <IF COND="[%TOC_PREV_NIVEAU] GT 1">
+                [#FERMER_UL|str_repeat([%TOC_PREV_NIVEAU|lmath('-', 1)])]
+              </IF>
+            </ul>
+          </div>
+        </AFTER>
+    </LOOP>
+  </IF>
 </DEFMACRO>
