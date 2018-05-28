@@ -23,14 +23,14 @@
   ID [#ID]
   <!--[ Numéro de document ]-->
   <IF COND="[#NUMERODOCUMENT] AND [#NUMERODOCUMENT] NE '0'">
-    <FUNC NAME="CKL_FIELD" FIELD="numerodocument" VALUE="[#NUMERODOCUMENT]"/>
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="numerodocument" VALUE="[#NUMERODOCUMENT]"/>
   </IF>
 
   <!--[ Titre du document ]-->
-  <FUNC NAME="CKL_FIELD" FIELD="titre" VALUE="[#TITRE]"/>
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="titre" VALUE="[#TITRE]"/>
 
   <!--[ Sous-titre du document ]-->
-  <FUNC NAME="CKL_FIELD" FIELD="soustitre" VALUE="[#SOUSTITRE]"/>
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="soustitre" VALUE="[#SOUSTITRE]"/>
 
   <!--[ Titres alternatifs ]-->
   <IF COND="[#ALTERTITRE]">
@@ -44,7 +44,13 @@
   <FUNC NAME="CKL_PERSONNES" TYPE="traducteur"/>
 
   <!--[ Pagination ]-->
-  <FUNC NAME="CKL_FIELD" FIELD="pagination" VALUE="[#PAGINATION]"/>
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="pagination" VALUE="[#PAGINATION]"/>
 
   <!--[ TODO: Alias de traduction ]-->
+
+  <!-- [ BM ] -->
+  <IF COND="[#TYPE] EQ 'article' AND [#DATEPUBLI] GT today()">
+		<LET VAR="BM">1</LET>
+	</IF>
+  <FUNC NAME="CKL_FIELD_BOOL" FIELD="bm" VALUE="[#BM]"/>
 </DEFMACRO>
