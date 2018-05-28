@@ -95,21 +95,21 @@
  * @param {string} type - Nom du type des personnes.
  */
 <DEFFUNC NAME="CKL_PERSONNES" REQUIRED="type">
-	<LOOP NAME="ckl_personnes" SELECT="g_firstname, g_familyname" TABLE="relations, persons" WHERE="id1 = '[#ID]' AND id2 = persons.id AND nature = 'G' AND type = '[#TYPE]'" ORDER="degree">
+  <LOOP NAME="ckl_personnes" SELECT="g_firstname, g_familyname" TABLE="relations, persons" WHERE="id1 = '[#ID]' AND id2 = persons.id AND nature = 'G' AND type = '[#TYPE]'" ORDER="degree">
     <BEFORE>
       <div class="ckl-personnes" data-type="[#TYPE]">
-    </BEFORE>
-    <DO>
-      <IF COND="[#COUNT] GE 2">
-  			<IF COND="[#COUNT] LT [#NBRESULTS]">, <ELSE/> et </IF>
-  		</IF>
-  		<span class="ckl-personne" data-type="[#TYPE]" data-id="[#ID]">
-        <span class="ckl-personne-firstname">[#G_FIRSTNAME]</span>
-        <span class="ckl-personne-familyname">[#G_FAMILYNAME]</span>
-      </span>
-    </DO>
-    <AFTER>
+      </BEFORE>
+      <DO>
+        <IF COND="[#COUNT] GE 2">
+          <IF COND="[#COUNT] LT [#NBRESULTS]">, <ELSE/> et </IF>
+        </IF>
+        <span class="ckl-personne" data-type="[#TYPE]" data-id="[#ID]">
+          <span class="ckl-personne-firstname">[#G_FIRSTNAME]</span>
+          <span class="ckl-personne-familyname">[#G_FAMILYNAME]</span>
+        </span>
+      </DO>
+      <AFTER>
       </div>
     </AFTER>
-	</LOOP>
+  </LOOP>
 </DEFFUNC>
