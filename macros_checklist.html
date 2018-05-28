@@ -77,16 +77,22 @@
 </DEFFUNC>
 
 /**
- * Affichage des altertitres.
- * @param {string} altertitre - Champ [#ALTERTITRE].
+ * Affichage des champs multilingues.
+ * @param {string} classname - Classe de la div.
+ * @param {string} value - Valeur du champ ml.
+ * @param {string} alternative - Valeur à afficher si aucun résultat.
  */
-<DEFFUNC NAME="CKL_ALTERTITRES">
-  <div class="ckl-altertitres">
-    <LET VAR="value">[#ALTERTITRE]</LET>
-    <LOOP NAME="mltext">
-      <FUNC NAME="CKL_FIELD_STRING" FIELD="altertitre" VALUE="[#VALUE]" LANG="[#LANG]"/>
-    </LOOP>
-  </div>
+<DEFFUNC NAME="CKL_FIELD_ML" REQUIRED="classname, value" OPTIONAL="alternative">
+  <IF COND="[#VALUE]">
+    <div class="[#CLASSNAME]">
+      <!--[ La loop "mltext" utilise [#VALUE] du contexte ]-->
+      <LOOP NAME="mltext">
+        <FUNC NAME="CKL_FIELD_STRING" FIELD="altertitre" VALUE="[#VALUE]" LANG="[#LANG]"/>
+      </LOOP>
+    </div>
+  <ELSEIF COND="[#ALTERNATIVE]"/>
+    [#ALTERNATIVE]
+  </IF>
 </DEFFUNC>
 
 /**

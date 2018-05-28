@@ -9,6 +9,7 @@
         WHERE="id=[#ID_ARTICLE]">
     <DO>
       <MACRO NAME="CKL_A_HEADER"/>
+      <MACRO NAME="CKL_A_RESUMES"/>
     </DO>
     <ALTERNATIVE>
       <p>Article [#ID_ARTICLE] not found.</p>
@@ -33,9 +34,7 @@
   <FUNC NAME="CKL_FIELD_STRING" FIELD="soustitre" VALUE="[#SOUSTITRE]"/>
 
   <!--[ Titres alternatifs ]-->
-  <IF COND="[#ALTERTITRE]">
-    <FUNC NAME="CKL_ALTERTITRES" ALTERTITRE="[#ALTERTITRE]"/>
-  </IF>
+  <FUNC NAME="CKL_FIELD_ML" CLASSNAME="ckl-altertitres" VALUE="[#ALTERTITRE]"/>
 
   <!--[ Auteurs ]-->
   <FUNC NAME="CKL_PERSONNES" TYPE="auteur"/>
@@ -53,4 +52,11 @@
 		<LET VAR="BM">1</LET>
 	</IF>
   <FUNC NAME="CKL_FIELD_BOOL" FIELD="bm" VALUE="[#BM]"/>
+</DEFMACRO>
+
+ /**
+  * Résumés.
+  */
+<DEFMACRO NAME="CKL_A_RESUMES">
+  <FUNC NAME="CKL_FIELD_ML" CLASSNAME="ckl-resumes" VALUE="[#RESUME]"/>
 </DEFMACRO>
