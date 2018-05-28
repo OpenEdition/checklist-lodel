@@ -1,0 +1,48 @@
+<CONTENT VERSION="1.0" LANG="fr" CHARSET="utf-8"/>
+
+/**
+ * Checklist main.
+ */
+<DEFMACRO NAME="CKL_MAIN">
+  <USE MACROFILE="macros_checklist_article.html"/>
+  <USE MACROFILE="macros_checklist_index.html"/>
+  <USE MACROFILE="macros_checklist_publication.html"/>
+  
+  <MACRO NAME="CKL_HTML_START"/>
+
+  <IF COND="[#ID_ARTICLE]">
+    <MACRO NAME="CKL_A_MAIN"/>
+
+  <ELSEIF COND="[#ID_PUBLICATION]"/>
+    <MACRO NAME="CKL_P_MAIN"/>
+
+  <ELSEIF COND="[#ID_INDEX]"/>
+    <MACRO NAME="CKL_I_MAIN"/>
+
+  <ELSE/>
+    <p>Id not found.</p>
+  </IF>
+
+  <MACRO NAME="CKL_HTML_END"/>
+</DEFMACRO>
+
+/**
+ * Ouverture de la page HTML.
+ */
+<DEFMACRO NAME="CKL_HTML_START">
+  <!doctype html>
+  <html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <title>OpenEdition Checklist</title>
+  </head>
+  <body>
+</DEFMACRO>
+
+/**
+ * Fermeture de la page HTML.
+ */
+<DEFMACRO NAME="CKL_HTML_END">
+  </body>
+  </html>
+</DEFMACRO>
