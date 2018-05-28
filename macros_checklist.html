@@ -51,13 +51,11 @@
  * Affichage simple d'un champ texte.
  * @param {string} field - Nom du champ (détermine le classname).
  * @param {string} value - Valeur à afficher.
- * @param {string} [lang] - Attribut lang.
  * @param {boolean} [force] - Forcer l'affichage, même si [#VALUE] est vide.
  */
-<DEFFUNC NAME="CKL_FIELD_STRING" REQUIRED="field, value" OPTIONAL="lang, force">
-  <IF COND="[#LANG]"><LET VAR="lang_attr">lang="[#LANG]"</LET></IF>
+<DEFFUNC NAME="CKL_FIELD_STRING" REQUIRED="field, value" OPTIONAL="force">
   <IF COND="[#FIELD] AND ([#VALUE] OR [#FORCE])">
-    <p class="ckl-field ckl-field-string" data-field="[#FIELD]" data-value="[#VALUE]" [#LANG_ATTR]>[#VALUE]</p>
+    <div class="ckl-field ckl-field-string" data-field="[#FIELD]">[#VALUE]</div>
   </IF>
 </DEFFUNC>
 
@@ -73,25 +71,22 @@
     <LET VAR="symbol">&#x2610;</LET>
     <LET VAR="value">0</LET>
   </IF>
-  <p class="ckl-field ckl-field-bool" data-field="[#FIELD]" data-value="[#VALUE]">[#SYMBOL] [#FIELD]</p>
+  <div class="ckl-field ckl-field-bool" data-field="[#FIELD]" data-value="[#VALUE]">[#SYMBOL] [#FIELD]</div>
 </DEFFUNC>
 
 /**
  * Affichage des champs multilingues.
- * @param {string} classname - Classe de la div.
+ * @param {string} field - Nom du champ (détermine le classname).
  * @param {string} value - Valeur du champ ml.
- * @param {string} alternative - Valeur à afficher si aucun résultat.
  */
-<DEFFUNC NAME="CKL_FIELD_ML" REQUIRED="classname, value" OPTIONAL="alternative">
+<DEFFUNC NAME="CKL_FIELD_ML" REQUIRED="field, value">
   <IF COND="[#VALUE]">
-    <div class="[#CLASSNAME]">
+    <div class="ckl-field ckl-field-ml" data-field="[#FIELD]">
       <!--[ La loop "mltext" utilise [#VALUE] du contexte ]-->
       <LOOP NAME="mltext">
-        <FUNC NAME="CKL_FIELD_STRING" FIELD="altertitre" VALUE="[#VALUE]" LANG="[#LANG]"/>
+        <FUNC NAME="CKL_FIELD_STRING" FIELD="[#FIELD]-[#LANG]" VALUE="[#VALUE]"/>
       </LOOP>
     </div>
-  <ELSEIF COND="[#ALTERNATIVE]"/>
-    [#ALTERNATIVE]
   </IF>
 </DEFFUNC>
 
