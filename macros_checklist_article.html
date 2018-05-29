@@ -13,6 +13,7 @@
       <MACRO NAME="CKL_A_ENTRIES"/>
       <MACRO NAME="CKL_A_TOC"/>
       <MACRO NAME="CKL_A_ADDENDA"/>
+      <MACRO NAME="CKL_A_TEXTE"/>
     </DO>
     <ALTERNATIVE>
       <p>Article [#ID_ARTICLE] not found.</p>
@@ -146,4 +147,15 @@
 
   <!--[ Remerciements ]-->
   <FUNC NAME="CKL_FIELD_STRING" FIELD="remerciements" VALUE="[#REMERCIEMENTS]"/>
+</DEFMACRO>
+
+/**
+ * Texte intégral et image d'accroche.
+ */
+<DEFMACRO NAME="CKL_A_TEXTE">
+  <!--[ Image d'accroche ]-->
+  <FUNC NAME="CKL_ACCROCHE" ID="[#ID]"/>
+
+  <!--[ Texte ]-->
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="texte" VALUE="[#TEXTE|cleanCallNotes|tocable|tocss('heading')|illustrations(800)|media]"/>
 </DEFMACRO>
