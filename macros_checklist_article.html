@@ -16,8 +16,8 @@
       <MACRO NAME="CKL_A_TEXTE"/>
       <MACRO NAME="CKL_A_FACSIMILE"/>
       <MACRO NAME="CKL_A_BIBLIOGRAPHIE"/>
-      <MACRO NAME="CKL_ANNEXE"/>
-      <MACRO NAME="CKL_DOCANNEXES"/>
+      <MACRO NAME="CKL_A_ANNEXE"/>
+      <MACRO NAME="CKL_A_DOCANNEXES"/>
     </DO>
     <ALTERNATIVE>
       <p>Article [#ID_ARTICLE] not found.</p>
@@ -185,14 +185,14 @@
 /**
  * Annexes (texte).
  */
-<DEFMACRO NAME="CKL_ANNEXE">
+<DEFMACRO NAME="CKL_A_ANNEXE">
   <FUNC NAME="CKL_FIELD_STRING" FIELD="annexe" VALUE="[#ANNEXE|cleanCallNotes|tocss('heading')|illustrations(800, 'annexe')|media]"/>
 </DEFMACRO>
 
 /**
  * Fichiers placés en annexe.
  */
-<DEFMACRO NAME="CKL_DOCANNEXES">
+<DEFMACRO NAME="CKL_A_DOCANNEXES">
   <IF COND="![#IDPUBLI]"><LET VAR="idpubli">[#ID]</LET></IF>
 
   <LOOP NAME="ckl_docannexes" SELECT="id" TABLE="entities" WHERE="idparent = '[#IDPUBLI]' AND type LIKE '%annexe'" ORDER="rank">
