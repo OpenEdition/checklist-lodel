@@ -8,18 +8,7 @@
         TABLE="textes"
         WHERE="id=[#ID_ARTICLE]">
     <DO>
-      <MACRO NAME="CKL_A_HEADER"/>
-      <MACRO NAME="CKL_A_RESUMES"/>
-      <MACRO NAME="CKL_A_ENTRIES"/>
-      <MACRO NAME="CKL_A_TOC"/>
-      <MACRO NAME="CKL_A_ADDENDA"/>
-      <MACRO NAME="CKL_A_TEXTE"/>
-      <MACRO NAME="CKL_A_FACSIMILE"/>
-      <MACRO NAME="CKL_A_BIBLIOGRAPHIE"/>
-      <MACRO NAME="CKL_A_ANNEXE"/>
-      <MACRO NAME="CKL_A_DOCANNEXES"/>
-      <MACRO NAME="CKL_A_NOTES"/>
-      <FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="auteur" IDDOC="[#ID]"/>
+      <MACRO NAME="CKL_A_CONTENT"/>
     </DO>
     <ALTERNATIVE>
       <p>Article [#ID_ARTICLE] not found.</p>
@@ -28,10 +17,9 @@
 </DEFMACRO>
 
 /**
- * Header.
+ * Contenu article.
  */
-<DEFMACRO NAME="CKL_A_HEADER">
-  ID [#ID]
+<DEFMACRO NAME="CKL_A_CONTENT">
   <!--[ Numéro de document ]-->
   <IF COND="[#NUMERODOCUMENT] AND [#NUMERODOCUMENT] NE '0'">
     <FUNC NAME="CKL_FIELD_STRING" FIELD="numerodocument" VALUE="[#NUMERODOCUMENT]"/>
@@ -57,22 +45,66 @@
 
   <!--[ TODO: Alias de traduction ]-->
 
-  <!-- [ BM ] -->
+  <!-- [ Barrière mobile ] -->
   <IF COND="[#TYPE] EQ 'article' AND [#DATEPUBLI] GT today()">
 		<LET VAR="BM">1</LET>
 	</IF>
   <FUNC NAME="CKL_FIELD_BOOL" FIELD="bm" VALUE="[#BM]"/>
-</DEFMACRO>
 
- /**
-  * Résumés.
-  */
-<DEFMACRO NAME="CKL_A_RESUMES">
+  <!-- [ Résumés ] -->
   <FUNC NAME="CKL_FIELD_ML" FIELD="resume" VALUE="[#RESUME]"/>
+
+  <!-- [ Entrées d'index ] -->
+  <MACRO NAME="CKL_A_ENTRIES"/>
+
+  <!-- [ Sommaire de l'article ] -->
+  <MACRO NAME="CKL_A_TOC"/>
+
+  <!--[ Errata ]-->
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="addendum" VALUE="[#ADDENDUM]"/>
+
+  <!--[ Dédicace ]-->
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="dedicace" VALUE="[#DEDICACE]"/>
+
+  <!--[ NDLR ]-->
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="ndlr" VALUE="[#NDLR]"/>
+
+  <!--[ NDLA ]-->
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="ndla" VALUE="[#NDLA]"/>
+
+  <!--[ Remerciements ]-->
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="remerciements" VALUE="[#REMERCIEMENTS]"/>
+
+  <!--[ Image d'accroche ]-->
+  <FUNC NAME="CKL_ACCROCHE" ID="[#ID]"/>
+
+  <!--[ Texte intégral ]-->
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="texte" VALUE="[#TEXTE|cleanCallNotes|tocable|tocss('heading')|illustrations(800)|media]"/>
+
+  <!--[ Fichier facsimilé ]-->
+  <MACRO NAME="CKL_A_FACSIMILE"/>
+
+  <!--[ Bibliographie ]-->
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="bibliographie" VALUE="[(#BIBLIOGRAPHIE|cleanCallNotes|tocss('heading')|illustrations(800, 'bibliographie')|media)]"/>
+
+  <!--[ Annexes (texte) ]-->
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="annexe" VALUE="[#ANNEXE|cleanCallNotes|tocss('heading')|illustrations(800, 'annexe')|media]"/>
+
+  <!--[ Fichiers placés en annexe ]-->
+  <MACRO NAME="CKL_A_DOCANNEXES"/>
+
+  <!--[ Notes de bas de page ]-->
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="notesbaspage" VALUE="[#NOTESBASPAGE]"/>
+
+  <!--[ Notes de fin ]-->
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="notefin" VALUE="[#NOTEFIN]"/>
+
+  <!--[ Descriptions des auteurs ]-->
+  <FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="auteur" IDDOC="[#ID]"/>
 </DEFMACRO>
 
 /**
- * Index.
+ * Entrées d'index.
  */
 <DEFMACRO NAME="CKL_A_ENTRIES">
   <LOOP NAME="ckl_a_entries_types" TABLE="relations, entries, entrytypes" SELECT="DISTINCT(idtype), title, altertitle, type AS entrytype" WHERE="id1 = '[#ID]' AND id2 = entries.id AND entries.idtype = entrytypes.id AND entrytypes.class = 'indexes'" ORDER="entrytypes.rank">
@@ -136,37 +168,6 @@
 </DEFMACRO>
 
 /**
- * Addenda.
- */
-<DEFMACRO NAME="CKL_A_ADDENDA">
-  <!--[ Errata ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="addendum" VALUE="[#ADDENDUM]"/>
-
-  <!--[ Dédicace ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="dedicace" VALUE="[#DEDICACE]"/>
-
-  <!--[ NDLR ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="ndlr" VALUE="[#NDLR]"/>
-
-  <!--[ NDLA ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="ndla" VALUE="[#NDLA]"/>
-
-  <!--[ Remerciements ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="remerciements" VALUE="[#REMERCIEMENTS]"/>
-</DEFMACRO>
-
-/**
- * Texte intégral et image d'accroche.
- */
-<DEFMACRO NAME="CKL_A_TEXTE">
-  <!--[ Image d'accroche ]-->
-  <FUNC NAME="CKL_ACCROCHE" ID="[#ID]"/>
-
-  <!--[ Texte ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="texte" VALUE="[#TEXTE|cleanCallNotes|tocable|tocss('heading')|illustrations(800)|media]"/>
-</DEFMACRO>
-
-/**
  * Fac-similé.
  */
 <DEFMACRO NAME="CKL_A_FACSIMILE">
@@ -175,20 +176,6 @@
       <a class="ckl-facsimile-a" href="[#ID|makeurlwithid]?file=1">Facsimile ([#ALTERFICHIER|getFileMime]&#160;&#8211; [#ALTERFICHIER|nicefilesize])</a>
     </div>
   </IF>
-</DEFMACRO>
-
-/**
- * Bibliographie.
- */
-<DEFMACRO NAME="CKL_A_BIBLIOGRAPHIE">
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="bibliographie" VALUE="[(#BIBLIOGRAPHIE|cleanCallNotes|tocss('heading')|illustrations(800, 'bibliographie')|media)]"/>
-</DEFMACRO>
-
-/**
- * Annexes (texte).
- */
-<DEFMACRO NAME="CKL_A_ANNEXE">
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="annexe" VALUE="[#ANNEXE|cleanCallNotes|tocss('heading')|illustrations(800, 'annexe')|media]"/>
 </DEFMACRO>
 
 /**
@@ -240,17 +227,6 @@
       </div>
     </AFTER>
   </LOOP>
-</DEFMACRO>
-
-/**
- * Notes de bas de page et notes de fin.
- */
-<DEFMACRO NAME="CKL_A_NOTES">
-  <!--[ Notes de bas de page ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="notesbaspage" VALUE="[#NOTESBASPAGE]"/>
-
-  <!--[ Notes de fin ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="notefin" VALUE="[#NOTEFIN]"/>
 </DEFMACRO>
 
 /**
