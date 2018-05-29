@@ -18,6 +18,7 @@
       <MACRO NAME="CKL_A_BIBLIOGRAPHIE"/>
       <MACRO NAME="CKL_A_ANNEXE"/>
       <MACRO NAME="CKL_A_DOCANNEXES"/>
+      <MACRO NAME="CKL_A_NOTES"/>
     </DO>
     <ALTERNATIVE>
       <p>Article [#ID_ARTICLE] not found.</p>
@@ -238,4 +239,15 @@
       </div>
     </AFTER>
   </LOOP>
+</DEFMACRO>
+
+/**
+ * Notes de bas de page et notes de fin.
+ */
+<DEFMACRO NAME="CKL_A_NOTES">
+  <!--[ Notes de bas de page ]-->
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="notesbaspage" VALUE="[#NOTESBASPAGE]"/>
+
+  <!--[ Notes de fin ]-->
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="notefin" VALUE="[#NOTEFIN]"/>
 </DEFMACRO>
