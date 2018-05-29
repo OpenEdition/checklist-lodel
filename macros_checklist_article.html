@@ -169,7 +169,7 @@
 <DEFMACRO NAME="CKL_A_FACSIMILE">
   <IF COND="[#ALTERFICHIER]">
     <div class="ckl-facsimile">
-      <a class="ckl-facsimile-a" href="[#ID|makeurlwithid]?file=1">Facsimile  ([#ALTERFICHIER|nicefilesize])</a>
+      <a class="ckl-facsimile-a" href="[#ID|makeurlwithid]?file=1">Facsimile ([#ALTERFICHIER|getFileMime]&#160;&#8211; [#ALTERFICHIER|nicefilesize])</a>
     </div>
   </IF>
 </DEFMACRO>
