@@ -16,6 +16,7 @@
       <MACRO NAME="CKL_A_TEXTE"/>
       <MACRO NAME="CKL_A_FACSIMILE"/>
       <MACRO NAME="CKL_A_BIBLIOGRAPHIE"/>
+      <MACRO NAME="CKL_ANNEXE"/>
     </DO>
     <ALTERNATIVE>
       <p>Article [#ID_ARTICLE] not found.</p>
@@ -178,4 +179,11 @@
  */
 <DEFMACRO NAME="CKL_A_BIBLIOGRAPHIE">
   <FUNC NAME="CKL_FIELD_STRING" FIELD="bibliographie" VALUE="[(#BIBLIOGRAPHIE|cleanCallNotes|tocss('heading')|illustrations(800, 'bibliographie')|media)]"/>
+</DEFMACRO>
+
+/**
+ * Annexes (texte).
+ */
+<DEFMACRO NAME="CKL_ANNEXE">
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="annexe" VALUE="[#ANNEXE|cleanCallNotes|tocss('heading')|illustrations(800, 'annexe')|media]"/>
 </DEFMACRO>
