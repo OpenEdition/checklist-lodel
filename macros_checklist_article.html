@@ -19,6 +19,7 @@
       <MACRO NAME="CKL_A_ANNEXE"/>
       <MACRO NAME="CKL_A_DOCANNEXES"/>
       <MACRO NAME="CKL_A_NOTES"/>
+      <FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="auteur" IDDOC="[#ID]"/>
     </DO>
     <ALTERNATIVE>
       <p>Article [#ID_ARTICLE] not found.</p>
@@ -251,3 +252,30 @@
   <!--[ Notes de fin ]-->
   <FUNC NAME="CKL_FIELD_STRING" FIELD="notefin" VALUE="[#NOTEFIN]"/>
 </DEFMACRO>
+
+/**
+ * Description des auteurs, traducteurs...
+ * @param {string} type - Type de personne.
+ * @param {string} type - ID du document auquel est liée la description.
+ */
+<DEFFUNC NAME="CKL_A_DESCRIPTION_PERSONNES" REQUIRED="type, iddoc">
+  <LOOP NAME="ckl_a_description_personnes" SELECT="persons.id" TABLE="relations, persons" WHERE="id1 = '[#IDDOC]' AND id2 = persons.id AND nature = 'G' AND type = '[#TYPE]'" ORDER="degree">
+    <BEFORE>
+      <div class="ckl-description-personnes" data-type="[#TYPE]">
+    </BEFORE>
+    <DO>
+      <LOOP NAME="ckl_a_description_personnes_item" TABLE="auteurs" WHERE="id = '[#ID]' AND iddocument='[#IDDOC]'">
+        <div class="ckl-personne" data-type="[#TYPE]" data-id="[#ID]">
+          <span class="ckl-personne-firstname">[#G_FIRSTNAME]</span>
+          <span class="ckl-personne-familyname">[#G_FAMILYNAME]</span>
+          <IF COND="[#DESCRIPTION]">
+            <p class="ckl-personne-description">[#DESCRIPTION|removetags("p")]</p>
+          </IF>
+        </div>
+      </LOOP>
+    </DO>
+    <AFTER>
+      </div>
+    </AFTER>
+  </LOOP>
+</DEFFUNC>
