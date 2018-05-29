@@ -15,6 +15,7 @@
       <MACRO NAME="CKL_A_ADDENDA"/>
       <MACRO NAME="CKL_A_TEXTE"/>
       <MACRO NAME="CKL_A_FACSIMILE"/>
+      <MACRO NAME="CKL_A_BIBLIOGRAPHIE"/>
     </DO>
     <ALTERNATIVE>
       <p>Article [#ID_ARTICLE] not found.</p>
@@ -170,4 +171,11 @@
       <a class="ckl-facsimile-a" href="[#ID|makeurlwithid]?file=1">Facsimile  ([#ALTERFICHIER|nicefilesize])</a>
     </div>
   </IF>
+</DEFMACRO>
+
+/**
+ * Bibliographie.
+ */
+<DEFMACRO NAME="CKL_A_BIBLIOGRAPHIE">
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="bibliographie" VALUE="[(#BIBLIOGRAPHIE|cleanCallNotes|tocss('heading')|illustrations(800, 'bibliographie')|media)]"/>
 </DEFMACRO>
