@@ -17,6 +17,7 @@
       <MACRO NAME="CKL_A_FACSIMILE"/>
       <MACRO NAME="CKL_A_BIBLIOGRAPHIE"/>
       <MACRO NAME="CKL_ANNEXE"/>
+      <MACRO NAME="CKL_DOCANNEXES"/>
     </DO>
     <ALTERNATIVE>
       <p>Article [#ID_ARTICLE] not found.</p>
@@ -186,4 +187,55 @@
  */
 <DEFMACRO NAME="CKL_ANNEXE">
   <FUNC NAME="CKL_FIELD_STRING" FIELD="annexe" VALUE="[#ANNEXE|cleanCallNotes|tocss('heading')|illustrations(800, 'annexe')|media]"/>
+</DEFMACRO>
+
+/**
+ * Fichiers placés en annexe.
+ */
+<DEFMACRO NAME="CKL_DOCANNEXES">
+  <IF COND="![#IDPUBLI]"><LET VAR="idpubli">[#ID]</LET></IF>
+
+  <LOOP NAME="ckl_docannexes" SELECT="id" TABLE="entities" WHERE="idparent = '[#IDPUBLI]' AND type LIKE '%annexe'" ORDER="rank">
+    <BEFORE>
+      <div class="ckl-docannexes">
+        <ul>
+    </BEFORE>
+    <DO>
+      <li class="ckl-docannexe" data-class="[#CLASS]" data-id="[#ID]">
+        <LOOP NAME="docannexe" TABLE="#_TP_[#CLASS]" WHERE="identity = '[#ID]'">
+          <IF COND="[#TYPE] EQ 'lienannexe' AND [#URL]">
+            <LET VAR="href">[#URL|htmlspecialchars(ENT_COMPAT, 'UTF-8')]</LET>
+          <ELSEIF COND="[#DOCUMENT]"/>
+            <LET VAR="href">[#ID|makeurlwithfile]</LET>
+          </IF>
+          <p class="ckl-docannexe-title">
+            <!--[ Lien ]-->
+            <IF COND="[#TYPE] EQ 'lienannexe' AND [#URL]">
+              <a href="[#HREF]">[#TITRE]</a>
+            <!--[ Fichier ]-->
+            <ELSEIF COND="[#DOCUMENT]" />
+              <a href="[#HREF]">[#TITRE]</a> <span class="ckl-info">([#DOCUMENT|getFileMime]&#160;&#8211; [#DOCUMENT|nicefilesize])</span>
+            <ELSEIF COND="[#URLACCESMEDIA]" />
+              <a href="[#URLACCESMEDIA]">[#TITRE]</a> <span class="ckl-info">([#URLACCESMEDIA])</span>
+            <ELSEIF COND="[#URLMEDIA]" />
+              <a href="[#URLMEDIA]">[#TITRE]</a> <span class="ckl-info">([#URLMEDIA])</span>
+            <ELSE />
+              [#TITRE]
+            </IF>
+          </p>
+          <IF COND="[#CLASS] EQ 'liens' AND [#TEXTE]">
+            <p class="ckl-docannexe-description">[#TEXTE]</p>
+          <ELSEIF COND="[#CLASS] EQ 'fichiers'"/>
+            <IF COND="[#DESCRIPTION]"><div class="ckl-docannexe-description">[#DESCRIPTION]</div></IF>
+            <IF COND="[#LEGENDE]"><div class="ckl-docannexe-legende">[#LEGENDE]</div></IF>
+            <IF COND="[#CREDITS]"><div class="ckl-docannexe-credits">[#CREDITS]</div></IF>
+          </IF>
+        </LOOP>
+      </li>
+    </DO>
+    <AFTER>
+        </ul>
+      </div>
+    </AFTER>
+  </LOOP>
 </DEFMACRO>
