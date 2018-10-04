@@ -132,6 +132,9 @@
 
   <!--[ Fichiers ]-->
   <MACRO NAME="CKL_A_FICHIERS"/>
+
+  <!--[ Fichiers externes]-->
+  <MACRO NAME="CKL_A_FICHIERSEXTERNES"/>
 </DEFMACRO>
 
 /**
@@ -280,6 +283,31 @@
         <p class="ckl-fichier-titre">[#TITRE]</p>
         <p class="ckl-fichier-type">[#TYPE]</p>
         <p class="ckl-fichier-document">[#DOCUMENT]</p>
+      </div>
+    </DO>
+    <AFTER>
+      </div>
+    </AFTER>
+  </LOOP>
+</DEFMACRO>
+
+/**
+ * Fichiers externes.
+ */
+<DEFMACRO NAME="CKL_A_FICHIERSEXTERNES">
+  <LOOP NAME="ckl_a_fichiersexternes"
+        TABLE="fichiersexternes"
+        WHERE="idparent = [#ID]"
+        SELECT="id, titre, type, urlmedia"
+        ORDER="rank">
+    <BEFORE>
+      <div class="ckl-fichiersexternes">
+    </BEFORE>
+    <DO>
+      <div class="ckl-fichierexterne">
+        <p class="ckl-fichierexterne-titre">[#TITRE]</p>
+        <p class="ckl-fichierexterne-type">[#TYPE]</p>
+        <p class="ckl-fichierexterne-urlmedia">[#URLMEDIA]</p>
       </div>
     </DO>
     <AFTER>
