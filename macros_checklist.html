@@ -10,19 +10,24 @@
 
   <MACRO NAME="CKL_HTML_START"/>
 
-  <IF COND="[#ID_ARTICLE]">
-    <MACRO NAME="CKL_A_MAIN"/>
-
-  <ELSEIF COND="[#ID_PUBLICATION]"/>
-    <MACRO NAME="CKL_P_MAIN"/>
-
-  <ELSEIF COND="[#ID_INDEX]"/>
-    <MACRO NAME="CKL_I_MAIN"/>
-
-  <ELSE/>
-    <p>Id not found.</p>
-  </IF>
-
+  <LOOP NAME="ckl_main"
+        TABLE="entities, types"
+        SELECT="id, class, type"
+        WHERE="id = '[#DOCUMENT]' AND class IN ('publications', 'textes', 'indexes', 'auteurs') AND entities.idtype = types.id">
+      <DO>
+        <IF COND="[#CLASS] EQ 'textes'">
+          <MACRO NAME="CKL_A_MAIN"/>
+        <ELSEIF COND="[#CLASS] EQ 'publications'"/>
+          <MACRO NAME="CKL_P_MAIN"/>
+        <ELSE/>
+          <MACRO NAME="CKL_I_MAIN"/>
+        </IF>
+      </DO>
+      <ALTERNATIVE>
+        <p>Document not found.</p>
+      </ALTERNATIVE>
+  </LOOP>
+  
   <MACRO NAME="CKL_HTML_END"/>
 </DEFMACRO>
 

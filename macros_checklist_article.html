@@ -6,12 +6,12 @@
 <DEFMACRO NAME="CKL_A_MAIN">
   <LOOP NAME="ckl_a_main"
         TABLE="textes"
-        WHERE="id=[#ID_ARTICLE]">
+        WHERE="id=[#DOCUMENT]">
     <DO>
       <MACRO NAME="CKL_A_CONTENT"/>
     </DO>
     <ALTERNATIVE>
-      <p>Article [#ID_ARTICLE] not found.</p>
+      <p>Article [#DOCUMENT] not found.</p>
     </ALTERNATIVE>
   </LOOP>
 </DEFMACRO>
