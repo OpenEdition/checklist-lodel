@@ -52,12 +52,17 @@
   <!--[ Langue ]-->
   <FUNC NAME="CKL_FIELD_STRING" FIELD="langue" VALUE="[#LANGUE]"/>
 
-  <!--[ TODO:
-  noticebibliooeuvre
-  titreoeuvre
-  datepublicationoeuvre
-  auteuroeuvre
- ]-->
+  <!--[ Notice bibliographique de l’œuvre commentée ]-->
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="noticebibliooeuvre" VALUE="[#NOTICEBIBLIOOEUVRE]"/>
+
+  <!--[ Titre de l’œuvre commentée ]-->
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="titreoeuvre" VALUE="[#TITREOEUVRE]"/>
+
+  <!--[ Date de publication de l’œuvre commentée ]-->
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="datepublicationoeuvre" VALUE="[#DATEPUBLICATIONOEUVRE]"/>
+
+  <!--[ Auteur de l’œuvre commentée ]-->
+  <FUNC NAME="CKL_PERSONNES" TYPE="auteuroeuvre"/>
 
  <!--[ TODO: Alias de traduction ]-->
 
