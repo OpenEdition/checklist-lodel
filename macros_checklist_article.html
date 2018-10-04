@@ -129,6 +129,9 @@
 
   <!--[ Fichier facsimilé ]-->
   <MACRO NAME="CKL_A_FACSIMILE"/>
+
+  <!--[ Fichiers ]-->
+  <MACRO NAME="CKL_A_FICHIERS"/>
 </DEFMACRO>
 
 /**
@@ -253,6 +256,31 @@
       <p class="ckl-traduction[#ORIGINAL_CLASSNAME]" lang="[#LANGUE]">
         <a href="[#ID|makeurlwithid]">[#TITRE]</a>
       </p>
+    </DO>
+    <AFTER>
+      </div>
+    </AFTER>
+  </LOOP>
+</DEFMACRO>
+
+/**
+ * Fichiers.
+ */
+<DEFMACRO NAME="CKL_A_FICHIERS">
+  <LOOP NAME="ckl_a_fichiers"
+        TABLE="fichiers"
+        WHERE="type != 'imageaccroche' AND idparent = [#ID]"
+        SELECT="id, titre, type, document"
+        ORDER="rank">
+    <BEFORE>
+      <div class="ckl-fichiers">
+    </BEFORE>
+    <DO>
+      <div class="ckl-fichier">
+        <p class="ckl-fichier-titre">[#TITRE]</p>
+        <p class="ckl-fichier-type">[#TYPE]</p>
+        <p class="ckl-fichier-document">[#DOCUMENT]</p>
+      </div>
     </DO>
     <AFTER>
       </div>
