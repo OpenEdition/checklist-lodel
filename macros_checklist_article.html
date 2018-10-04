@@ -38,10 +38,13 @@
   <FUNC NAME="CKL_FIELD_ML" FIELD="altertitre" VALUE="[#ALTERTITRE]"/>
 
   <!--[ Auteurs ]-->
-  <FUNC NAME="CKL_PERSONNES" TYPE="auteur"/>
+  <FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="auteur" IDDOC="[#ID]"/>
+
+  <!--[ Editeurs scientifiques ]-->
+  <FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="editeurscientifique" IDDOC="[#ID]"/>
 
   <!--[ Traducteurs ]-->
-  <FUNC NAME="CKL_PERSONNES" TYPE="traducteur"/>
+  <FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="traducteur" IDDOC="[#ID]"/>
 
   <!--[ Langue ]-->
   <FUNC NAME="CKL_FIELD_STRING" FIELD="langue" VALUE="[#LANGUE]"/>
@@ -104,9 +107,6 @@
 
   <!--[ Notes de fin ]-->
   <FUNC NAME="CKL_FIELD_STRING" FIELD="notefin" VALUE="[#NOTEFIN]"/>
-
-  <!--[ Descriptions des auteurs ]-->
-  <FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="auteur" IDDOC="[#ID]"/>
 
   <!-- [ Vignettisation simple ] -->
   <FUNC NAME="CKL_FIELD_BOOL" FIELD="vignettesimple" VALUE="[#VIGNETTESIMPLE]"/>
