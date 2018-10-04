@@ -25,6 +25,9 @@
     <FUNC NAME="CKL_FIELD_STRING" FIELD="numerodocument" VALUE="[#NUMERODOCUMENT]"/>
   </IF>
 
+  <!--[ Surtitre du document ]-->
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="surtitre" VALUE="[#SURTITRE]"/>
+
   <!--[ Titre du document ]-->
   <FUNC NAME="CKL_FIELD_STRING" FIELD="titre" VALUE="[#TITRE]"/>
 
@@ -39,6 +42,9 @@
 
   <!--[ Traducteurs ]-->
   <FUNC NAME="CKL_PERSONNES" TYPE="traducteur"/>
+
+  <!--[ Langue ]-->
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="langue" VALUE="[#LANGUE]"/>
 
   <!--[ Pagination ]-->
   <FUNC NAME="CKL_FIELD_STRING" FIELD="pagination" VALUE="[#PAGINATION]"/>
@@ -101,6 +107,9 @@
 
   <!--[ Descriptions des auteurs ]-->
   <FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="auteur" IDDOC="[#ID]"/>
+
+  <!-- [ Vignettisation simple ] -->
+  <FUNC NAME="CKL_FIELD_BOOL" FIELD="vignettesimple" VALUE="[#VIGNETTESIMPLE]"/>
 </DEFMACRO>
 
 /**
