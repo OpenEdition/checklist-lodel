@@ -40,28 +40,40 @@
   <!--[ Date de la publication papier ]-->
   <FUNC NAME="CKL_FIELD_STRING" FIELD="datepublipapier" VALUE="[#DATEPUBLIPAPIER]"/>
 
-  <!--[ Auteurs ]-->
-  <FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="auteur" IDDOC="[#ID]"/>
-
-  <!--[ Editeurs scientifiques ]-->
-  <FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="editeurscientifique" IDDOC="[#ID]"/>
-
-  <!--[ Traducteurs ]-->
-  <FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="traducteur" IDDOC="[#ID]"/>
-
-  <!--[ Langue ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="langue" VALUE="[#LANGUE]"/>
+  <!-- [ Barrière mobile ] -->
+  <IF COND="[#TYPE] EQ 'article' AND [#DATEPUBLI] GT today()">
+    <LET VAR="BM">1</LET>
+  </IF>
+  <FUNC NAME="CKL_FIELD_BOOL" FIELD="bm" VALUE="[#BM]"/>
 
   <!--[ Pagination ]-->
   <FUNC NAME="CKL_FIELD_STRING" FIELD="pagination" VALUE="[#PAGINATION]"/>
 
-  <!--[ TODO: Alias de traduction ]-->
+  <!--[ Langue ]-->
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="langue" VALUE="[#LANGUE]"/>
 
-  <!-- [ Barrière mobile ] -->
-  <IF COND="[#TYPE] EQ 'article' AND [#DATEPUBLI] GT today()">
-		<LET VAR="BM">1</LET>
-	</IF>
-  <FUNC NAME="CKL_FIELD_BOOL" FIELD="bm" VALUE="[#BM]"/>
+  <!--[ TODO:
+  noticebibliooeuvre
+  titreoeuvre
+  datepublicationoeuvre
+  auteuroeuvre
+ ]-->
+
+ <!--[ TODO: Alias de traduction ]-->
+
+ <!-- [ Vignettisation simple ] -->
+ <FUNC NAME="CKL_FIELD_BOOL" FIELD="vignettesimple" VALUE="[#VIGNETTESIMPLE]"/>
+
+ <!--[ TODO: datemisenligne, dateacceslibre ]-->
+
+  <!--[ Auteurs ]-->
+  <FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="auteur" IDDOC="[#ID]"/>
+
+  <!--[ Traducteurs ]-->
+  <FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="traducteur" IDDOC="[#ID]"/>
+
+  <!--[ Editeurs scientifiques ]-->
+  <FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="editeurscientifique" IDDOC="[#ID]"/>
 
   <!-- [ Résumés ] -->
   <FUNC NAME="CKL_FIELD_ML" FIELD="resume" VALUE="[#RESUME]"/>
@@ -69,8 +81,11 @@
   <!-- [ Entrées d'index ] -->
   <MACRO NAME="CKL_A_ENTRIES"/>
 
-  <!-- [ Sommaire de l'article ] -->
-  <MACRO NAME="CKL_A_TOC"/>
+  <!--[ NDLR ]-->
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="ndlr" VALUE="[#NDLR]"/>
+
+  <!--[ NDLA ]-->
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="ndla" VALUE="[#NDLA]"/>
 
   <!--[ Errata ]-->
   <FUNC NAME="CKL_FIELD_STRING" FIELD="addendum" VALUE="[#ADDENDUM]"/>
@@ -78,23 +93,17 @@
   <!--[ Dédicace ]-->
   <FUNC NAME="CKL_FIELD_STRING" FIELD="dedicace" VALUE="[#DEDICACE]"/>
 
-  <!--[ NDLR ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="ndlr" VALUE="[#NDLR]"/>
-
-  <!--[ NDLA ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="ndla" VALUE="[#NDLA]"/>
-
   <!--[ Remerciements ]-->
   <FUNC NAME="CKL_FIELD_STRING" FIELD="remerciements" VALUE="[#REMERCIEMENTS]"/>
 
   <!--[ Image d'accroche ]-->
   <FUNC NAME="CKL_ACCROCHE" ID="[#ID]"/>
 
+  <!-- [ Sommaire de l'article ] -->
+  <MACRO NAME="CKL_A_TOC"/>
+
   <!--[ Texte intégral ]-->
   <FUNC NAME="CKL_FIELD_STRING" FIELD="texte" VALUE="[#TEXTE|cleanCallNotes|tocable|tocss('heading')|illustrations(800)|media]"/>
-
-  <!--[ Fichier facsimilé ]-->
-  <MACRO NAME="CKL_A_FACSIMILE"/>
 
   <!--[ Bibliographie ]-->
   <FUNC NAME="CKL_FIELD_STRING" FIELD="bibliographie" VALUE="[(#BIBLIOGRAPHIE|cleanCallNotes|tocss('heading')|illustrations(800, 'bibliographie')|media)]"/>
@@ -111,8 +120,8 @@
   <!--[ Notes de fin ]-->
   <FUNC NAME="CKL_FIELD_STRING" FIELD="notefin" VALUE="[#NOTEFIN]"/>
 
-  <!-- [ Vignettisation simple ] -->
-  <FUNC NAME="CKL_FIELD_BOOL" FIELD="vignettesimple" VALUE="[#VIGNETTESIMPLE]"/>
+  <!--[ Fichier facsimilé ]-->
+  <MACRO NAME="CKL_A_FACSIMILE"/>
 </DEFMACRO>
 
 /**
