@@ -100,7 +100,10 @@
     <LET VAR="symbol">&#x2610;</LET>
     <LET VAR="value">0</LET>
   </IF>
-  <div class="ckl-field ckl-field-bool" data-field="[#FIELD]" data-value="[#VALUE]">[#SYMBOL] [#FIELD]</div>
+  <div class="ckl-field ckl-field-bool" data-field="[#FIELD]" data-value="[#VALUE]">
+    <FUNC NAME="CKL_PRINT_FIELD_TITLE" FIELD="[#FIELD]"/>
+    <div class="ckl-field-value">[#SYMBOL]</div>
+  </div>
 </DEFFUNC>
 
 /**
