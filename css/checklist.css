@@ -1,3 +1,27 @@
 body {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 }
+
+.ckl-field-string {
+  margin-bottom: 8px;
+}
+
+.ckl-field-title {
+  color: #777;
+}
+
+@media screen and (min-width: 500px) {
+  .ckl-field-string {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .ckl-field-title {
+    min-width: 300px;
+    width: 300px;
+  }
+
+  .ckl-field-value :first-child {
+    margin-top: 0;
+  }
+}
