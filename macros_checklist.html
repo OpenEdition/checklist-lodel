@@ -54,6 +54,26 @@
 </DEFMACRO>
 
 /**
+ * Afficher le titre d'un champ.
+ * TODO: inclure les traductions.
+ * @param {string} field - Nom du champ.
+ */
+<DEFFUNC NAME="CKL_PRINT_FIELD_TITLE" REQUIRED="field">
+  <LOOP NAME="ckl_get_field"
+        TABLE="tablefields"
+        SELECT="name, title, class"
+        WHERE="class='[#CLASS]' AND name = '[#FIELD]'"
+        LIMIT="0,1">
+    <DO>
+      <div class="ckl-field-title">[#TITLE]</div>
+    </DO>
+    <ALTERNATIVE>
+      <div class="ckl-field-title">[#FIELD]</div>
+    </ALTERNATIVE>
+  </LOOP>
+</DEFFUNC>
+
+/**
  * Affichage simple d'un champ texte.
  * @param {string} field - Nom du champ (détermine le classname).
  * @param {string} value - Valeur à afficher.
@@ -62,18 +82,7 @@
 <DEFFUNC NAME="CKL_FIELD_STRING" REQUIRED="field, value" OPTIONAL="force">
   <IF COND="[#FIELD] AND ([#VALUE] OR [#FORCE])">
     <div class="ckl-field ckl-field-string" data-field="[#FIELD]">
-      <LOOP NAME="ckl_get_field"
-            TABLE="tablefields"
-            SELECT="name, title, class"
-            WHERE="class='[#CLASS]' AND name = '[#FIELD]'"
-            LIMIT="0,1">
-        <DO>
-          <div class="ckl-field-title">[#TITLE]</div>
-        </DO>
-        <ALTERNATIVE>
-          <div class="ckl-field-title">[#FIELD]</div>
-        </ALTERNATIVE>
-      </LOOP>
+      <FUNC NAME="CKL_PRINT_FIELD_TITLE" FIELD="[#FIELD]"/>
       <div class="ckl-field-value">[#VALUE]</div>
     </div>
   </IF>
@@ -102,10 +111,13 @@
 <DEFFUNC NAME="CKL_FIELD_ML" REQUIRED="field, value">
   <IF COND="[#VALUE]">
     <div class="ckl-field ckl-field-ml" data-field="[#FIELD]">
-      <!--[ La loop "mltext" utilise [#VALUE] du contexte ]-->
-      <LOOP NAME="mltext">
-        <FUNC NAME="CKL_FIELD_STRING" FIELD="[#FIELD]-[#LANG]" VALUE="[#VALUE]"/>
-      </LOOP>
+      <FUNC NAME="CKL_PRINT_FIELD_TITLE" FIELD="[#FIELD]"/>
+      <div class="ckl-field-value">
+        <!--[ La loop "mltext" utilise [#VALUE] du contexte ]-->
+        <LOOP NAME="mltext">
+          <FUNC NAME="CKL_FIELD_STRING" FIELD="[#FIELD]-[#LANG]" VALUE="[#VALUE]"/>
+        </LOOP>
+      </div>
     </div>
   </IF>
 </DEFFUNC>

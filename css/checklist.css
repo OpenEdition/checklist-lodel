@@ -2,7 +2,7 @@ body {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 }
 
-.ckl-field-string {
+.ckl-field {
   margin-bottom: 8px;
 }
 
@@ -11,7 +11,7 @@ body {
 }
 
 @media screen and (min-width: 500px) {
-  .ckl-field-string {
+  .ckl-field {
     display: flex;
     align-items: flex-start;
   }
