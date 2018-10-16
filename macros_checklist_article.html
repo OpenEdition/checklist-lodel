@@ -220,7 +220,9 @@
 <DEFFUNC NAME="CKL_A_DESCRIPTION_PERSONNES" REQUIRED="type, iddoc">
   <LOOP NAME="ckl_a_description_personnes" SELECT="persons.id" TABLE="relations, persons" WHERE="id1 = '[#IDDOC]' AND id2 = persons.id AND nature = 'G' AND type = '[#TYPE]'" ORDER="degree">
     <BEFORE>
-      <div class="ckl-description-personnes" data-type="[#TYPE]">
+      <div class="ckl-field ckl-description-personnes" data-type="[#TYPE]">
+        <FUNC NAME="CKL_PRINT_FIELD_TITLE" FIELD="[#TYPE]"/>
+        <div class="ckl-field-value">
     </BEFORE>
     <DO>
       <LOOP NAME="ckl_a_description_personnes_item" TABLE="auteurs" WHERE="id = '[#ID]' AND iddocument='[#IDDOC]'">
@@ -234,6 +236,7 @@
       </LOOP>
     </DO>
     <AFTER>
+        </div>
       </div>
     </AFTER>
   </LOOP>
