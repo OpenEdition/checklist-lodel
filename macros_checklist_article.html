@@ -288,7 +288,9 @@
         SELECT="id, titre, type, document"
         ORDER="rank">
     <BEFORE>
-      <div class="ckl-fichiers">
+      <div class="ckl-field ckl-fichiers">
+        <div class="ckl-field-title">Fichiers</div>
+        <div class="ckl-field-value">
     </BEFORE>
     <DO>
       <div class="ckl-fichier">
@@ -298,6 +300,7 @@
       </div>
     </DO>
     <AFTER>
+        </div>
       </div>
     </AFTER>
   </LOOP>
@@ -313,7 +316,9 @@
         SELECT="id, titre, type, urlmedia"
         ORDER="rank">
     <BEFORE>
-      <div class="ckl-fichiersexternes">
+      <div class="ckl-field ckl-fichiersexternes">
+        <div class="ckl-field-title">Fichiers externes</div>
+        <div class="ckl-field-value">
     </BEFORE>
     <DO>
       <div class="ckl-fichierexterne">
@@ -323,6 +328,7 @@
       </div>
     </DO>
     <AFTER>
+        </div>
       </div>
     </AFTER>
   </LOOP>
