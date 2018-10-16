@@ -106,9 +106,6 @@
   <!--[ Remerciements ]-->
   <FUNC NAME="CKL_FIELD_STRING" FIELD="remerciements" VALUE="[#REMERCIEMENTS]"/>
 
-  <!--[ Image d'accroche ]-->
-  <FUNC NAME="CKL_ACCROCHE" ID="[#ID]"/>
-
   <!-- [ Sommaire de l'article ] -->
   <MACRO NAME="CKL_A_TOC"/>
 
@@ -281,7 +278,7 @@
 <DEFMACRO NAME="CKL_A_FICHIERS">
   <LOOP NAME="ckl_a_fichiers"
         TABLE="fichiers"
-        WHERE="type != 'imageaccroche' AND idparent = [#ID]"
+        WHERE="idparent = [#ID]"
         SELECT="id, titre, type, document"
         ORDER="rank">
     <BEFORE>

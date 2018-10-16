@@ -151,25 +151,3 @@
     </AFTER>
   </LOOP>
 </DEFFUNC>
-
-/**
- * Affiche l'image d'accroche.
- * @param {string} id - ID du parent.
- */
-<DEFFUNC NAME="CKL_ACCROCHE" REQUIRED="id">
-  <LOOP NAME="ckl_accroche" TABLE="fichiers" WHERE="type = 'imageaccroche' AND idparent = [#ID]" ORDER="rank" LIMIT="0,1">
-    <IF COND="[#VIGNETTE]">
-      <LET VAR="accroche">[#VIGNETTE|vignette(300)]</LET>
-    <ELSE/>
-      <LET VAR="accroche">[#DOCUMENT|vignette(300)]</LET>
-    </IF>
-    <div class="ckl-accroche">
-      <a href="[#ID|makeurlwithid]">
-        <img alt="[#TITRE|textebrut]" src="[#ACCROCHE|trim]" [#ACCROCHE|sizeattributs] />
-      </a>
-      <IF COND="[#CREDITS]">
-        <p class="ckl-accroche-credits">[#CREDITS]</p>
-      </IF>
-    </div>
-  </LOOP>
-</DEFFUNC>
