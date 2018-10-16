@@ -252,15 +252,18 @@
         WHERE="nature = 'traduction'"
         ORDER="original DESC">
     <BEFORE>
-      <div class="ckl-traductions">
+      <div class="ckl-field ckl-traductions">
+        <FUNC NAME="CKL_PRINT_FIELD_TITLE" FIELD="traduction"/>
+        <div class="ckl-field-value">
     </BEFORE>
     <DO>
-      <LET VAR="original_classname"><IF COND="[#ORIGINAL]"> ckl-traduction-original</IF></LET>
-      <p class="ckl-traduction[#ORIGINAL_CLASSNAME]" lang="[#LANGUE]">
-        <a href="[#ID|makeurlwithid]">[#TITRE]</a>
-      </p>
+      <div class='ckl-field ckl-traduction<IF COND="[#ORIGINAL]"> ckl-traduction-original</IF>' lang="[#LANGUE]">
+        <div class="ckl-field-title">[#LANGUE]<IF COND="[#ORIGINAL]"> [original]</IF></div>
+        <div class="ckl-field-value"><a href="[#ID|makeurlwithid]">[#TITRE]</a></div>
+      </div>
     </DO>
     <AFTER>
+        </div>
       </div>
     </AFTER>
   </LOOP>
