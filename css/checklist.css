@@ -28,6 +28,45 @@ body {
   list-style-type: none;
 }
 
+.ckl-field-text .ckl-field-value > ::before,
+.ckl-field-text p::before {
+  display: block;
+  font-weight: bold;
+  overflow-wrap: break-word;
+  font-size: 12px;
+  color: #f8b500;
+}
+
+.ckl-field-text .ckl-field-value > p::before,
+.ckl-field-text p[class^="citation"]::before,
+.ckl-field-text p[class$="illustration"]::before {
+  content: attr(class);
+}
+
+.ckl-field-text .ckl-field-value > h1::before {
+  content: 'titre 1';
+}
+
+.ckl-field-text .ckl-field-value > h2::before {
+  content: 'titre 2';
+}
+
+.ckl-field-text .ckl-field-value > h3::before {
+  content: 'titre 3';
+}
+
+.ckl-field-text .ckl-field-value > h4::before {
+  content: 'titre 4';
+}
+
+.ckl-field-text .ckl-field-value > h5::before {
+  content: 'titre 5';
+}
+
+.ckl-field-text .ckl-field-value > h6::before {
+  content: 'titre 6';
+}
+
 @media screen and (min-width: 500px) {
   .ckl-field {
     display: flex;

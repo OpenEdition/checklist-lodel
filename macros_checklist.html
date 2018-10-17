@@ -77,11 +77,12 @@
  * Affichage simple d'un champ texte.
  * @param {string} field - Nom du champ (détermine le classname).
  * @param {string} value - Valeur à afficher.
+ * @param {boolean} [classname] - Classname supplémentaire.
  * @param {boolean} [force] - Forcer l'affichage, même si [#VALUE] est vide.
  */
-<DEFFUNC NAME="CKL_FIELD_STRING" REQUIRED="field, value" OPTIONAL="force">
+<DEFFUNC NAME="CKL_FIELD_STRING" REQUIRED="field, value" OPTIONAL="classname, force">
   <IF COND="[#FIELD] AND ([#VALUE] OR [#FORCE])">
-    <div class="ckl-field ckl-field-string" data-field="[#FIELD]">
+    <div class="ckl-field ckl-field-string [#CLASSNAME]" data-field="[#FIELD]">
       <FUNC NAME="CKL_PRINT_FIELD_TITLE" FIELD="[#FIELD]"/>
       <div class="ckl-field-value">[#VALUE]</div>
     </div>
