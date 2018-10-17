@@ -67,6 +67,25 @@ body {
   content: 'titre 6';
 }
 
+.ckl-field-text {
+    counter-reset: p; /* Set the p counter to 0 */
+}
+
+.ckl-field-text .ckl-field-value > p.texte {
+  position: relative;
+}
+
+.ckl-field-text .ckl-field-value > p.texte:after {
+    counter-increment: p; /* Increment the p counter */
+    content: counter(p); /* Display the counter */
+    position: absolute;
+    left: -30px;
+    top: 16px;
+    font-size: 12px;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    color: #aaa;
+}
+
 @media screen and (min-width: 500px) {
   .ckl-field {
     display: flex;
