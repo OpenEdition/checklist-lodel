@@ -266,9 +266,12 @@
         <div class="ckl-field-value">
     </BEFORE>
     <DO>
-      <div class='ckl-field ckl-traduction<IF COND="[#ORIGINAL]"> ckl-traduction-original</IF>' lang="[#LANGUE]">
-        <div class="ckl-field-title">[#LANGUE]<IF COND="[#ORIGINAL]"> [original]</IF></div>
-        <div class="ckl-field-value"><a href="[#ID|makeurlwithid]">[#TITRE]</a></div>
+      <div class="ckl-traduction" lang="[#LANGUE]">
+        <span class="ckl-field-ml-lang">[#LANGUE]</span>
+        <span class="ckl-field-ml-value"><a href="[#ID|makeurlwithid]">[#TITRE]</a></span>
+        <IF COND="[#ORIGINAL]">
+          <span class="ckl-traduction-original">[original]</span>
+        </IF>
       </div>
     </DO>
     <AFTER>
