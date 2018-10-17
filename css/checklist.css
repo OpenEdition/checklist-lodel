@@ -10,6 +10,16 @@ body {
   color: #777;
 }
 
+.ckl-field-ml-lang {
+  color: #fff;
+  background-color: #999;
+  padding: 3px 6px;
+  border-radius: 2px;
+  margin-right: 6px;
+  font-size: 12px;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+
 @media screen and (min-width: 500px) {
   .ckl-field {
     display: flex;

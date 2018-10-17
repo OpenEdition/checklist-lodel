@@ -118,9 +118,24 @@
       <div class="ckl-field-value">
         <!--[ La loop "mltext" utilise [#VALUE] du contexte ]-->
         <LOOP NAME="mltext">
-          <FUNC NAME="CKL_FIELD_STRING" FIELD="[#FIELD]-[#LANG]" VALUE="[#VALUE]"/>
+          <FUNC NAME="CKL_FIELD_ML_ITEM" LANG="[#LANG]" VALUE="[#VALUE]"/>
         </LOOP>
       </div>
+    </div>
+  </IF>
+</DEFFUNC>
+
+/**
+ * Affichage simple d'un champ texte dans une liste multilingue.
+ * @param {string} lang - Langue de l'item.
+ * @param {string} value - Valeur à afficher.
+ * @param {boolean} [force] - Forcer l'affichage, même si [#VALUE] est vide.
+ */
+<DEFFUNC NAME="CKL_FIELD_ML_ITEM" REQUIRED="lang, value" OPTIONAL="force">
+  <IF COND="[#LANG] AND ([#VALUE] OR [#FORCE])">
+    <div class="ckl-field ckl-field-ml-item" data-lang="[#LANG]">
+      <span class="ckl-field-ml-lang">[#LANG]</span>
+      <span class="ckl-field-ml-value">[#VALUE]</span>
     </div>
   </IF>
 </DEFFUNC>
