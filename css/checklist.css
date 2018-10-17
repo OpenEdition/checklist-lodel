@@ -20,6 +20,14 @@ body {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 }
 
+.ckl-toc > ul {
+  padding-left: 0;
+}
+
+.ckl-toc ul {
+  list-style-type: none;
+}
+
 @media screen and (min-width: 500px) {
   .ckl-field {
     display: flex;
