@@ -92,18 +92,26 @@
 /**
  * Affichage simple d'un champ bool.
  * @param {string} field - Nom du champ (détermine le classname).
- * @param {string} value - Valeur (0/1).
+ * @param {string} value - Valeur (0/1). Une case à cocher est affichée si les paramètre oui/non sont vides.
+ * @param {string} [oui] - Valeur affichée si oui.
+ * @param {string} [non] - Valeur affichée si non.
  */
 <DEFFUNC NAME="CKL_FIELD_BOOL" REQUIRED="field, value">
   <IF COND="[#VALUE] EQ '1'">
-    <LET VAR="symbol">&#x2611;</LET>
+    <LET VAR="res">&#x2611;</LET>
+    <IF COND="[#OUI]">
+      <LET VAR="res">[#OUI]</LET>
+    </IF>
   <ELSE/>
-    <LET VAR="symbol">&#x2610;</LET>
+    <LET VAR="res">&#x2610;</LET>
     <LET VAR="value">0</LET>
+    <IF COND="[#NON]">
+      <LET VAR="res">[#NON]</LET>
+    </IF>
   </IF>
   <div class="ckl-field ckl-field-bool" data-field="[#FIELD]" data-value="[#VALUE]">
     <FUNC NAME="CKL_PRINT_FIELD_TITLE" FIELD="[#FIELD]"/>
-    <div class="ckl-field-value">[#SYMBOL]</div>
+    <div class="ckl-field-value">[#RES]</div>
   </div>
 </DEFFUNC>
 

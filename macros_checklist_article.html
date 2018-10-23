@@ -45,7 +45,7 @@
     <IF COND="[#TYPE] EQ 'article' AND [#DATEPUBLI] GT today()">
       <LET VAR="BM">1</LET>
     </IF>
-    <FUNC NAME="CKL_FIELD_BOOL" FIELD="bm" VALUE="[#BM]"/>
+    <FUNC NAME="CKL_FIELD_BOOL" FIELD="Barrière mobile" VALUE="[#BM]" OUI="Cet article est sous barrière mobile." NON="Cet article est en libre accès."/>
 
     <!--[ Langue ]-->
     <FUNC NAME="CKL_FIELD_STRING" FIELD="langue" VALUE="[#LANGUE]"/>
@@ -76,7 +76,7 @@
  <MACRO NAME="CKL_A_TRADUCTIONS"/>
 
  <!-- [ Vignettisation simple ] -->
- <FUNC NAME="CKL_FIELD_BOOL" FIELD="vignettesimple" VALUE="[#VIGNETTESIMPLE]"/>
+ <FUNC NAME="CKL_FIELD_BOOL" FIELD="vignettesimple" VALUE="[#VIGNETTESIMPLE]" OUI="Activé" NON="Désactivé"/>
 
   <!--[ Auteurs ]-->
   <FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="auteur" IDDOC="[#ID]"/>
