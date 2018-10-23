@@ -7,6 +7,10 @@ body {
   padding: 0 10px;
 }
 
+.ckl-field .ckl-field {
+  padding: 0;
+}
+
 .ckl-field-title {
   color: #777;
 }
