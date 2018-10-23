@@ -4,6 +4,7 @@ body {
 
 .ckl-field {
   margin-bottom: 8px;
+  padding: 0 10px;
 }
 
 .ckl-field-title {
@@ -23,8 +24,8 @@ body {
 .ckl-cartouche {
   background-color: #ddd;
   border-radius: 5px;
-  padding: 20px;
-  margin: 20px 0;
+  padding: 10px 0;
+  margin: 10px 0;
 }
 
 .ckl-toc > ul {
