@@ -22,21 +22,18 @@
  * Contenu article.
  */
 <DEFMACRO NAME="CKL_A_CONTENT">
-  <!--[ Numéro de document ]-->
-  <IF COND="[#NUMERODOCUMENT] AND [#NUMERODOCUMENT] NE '0'">
-    <FUNC NAME="CKL_FIELD_STRING" FIELD="numerodocument" VALUE="[#NUMERODOCUMENT]"/>
-  </IF>
+  <!--[ Section Titre ]-->
+  <section class="ckl-section">
+    <!--[ Titre du document ]-->
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="titre" VALUE="[#TITRE]"/>
 
-  <!--[ Titre du document ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="titre" VALUE="[#TITRE]"/>
+    <!--[ Sous-titre du document ]-->
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="soustitre" VALUE="[#SOUSTITRE]"/>
+  </section>
 
-  <!--[ Sous-titre du document ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="soustitre" VALUE="[#SOUSTITRE]"/>
 
-  <!--[ Titres alternatifs ]-->
-  <FUNC NAME="CKL_FIELD_ML" FIELD="altertitre" VALUE="[#ALTERTITRE]"/>
-
-  <div class="ckl-cartouche">
+  <!--[ Section Cartouche ]-->
+  <section class="ckl-cartouche">
     <!--[ Date de la publication électronique ]-->
     <FUNC NAME="CKL_FIELD_STRING" FIELD="datepubli" VALUE="[#DATEPUBLI]"/>
 
@@ -60,82 +57,117 @@
 
     <!-- [ Vignettisation simple ] -->
     <FUNC NAME="CKL_FIELD_BOOL" FIELD="vignettesimple" VALUE="[#VIGNETTESIMPLE]" OUI="Activé" NON="Désactivé"/>
-  </div>
+  </section>
 
-  <!--[ Pagination ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="pagination" VALUE="[#PAGINATION]"/>
+  <!-- [ Section Personnes ] -->
+  <section class="ckl-section">
+    <!--[ Auteurs ]-->
+    <FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="auteur" IDDOC="[#ID]"/>
 
-  <!--[ Notice bibliographique de l’œuvre commentée ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="noticebibliooeuvre" VALUE="[#NOTICEBIBLIOOEUVRE]"/>
+    <!--[ Traducteurs ]-->
+    <FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="traducteur" IDDOC="[#ID]"/>
 
-  <!--[ Titre de l’œuvre commentée ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="titreoeuvre" VALUE="[#TITREOEUVRE]"/>
+    <!--[ Editeurs scientifiques ]-->
+    <FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="editeurscientifique" IDDOC="[#ID]"/>
+  </section>
 
-  <!--[ Date de publication de l’œuvre commentée ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="datepublicationoeuvre" VALUE="[#DATEPUBLICATIONOEUVRE]"/>
+  <!-- [ Section Métadonnées ] -->
+  <section class="ckl-section">
+    <!--[ Numéro de document ]-->
+    <IF COND="[#NUMERODOCUMENT] AND [#NUMERODOCUMENT] NE '0'">
+      <FUNC NAME="CKL_FIELD_STRING" FIELD="numerodocument" VALUE="[#NUMERODOCUMENT]"/>
+    </IF>
 
-  <!--[ Auteur de l’œuvre commentée ]-->
-  <FUNC NAME="CKL_PERSONNES" TYPE="auteuroeuvre"/>
+    <!--[ Titres alternatifs ]-->
+    <FUNC NAME="CKL_FIELD_ML" FIELD="altertitre" VALUE="[#ALTERTITRE]"/>
 
-  <!--[ Alias de traduction ]-->
-  <MACRO NAME="CKL_A_TRADUCTIONS"/>
+    <!--[ Alias de traduction ]-->
+    <MACRO NAME="CKL_A_TRADUCTIONS"/>
 
-  <!--[ Auteurs ]-->
-  <FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="auteur" IDDOC="[#ID]"/>
+    <!-- [ Résumés ] -->
+    <FUNC NAME="CKL_FIELD_ML" FIELD="resume" VALUE="[#RESUME]"/>
 
-  <!--[ Traducteurs ]-->
-  <FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="traducteur" IDDOC="[#ID]"/>
+    <!-- [ Entrées d'index ] -->
+    <MACRO NAME="CKL_A_ENTRIES"/>
 
-  <!--[ Editeurs scientifiques ]-->
-  <FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="editeurscientifique" IDDOC="[#ID]"/>
+    <!--[ Pagination ]-->
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="pagination" VALUE="[#PAGINATION]"/>
+  </section>
 
-  <!-- [ Résumés ] -->
-  <FUNC NAME="CKL_FIELD_ML" FIELD="resume" VALUE="[#RESUME]"/>
+  <!-- [ Section Œuvre commentée ] -->
+  <section class="ckl-section">
+    <!--[ Notice bibliographique de l’œuvre commentée ]-->
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="noticebibliooeuvre" VALUE="[#NOTICEBIBLIOOEUVRE]"/>
 
-  <!-- [ Entrées d'index ] -->
-  <MACRO NAME="CKL_A_ENTRIES"/>
+    <!--[ Titre de l’œuvre commentée ]-->
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="titreoeuvre" VALUE="[#TITREOEUVRE]"/>
 
-  <!--[ NDLR ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="ndlr" VALUE="[#NDLR]"/>
+    <!--[ Date de publication de l’œuvre commentée ]-->
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="datepublicationoeuvre" VALUE="[#DATEPUBLICATIONOEUVRE]"/>
 
-  <!--[ NDLA ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="ndla" VALUE="[#NDLA]"/>
+    <!--[ Auteur de l’œuvre commentée ]-->
+    <FUNC NAME="CKL_PERSONNES" TYPE="auteuroeuvre"/>
+  </section>
 
-  <!--[ Errata ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="addendum" VALUE="[#ADDENDUM]"/>
+  <!--[ Section Fichiers ]-->
+  <section class="ckl-section">
+    <!--[ Fichier facsimilé ]-->
+    <MACRO NAME="CKL_A_FACSIMILE"/>
 
-  <!--[ Dédicace ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="dedicace" VALUE="[#DEDICACE]"/>
+    <!--[ Fichiers ]-->
+    <MACRO NAME="CKL_A_FICHIERS"/>
 
-  <!--[ Remerciements ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="remerciements" VALUE="[#REMERCIEMENTS]"/>
+    <!--[ Fichiers externes ]-->
+    <MACRO NAME="CKL_A_FICHIERSEXTERNES"/>
+  </section>
 
-  <!-- [ Sommaire de l'article ] -->
-  <MACRO NAME="CKL_A_TOC"/>
+  <!--[ Section Paratexte ]-->
+  <section class="ckl-section">
+    <!--[ NDLR ]-->
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="ndlr" VALUE="[#NDLR]"/>
 
-  <!--[ Texte intégral ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="texte" VALUE="[#TEXTE|cleanCallNotes|tocable|tocss('heading')|illustrations(300)|media]" CLASSNAME="ckl-field-text" />
+    <!--[ NDLA ]-->
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="ndla" VALUE="[#NDLA]"/>
 
-  <!--[ Bibliographie ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="bibliographie" VALUE="[(#BIBLIOGRAPHIE|cleanCallNotes|tocss('heading')|illustrations(300, 'bibliographie')|media)]" CLASSNAME="ckl-field-text" />
+    <!--[ Errata ]-->
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="addendum" VALUE="[#ADDENDUM]"/>
 
-  <!--[ Annexes (texte) ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="annexe" VALUE="[#ANNEXE|cleanCallNotes|tocss('heading')|illustrations(300, 'annexe')|media]" CLASSNAME="ckl-field-text" />
+    <!--[ Dédicace ]-->
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="dedicace" VALUE="[#DEDICACE]"/>
 
-  <!--[ Notes de bas de page ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="notesbaspage" VALUE="[#NOTESBASPAGE]" CLASSNAME="ckl-field-text"/>
+    <!--[ Remerciements ]-->
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="remerciements" VALUE="[#REMERCIEMENTS]"/>
+  </section>
 
-  <!--[ Notes de fin ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="notefin" VALUE="[#NOTEFIN]"/>
+  <!--[ Section Texte ]-->
+  <section class="ckl-section">
+    <!-- [ Sommaire de l'article ] -->
+    <MACRO NAME="CKL_A_TOC"/>
 
-  <!--[ Fichier facsimilé ]-->
-  <MACRO NAME="CKL_A_FACSIMILE"/>
+    <!--[ Texte intégral ]-->
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="texte" VALUE="[#TEXTE|cleanCallNotes|tocable|tocss('heading')|illustrations(300)|media]" CLASSNAME="ckl-field-text" />
+  </section>
 
-  <!--[ Fichiers ]-->
-  <MACRO NAME="CKL_A_FICHIERS"/>
+  <!--[ Section Bibliographie ]-->
+  <section class="ckl-section">
+    <!--[ Bibliographie ]-->
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="bibliographie" VALUE="[(#BIBLIOGRAPHIE|cleanCallNotes|tocss('heading')|illustrations(300, 'bibliographie')|media)]" CLASSNAME="ckl-field-text" />
+  </section>
 
-  <!--[ Fichiers externes]-->
-  <MACRO NAME="CKL_A_FICHIERSEXTERNES"/>
+  <!--[ Section Annexes ]-->
+  <section class="ckl-section">
+    <!--[ Annexes (texte) ]-->
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="annexe" VALUE="[#ANNEXE|cleanCallNotes|tocss('heading')|illustrations(300, 'annexe')|media]" CLASSNAME="ckl-field-text" />
+  </section>
+
+  <!--[ Section Notes ]-->
+  <section class="ckl-section">
+    <!--[ Notes de bas de page ]-->
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="notesbaspage" VALUE="[#NOTESBASPAGE]" CLASSNAME="ckl-field-text"/>
+
+    <!--[ Notes de fin ]-->
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="notefin" VALUE="[#NOTEFIN]"/>
+  </section>
 </DEFMACRO>
 
 /**

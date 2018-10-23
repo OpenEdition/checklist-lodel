@@ -3,12 +3,23 @@ body {
 }
 
 .ckl-field {
-  margin-bottom: 8px;
+  margin-top: 16px;
+  margin-bottom: 16px;
   padding: 0 10px;
 }
 
 .ckl-field .ckl-field {
   padding: 0;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.ckl-field:first-child {
+  margin-top: 0;
+}
+
+.ckl-field:last-child {
+  margin-bottom: 0;
 }
 
 .ckl-field-title {
@@ -25,10 +36,19 @@ body {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 }
 
+.ckl-section {
+  border-top: 2px solid #ccc;
+  padding: 16px 0;
+}
+
+.ckl-section:first-child, .ckl-cartouche + .ckl-section {
+  border-top: none;
+}
+
 .ckl-cartouche {
   background-color: #ddd;
   border-radius: 5px;
-  padding: 10px 0;
+  padding: 16px 0;
   margin: 10px 0;
 }
 
@@ -98,6 +118,17 @@ body {
     color: #aaa;
 }
 
+/* Style du texte */
+[data-field=titre] .ckl-field-value {
+  font-family: Georgia, "DejaVu Serif", Norasi, serif;
+  font-size: 36px;
+}
+
+[data-field=soustitre] .ckl-field-value {
+  font-family: Georgia, "DejaVu Serif", Norasi, serif;
+}
+
+/* Desktop */
 @media screen and (min-width: 500px) {
   .ckl-field {
     display: flex;
@@ -111,5 +142,9 @@ body {
 
   .ckl-field-value :first-child {
     margin-top: 0;
+  }
+
+  .ckl-field-value :last-child {
+    margin-bottom: 0;
   }
 }
