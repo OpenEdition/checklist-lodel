@@ -34,23 +34,31 @@
   <!--[ Titres alternatifs ]-->
   <FUNC NAME="CKL_FIELD_ML" FIELD="altertitre" VALUE="[#ALTERTITRE]"/>
 
-  <!--[ Date de la publication électronique ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="datepubli" VALUE="[#DATEPUBLI]"/>
+  <div class="ckl-cartouche">
+    <!--[ Date de la publication électronique ]-->
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="datepubli" VALUE="[#DATEPUBLI]"/>
 
-  <!--[ Date de la publication papier ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="datepublipapier" VALUE="[#DATEPUBLIPAPIER]"/>
+    <!--[ Date de la publication papier ]-->
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="datepublipapier" VALUE="[#DATEPUBLIPAPIER]"/>
 
-  <!-- [ Barrière mobile ] -->
-  <IF COND="[#TYPE] EQ 'article' AND [#DATEPUBLI] GT today()">
-    <LET VAR="BM">1</LET>
-  </IF>
-  <FUNC NAME="CKL_FIELD_BOOL" FIELD="bm" VALUE="[#BM]"/>
+    <!-- [ Barrière mobile ] -->
+    <IF COND="[#TYPE] EQ 'article' AND [#DATEPUBLI] GT today()">
+      <LET VAR="BM">1</LET>
+    </IF>
+    <FUNC NAME="CKL_FIELD_BOOL" FIELD="bm" VALUE="[#BM]"/>
+
+    <!--[ Langue ]-->
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="langue" VALUE="[#LANGUE]"/>
+
+    <!--[ Date de mise en ligne ]-->
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="datemisenligne" VALUE="[#DATEMISENLIGNE]"/>
+
+    <!--[ Date de mise en accès libre ]-->
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="dateacceslibre" VALUE="[#DATEACCESLIBRE]"/>
+  </div>
 
   <!--[ Pagination ]-->
   <FUNC NAME="CKL_FIELD_STRING" FIELD="pagination" VALUE="[#PAGINATION]"/>
-
-  <!--[ Langue ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="langue" VALUE="[#LANGUE]"/>
 
   <!--[ Notice bibliographique de l’œuvre commentée ]-->
   <FUNC NAME="CKL_FIELD_STRING" FIELD="noticebibliooeuvre" VALUE="[#NOTICEBIBLIOOEUVRE]"/>
@@ -69,12 +77,6 @@
 
  <!-- [ Vignettisation simple ] -->
  <FUNC NAME="CKL_FIELD_BOOL" FIELD="vignettesimple" VALUE="[#VIGNETTESIMPLE]"/>
-
- <!--[ Date de mise en ligne ]-->
- <FUNC NAME="CKL_FIELD_STRING" FIELD="datemisenligne" VALUE="[#DATEMISENLIGNE]"/>
-
- <!--[ Date de mise en accès libre ]-->
- <FUNC NAME="CKL_FIELD_STRING" FIELD="dateacceslibre" VALUE="[#DATEACCESLIBRE]"/>
 
   <!--[ Auteurs ]-->
   <FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="auteur" IDDOC="[#ID]"/>

@@ -20,6 +20,13 @@ body {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 }
 
+.ckl-cartouche {
+  background-color: #ddd;
+  border-radius: 5px;
+  padding: 20px;
+  margin: 20px 0;
+}
+
 .ckl-toc > ul {
   padding-left: 0;
 }
