@@ -8,7 +8,9 @@
         TABLE="textes"
         WHERE="id=[#DOCUMENT]">
     <DO>
-      <MACRO NAME="CKL_A_CONTENT"/>
+      <div class="ckl-main ckl-article">
+        <MACRO NAME="CKL_A_CONTENT"/>
+      </div>
     </DO>
     <ALTERNATIVE>
       <p>Article [#DOCUMENT] not found.</p>
