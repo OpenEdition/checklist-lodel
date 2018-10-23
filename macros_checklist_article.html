@@ -55,6 +55,9 @@
 
     <!--[ Date de mise en accès libre ]-->
     <FUNC NAME="CKL_FIELD_STRING" FIELD="dateacceslibre" VALUE="[#DATEACCESLIBRE]"/>
+
+    <!-- [ Vignettisation simple ] -->
+    <FUNC NAME="CKL_FIELD_BOOL" FIELD="vignettesimple" VALUE="[#VIGNETTESIMPLE]" OUI="Activé" NON="Désactivé"/>
   </div>
 
   <!--[ Pagination ]-->
@@ -72,11 +75,8 @@
   <!--[ Auteur de l’œuvre commentée ]-->
   <FUNC NAME="CKL_PERSONNES" TYPE="auteuroeuvre"/>
 
- <!--[ Alias de traduction ]-->
- <MACRO NAME="CKL_A_TRADUCTIONS"/>
-
- <!-- [ Vignettisation simple ] -->
- <FUNC NAME="CKL_FIELD_BOOL" FIELD="vignettesimple" VALUE="[#VIGNETTESIMPLE]" OUI="Activé" NON="Désactivé"/>
+  <!--[ Alias de traduction ]-->
+  <MACRO NAME="CKL_A_TRADUCTIONS"/>
 
   <!--[ Auteurs ]-->
   <FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="auteur" IDDOC="[#ID]"/>
