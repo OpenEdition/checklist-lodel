@@ -26,6 +26,37 @@ a:hover, a:active, a:focus {
   margin: 0 auto;
 }
 
+/* Navbar */
+
+.ckl-nav {
+  margin-top: 20px;
+  text-align: right;
+  font-size: 14px
+}
+
+.ckl-nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ckl-nav-item {
+  display: inline-block;
+}
+
+.ckl-nav-item a {
+  text-decoration: none;
+  padding: 10px 20px 10px 10px;
+  background-color: #eee;
+  border-radius: 5px;
+}
+
+.ckl-nav-item a:hover,
+.ckl-nav-item a:focus,
+.ckl-nav-item a:active {
+  background-color: #ddd;
+}
+
 /* Article et champs basiques */
 
 .ckl-section {
