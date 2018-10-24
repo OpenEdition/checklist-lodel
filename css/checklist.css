@@ -44,7 +44,7 @@ body {
 }
 
 .ckl-section {
-  border-top: 2px solid #ccc;
+  border-top: 4px solid #ddd;
   padding: 16px 0;
 }
 
@@ -134,6 +134,16 @@ body {
 
 .ckl-personne-familyname {
   margin-left: 15px;
+}
+
+.ckl-fichier, .ckl-fichierexterne {
+  margin-bottom: 20px;
+  border-left: 4px solid #ddd;
+  padding-left: 10px;
+}
+
+.ckl-fichier p, .ckl-fichierexterne p {
+  margin: 0 0 4px 0;
 }
 
 [data-label] {
