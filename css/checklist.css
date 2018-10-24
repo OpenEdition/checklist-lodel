@@ -182,6 +182,9 @@ body {
   .ckl-field-title {
     min-width: 300px;
     width: 300px;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 30px;
   }
 
   .ckl-field-value :first-child {
