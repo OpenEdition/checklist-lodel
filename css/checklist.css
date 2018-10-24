@@ -134,6 +134,8 @@ body {
 
 .ckl-personne-familyname {
   margin-left: 15px;
+  min-width: 100px;
+  display: inline-block;
 }
 
 .ckl-fichier, .ckl-fichierexterne {

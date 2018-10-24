@@ -57,12 +57,16 @@
  * Récupérer le titre d'un champ.
  * TODO: inclure les traductions.
  * @param {string} field - Nom du champ.
+ * @param {string} [classname] - Classe (surcharge le [#CLASS] du contexte).
  */
-<DEFFUNC NAME="CKL_GET_FIELD_TITLE" REQUIRED="field">
+<DEFFUNC NAME="CKL_GET_FIELD_TITLE" REQUIRED="field" OPTIONAL="classname">
+  <IF COND="![#CLASSNAME]">
+    <LET VAR="classname">[#CLASS]</LET>
+  </IF>
   <LOOP NAME="ckl_get_field"
         TABLE="tablefields"
         SELECT="name, title, class"
-        WHERE="class='[#CLASS]' AND name = '[#FIELD]'"
+        WHERE="class='[#CLASSNAME]' AND name = '[#FIELD]'"
         LIMIT="0,1">
     <DO>
       [#TITLE]
@@ -165,8 +169,10 @@
         <IF COND="[#COUNT] LT [#NBRESULTS]">, <ELSE/> et </IF>
       </IF>
       <span class="ckl-personne" data-type="[#TYPE]" data-id="[#ID]">
-        <span class="ckl-personne-firstname" data-label="Prénom">[#G_FIRSTNAME]</span>
-        <span class="ckl-personne-familyname" data-label="Nom">[#G_FAMILYNAME]</span>
+        <LET VAR="label_prenom"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="prenom" CLASSNAME="auteurs"/></LET>
+        <LET VAR="label_nom"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="nomfamille" CLASSNAME="auteurs"/></LET>
+        <span class="ckl-personne-firstname" data-label="[#LABEL_PRENOM|trim]">[#G_FIRSTNAME]</span>
+        <span class="ckl-personne-familyname" data-label="[#LABEL_NOM|trim]">[#G_FAMILYNAME]</span>
       </span>
     </DO>
     <AFTER>

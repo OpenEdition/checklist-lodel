@@ -275,9 +275,12 @@
     <DO>
       <LOOP NAME="ckl_a_description_personnes_item" TABLE="auteurs" WHERE="id = '[#ID]' AND iddocument='[#IDDOC]'">
         <div class="ckl-personne" data-type="[#TYPE]" data-id="[#ID]">
-          <span class="ckl-personne-firstname" data-label="Prénom">[#G_FIRSTNAME]</span>
-          <span class="ckl-personne-familyname" data-label="Nom">[#G_FAMILYNAME]</span>
+          <LET VAR="label_prenom"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="prenom"/></LET>
+          <LET VAR="label_nom"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="nomfamille"/></LET>
+          <span class="ckl-personne-firstname" data-label="[#LABEL_PRENOM|trim]">[#G_FIRSTNAME]</span>
+          <span class="ckl-personne-familyname" data-label="[#LABEL_NOM|trim]">[#G_FAMILYNAME]</span>
           <IF COND="[#DESCRIPTION]">
+            <!--[ TODO: label dynamique ]-->
             <p class="ckl-personne-description" data-label="Description">[#DESCRIPTION|removetags("p")]</p>
           </IF>
         </div>
