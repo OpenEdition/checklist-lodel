@@ -254,7 +254,7 @@
 <DEFMACRO NAME="CKL_A_FACSIMILE">
   <IF COND="[#ALTERFICHIER]">
     <div class="ckl-field ckl-facsimile">
-      <FUNC NAME="CKL_PRINT_FIELD_TITLE" FIELD="alterfichier"/>
+      <div class="ckl-field-title"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="alterfichier"/></div>
       <div class="ckl-field-value"><a class="ckl-facsimile-a" href="[#ID|makeurlwithid]?file=1"><span class="ckl-facsimile-mime">[#ALTERFICHIER|getFileMime]</span>&#160;&#8211; <span class="ckl-facsimile-size">[#ALTERFICHIER|nicefilesize]</span></a></div>
     </div>
   </IF>
@@ -269,7 +269,7 @@
   <LOOP NAME="ckl_a_description_personnes" SELECT="persons.id" TABLE="relations, persons" WHERE="id1 = '[#IDDOC]' AND id2 = persons.id AND nature = 'G' AND type = '[#TYPE]'" ORDER="degree">
     <BEFORE>
       <div class="ckl-field ckl-description-personnes" data-type="[#TYPE]">
-        <FUNC NAME="CKL_PRINT_FIELD_TITLE" FIELD="[#TYPE]"/>
+        <div class="ckl-field-title"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="[#TYPE]"/></div>
         <div class="ckl-field-value">
     </BEFORE>
     <DO>
@@ -304,7 +304,7 @@
         ORDER="original DESC">
     <BEFORE>
       <div class="ckl-field ckl-traductions">
-        <FUNC NAME="CKL_PRINT_FIELD_TITLE" FIELD="traduction"/>
+        <div class="ckl-field-title"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="traduction"/></div>
         <div class="ckl-field-value">
     </BEFORE>
     <DO>

@@ -54,21 +54,21 @@
 </DEFMACRO>
 
 /**
- * Afficher le titre d'un champ.
+ * Récupérer le titre d'un champ.
  * TODO: inclure les traductions.
  * @param {string} field - Nom du champ.
  */
-<DEFFUNC NAME="CKL_PRINT_FIELD_TITLE" REQUIRED="field">
+<DEFFUNC NAME="CKL_GET_FIELD_TITLE" REQUIRED="field">
   <LOOP NAME="ckl_get_field"
         TABLE="tablefields"
         SELECT="name, title, class"
         WHERE="class='[#CLASS]' AND name = '[#FIELD]'"
         LIMIT="0,1">
     <DO>
-      <div class="ckl-field-title">[#TITLE]</div>
+      [#TITLE]
     </DO>
     <ALTERNATIVE>
-      <div class="ckl-field-title">[#FIELD]</div>
+      [#FIELD]
     </ALTERNATIVE>
   </LOOP>
 </DEFFUNC>
@@ -83,7 +83,7 @@
 <DEFFUNC NAME="CKL_FIELD_STRING" REQUIRED="field, value" OPTIONAL="classname, force">
   <IF COND="[#FIELD] AND ([#VALUE] OR [#FORCE])">
     <div class="ckl-field ckl-field-string [#CLASSNAME]" data-field="[#FIELD]">
-      <FUNC NAME="CKL_PRINT_FIELD_TITLE" FIELD="[#FIELD]"/>
+      <div class="ckl-field-title"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="[#FIELD]"/></div>
       <div class="ckl-field-value">[#VALUE]</div>
     </div>
   </IF>
@@ -110,7 +110,7 @@
     </IF>
   </IF>
   <div class="ckl-field ckl-field-bool" data-field="[#FIELD]" data-value="[#VALUE]">
-    <FUNC NAME="CKL_PRINT_FIELD_TITLE" FIELD="[#FIELD]"/>
+    <div class="ckl-field-title"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="[#FIELD]"/></div>
     <div class="ckl-field-value">[#RES]</div>
   </div>
 </DEFFUNC>
@@ -123,7 +123,7 @@
 <DEFFUNC NAME="CKL_FIELD_ML" REQUIRED="field, value">
   <IF COND="[#VALUE]">
     <div class="ckl-field ckl-field-ml" data-field="[#FIELD]">
-      <FUNC NAME="CKL_PRINT_FIELD_TITLE" FIELD="[#FIELD]"/>
+      <div class="ckl-field-title"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="[#FIELD]"/></div>
       <div class="ckl-field-value">
         <!--[ La loop "mltext" utilise [#VALUE] du contexte ]-->
         <LOOP NAME="mltext">
@@ -157,7 +157,7 @@
   <LOOP NAME="ckl_personnes" SELECT="g_firstname, g_familyname" TABLE="relations, persons" WHERE="id1 = '[#ID]' AND id2 = persons.id AND nature = 'G' AND type = '[#TYPE]'" ORDER="degree">
     <BEFORE>
       <div class="ckl-field ckl-personnes" data-type="[#TYPE]">
-        <FUNC NAME="CKL_PRINT_FIELD_TITLE" FIELD="[#TYPE]"/>
+        <div class="ckl-field-title"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="[#TYPE]"/></div>
         <div class="ckl-field-value">
     </BEFORE>
     <DO>
