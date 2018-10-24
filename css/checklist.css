@@ -1,11 +1,20 @@
 body {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  font-size: 16px;
+}
+
+a, a:visited {
+  color: #056A87;
+}
+
+a:hover, a:active, a:focus {
+  color: #023746;
 }
 
 .ckl-main {
   position: relative;
   display: block;
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
 }
 
@@ -72,13 +81,17 @@ body {
   display: block;
   font-weight: bold;
   overflow-wrap: break-word;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   font-size: 12px;
+  line-height: 12px;
   color: #f8b500;
 }
 
 .ckl-field-text .ckl-field-value > p::before,
 .ckl-field-text p[class^="citation"]::before,
-.ckl-field-text p[class$="illustration"]::before {
+.ckl-field-text .titreillustration::before,
+.ckl-field-text .legendeillustration::before,
+.ckl-field-text .creditillustration::before {
   content: attr(class);
 }
 
@@ -140,7 +153,7 @@ body {
 
 .ckl-fichier, .ckl-fichierexterne {
   margin-bottom: 20px;
-  border-left: 4px solid #ddd;
+  border-left: 4px solid #FFE49F;
   padding-left: 10px;
 }
 
@@ -158,6 +171,7 @@ body {
   position: absolute;
   left: 0;
   top: 0;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   font-size: 12px;
   color: #f8b500;
 }
@@ -170,6 +184,130 @@ body {
 
 [data-field=soustitre] .ckl-field-value {
   font-family: Georgia, "DejaVu Serif", Norasi, serif;
+}
+
+.ckl-field-text .ckl-field-value {
+  font-family: Georgia, "DejaVu Serif", Norasi, serif;
+  line-height: 150%;
+}
+
+.ckl-field-text p {
+  margin: 16px 0;
+}
+
+.ckl-field-text blockquote {
+  margin-left: 20px;
+}
+
+.ckl-field-text p.citation,
+.ckl-field-text p.citationbis,
+.ckl-field-text p.citationter {
+  font-size: 14px;
+  color: #777;
+  border-left: 4px solid #ddd;
+  padding-left: 20px;
+}
+
+.ckl-field-text p.citationbis {
+  border-left-style: dashed;
+}
+
+.ckl-field-text p.citationter {
+  border-left-style: dotted;
+}
+
+.ckl-field-text ul,
+.ckl-field-text ol {
+  font-size: 14px;
+}
+
+.ckl-field-text .encadre {
+  background-color: #eee;
+  margin-bottom: 0;
+  padding: 16px;
+}
+
+.ckl-field-text .encadre + .encadre {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.ckl-field-text a[id^=tocto]:not(:hover) {
+  text-decoration: none;
+}
+
+.ckl-field-text .separateur {
+  text-align: center;
+  color: #999;
+  font-size: 20px;
+}
+
+.ckl-field-text .groupe-illustration,
+.ckl-field-text .textIcon {
+  padding-left: 20px;
+  border-left: 4px solid #FFE49F;
+}
+
+.ckl-field-text .titreillustration,
+.ckl-field-text .legendeillustration,
+.ckl-field-text .creditillustration {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  line-height: 125%;
+}
+
+.ckl-field-text .titreillustration {
+  font-weight: bold;
+}
+
+.ckl-field-text img {
+  max-width: 100%;
+}
+
+.ckl-field-text table {
+  font-size: 12px;
+}
+
+.ckl-field-text .creditillustration {
+  color: #777;
+}
+
+.ckl-field-text .question, .ckl-field-text .reponse {
+  color: #444;
+}
+
+.ckl-field-text .question {
+  font-weight: bold;
+}
+
+.ckl-field-text .code {
+  font-family: "Courier New", Courier, "Liberation Mono", monospace;
+  font-size: 14px;
+  line-height: 125%;
+}
+
+[data-field=bibliographie],
+[data-field=annexe],
+[data-field=notesbaspage],
+[data-field=notefin] {
+  font-size: 14px;
+}
+
+.footnotecall, .FootnoteSymbol {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  font-size: 14px;
+}
+
+.footnotecall {
+  margin-left: 4px;
+}
+
+.footnotecall::before, .FootnoteSymbol::before {
+  content: "[";
+}
+
+.footnotecall::after, .FootnoteSymbol::after {
+  content: "]";
 }
 
 /* Desktop */
