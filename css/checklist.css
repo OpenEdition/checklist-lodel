@@ -344,10 +344,10 @@ a:hover, a:active, a:focus {
 
 /* Bibliographie, annexe, notes */
 
-[data-field=bibliographie],
-[data-field=annexe],
-[data-field=notesbaspage],
-[data-field=notefin] {
+[data-field=bibliographie] .ckl-field-value,
+[data-field=annexe] .ckl-field-value,
+[data-field=notesbaspage] .ckl-field-value,
+[data-field=notefin] .ckl-field-value {
   font-size: 14px;
 }
 
