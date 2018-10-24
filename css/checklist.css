@@ -125,15 +125,7 @@ body {
     color: #aaa;
 }
 
-.ckl-personne-firstname, .ckl-personne-familyname {
-  position: relative;
-  display: inline-block;
-  padding-top: 15px;
-}
-
 .ckl-personne-description {
-  position: relative;
-  padding-top: 15px;
   font-size: 14px;
   color: #666;
   margin: 0;
@@ -144,24 +136,18 @@ body {
   margin-left: 15px;
 }
 
-.ckl-personne-firstname::before, .ckl-personne-familyname::before, .ckl-personne-description::before {
+[data-label] {
+  position: relative;
+  padding-top: 15px;
+}
+
+[data-label]::before {
+  content: attr(data-label);
   position: absolute;
   left: 0;
   top: 0;
   font-size: 12px;
   color: #f8b500;
-}
-
-.ckl-personne-firstname::before {
-  content: "Prénom";
-}
-
-.ckl-personne-familyname::before {
-  content: "Nom";
-}
-
-.ckl-personne-description::before {
-  content: "Description";
 }
 
 /* Style du texte */

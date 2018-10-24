@@ -275,10 +275,10 @@
     <DO>
       <LOOP NAME="ckl_a_description_personnes_item" TABLE="auteurs" WHERE="id = '[#ID]' AND iddocument='[#IDDOC]'">
         <div class="ckl-personne" data-type="[#TYPE]" data-id="[#ID]">
-          <span class="ckl-personne-firstname">[#G_FIRSTNAME]</span>
-          <span class="ckl-personne-familyname">[#G_FAMILYNAME]</span>
+          <span class="ckl-personne-firstname" data-label="Prénom">[#G_FIRSTNAME]</span>
+          <span class="ckl-personne-familyname" data-label="Nom">[#G_FAMILYNAME]</span>
           <IF COND="[#DESCRIPTION]">
-            <p class="ckl-personne-description">[#DESCRIPTION|removetags("p")]</p>
+            <p class="ckl-personne-description" data-label="Description">[#DESCRIPTION|removetags("p")]</p>
           </IF>
         </div>
       </LOOP>
