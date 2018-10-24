@@ -342,10 +342,13 @@
     </BEFORE>
     <DO>
       <div class="ckl-fichier">
-        <p class="ckl-fichier-titre" data-label="Titre"><IF COND="[#TITRE]">[#TITRE]<ELSE/>-</IF></p>
+        <LET VAR="label_titre"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="titre"/></LET>
+        <p class="ckl-fichier-titre" data-label="[#LABEL_TITRE|trim]"><IF COND="[#TITRE]">[#TITRE]<ELSE/>-</IF></p>
+        <!--[ TODO: Label dynamique ]-->
         <p class="ckl-fichier-type" data-label="Type">[#TYPE]</p>
         <IF COND="[#DOCUMENT]">
-          <p class="ckl-fichier-document" data-label="Document"><a href="[#DOCUMENT]">[#DOCUMENT]</a></p>
+          <LET VAR="label_document"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="document"/></LET>
+          <p class="ckl-fichier-document" data-label="[#LABEL_DOCUMENT|trim]"><a href="[#DOCUMENT]">[#DOCUMENT]</a></p>
         </IF>
       </div>
     </DO>
@@ -372,10 +375,13 @@
     </BEFORE>
     <DO>
       <div class="ckl-fichierexterne">
-        <p class="ckl-fichier-titre" data-label="Titre"><IF COND="[#TITRE]">[#TITRE]<ELSE/>-</IF></p>
+        <LET VAR="label_titre"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="titre"/></LET>
+        <p class="ckl-fichierexterne-titre" data-label="[#LABEL_TITRE|trim]"><IF COND="[#TITRE]">[#TITRE]<ELSE/>-</IF></p>
+        <!--[ TODO: Label dynamique ]-->
         <p class="ckl-fichierexterne-type" data-label="Type">[#TYPE]</p>
         <IF COND="[#URLMEDIA]">
-          <p class="ckl-fichierexterne-urlmedia" data-label="URL media"><a href="[#URLMEDIA]">[#URLMEDIA]</a></p>
+          <LET VAR="label_urlmedia"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="urlmedia"/></LET>
+          <p class="ckl-fichierexterne-urlmedia" data-label="[#LABEL_URLMEDIA]"><a href="[#URLMEDIA]">[#URLMEDIA]</a></p>
         </IF>
       </div>
     </DO>
