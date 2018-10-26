@@ -49,8 +49,23 @@
  * Fermeture de la page HTML.
  */
 <DEFMACRO NAME="CKL_HTML_END">
+  <MACRO NAME="CKL_HTML_SCRIPTS"/>
   </body>
   </html>
+</DEFMACRO>
+
+/**
+ * Scripts JavaScript.
+ */
+<DEFMACRO NAME="CKL_HTML_SCRIPTS">
+  <!--[ JQuery ]-->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+  <!--[ Checklist Core ]-->
+  <script src="./tpl/vendor/checklist.js"></script>
+
+  <!--[ Checklist Config ]-->
+  <script src="./tpl/js/checklist-config.js"></script>
 </DEFMACRO>
 
 /**
