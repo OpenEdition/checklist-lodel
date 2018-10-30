@@ -103,7 +103,7 @@
     <FUNC NAME="CKL_FIELD_ML" FIELD="resume" VALUE="[#RESUME]"/>
 
     <!-- [ Entrées d'index ] -->
-    <MACRO NAME="CKL_A_ENTRIES"/>
+    <FUNC NAME="CKL_ENTRIES" CLASSNAME="indexes"/>
 
     <!--[ Pagination ]-->
     <FUNC NAME="CKL_FIELD_STRING" FIELD="pagination" VALUE="[#PAGINATION]"/>
@@ -183,34 +183,6 @@
     <!--[ Notes de fin ]-->
     <FUNC NAME="CKL_FIELD_STRING" FIELD="notefin" VALUE="[#NOTEFIN]"/>
   </section>
-</DEFMACRO>
-
-/**
- * Entrées d'index.
- */
-<DEFMACRO NAME="CKL_A_ENTRIES">
-  <LOOP NAME="ckl_a_entries_types" TABLE="relations, entries, entrytypes" SELECT="DISTINCT(idtype), title, altertitle, type AS entrytype" WHERE="id1 = '[#ID]' AND id2 = entries.id AND entries.idtype = entrytypes.id AND entrytypes.class = 'indexes'" ORDER="entrytypes.rank">
-    <BEFORE>
-      <div class="ckl-entries">
-    </BEFORE>
-    <DO>
-      <LOOP NAME="ckl_a_entries" TABLE="entries" SELECT="id, g_name" WHERE="idtype = '[#IDTYPE]' AND iddocument = '[#ID]'" ORDER="degree">
-        <BEFORE>
-          <div class="ckl-field ckl-entrytype doc-entrytype-[#ENTRYTYPE]">
-            <div class="ckl-field-title">[#TITLE]</div>
-            <div class="ckl-field-value">
-        </BEFORE>
-        <DO><IF COND="[#COUNT] GE 2">, </IF><a href="[#ID|makeurlwithid]" class="ckl-entry">[#G_NAME]</a></DO>
-        <AFTER>
-            </div>
-          </div>
-        </AFTER>
-      </LOOP>
-    </DO>
-    <AFTER>
-      </div>
-    </AFTER>
-  </LOOP>
 </DEFMACRO>
 
 /**

@@ -196,3 +196,32 @@
     </AFTER>
   </LOOP>
 </DEFFUNC>
+
+/**
+ * Entrées d'index.
+ * @param {string} classname - Nom de la classe de l'index.
+ */
+<DEFFUNC NAME="CKL_ENTRIES" REQUIRED="classname">
+  <LOOP NAME="ckl_a_entries_types" TABLE="relations, entries, entrytypes" SELECT="DISTINCT(idtype), title, altertitle, type AS entrytype" WHERE="id1 = '[#ID]' AND id2 = entries.id AND entries.idtype = entrytypes.id AND entrytypes.class = '[#CLASSNAME]'" ORDER="entrytypes.rank">
+    <BEFORE>
+      <div class="ckl-entries">
+    </BEFORE>
+    <DO>
+      <LOOP NAME="ckl_a_entries" TABLE="entries" SELECT="id, g_name" WHERE="idtype = '[#IDTYPE]' AND iddocument = '[#ID]'" ORDER="degree">
+        <BEFORE>
+          <div class="ckl-field ckl-entrytype doc-entrytype-[#ENTRYTYPE]">
+            <div class="ckl-field-title">[#TITLE]</div>
+            <div class="ckl-field-value">
+        </BEFORE>
+        <DO><IF COND="[#COUNT] GE 2">, </IF><a href="[#ID|makeurlwithid]" class="ckl-entry">[#G_NAME]</a></DO>
+        <AFTER>
+            </div>
+          </div>
+        </AFTER>
+      </LOOP>
+    </DO>
+    <AFTER>
+      </div>
+    </AFTER>
+  </LOOP>
+</DEFFUNC>
