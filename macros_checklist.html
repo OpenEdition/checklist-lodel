@@ -116,22 +116,24 @@
  * @param {string} [non] - Valeur affichée si non.
  */
 <DEFFUNC NAME="CKL_FIELD_BOOL" REQUIRED="field, value">
-  <IF COND="[#VALUE] EQ '1'">
-    <LET VAR="res">&#x2611;</LET>
-    <IF COND="[#OUI]">
-      <LET VAR="res">[#OUI]</LET>
+  <IF COND="[#VALUE] NE ''">
+    <IF COND="[#VALUE] EQ '1'">
+      <LET VAR="res">&#x2611;</LET>
+      <IF COND="[#OUI]">
+        <LET VAR="res">[#OUI]</LET>
+      </IF>
+    <ELSE/>
+      <LET VAR="res">&#x2610;</LET>
+      <LET VAR="value">0</LET>
+      <IF COND="[#NON]">
+        <LET VAR="res">[#NON]</LET>
+      </IF>
     </IF>
-  <ELSE/>
-    <LET VAR="res">&#x2610;</LET>
-    <LET VAR="value">0</LET>
-    <IF COND="[#NON]">
-      <LET VAR="res">[#NON]</LET>
-    </IF>
+    <div class="ckl-field ckl-field-bool" data-field="[#FIELD]" data-value="[#VALUE]">
+      <div class="ckl-field-title"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="[#FIELD]"/></div>
+      <div class="ckl-field-value">[#RES]</div>
+    </div>
   </IF>
-  <div class="ckl-field ckl-field-bool" data-field="[#FIELD]" data-value="[#VALUE]">
-    <div class="ckl-field-title"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="[#FIELD]"/></div>
-    <div class="ckl-field-value">[#RES]</div>
-  </div>
 </DEFFUNC>
 
 /**
