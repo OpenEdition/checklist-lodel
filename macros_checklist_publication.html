@@ -4,5 +4,78 @@
  * Main publication.
  */
 <DEFMACRO NAME="CKL_P_MAIN">
+  <LOOP NAME="ckl_p_main"
+        TABLE="publications"
+        WHERE="id=[#DOCUMENT]">
+    <DO>
+      <div class="ckl-main ckl-publication">
+        <div class="ckl-content">
+          <MACRO NAME="CKL_P_CONTENT"/>
+        </div>
+      </div>
+    </DO>
+    <ALTERNATIVE>
+      <p>Publication [#DOCUMENT] not found.</p>
+    </ALTERNATIVE>
+  </LOOP>
+</DEFMACRO>
 
+/**
+ * Contenu publication.
+ */
+<DEFMACRO NAME="CKL_P_CONTENT">
+  <!--[ Titre de la publication ]-->
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="titre" VALUE="[#TITRE]"/>
+
+  <!--[ Sous-titre de la publication ]-->
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="soustitre" VALUE="[#SOUSTITRE]"/>
+
+  <!--[ Titres alternatifs ]-->
+  <FUNC NAME="CKL_FIELD_ML" FIELD="altertitre" VALUE="[#ALTERTITRE]"/>
+
+  <!--[ Introduction de la publication ]-->
+  <FUNC NAME="CKL_FIELD_ML" FIELD="introduction" VALUE="[#INTRODUCTION]"/>
+
+  <!--[ NDLR ]-->
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="ndlr" VALUE="[#NDLR]"/>
+
+  <!--[ Date de la publication électronique ]-->
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="datepubli" VALUE="[#DATEPUBLI]"/>
+
+  <!--[ Date de la publication papier ]-->
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="datepublipapier" VALUE="[#DATEPUBLIPAPIER]"/>
+
+  <!--[ Période de publication ]-->
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="periode" VALUE="[#PERIODE]"/>
+
+  <!--[ Numéro de publication ]-->
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="numero" VALUE="[#NUMERO]"/>
+
+  <!--[ Langue ]-->
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="langue" VALUE="[#LANGUE]"/>
+
+  <!-- [ Licence ] -->
+  <FUNC NAME="CKL_ENTRIES" CLASSNAME="indexavances"/>
+
+  <!--[ Directeur de la publication ]-->
+  <FUNC NAME="CKL_PERSONNES" TYPE="directeurdelapublication"/>
+
+  <!-- [ Entrées d'index ] -->
+  <FUNC NAME="CKL_ENTRIES" CLASSNAME="indexes"/>
+
+  <!-- [ Cette publication est-elle à paraître ? ] -->
+  <FUNC NAME="CKL_FIELD_BOOL" FIELD="paraitre" VALUE="[#PARAITRE]" OUI="Oui" NON="Non"/>
+
+  <!-- [ Numéro ouvert ] -->
+  <!-- [ FIXME: ne pas afficher si le champ n'existe pas ] -->
+  <FUNC NAME="CKL_FIELD_BOOL" FIELD="numeroouvert" VALUE="[#NUMEROOUVERT]" OUI="Oui" NON="Non"/>
+
+  <!--[ Date de mise en ligne ]-->
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="datemisenligne" VALUE="[#DATEMISENLIGNE]"/>
+
+  <!--[ Date de mise en accès libre ]-->
+  <FUNC NAME="CKL_FIELD_STRING" FIELD="dateacceslibre" VALUE="[#DATEACCESLIBRE]"/>
+
+  <!-- [ Cette publication est-elle en libre accès ? ] -->
+  <FUNC NAME="CKL_FIELD_BOOL" FIELD="integralite" VALUE="[#INTEGRALITE]" OUI="Oui" NON="Non"/>
 </DEFMACRO>
