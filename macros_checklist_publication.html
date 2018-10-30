@@ -78,4 +78,74 @@
 
   <!-- [ Cette publication est-elle en libre accès ? ] -->
   <FUNC NAME="CKL_FIELD_BOOL" FIELD="integralite" VALUE="[#INTEGRALITE]" OUI="Oui" NON="Non"/>
+
+  <MACRO NAME="CKL_P_SUMMARY"/>
+</DEFMACRO>
+
+/**
+ * Sommaire récursif de la publication.
+ * TODO: gérer les alias de traduction.
+ */
+<DEFMACRO NAME="CKL_P_SUMMARY">
+  <LOOP NAME="summary"
+        TABLE="entities, types"
+        SELECT="id, class, type"
+        WHERE="idparent = '[#ID]'
+           AND type NOT IN ('fluxdesyndication','imageaccroche','rubriqueannuelle', 'imageaccrochelibrairie') AND type NOT LIKE '%annexe%'
+           AND entities.idtype = types.id"
+        ORDER="entities.rank">
+
+    <BEFORE>
+      <ul class="ckl-summary">
+    </BEFORE>
+
+    <DO>
+      <LOOP NAME="summary_item" TABLE="#_TP_[#CLASS]" WHERE="identity = '[#ID]'">
+        <li class="ckl-summary-item" lang="[#LANGUE]" data-class="[#CLASS]">
+          <SWITCH TEST="[#CLASS]">
+            <!--[ Publications ]-->
+            <DO CASE="publications">
+              <IF COND="[#TYPE] EQ 'rubrique' OR [#TYPE] EQ 'souspartie'">
+                <MACRO NAME="CKL_P_SUMMARY_PUBLI_HEADER"/>
+                <!--[ Sommaire récursif ]-->
+                <LOOP NAME="summary"></LOOP>
+              </IF>
+            </DO>
+
+            <!--[ Textes ]-->
+            <DO CASE="textes">
+              <MACRO NAME="CKL_P_SUMMARY_TEXTE"/>
+            </DO>
+          </SWITCH>
+        </li>
+      </LOOP>
+    </DO>
+
+    <AFTER>
+      </ul>
+    </AFTER>
+  </LOOP>
+</DEFMACRO>
+
+<DEFMACRO NAME="CKL_P_SUMMARY_PUBLI_HEADER">
+  <div class="ckl-summary-publi-header">
+    <!--[ Titre de la publication ]-->
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="titre" VALUE="[#TITRE]"/>
+
+    <!--[ Sous-titre de la publication ]-->
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="soustitre" VALUE="[#SOUSTITRE]"/>
+
+    <!--[ Titres alternatifs ]-->
+    <FUNC NAME="CKL_FIELD_ML" FIELD="altertitre" VALUE="[#ALTERTITRE]"/>
+
+    <!--[ Introduction de la publication ]-->
+    <FUNC NAME="CKL_FIELD_ML" FIELD="introduction" VALUE="[#INTRODUCTION]"/>
+
+    <!--[ Directeur de la publication ]-->
+    <FUNC NAME="CKL_PERSONNES" TYPE="directeurdelapublication"/>
+  </div>
+</DEFMACRO>
+
+<DEFMACRO NAME="CKL_P_SUMMARY_TEXTE">
+  <a href="[#ID|makeurlwithid]">[#TITRE]</a>
 </DEFMACRO>
