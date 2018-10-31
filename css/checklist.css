@@ -73,6 +73,7 @@ a:hover, a:active, a:focus {
   border-radius: 5px;
   padding: 16px 0;
   margin: 10px 0;
+  border: none;
 }
 
 .ckl-field {

@@ -24,61 +24,73 @@
  * Contenu publication.
  */
 <DEFMACRO NAME="CKL_P_CONTENT">
-  <!--[ Titre de la publication ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="titre" VALUE="[#TITRE]"/>
+  <!--[ Section Titre ]-->
+  <LET VAR="section_contents">
+    <!--[ Titre du document ]-->
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="titre" VALUE="[#TITRE]"/>
 
-  <!--[ Sous-titre de la publication ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="soustitre" VALUE="[#SOUSTITRE]"/>
+    <!--[ Sous-titre du document ]-->
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="soustitre" VALUE="[#SOUSTITRE]"/>
 
-  <!--[ Titres alternatifs ]-->
-  <FUNC NAME="CKL_FIELD_ML" FIELD="altertitre" VALUE="[#ALTERTITRE]"/>
+    <!--[ Langue ]-->
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="langue" VALUE="[#LANGUE]"/>
+  </LET>
+  <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
 
-  <!--[ Introduction de la publication ]-->
-  <FUNC NAME="CKL_FIELD_ML" FIELD="introduction" VALUE="[#INTRODUCTION]"/>
+  <!--[ Section Cartouche ]-->
+  <LET VAR="section_contents">
+    <!--[ Date de la publication électronique ]-->
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="datepubli" VALUE="[#DATEPUBLI]"/>
 
-  <!--[ NDLR ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="ndlr" VALUE="[#NDLR]"/>
+    <!--[ Date de la publication papier ]-->
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="datepublipapier" VALUE="[#DATEPUBLIPAPIER]"/>
 
-  <!--[ Date de la publication électronique ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="datepubli" VALUE="[#DATEPUBLI]"/>
+    <!-- [ Cette publication est-elle à paraître ? ] -->
+    <FUNC NAME="CKL_FIELD_BOOL" FIELD="paraitre" VALUE="[#PARAITRE]" OUI="Oui" NON="Non"/>
 
-  <!--[ Date de la publication papier ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="datepublipapier" VALUE="[#DATEPUBLIPAPIER]"/>
+    <!-- [ Numéro ouvert ] -->
+    <FUNC NAME="CKL_FIELD_BOOL" FIELD="numeroouvert" VALUE="[#NUMEROOUVERT]" OUI="Oui" NON="Non"/>
 
-  <!--[ Période de publication ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="periode" VALUE="[#PERIODE]"/>
+    <!--[ Date de mise en ligne ]-->
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="datemisenligne" VALUE="[#DATEMISENLIGNE]"/>
 
-  <!--[ Numéro de publication ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="numero" VALUE="[#NUMERO]"/>
+    <!--[ Date de mise en accès libre ]-->
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="dateacceslibre" VALUE="[#DATEACCESLIBRE]"/>
 
-  <!--[ Langue ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="langue" VALUE="[#LANGUE]"/>
+    <!-- [ Cette publication est-elle en libre accès ? ] -->
+    <FUNC NAME="CKL_FIELD_BOOL" FIELD="integralite" VALUE="[#INTEGRALITE]" OUI="Oui" NON="Non"/>
+  </LET>
+  <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" CLASSNAME="ckl-cartouche" />
 
-  <!-- [ Licence ] -->
-  <FUNC NAME="CKL_ENTRIES" CLASSNAME="indexavances"/>
+  <!--[ Section avec tout le reste ]-->
+  <LET VAR="section_contents">
+    <!--[ Titres alternatifs ]-->
+    <FUNC NAME="CKL_FIELD_ML" FIELD="altertitre" VALUE="[#ALTERTITRE]"/>
 
-  <!--[ Directeur de la publication ]-->
-  <FUNC NAME="CKL_PERSONNES" TYPE="directeurdelapublication"/>
+    <!--[ Introduction de la publication ]-->
+    <FUNC NAME="CKL_FIELD_ML" FIELD="introduction" VALUE="[#INTRODUCTION]"/>
 
-  <!-- [ Entrées d'index ] -->
-  <FUNC NAME="CKL_ENTRIES" CLASSNAME="indexes"/>
+    <!--[ NDLR ]-->
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="ndlr" VALUE="[#NDLR]"/>
 
-  <!-- [ Cette publication est-elle à paraître ? ] -->
-  <FUNC NAME="CKL_FIELD_BOOL" FIELD="paraitre" VALUE="[#PARAITRE]" OUI="Oui" NON="Non"/>
+    <!--[ Période de publication ]-->
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="periode" VALUE="[#PERIODE]"/>
 
-  <!-- [ Numéro ouvert ] -->
-  <!-- [ FIXME: ne pas afficher si le champ n'existe pas ] -->
-  <FUNC NAME="CKL_FIELD_BOOL" FIELD="numeroouvert" VALUE="[#NUMEROOUVERT]" OUI="Oui" NON="Non"/>
+    <!--[ Numéro de publication ]-->
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="numero" VALUE="[#NUMERO]"/>
 
-  <!--[ Date de mise en ligne ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="datemisenligne" VALUE="[#DATEMISENLIGNE]"/>
+    <!-- [ Licence ] -->
+    <FUNC NAME="CKL_ENTRIES" CLASSNAME="indexavances"/>
 
-  <!--[ Date de mise en accès libre ]-->
-  <FUNC NAME="CKL_FIELD_STRING" FIELD="dateacceslibre" VALUE="[#DATEACCESLIBRE]"/>
+    <!--[ Directeur de la publication ]-->
+    <FUNC NAME="CKL_PERSONNES" TYPE="directeurdelapublication"/>
 
-  <!-- [ Cette publication est-elle en libre accès ? ] -->
-  <FUNC NAME="CKL_FIELD_BOOL" FIELD="integralite" VALUE="[#INTEGRALITE]" OUI="Oui" NON="Non"/>
+    <!-- [ Entrées d'index ] -->
+    <FUNC NAME="CKL_ENTRIES" CLASSNAME="indexes"/>
+  </LET>
+  <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
 
+  <!-- [ Sommaire de la publication ] -->
   <MACRO NAME="CKL_P_SUMMARY"/>
 </DEFMACRO>
 
