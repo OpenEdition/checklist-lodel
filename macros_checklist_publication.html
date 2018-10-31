@@ -90,6 +90,16 @@
   </LET>
   <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
 
+  <!--[ Section Fichiers ]-->
+  <LET VAR="section_contents">
+    <!--[ Fichiers ]-->
+    <MACRO NAME="CKL_FICHIERS"/>
+
+    <!--[ Fichiers externes ]-->
+    <MACRO NAME="CKL_FICHIERSEXTERNES"/>
+  </LET>
+  <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
+
   <!-- [ Sommaire de la publication ] -->
   <MACRO NAME="CKL_P_SUMMARY"/>
 </DEFMACRO>

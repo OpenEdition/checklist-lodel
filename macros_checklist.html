@@ -286,3 +286,69 @@
     <DO>1</DO>
   </LOOP>
 </DEFMACRO>
+
+/**
+ * Fichiers.
+ */
+<DEFMACRO NAME="CKL_FICHIERS">
+  <LOOP NAME="ckl_fichiers"
+        TABLE="fichiers"
+        WHERE="idparent = [#ID]"
+        SELECT="id, titre, type, document"
+        ORDER="rank">
+    <BEFORE>
+      <div class="ckl-field ckl-fichiers">
+        <div class="ckl-field-title">Fichiers</div>
+        <div class="ckl-field-value">
+    </BEFORE>
+    <DO>
+      <div class="ckl-fichier">
+        <LET VAR="label_titre"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="titre"/></LET>
+        <p class="ckl-fichier-titre" data-label="[#LABEL_TITRE|trim]"><IF COND="[#TITRE]">[#TITRE]<ELSE/>-</IF></p>
+        <!--[ TODO: Label dynamique ]-->
+        <p class="ckl-fichier-type" data-label="Type">[#TYPE]</p>
+        <IF COND="[#DOCUMENT]">
+          <LET VAR="label_document"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="document"/></LET>
+          <p class="ckl-fichier-document" data-label="[#LABEL_DOCUMENT|trim]"><a href="[#DOCUMENT]">[#DOCUMENT]</a></p>
+        </IF>
+      </div>
+    </DO>
+    <AFTER>
+        </div>
+      </div>
+    </AFTER>
+  </LOOP>
+</DEFMACRO>
+
+/**
+ * Fichiers externes.
+ */
+<DEFMACRO NAME="CKL_FICHIERSEXTERNES">
+  <LOOP NAME="ckl_fichiersexternes"
+        TABLE="fichiersexternes"
+        WHERE="idparent = [#ID]"
+        SELECT="id, titre, type, urlmedia"
+        ORDER="rank">
+    <BEFORE>
+      <div class="ckl-field ckl-fichiersexternes">
+        <div class="ckl-field-title">Fichiers externes</div>
+        <div class="ckl-field-value">
+    </BEFORE>
+    <DO>
+      <div class="ckl-fichierexterne">
+        <LET VAR="label_titre"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="titre"/></LET>
+        <p class="ckl-fichierexterne-titre" data-label="[#LABEL_TITRE|trim]"><IF COND="[#TITRE]">[#TITRE]<ELSE/>-</IF></p>
+        <!--[ TODO: Label dynamique ]-->
+        <p class="ckl-fichierexterne-type" data-label="Type">[#TYPE]</p>
+        <IF COND="[#URLMEDIA]">
+          <LET VAR="label_urlmedia"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="urlmedia"/></LET>
+          <p class="ckl-fichierexterne-urlmedia" data-label="[#LABEL_URLMEDIA]"><a href="[#URLMEDIA]">[#URLMEDIA]</a></p>
+        </IF>
+      </div>
+    </DO>
+    <AFTER>
+        </div>
+      </div>
+    </AFTER>
+  </LOOP>
+</DEFMACRO>
