@@ -38,17 +38,17 @@
  */
 <DEFMACRO NAME="CKL_A_CONTENT">
   <!--[ Section Titre ]-->
-  <section class="ckl-section">
+  <LET VAR="section_contents">
     <!--[ Titre du document ]-->
     <FUNC NAME="CKL_FIELD_STRING" FIELD="titre" VALUE="[#TITRE]"/>
 
     <!--[ Sous-titre du document ]-->
     <FUNC NAME="CKL_FIELD_STRING" FIELD="soustitre" VALUE="[#SOUSTITRE]"/>
-  </section>
-
+  </LET>
+  <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
 
   <!--[ Section Cartouche ]-->
-  <section class="ckl-cartouche">
+  <LET VAR="section_contents">
     <!--[ Date de la publication électronique ]-->
     <FUNC NAME="CKL_FIELD_STRING" FIELD="datepubli" VALUE="[#DATEPUBLI]"/>
 
@@ -73,10 +73,11 @@
 
     <!-- [ Vignettisation simple ] -->
     <FUNC NAME="CKL_FIELD_BOOL" FIELD="vignettesimple" VALUE="[#VIGNETTESIMPLE]" OUI="Activé" NON="Désactivé"/>
-  </section>
+  </LET>
+  <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" CLASSNAME="ckl-cartouche" />
 
   <!-- [ Section Personnes ] -->
-  <section class="ckl-section">
+  <LET VAR="section_contents">
     <!--[ Auteurs ]-->
     <FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="auteur" IDDOC="[#ID]"/>
 
@@ -85,10 +86,11 @@
 
     <!--[ Editeurs scientifiques ]-->
     <FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="editeurscientifique" IDDOC="[#ID]"/>
-  </section>
+  </LET>
+  <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
 
   <!-- [ Section Métadonnées ] -->
-  <section class="ckl-section">
+  <LET VAR="section_contents">
     <!--[ Numéro de document ]-->
     <IF COND="[#NUMERODOCUMENT] AND [#NUMERODOCUMENT] NE '0'">
       <FUNC NAME="CKL_FIELD_STRING" FIELD="numerodocument" VALUE="[#NUMERODOCUMENT]"/>
@@ -108,10 +110,11 @@
 
     <!--[ Pagination ]-->
     <FUNC NAME="CKL_FIELD_STRING" FIELD="pagination" VALUE="[#PAGINATION]"/>
-  </section>
+  </LET>
+  <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
 
   <!-- [ Section Œuvre commentée ] -->
-  <section class="ckl-section">
+  <LET VAR="section_contents">
     <!--[ Notice bibliographique de l’œuvre commentée ]-->
     <FUNC NAME="CKL_FIELD_STRING" FIELD="noticebibliooeuvre" VALUE="[#NOTICEBIBLIOOEUVRE]"/>
 
@@ -123,10 +126,11 @@
 
     <!--[ Auteur de l’œuvre commentée ]-->
     <FUNC NAME="CKL_PERSONNES" TYPE="auteuroeuvre"/>
-  </section>
+  </LET>
+  <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
 
   <!--[ Section Fichiers ]-->
-  <section class="ckl-section">
+  <LET VAR="section_contents">
     <!--[ Fichier facsimilé ]-->
     <MACRO NAME="CKL_A_FACSIMILE"/>
 
@@ -135,10 +139,11 @@
 
     <!--[ Fichiers externes ]-->
     <MACRO NAME="CKL_A_FICHIERSEXTERNES"/>
-  </section>
+  </LET>
+  <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
 
   <!--[ Section Paratexte ]-->
-  <section class="ckl-section">
+  <LET VAR="section_contents">
     <!--[ NDLR ]-->
     <FUNC NAME="CKL_FIELD_STRING" FIELD="ndlr" VALUE="[#NDLR]"/>
 
@@ -153,37 +158,42 @@
 
     <!--[ Remerciements ]-->
     <FUNC NAME="CKL_FIELD_STRING" FIELD="remerciements" VALUE="[#REMERCIEMENTS]"/>
-  </section>
+  </LET>
+  <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
 
   <!--[ Section Texte ]-->
-  <section class="ckl-section">
+  <LET VAR="section_contents">
     <!-- [ Sommaire de l'article ] -->
     <MACRO NAME="CKL_A_TOC"/>
 
     <!--[ Texte intégral ]-->
     <FUNC NAME="CKL_FIELD_STRING" FIELD="texte" VALUE="[#TEXTE|cleanCallNotes|tocable|tocss('heading')|illustrations(300)|media]" CLASSNAME="ckl-field-text" />
-  </section>
+  </LET>
+  <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
 
   <!--[ Section Bibliographie ]-->
-  <section class="ckl-section">
+  <LET VAR="section_contents">
     <!--[ Bibliographie ]-->
     <FUNC NAME="CKL_FIELD_STRING" FIELD="bibliographie" VALUE="[(#BIBLIOGRAPHIE|cleanCallNotes|tocss('heading')|illustrations(300, 'bibliographie')|media)]" CLASSNAME="ckl-field-text" />
-  </section>
+  </LET>
+  <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
 
   <!--[ Section Annexes ]-->
-  <section class="ckl-section">
+  <LET VAR="section_contents">
     <!--[ Annexes (texte) ]-->
     <FUNC NAME="CKL_FIELD_STRING" FIELD="annexe" VALUE="[#ANNEXE|cleanCallNotes|tocss('heading')|illustrations(300, 'annexe')|media]" CLASSNAME="ckl-field-text" />
-  </section>
+  </LET>
+  <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
 
   <!--[ Section Notes ]-->
-  <section class="ckl-section">
+  <LET VAR="section_contents">
     <!--[ Notes de bas de page ]-->
     <FUNC NAME="CKL_FIELD_STRING" FIELD="notesbaspage" VALUE="[#NOTESBASPAGE]" CLASSNAME="ckl-field-text"/>
 
     <!--[ Notes de fin ]-->
     <FUNC NAME="CKL_FIELD_STRING" FIELD="notefin" VALUE="[#NOTEFIN]"/>
-  </section>
+  </LET>
+  <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
 </DEFMACRO>
 
 /**

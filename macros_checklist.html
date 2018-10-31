@@ -69,6 +69,19 @@
 </DEFMACRO>
 
 /**
+ * Affiche une <section> (n'affiche rien si [#CONTENTS] est vide).
+ * @param {string} contents - Contenu HTML de la section.
+ * @param {string} [classname] - Attribut class supplémentaire de l'élément section.
+ */
+<DEFFUNC NAME="CKL_SECTION" REQUIRED="contents" OPTIONAL="classname">
+  <IF COND="[#CONTENTS|trim] NE ''">
+    <section class="ckl-section [#CLASSNAME]">
+      [#CONTENTS]
+    </section>
+  </IF>
+</DEFFUNC>
+
+/**
  * Récupérer le titre d'un champ.
  * TODO: inclure les traductions.
  * @param {string} field - Nom du champ.
