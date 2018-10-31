@@ -162,28 +162,34 @@
   <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
 
   <!--[ Section Texte ]-->
-  <LET VAR="section_contents">
-    <!-- [ Sommaire de l'article ] -->
-    <MACRO NAME="CKL_A_TOC"/>
+  <IF COND="[#TEXTE]">
+    <LET VAR="section_contents">
+        <!-- [ Sommaire de l'article ] -->
+        <MACRO NAME="CKL_A_TOC"/>
 
-    <!--[ Texte intégral ]-->
-    <FUNC NAME="CKL_FIELD_STRING" FIELD="texte" VALUE="[#TEXTE|cleanCallNotes|tocable|tocss('heading')|illustrations(300)|media]" CLASSNAME="ckl-field-text" />
-  </LET>
-  <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
+        <!--[ Texte intégral ]-->
+        <FUNC NAME="CKL_FIELD_STRING" FIELD="texte" VALUE="[#TEXTE|cleanCallNotes|tocable|tocss('heading')|illustrations(300)|media]" CLASSNAME="ckl-field-text" />
+    </LET>
+    <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
+  </IF>
 
   <!--[ Section Bibliographie ]-->
-  <LET VAR="section_contents">
-    <!--[ Bibliographie ]-->
-    <FUNC NAME="CKL_FIELD_STRING" FIELD="bibliographie" VALUE="[(#BIBLIOGRAPHIE|cleanCallNotes|tocss('heading')|illustrations(300, 'bibliographie')|media)]" CLASSNAME="ckl-field-text" />
-  </LET>
-  <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
+  <IF COND="[#BIBLIOGRAPHIE]">
+    <LET VAR="section_contents">
+      <!--[ Bibliographie ]-->
+      <FUNC NAME="CKL_FIELD_STRING" FIELD="bibliographie" VALUE="[(#BIBLIOGRAPHIE|cleanCallNotes|tocss('heading')|illustrations(300, 'bibliographie')|media)]" CLASSNAME="ckl-field-text" />
+    </LET>
+    <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
+  </IF>
 
   <!--[ Section Annexes ]-->
-  <LET VAR="section_contents">
-    <!--[ Annexes (texte) ]-->
-    <FUNC NAME="CKL_FIELD_STRING" FIELD="annexe" VALUE="[#ANNEXE|cleanCallNotes|tocss('heading')|illustrations(300, 'annexe')|media]" CLASSNAME="ckl-field-text" />
-  </LET>
-  <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
+  <IF COND="[#ANNEXE]">
+    <LET VAR="section_contents">
+      <!--[ Annexes (texte) ]-->
+      <FUNC NAME="CKL_FIELD_STRING" FIELD="annexe" VALUE="[#ANNEXE|cleanCallNotes|tocss('heading')|illustrations(300, 'annexe')|media]" CLASSNAME="ckl-field-text" />
+    </LET>
+    <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
+  </IF>
 
   <!--[ Section Notes ]-->
   <LET VAR="section_contents">
