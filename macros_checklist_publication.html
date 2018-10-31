@@ -84,7 +84,6 @@
 
 /**
  * Sommaire récursif de la publication.
- * TODO: gérer les alias de traduction.
  */
 <DEFMACRO NAME="CKL_P_SUMMARY">
   <LOOP NAME="summary"
@@ -101,23 +100,23 @@
 
     <DO>
       <LOOP NAME="summary_item" TABLE="#_TP_[#CLASS]" WHERE="identity = '[#ID]'">
-        <li class="ckl-summary-item" lang="[#LANGUE]" data-class="[#CLASS]">
-          <SWITCH TEST="[#CLASS]">
-            <!--[ Publications ]-->
-            <DO CASE="publications">
-              <IF COND="[#TYPE] EQ 'rubrique' OR [#TYPE] EQ 'souspartie'">
+        <SWITCH TEST="[#CLASS]">
+          <!--[ Publications ]-->
+          <DO CASE="publications">
+            <IF COND="[#TYPE] EQ 'rubrique' OR [#TYPE] EQ 'souspartie'">
+              <li class="ckl-summary-item" lang="[#LANGUE]" data-class="[#CLASS]">
                 <MACRO NAME="CKL_P_SUMMARY_PUBLI_HEADER"/>
                 <!--[ Sommaire récursif ]-->
                 <LOOP NAME="summary"></LOOP>
-              </IF>
-            </DO>
+              </li>
+            </IF>
+          </DO>
 
-            <!--[ Textes ]-->
-            <DO CASE="textes">
-              <MACRO NAME="CKL_P_SUMMARY_TEXTE"/>
-            </DO>
-          </SWITCH>
-        </li>
+          <!--[ Textes ]-->
+          <DO CASE="textes">
+            <MACRO NAME="CKL_P_SUMMARY_TEXTE"/>
+          </DO>
+        </SWITCH>
       </LOOP>
     </DO>
 
@@ -147,5 +146,13 @@
 </DEFMACRO>
 
 <DEFMACRO NAME="CKL_P_SUMMARY_TEXTE">
-  <a href="[#ID|makeurlwithid]">[#TITRE]</a>
+  <LET VAR="is_traduction"><MACRO NAME="CKL_IS_TRADUCTION" ID="[#ID]"/></LET>
+  <!--[ On n'affiche que les originaux... ]-->
+  <IF COND="![#IS_TRADUCTION|trim]">
+    <li class="ckl-summary-item" lang="[#LANGUE]" data-class="[#CLASS]">
+      <a href="[#ID|makeurlwithid]">[#TITRE]</a>
+      <!--[ ...puis ensuite leurs traductions ]-->
+      <MACRO NAME="CKL_TRADUCTIONS" />
+    </li>
+  </IF>
 </DEFMACRO>

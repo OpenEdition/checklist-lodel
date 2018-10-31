@@ -98,7 +98,7 @@
     <FUNC NAME="CKL_FIELD_ML" FIELD="altertitre" VALUE="[#ALTERTITRE]"/>
 
     <!--[ Alias de traduction ]-->
-    <MACRO NAME="CKL_A_TRADUCTIONS"/>
+    <MACRO NAME="CKL_TRADUCTIONS"/>
 
     <!-- [ Résumés ] -->
     <FUNC NAME="CKL_FIELD_ML" FIELD="resume" VALUE="[#RESUME]"/>
@@ -280,39 +280,6 @@
     </AFTER>
   </LOOP>
 </DEFFUNC>
-
-/**
- * Affichage des alias de traduction du document.
- */
-<DEFMACRO NAME="CKL_A_TRADUCTIONS">
-  <LOOP NAME="ckl_a_traductions"
-        SELECT="id, titre, langue, IF(id IN (SELECT id2 FROM relations WHERE nature = 'traduction'), 1, 0) AS original"
-        TABLE="textes, relations"
-        WHERE="(id2 = [#ID] AND id1 = textes.identity)
-        OR (id1 = [#ID] AND id2 = textes.identity)
-        OR (id2 = (SELECT id2 FROM relations WHERE id1 = [#ID] AND nature = 'traduction' LIMIT 1)) AND id1 != [#ID] AND id1 = textes.identity"
-        WHERE="nature = 'traduction'"
-        ORDER="original DESC">
-    <BEFORE>
-      <div class="ckl-field ckl-traductions">
-        <div class="ckl-field-title"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="traduction"/></div>
-        <div class="ckl-field-value">
-    </BEFORE>
-    <DO>
-      <div class="ckl-traduction" lang="[#LANGUE]">
-        <span class="ckl-field-ml-lang">[#LANGUE]</span>
-        <span class="ckl-field-ml-value"><a href="[#ID|makeurlwithid]">[#TITRE]</a> ([#ID])</span>
-        <IF COND="[#ORIGINAL]">
-          <span class="ckl-traduction-original">[original]</span>
-        </IF>
-      </div>
-    </DO>
-    <AFTER>
-        </div>
-      </div>
-    </AFTER>
-  </LOOP>
-</DEFMACRO>
 
 /**
  * Fichiers.
