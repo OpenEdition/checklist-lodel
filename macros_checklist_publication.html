@@ -100,8 +100,11 @@
   </LET>
   <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
 
-  <!-- [ Sommaire de la publication ] -->
-  <MACRO NAME="CKL_P_SUMMARY"/>
+  <!-- [ Section sommaire de la publication ] -->
+  <LET VAR="section_contents">
+    <MACRO NAME="CKL_P_SUMMARY"/>
+  </LET>
+  <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" CLASSNAME="ckl-summary-section" />
 </DEFMACRO>
 
 /**
