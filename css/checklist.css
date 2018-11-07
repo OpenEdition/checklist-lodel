@@ -369,6 +369,12 @@ a:hover, a:active, a:focus {
   content: "]";
 }
 
+/* Styles publication */
+
+.ckl-summary-publi-header [data-field=titre] .ckl-field-value {
+  font-size: 28px;
+}
+
 /* Styles media desktop */
 
 @media screen and (min-width: 500px) {
@@ -395,5 +401,9 @@ a:hover, a:active, a:focus {
 
   [data-field=titre] .ckl-field-title {
     padding-top: 20px;
+  }
+
+  .ckl-summary-publi-header [data-field=titre] .ckl-field-title {
+    padding-top: 12px;
   }
 }
