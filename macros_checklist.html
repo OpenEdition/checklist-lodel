@@ -261,17 +261,20 @@
       <div class="ckl-field ckl-traductions">
         <div class="ckl-field-title"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="traduction"/></div>
         <div class="ckl-field-value">
+          <ul>
     </BEFORE>
     <DO>
-      <div class="ckl-traduction" lang="[#LANGUE]">
+      <li class="ckl-traduction" lang="[#LANGUE]">
         <span class="ckl-field-ml-lang">[#LANGUE]</span>
-        <span class="ckl-field-ml-value"><a href="[#ID|makeurlwithid]">[#TITRE]</a> ([#ID])</span>
+        <span class="ckl-field-ml-value"><a href="[#ID|makeurlwithid]">[#TITRE]</a></span>
+        <span class="ckl-field-ml-id">([#ID])</span>
         <IF COND="[#ORIGINAL]">
           <span class="ckl-traduction-original">[original]</span>
         </IF>
-      </div>
+      </li>
     </DO>
     <AFTER>
+          </ul>
         </div>
       </div>
     </AFTER>
