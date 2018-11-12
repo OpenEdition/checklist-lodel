@@ -1,8 +1,197 @@
 <CONTENT VERSION="1.0" LANG="fr" CHARSET="utf-8"/>
 
 /**
- * Main index.
+ * Main index (alphabetiques et hierarchiques).
  */
-<DEFMACRO NAME="CKL_I_MAIN">
+<DEFMACRO NAME="CKL_I_MAIN_INDEXES">
+  <LOOP NAME="ckl_i_main_indexes" TABLE="entrytypes" WHERE="id ='[#DOCUMENT]'">
+    <IF COND="[#FLAT] AND [#SORT] EQ 'sortkey'">
+      <!--[ Index alphabetique ]-->
+      <MACRO NAME="CKL_I_ALPHABETIQUE" />
+    <ELSE />
+      <!--[ Index hierarchique ]-->
+      <MACRO NAME="CKL_I_HIERARCHIQUE" />
+    </IF>
+  </LOOP>
+</DEFMACRO>
 
+/**
+ * Main index de personnes.
+ */
+<DEFMACRO NAME="CKL_I_MAIN_PERSONS">
+  <LOOP NAME="ckl_i_main_persons" TABLE="persontypes" WHERE="id ='[#DOCUMENT]'">
+    <MACRO NAME="CKL_I_PERSONNES" />
+  </LOOP>
+</DEFMACRO>
+
+/**
+ * Raccourcis alphabétiques pour les listes d'index.
+ * @param {string} table
+ * @param {string} field
+ * @param {string} idtype
+ */
+<DEFFUNC NAME="CKL_I_SHORTCUTS" REQUIRED="table, field, idtype">
+  <div class="ckl-index-shortcuts">
+    <LOOP NAME="alphabetSpec">
+      <IF COND="[#NBRESULTS]">
+        <a href="#alpha-[#LETTRE|ord]">[#LETTRE]</a>
+        <ELSE/>
+        <span class="disabled">[#LETTRE]</span>
+      </IF>
+    </LOOP>
+  </div>
+</DEFFUNC>
+
+/**
+ * Index alphabetique.
+ */
+<DEFMACRO NAME="CKL_I_ALPHABETIQUE">
+  <div class="ckl-main ckl-index ckl-index-alphabetique">
+    <h1 class="ckl-index-title">[#TITLE]</h1>
+    <FUNC NAME="CKL_I_SHORTCUTS" TABLE="#_TP_entries" FIELD="[#SORT]" IDTYPE="[#ID]"/>
+    <FUNC NAME="CKL_I_ALPHABETIQUE_LIST" TABLE="#_TP_entries" FIELD="[#SORT]" IDTYPE="[#ID]"/>
+  </div>
+</DEFMACRO>
+
+/**
+ * Liste alphabétique d'index.
+ * @param {string} table
+ * @param {string} field
+ * @param {string} idtype
+ */
+<DEFFUNC NAME="CKL_I_ALPHABETIQUE_LIST" REQUIRED="table, field, idtype">
+  <LOOP NAME="alphabetSpec">
+    <LET VAR="lettresql">[#LETTRE|replace("'", "\'")]</LET>
+    <LOOP NAME="ckl_i_alphabetique_list"
+          TABLE="entries"
+          SELECT="id, g_name"
+          WHERE="type = '[#TYPE]'
+             AND UPPER(SUBSTRING([#FIELD],1,1)) = '[#LETTRESQL]'"
+          ORDER="[#FIELD]">
+
+      <BEFORE>
+        <section id="alpha-[#LETTRE|ord]">
+          <h2 class="ckl-index-section-header"><a href="#indexes-alphabet">[#LETTRE]</a></h2>
+          <ul class="ckl-index-list">
+      </BEFORE>
+
+      <DO>
+        <li><MACRO NAME="CKL_I_ENTRY"/></li>
+      </DO>
+
+      <AFTER>
+          </ul>
+        </section>
+      </AFTER>
+    </LOOP>
+  </LOOP>
+</DEFFUNC>
+
+/**
+ * Index hierarchique.
+ */
+<DEFMACRO NAME="CKL_I_HIERARCHIQUE">
+  <LET VAR="idrec">0</LET>
+  <LOOP NAME="ckl_entries"
+        SELECT="id, g_name"
+        TABLE="entries"
+        WHERE="type = '[#TYPE]' AND idparent = '[#IDREC]'"
+        ORDER="entries.[#SORT]">
+
+    <BEFORE>
+      <div class="ckl-main ckl-index ckl-index-hierarchique">
+        <h1 class="ckl-index-title">[#TITLE]</h1>
+        <ul class="ckl-index-list">
+    </BEFORE>
+    <DO>
+      <li>
+        <MACRO NAME="CKL_I_ENTRY"/>
+        <LET VAR="idrec">[#ID]</LET>
+        <LOOP NAME="ckl_entries"></LOOP>
+      </li>
+    </DO>
+    <AFTER>
+        </ul>
+      </div>
+    </AFTER>
+  </LOOP>
+</DEFMACRO>
+
+/**
+ * Index personnes.
+ */
+<DEFMACRO NAME="CKL_I_PERSONNES">
+  <div class="ckl-main ckl-index ckl-index-personnes">
+    <h1 class="ckl-index-title">[#TITLE]</h1>
+    <FUNC NAME="CKL_I_SHORTCUTS" TABLE="#_TP_persons" FIELD="sortkey" IDTYPE="[#ID]"/>
+    <FUNC NAME="CKL_I_PERSONNES_LIST" TABLE="#_TP_persons" FIELD="sortkey" IDTYPE="[#ID]"/>
+  </div>
+</DEFMACRO>
+
+/**
+ * Liste alphabétique de personnes.
+ * @param {string} table
+ * @param {string} field
+ * @param {string} idtype
+ */
+<DEFFUNC NAME="CKL_I_PERSONNES_LIST" REQUIRED="table, field, idtype">
+  <LOOP NAME="alphabetSpec">
+    <LET VAR="lettresql">[#LETTRE|replace("'", "\'")]</LET>
+    <LOOP NAME="ckl_i_personnes_list"
+          SELECT="persons.id, g_firstname, g_familyname"
+          TABLE="relations, entities, persons, types, persontypes"
+          WHERE="UPPER(SUBSTRING([#FIELD],1,1)) = '[#LETTRESQL]'
+                AND types.type NOT IN ('informations', 'actualite')
+                AND persontypes.type = '[#TYPE]'
+                AND persons.idtype = persontypes.id
+                AND relations.id1 = entities.id
+                AND relations.id2 = persons.id"
+          GROUPBY="persons.id"
+          ORDER="[#FIELD]">
+
+      <BEFORE>
+        <section id="alpha-[#LETTRE|ord]">
+          <h2 class="ckl-index-section-header"><a href="#indexes-alphabet">[#LETTRE]</a></h2>
+          <ul class="ckl-index-list">
+      </BEFORE>
+
+      <DO>
+        <li>
+          <LET VAR="label_prenom"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="prenom"/></LET>
+          <LET VAR="label_nom"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="nomfamille"/></LET>
+          <a href="[#ID|makeurlwithid]">
+            <span class="ckl-personne-firstname" data-label="[#LABEL_PRENOM|trim]">[#G_FIRSTNAME]</span>
+            <span class="ckl-personne-familyname" data-label="[#LABEL_NOM|trim]">[#G_FAMILYNAME]</span>
+            <LOOP NAME="ckl_personne_index_count" SELECT="count(id) AS n" TABLE="relations, entities"
+          	      WHERE="id2 = '[#ID]'
+          	         AND type NOT IN ('informations', 'actualite')
+          	         AND id1 = entities.id">
+          		<span class="ckl-index-count">([#N])</span>
+          	</LOOP>
+          </a>
+        </li>
+      </DO>
+
+      <AFTER>
+          </ul>
+        </section>
+      </AFTER>
+    </LOOP>
+  </LOOP>
+</DEFFUNC>
+
+/**
+ * Entree d'index.
+ */
+<DEFMACRO NAME="CKL_I_ENTRY">
+  <LOOP NAME="ckl_i_entry" SELECT="count(id) AS n" TABLE="relations, entities"
+        WHERE="id2 = '[#ID]'
+           AND type NOT IN ('informations', 'actualite')
+           AND id1 = entities.id">
+    <IF COND="[#N] EQ '0'">
+      <span class="ckl-index-entry disabled">[#G_NAME]</span>
+    <ELSE/>
+      <a class="ckl-index-entry" href="[#ID|makeurlwithid]">[#G_NAME]</a> <span class="ckl-index-count">([#N])</span>
+    </IF>
+  </LOOP>
 </DEFMACRO>
