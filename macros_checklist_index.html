@@ -100,8 +100,12 @@
 
     <BEFORE>
       <div class="ckl-main ckl-index ckl-index-hierarchique">
-        <h1 class="ckl-index-title">[#TITLE]</h1>
-        <ul class="ckl-index-list">
+        <LET VAR="ul_classname">ckl-index-list-nested</LET>
+        <IF COND="[#IDREC] EQ '0'">
+          <h1 class="ckl-index-title">[#TITLE]</h1>
+          <LET VAR="ul_classname">ckl-index-list-root</LET>
+        </IF>
+        <ul class="ckl-index-list [#UL_CLASSNAME]">
     </BEFORE>
     <DO>
       <li>

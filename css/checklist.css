@@ -440,6 +440,46 @@ a:hover, a:active, a:focus {
   align-self: flex-end;
 }
 
+/* Indexes */
+
+.ckl-index-list {
+  list-style-type: none;
+}
+
+.ckl-index-alphabetique .ckl-index-list,
+.ckl-index-personnes .ckl-index-list,
+.ckl-index-list-root {
+  padding: 0;
+}
+
+.ckl-index-list-nested {
+  margin: 0 0 0 1em;
+  padding: 0;
+}
+
+.ckl-index-list-nested li {
+  margin-left: 0.35em;
+  border-left: 1px solid #000;
+}
+
+.ckl-index-list-nested li:last-child {
+  border-left: none;
+}
+
+.ckl-index-list-nested li:before {
+  width: 0.9em;
+  height: 0.6em;
+  margin-right: 0.1em;
+  vertical-align: top;
+  border-bottom: 1px solid #000;
+  content: "";
+  display: inline-block;
+}
+
+.ckl-index-list-nested li:last-child:before {
+  border-left: 1px solid #000;
+}
+
 /* Styles media desktop */
 
 @media screen and (min-width: 500px) {
