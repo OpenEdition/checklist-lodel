@@ -512,3 +512,9 @@ a:hover, a:active, a:focus {
     padding-top: 12px;
   }
 }
+
+/* Fix Lodel : eviter le scroll horizontal */
+img#lodelGlobalDeskDisplayer-img {
+  display: block;
+  padding: 5px 0;
+}
