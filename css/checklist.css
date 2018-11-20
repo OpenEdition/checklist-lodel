@@ -22,7 +22,7 @@ a:hover, a:active, a:focus {
 .ckl-main {
   position: relative;
   display: block;
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -55,6 +55,25 @@ a:hover, a:active, a:focus {
 .ckl-nav-item a:focus,
 .ckl-nav-item a:active {
   background-color: #ddd;
+}
+
+/* Main content + Pane */
+.ckl-main {
+  display: flex;
+  align-items: flex-start;
+}
+
+.ckl-content {
+  flex: 1;
+}
+
+.ckl-pane {
+  flex: 1;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  max-width: 320px;
+  margin-left: 20px;
 }
 
 /* Article et champs basiques */

@@ -47,9 +47,12 @@
  */
 <DEFMACRO NAME="CKL_I_ALPHABETIQUE">
   <div class="ckl-main ckl-index ckl-index-alphabetique">
-    <h1 class="ckl-index-title">[#TITLE]</h1>
-    <FUNC NAME="CKL_I_SHORTCUTS" TABLE="#_TP_entries" FIELD="[#SORT]" IDTYPE="[#ID]"/>
-    <FUNC NAME="CKL_I_ALPHABETIQUE_LIST" TABLE="#_TP_entries" FIELD="[#SORT]" IDTYPE="[#ID]"/>
+    <div class="ckl-content">
+      <h1 class="ckl-index-title">[#TITLE]</h1>
+      <FUNC NAME="CKL_I_SHORTCUTS" TABLE="#_TP_entries" FIELD="[#SORT]" IDTYPE="[#ID]"/>
+      <FUNC NAME="CKL_I_ALPHABETIQUE_LIST" TABLE="#_TP_entries" FIELD="[#SORT]" IDTYPE="[#ID]"/>
+    </div>
+    <div class="ckl-pane"></div>
   </div>
 </DEFMACRO>
 
@@ -100,12 +103,15 @@
 
     <BEFORE>
       <div class="ckl-main ckl-index ckl-index-hierarchique">
-        <LET VAR="ul_classname">ckl-index-list-nested</LET>
-        <IF COND="[#IDREC] EQ '0'">
-          <h1 class="ckl-index-title">[#TITLE]</h1>
-          <LET VAR="ul_classname">ckl-index-list-root</LET>
-        </IF>
-        <ul class="ckl-index-list [#UL_CLASSNAME]">
+        <div class="ckl-content">
+          <LET VAR="ul_classname">ckl-index-list-nested</LET>
+          <IF COND="[#IDREC] EQ '0'">
+            <h1 class="ckl-index-title">[#TITLE]</h1>
+            <LET VAR="ul_classname">ckl-index-list-root</LET>
+          </IF>
+          <ul class="ckl-index-list [#UL_CLASSNAME]">
+        </div>
+        <div class="ckl-pane"></div>
     </BEFORE>
     <DO>
       <li>
@@ -126,9 +132,12 @@
  */
 <DEFMACRO NAME="CKL_I_PERSONNES">
   <div class="ckl-main ckl-index ckl-index-personnes">
-    <h1 class="ckl-index-title">[#TITLE]</h1>
-    <FUNC NAME="CKL_I_SHORTCUTS" TABLE="#_TP_persons" FIELD="sortkey" IDTYPE="[#ID]"/>
-    <FUNC NAME="CKL_I_PERSONNES_LIST" TABLE="#_TP_persons" FIELD="sortkey" IDTYPE="[#ID]"/>
+    <div class="ckl-content">
+      <h1 class="ckl-index-title">[#TITLE]</h1>
+      <FUNC NAME="CKL_I_SHORTCUTS" TABLE="#_TP_persons" FIELD="sortkey" IDTYPE="[#ID]"/>
+      <FUNC NAME="CKL_I_PERSONNES_LIST" TABLE="#_TP_persons" FIELD="sortkey" IDTYPE="[#ID]"/>
+    </div>
+    <div class="ckl-pane"></div>
   </div>
 </DEFMACRO>
 

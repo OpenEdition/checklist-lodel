@@ -5,7 +5,7 @@ $(function () {
   window.checklist.init({
     // Définir le parent où l'UI sera intégré.
     // Si cette variable est vide, l'UI ne sera pas créée.
-    parent: "body",
+    parent: ".ckl-pane",
 
     // Prefixe des clés du localStorage
     // Sur Revues.org et OpenEdition Books, utiliser le nom court
@@ -128,6 +128,9 @@ $(function () {
           var selector = ".legendeillustration + .legendeillustration";
           var flag = $(selector).length > 0;
           var statement = this.notify(flag);
+          if (statement == null) {
+            this.resolve();
+          }
           statement.addMarker({
             name: {
               fr: "Fractionnement",
@@ -135,6 +138,20 @@ $(function () {
             target: $(selector),
             position: "after"
           });
+          this.resolve();
+        }
+      },
+      {
+        id: "remplir-pane",
+        name: {
+          fr: "Remplissage du pane"
+        },
+        condition: "textes",
+        type: "warning",
+        action: function ($, bodyClasses) {
+          for (var i=0; i<3; i++) {
+            var statement = this.notify("Notification " + i);
+          }
           this.resolve();
         }
       }
