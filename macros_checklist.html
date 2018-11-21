@@ -92,6 +92,18 @@
 </DEFMACRO>
 
 /**
+ * Création du contexte passé à Checklist.
+ */
+<DEFMACRO NAME="CKL_CREATE_CONTEXT">
+  <LET VAR="checklist_context" GLOBAL="1">
+    {
+      "[#CLASS]": true,
+      "[#TYPE]": true
+    }
+  </LET>
+</DEFMACRO>
+
+/**
  * Affiche une <section> (n'affiche rien si [#CONTENTS] est vide).
  * @param {string} contents - Contenu HTML de la section.
  * @param {string} [title] - Titre de la section.

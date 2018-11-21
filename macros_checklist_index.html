@@ -5,6 +5,8 @@
  */
 <DEFMACRO NAME="CKL_I_MAIN_INDEXES">
   <LOOP NAME="ckl_i_main_indexes" TABLE="entrytypes" WHERE="id ='[#DOCUMENT]'">
+    <MACRO NAME="CKL_CREATE_CONTEXT"/>
+
     <IF COND="[#FLAT] AND [#SORT] EQ 'sortkey'">
       <!--[ Index alphabetique ]-->
       <MACRO NAME="CKL_I_ALPHABETIQUE" />
@@ -20,6 +22,8 @@
  */
 <DEFMACRO NAME="CKL_I_MAIN_PERSONS">
   <LOOP NAME="ckl_i_main_persons" TABLE="persontypes" WHERE="id ='[#DOCUMENT]'">
+    <MACRO NAME="CKL_CREATE_CONTEXT"/>
+
     <MACRO NAME="CKL_I_PERSONNES" />
   </LOOP>
 </DEFMACRO>
