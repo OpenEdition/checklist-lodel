@@ -1,14 +1,11 @@
-$(function () {
+window.initChecklist = function (context) {
   if (window.checklist == null) return;
 
   // Intialisation de checklist
   window.checklist.init({
-    // Définir le parent où l'UI sera intégré.
-    // Si cette variable est vide, l'UI ne sera pas créée.
     parent: ".ckl-pane",
 
     // Prefixe des clés du localStorage
-    // Sur Revues.org et OpenEdition Books, utiliser le nom court
     // TODO: utiliser ici le nom court du site
     namespace: "foobar",
 
@@ -102,15 +99,7 @@ $(function () {
     },
 
     // Fonction de création du contexte.
-    // TODO: calculer dynamiquement
-    context: function ($) {
-      return {
-        "article": true,
-        "textes": true,
-        "publication": false,
-        "motsclesfr": $(".motsclesfr .entry").length
-      };
-    },
+    context: context,
 
     // Liste des règles.
     rules: [
@@ -164,4 +153,4 @@ $(function () {
       console.log("Exécution terminée !");
     });
   });
-});
+};

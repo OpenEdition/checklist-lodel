@@ -82,8 +82,13 @@
   <!--[ Checklist Core ]-->
   <script src="./tpl/vendor/checklist.js"></script>
 
-  <!--[ Checklist Config ]-->
+  <!--[ Checklist Config & init with context ]-->
   <script src="./tpl/js/checklist-config.js"></script>
+  <script>
+    $(function () {
+      window.initChecklist([%CHECKLIST_CONTEXT]);
+    });
+  </script>
 </DEFMACRO>
 
 /**
