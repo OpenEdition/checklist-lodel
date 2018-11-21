@@ -4,6 +4,14 @@
  * Main publication.
  */
 <DEFMACRO NAME="CKL_P_MAIN">
+  <!--[ Création du tableau de contexte pour Checklist ]-->
+  <LET VAR="checklist_context" GLOBAL="1">
+    {
+      "[#CLASS]": true,
+      "[#TYPE]": true
+    }
+  </LET>
+
   <LOOP NAME="ckl_p_main"
         TABLE="publications"
         WHERE="id=[#DOCUMENT]">

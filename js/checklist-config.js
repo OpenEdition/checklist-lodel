@@ -143,6 +143,17 @@ window.initChecklist = function (context) {
           }
           this.resolve();
         }
+      },
+      {
+        id: "test-publi",
+        name: {
+          fr: "Test sur les publications"
+        },
+        condition: "publications",
+        type: "danger",
+        action: function ($, bodyClasses) {
+          this.resolve(true);
+        }
       }
       // etc.
     ]
