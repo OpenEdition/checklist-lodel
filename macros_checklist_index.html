@@ -98,37 +98,41 @@
  * Index hierarchique.
  */
 <DEFMACRO NAME="CKL_I_HIERARCHIQUE">
-  <LET VAR="idrec">0</LET>
-  <LOOP NAME="ckl_entries"
-        SELECT="id, g_name"
-        TABLE="entries"
-        WHERE="type = '[#TYPE]' AND idparent = '[#IDREC]'"
-        ORDER="entries.[#SORT]">
+  <div class="ckl-main ckl-index ckl-index-hierarchique">
+    <div class="ckl-content">
+      <LET VAR="idrec">0</LET>
+      <LOOP NAME="ckl_entries"
+            SELECT="id, g_name"
+            TABLE="entries"
+            WHERE="type = '[#TYPE]' AND idparent = '[#IDREC]'"
+            ORDER="entries.[#SORT]">
 
-    <BEFORE>
-      <div class="ckl-main ckl-index ckl-index-hierarchique">
-        <div class="ckl-content">
+        <BEFORE>
           <LET VAR="ul_classname">ckl-index-list-nested</LET>
           <IF COND="[#IDREC] EQ '0'">
             <h1 class="ckl-index-title">[#TITLE]</h1>
             <LET VAR="ul_classname">ckl-index-list-root</LET>
           </IF>
           <ul class="ckl-index-list [#UL_CLASSNAME]">
-        </div>
-        <div class="ckl-pane"></div>
-    </BEFORE>
-    <DO>
-      <li>
-        <MACRO NAME="CKL_I_ENTRY"/>
-        <LET VAR="idrec">[#ID]</LET>
-        <LOOP NAME="ckl_entries"></LOOP>
-      </li>
-    </DO>
-    <AFTER>
-        </ul>
-      </div>
-    </AFTER>
-  </LOOP>
+        </BEFORE>
+        <DO>
+          <li>
+            <MACRO NAME="CKL_I_ENTRY"/>
+            <LET VAR="idrec">[#ID]</LET>
+            <LOOP NAME="ckl_entries"></LOOP>
+          </li>
+        </DO>
+        <AFTER>
+            </ul>
+        </AFTER>
+      </LOOP>
+    </div>
+    <div class="ckl-pane"></div>
+  </div>
+</DEFMACRO>
+
+<DEFMACRO NAME="CKL_I_HIERARCHIQUE_LIST">
+
 </DEFMACRO>
 
 /**
