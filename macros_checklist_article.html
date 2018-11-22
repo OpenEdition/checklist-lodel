@@ -9,10 +9,9 @@
         WHERE="id=[#DOCUMENT]">
     <DO>
       <MACRO NAME="CKL_CREATE_CONTEXT"/>
-      
+
       <div class="ckl-main ckl-article">
         <div class="ckl-content">
-          <MACRO NAME="CKL_A_NAV"/>
           <MACRO NAME="CKL_A_CONTENT"/>
         </div>
         <div class="ckl-pane"></div>
@@ -22,18 +21,6 @@
       <p>Article [#DOCUMENT] not found.</p>
     </ALTERNATIVE>
   </LOOP>
-</DEFMACRO>
-
-/**
- * Barre superieure article.
- */
-<DEFMACRO NAME="CKL_A_NAV">
-  <nav class="ckl-nav">
-    <ul class="ckl-nav-list">
-      <li class="ckl-nav-item"><a href="[#ID|makeurlwithid]">&#x1f441; Voir en ligne</a></li>
-      <li class="ckl-nav-item"><a href="./lodel/edition/index.php?do=view&id=[#ID]">&#x270E; Éditer</a></li>
-    </ul>
-  </nav>
 </DEFMACRO>
 
 /**

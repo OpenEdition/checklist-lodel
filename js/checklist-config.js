@@ -12,6 +12,65 @@ window.initChecklist = function (context) {
     // Langue de l'interface
     lang: "fr",
 
+    // Boutons
+    buttonsCreator: function (docId) {
+      return [
+        {
+          title: {
+            fr: "Voir",
+            en: "View"
+          },
+          icon: "eye",
+          attributes : {
+            href: "./" + docId
+          }
+        },
+        {
+          title: {
+            fr: "Éditer",
+            en: "Edit"
+          },
+          icon: "pencil",
+          attributes : {
+            href: "./lodel/edition/index.php?do=view&id=" + docId
+          }
+        },
+        {
+          title: {
+            fr: "Réimporter la source",
+            en: "Upload source"
+          },
+          condition: "textes",
+          icon: "upload",
+          attributes: {
+            onclick: "./lodel/edition/oochargement.php?reload=1&identity=" + docId
+          }
+        },
+        {
+          title: {
+            fr: "Télécharger la source au format .doc",
+            en: "Download source in .doc"
+          },
+          condition: "textes",
+          icon: "file-word",
+          attributes: {
+            href: "./lodel/edition/index.php?do=download&type=source&id=" + docId
+          }
+        },
+        {
+          title: {
+            fr: "Télécharger la source au format XML TEI",
+            en: "Download XML"
+          },
+          condition: "textes",
+          icon: "file-xml",
+          attributes: {
+            href: "./lodel/edition/index.php?do=download&type=source&id=" + docId
+          }
+        }
+      ];
+    },
+
     // Liste des types utilisés dans les règles et configuration de leur affichage dans l'interface
     types: [
       {
