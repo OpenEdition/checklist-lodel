@@ -14,6 +14,17 @@ window.initChecklist = function (context) {
 
     // Boutons
     buttonsCreator: function (docId) {
+      // Fix: docId is not the actual doc id when running Checklist a separate LodelScript template
+      if (/^\d+$/.test(docId) === false) {
+        try {
+          var query = window.location.search;
+          var docId = query.match(/document=(\d+)/)[1];
+        }
+        catch (err) {
+          console.error("Can't find actual docId in window.location.");
+          return;
+        }
+      }
       return [
         {
           title: {
