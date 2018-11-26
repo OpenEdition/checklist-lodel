@@ -31,7 +31,7 @@ window.initChecklist = function (context) {
             fr: "Voir",
             en: "View"
           },
-          icon: "eye",
+          icon: "<i class='far fa-eye'></i>",
           attributes : {
             href: "./" + docId
           }
@@ -41,7 +41,7 @@ window.initChecklist = function (context) {
             fr: "Éditer",
             en: "Edit"
           },
-          icon: "pencil",
+          icon: "<i class='fas fa-edit'></i>",
           attributes : {
             href: "./lodel/edition/index.php?do=view&id=" + docId
           }
@@ -52,7 +52,7 @@ window.initChecklist = function (context) {
             en: "Upload source"
           },
           condition: "textes",
-          icon: "upload",
+          icon: "<i class='fas fa-file-upload'></i>",
           attributes: {
             href: "./lodel/edition/oochargement.php?reload=1&identity=" + docId
           }
@@ -63,7 +63,7 @@ window.initChecklist = function (context) {
             en: "Download source in .doc"
           },
           condition: "textes",
-          icon: "file-word",
+          icon: "<i class='far fa-file-word'></i>",
           attributes: {
             href: "./lodel/edition/index.php?do=download&type=source&id=" + docId
           }
@@ -74,7 +74,7 @@ window.initChecklist = function (context) {
             en: "Download XML"
           },
           condition: "textes",
-          icon: "file-xml",
+          icon: "<i class='far fa-file-code'></i>",
           attributes: {
             href: "./lodel/edition/index.php?do=download&type=source&id=" + docId
           }
@@ -125,7 +125,7 @@ window.initChecklist = function (context) {
     ratings: [
       {
         id: "bad",
-        icon: "rating-bad",
+        icon: "<i class='far fa-meh'></i>",
         text: {
           fr: "Ce document contient des erreurs de composition.",
           en: "This document contains issues."
@@ -135,7 +135,7 @@ window.initChecklist = function (context) {
       },
       {
         id: "good",
-        icon: "rating-good",
+        icon: "<i class='far fa-smile'></i>",
         text: {
           fr: "Ce document est correctement composé.",
           en: "This document is well formated."
@@ -145,7 +145,7 @@ window.initChecklist = function (context) {
       },
       {
         id: "excellent",
-        icon: "rating-excellent",
+        icon: "<i class='far fa-laugh-wink '></i>",
         text: {
           fr: "Ce document est très bien composé.",
           en: "This document is well formated"
