@@ -54,7 +54,7 @@ window.initChecklist = function (context) {
           condition: "textes",
           icon: "upload",
           attributes: {
-            onclick: "./lodel/edition/oochargement.php?reload=1&identity=" + docId
+            href: "./lodel/edition/oochargement.php?reload=1&identity=" + docId
           }
         },
         {
