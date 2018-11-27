@@ -48,6 +48,17 @@ window.initChecklist = function (context) {
         },
         {
           title: {
+            fr: "Parcourir",
+            en: "Browse"
+          },
+          condition: "publications",
+          icon: "<i class='fas fa-stream'></i>",
+          attributes : {
+            href: "./lodel/edition/index.php?id=" + docId
+          }
+        },
+        {
+          title: {
             fr: "Réimporter la source",
             en: "Upload source"
           },
