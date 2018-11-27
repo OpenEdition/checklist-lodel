@@ -13,7 +13,7 @@ window.initChecklist = function (context) {
     lang: "fr",
 
     // Boutons
-    buttonsCreator: function (docId) {
+    buttonsCreator: function (docId, context) {
       // Fix: docId is not the actual doc id when running Checklist a separate LodelScript template
       if (/^\d+$/.test(docId) === false) {
         try {
@@ -43,7 +43,13 @@ window.initChecklist = function (context) {
           },
           icon: "<i class='fas fa-edit'></i>",
           attributes : {
-            href: "./lodel/edition/index.php?do=view&id=" + docId
+            href: (
+              context.publications || context.textes ?
+                "./lodel/edition/index.php?do=view&id=" + docId :
+                context.auteurs ?
+                  "./lodel/admin/index.php?do=list&lo=persons&idtype=" + docId :
+                  "./lodel/admin/index.php?do=list&lo=entries&idtype=" + docId
+            ),
           }
         },
         {
