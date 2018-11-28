@@ -1,4 +1,4 @@
-window.initChecklist = function (context) {
+window.initChecklist = function (context, publi) {
   if (window.checklist == null) return;
 
   // Intialisation de checklist
@@ -187,6 +187,9 @@ window.initChecklist = function (context) {
 
     // Fonction de création du contexte.
     context: context,
+
+    // Informations sur la publication.
+    publi: publi,
 
     // Liste des règles.
     rules: [

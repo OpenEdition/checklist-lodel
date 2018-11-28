@@ -9,7 +9,8 @@
         WHERE="id=[#DOCUMENT]">
     <DO>
       <MACRO NAME="CKL_CREATE_CONTEXT"/>
-      
+      <MACRO NAME="CKL_P_CREATE_PUBLI"/>
+
       <div class="ckl-main ckl-publication">
         <div class="ckl-content">
           <MACRO NAME="CKL_P_CONTENT"/>
@@ -21,6 +22,57 @@
       <p>Publication [#DOCUMENT] not found.</p>
     </ALTERNATIVE>
   </LOOP>
+</DEFMACRO>
+
+/**
+ * Création du paramètre 'publi' passé à Checklist.
+ */
+<DEFMACRO NAME="CKL_P_CREATE_PUBLI"/>
+  <LET VAR="checklist_publi" GLOBAL="1">
+    {
+      title: "[#TITRE|replace('"', "'")]",
+      toc: [
+        {
+          title: "[#TITRE|replace('"', "'")]",
+          href: window.location.pathname,
+          type: "Publication",
+          icon: "<i class='fas fa-book'></i>",
+          context: {"publications": true}
+        }
+
+        <LOOP NAME="create_publi_summary"
+              TABLE="entities, types"
+              SELECT="id, class, type"
+              WHERE="idparent = '[#ID]'
+                 AND type NOT IN ('fluxdesyndication','imageaccroche','rubriqueannuelle', 'imageaccrochelibrairie') AND type NOT LIKE '%annexe%'
+                 AND entities.idtype = types.id"
+              ORDER="entities.rank">
+
+          <LOOP NAME="create_publi_summary_item" TABLE="#_TP_[#CLASS]" WHERE="identity = '[#ID]'">
+            <SWITCH TEST="[#CLASS]">
+              <!--[ Publications ]-->
+              <DO CASE="publications">
+                <!--[ Sommaire récursif ]-->
+                <LOOP NAME="create_publi_summary"></LOOP>
+              </DO>
+
+              <!--[ Textes ]-->
+              <DO CASE="textes">
+                ,{
+                  title: "[#TITRE|replace('"', "'")]",
+                  href: "[#ID|makeurlwithid]",
+                  context: {
+                    "[#CLASS]": true,
+                    "[#TYPE]": true
+                  }
+                }
+              </DO>
+            </SWITCH>
+          </LOOP>
+        </LOOP>
+      ]
+    }
+  </LET>
 </DEFMACRO>
 
 /**
