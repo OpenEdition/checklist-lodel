@@ -13,6 +13,7 @@
 
       <div class="ckl-main ckl-publication">
         <div class="ckl-content">
+          <div class="ckl-toc"></div>
           <MACRO NAME="CKL_P_CONTENT"/>
         </div>
         <div class="ckl-pane"></div>
@@ -31,6 +32,7 @@
   <LET VAR="checklist_publi" GLOBAL="1">
     {
       title: "[#TITRE|replace('"', "'")]",
+      parent: ".ckl-toc",
       toc: [
         {
           title: "[#TITRE|replace('"', "'")]",
