@@ -244,7 +244,20 @@ window.initChecklist = function (context, publi) {
         action: function ($, bodyClasses) {
           this.resolve(true);
         }
-      }
+      },
+      {
+        id: "test-timeout",
+        name: {
+          fr: "Test avec un timeout"
+        },
+        condition: "textes",
+        type: "info",
+        action: function ($, bodyClasses) {
+          window.setTimeout(() => {
+            this.resolve(true);
+          }, 1000);
+        }
+      },
       // etc.
     ]
   })
