@@ -1,9 +1,11 @@
-window.initChecklist = function (context, publi) {
+window.initChecklist = function (docId, context, publi) {
   if (window.checklist == null) return;
 
   // Intialisation de checklist
   window.checklist.init({
     parent: ".ckl-pane",
+
+    docId: docId,
 
     // Prefixe des clés du localStorage
     // TODO: utiliser ici le nom court du site
@@ -14,17 +16,6 @@ window.initChecklist = function (context, publi) {
 
     // Boutons
     buttonsCreator: function (docId, context) {
-      // Fix: docId is not the actual doc id when running Checklist a separate LodelScript template
-      if (/^\d+$/.test(docId) === false) {
-        try {
-          var query = window.location.search;
-          var docId = query.match(/document=(\d+)/)[1];
-        }
-        catch (err) {
-          console.error("Can't find actual docId in window.location.");
-          return;
-        }
-      }
       return [
         {
           title: {
