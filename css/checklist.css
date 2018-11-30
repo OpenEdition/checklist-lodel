@@ -19,6 +19,10 @@ a:hover, a:active, a:focus {
   color: #023746;
 }
 
+.hidden {
+  display: none;
+}
+
 .ckl-main {
   position: relative;
   display: block;
