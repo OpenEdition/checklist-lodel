@@ -154,6 +154,16 @@ a:hover, a:active, a:focus {
   list-style-type: none;
 }
 
+.ckl-toc li::before {
+  content: "titre " attr(data-toc-level);
+  display: inline;
+  margin-right: 10px;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  color: #f8b500;
+  font-weight: bold;
+}
+
 /* Personnalisations de champs article */
 
 [data-field=titre] .ckl-field-value {

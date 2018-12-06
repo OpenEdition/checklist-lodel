@@ -210,14 +210,14 @@
             <LET VAR="LIEN"><a href="#tocto[#TOCID]" id="tocfrom[#TOCID]">[#TITRE|removenotes]</a></LET>
             <IF COND="[#ECART] EQ 0">
               <IF COND="[%TOC_COUNT] GT 1"></li></IF>
-              <li dir="[#DIR]">[#LIEN]
+              <li data-toc-level="[#NIVEAU]">[#LIEN]
             <ELSEIF COND="[#ECART] GT 0"/>
               [#OUVRIR_UL|str_repeat([#ECART])]
-              <li dir="[#DIR]">[#LIEN]
+              <li data-toc-level="[#NIVEAU]">[#LIEN]
             <ELSE/>
               <IF COND="[%TOC_COUNT] GT 1"></li></IF>
               [#FERMER_UL|str_repeat([#ECART|lmath('*', -1)])]
-              <li dir="[#DIR]">[#LIEN]
+              <li data-toc-level="[#NIVEAU]">[#LIEN]
             </IF>
             <LET VAR="TOC_PREV_NIVEAU" GLOBAL="1">[#NIVEAU]</LET>
           </DO>
