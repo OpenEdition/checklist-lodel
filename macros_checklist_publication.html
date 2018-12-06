@@ -36,7 +36,7 @@
       toc: [
         {
           title: "[#TITRE|replace('"', "'")]",
-          href: window.location.pathname,
+          href: window.location.href,
           docId: "[#DOCUMENT]",
           type: "Publication",
           icon: "<i class='fas fa-book'></i>",
@@ -63,7 +63,8 @@
               <DO CASE="textes">
                 ,{
                   title: "[#TITRE|replace('"', "'")]",
-                  href: "[#ID|makeurlwithid]",
+                  href: "./?page=checklist&document=" + [#ID],
+                  docId: "[#ID]",
                   context: {
                     "[#CLASS]": true,
                     "[#TYPE]": true
