@@ -232,7 +232,7 @@
   <IF COND="![#IS_TRADUCTION|trim]">
     <li class="ckl-summary-item ckl-summary-item-[#CLASS]" lang="[#LANGUE]" data-class="[#CLASS]">
       <FUNC NAME="CKL_PERSONNES" TYPE="auteur"/>
-      <div class="ckl-summary-text-title"><a href="[#ID|makeurlwithid]">[#TITRE]</a></div>
+      <div class="ckl-summary-text-title"><a href="./?page=checklist&document=[#ID]">[#TITRE]</a></div>
       <!--[ ...puis ensuite leurs traductions ]-->
       <MACRO NAME="CKL_TRADUCTIONS" />
     </li>
