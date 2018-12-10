@@ -146,15 +146,15 @@ a:hover, a:active, a:focus {
 
 /* Plan d'article */
 
-.ckl-toc > ul {
+.ckl-a-toc > ul {
   padding-left: 0;
 }
 
-.ckl-toc ul {
+.ckl-a-toc ul {
   list-style-type: none;
 }
 
-.ckl-toc li::before {
+.ckl-a-toc li::before {
   content: "titre " attr(data-toc-level);
   display: inline;
   margin-right: 10px;
