@@ -302,6 +302,13 @@ a:hover, a:active, a:focus {
 
 .ckl-field-text table {
   font-size: 12px;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+.ckl-field-text table td {
+  margin: 0;
+  padding: 4px;
 }
 
 .ckl-field-text a[id^=tocto]:not(:hover) {
