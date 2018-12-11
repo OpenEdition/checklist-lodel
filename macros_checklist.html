@@ -8,8 +8,6 @@
   <USE MACROFILE="macros_checklist_index.html"/>
   <USE MACROFILE="macros_checklist_publication.html"/>
 
-  <MACRO NAME="CKL_HTML_START"/>
-
   <LOOP NAME="ckl_main"
         TABLE="entities, types"
         SELECT="id, class, type"
@@ -45,23 +43,22 @@
         </LOOP>
       </ALTERNATIVE>
   </LOOP>
-
-  <MACRO NAME="CKL_HTML_END"/>
 </DEFMACRO>
 
 /**
  * Ouverture de la page HTML.
+ * @param {string} title - Titre de la page.
  */
-<DEFMACRO NAME="CKL_HTML_START">
+<DEFFUNC NAME="CKL_HTML_START" REQUIRED="title">
   <!DOCTYPE html>
   <html lang="fr">
   <head>
     <meta charset="utf-8">
-    <title>OpenEdition Checklist</title>
+    <title>[#TITLE|textebrut] – [#OPTIONS.METADONNEESSITE.TITRESITE] (OpenEdition Checklist)</title>
     <MACRO NAME="CKL_HTML_STYLES"/>
   </head>
   <body>
-</DEFMACRO>
+</DEFFUNC>
 
 /**
  * Fermeture de la page HTML.
