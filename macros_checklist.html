@@ -79,24 +79,28 @@
   <!-- Font awesome -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 
+  <!-- Largetable -->
+  <link rel="stylesheet" href="./tpl/vendor/largetable.css">
+
   <!-- Checklist -->
-  <link rel="stylesheet" href="tpl/css/checklist.css">
+  <link rel="stylesheet" href="./tpl/css/checklist.css">
 </DEFMACRO>
 
 /**
  * Scripts JavaScript.
  */
 <DEFMACRO NAME="CKL_HTML_SCRIPTS">
-  <!--[ JQuery ]-->
+  <!-- JQuery -->
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
-  <!--[ Interface ]-->
+  <!-- Largetable -->
+  <script src="./tpl/vendor/largetable.js"></script>
+
+  <!-- Interface -->
   <script src="./tpl/js/checklist-tpl.js"></script>
 
-  <!--[ Checklist Core ]-->
+  <!-- Checklist -->
   <script src="./tpl/vendor/checklist.js"></script>
-
-  <!--[ Checklist Config & init with context ]-->
   <script src="./tpl/js/checklist-config.js"></script>
   <script>
     $(function () {

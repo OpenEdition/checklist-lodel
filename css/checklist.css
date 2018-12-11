@@ -263,6 +263,7 @@ a:hover, a:active, a:focus {
 .ckl-field-text .ckl-field-value {
   font-family: Georgia, "DejaVu Serif", Norasi, serif;
   line-height: 150%;
+  max-width: 540px;
 }
 
 .ckl-field-text p {
