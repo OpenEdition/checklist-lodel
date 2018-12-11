@@ -160,12 +160,23 @@ window.initChecklist = function (docId, context, publi) {
         },
         color: "#3c763d",
         bgcolor: "#dff0d8"
+      },
+      {
+        id: "empty",
+        icon: "<i class='far fa-question-circle'></i>",
+        text: {
+          fr: "Aucun test n'est prévu pour ce document.",
+          en: "This document can not be checked."
+        },
+        color: "#999",
+        bgcolor: "#eee"
       }
     ],
 
     // Fonction de calcul du rating affiché dans le report.
     // Prends les statements du report en paramètre et retourne un id de rating.
-    computeRating: function (statements) {
+    computeRating: function (statements, report) {
+      if (report.checksCount === 0) return "empty";
       var warning = false;
       for (var i=0; i < statements.length; i++) {
         var statement = statements[i];
