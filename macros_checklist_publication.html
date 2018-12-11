@@ -39,7 +39,7 @@
       parent: ".ckl-toc",
       toc: [
         {
-          title: "[#TITRE|replace('"', "'")]",
+          title: "<span class='title'>[#TITRE|replace('"', "'")]</span>",
           href: window.location.href,
           docId: "[#DOCUMENT]",
           type: "Publication",
@@ -65,9 +65,16 @@
 
               <!--[ Textes ]-->
               <DO CASE="textes">
+                <LET VAR="entry_authors">
+                  <FUNC NAME="CKL_PERSONNES_RAW" TYPE="auteur"/>
+                </LET>
+                <LET VAR="entry_full_title">
+                  <span class='authors'>[#ENTRY_AUTHORS|textebrut|trim]</span>
+                  <span class='title'>[#TITRE|replace('"', "'")]</span>
+                </LET>
                 ,{
-                  title: "[#TITRE|replace('"', "'")]",
-                  href: "./?page=checklist&document=" + [#ID],
+                  title: "[#ENTRY_FULL_TITLE|trim]",
+                  href: "./?page=checklist&document=[#ID]",
                   docId: "[#ID]",
                   context: {
                     "[#CLASS]": true,

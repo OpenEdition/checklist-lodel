@@ -268,6 +268,19 @@
 </DEFFUNC>
 
 /**
+ * Affiche les personnes liées à l'entité en cours (version texte brut).
+ * @param {string} type - Nom du type des personnes.
+ */
+<DEFFUNC NAME="CKL_PERSONNES_RAW" REQUIRED="type">
+  <LOOP NAME="ckl_personnes_raw" SELECT="g_firstname, g_familyname" TABLE="relations, persons" WHERE="id1 = '[#ID]' AND id2 = persons.id AND nature = 'G' AND type = '[#TYPE]'" ORDER="degree">
+    <IF COND="[#COUNT] GE 2">
+      <IF COND="[#COUNT] LT [#NBRESULTS]">, <ELSE/> et </IF>
+    </IF>
+    [#G_FIRSTNAME] [#G_FAMILYNAME]
+  </LOOP>
+</DEFFUNC>
+
+/**
  * Entrées d'index.
  * @param {string} classname - Nom de la classe de l'index.
  */

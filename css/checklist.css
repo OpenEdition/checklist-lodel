@@ -523,6 +523,20 @@ a:hover, a:active, a:focus {
   }
 }
 
+/* Personnalisation des styles du script */
+.checklist-entry-title span {
+  display: block;
+}
+
+.checklist-entry-title .title {
+  font-family: Georgia, "DejaVu Serif", Norasi, serif;
+  font-size: 24px;
+}
+
+.checklist-entry-title .authors {
+  font-size: 16px;
+}
+
 /* Fix Lodel : eviter le scroll horizontal */
 img#lodelGlobalDeskDisplayer-img {
   display: block;
