@@ -8,10 +8,8 @@
     <MACRO NAME="CKL_CREATE_CONTEXT"/>
 
     <IF COND="[#FLAT] AND [#SORT] EQ 'sortkey'">
-      <!--[ Index alphabetique ]-->
       <MACRO NAME="CKL_I_ALPHABETIQUE" />
     <ELSE />
-      <!--[ Index hierarchique ]-->
       <MACRO NAME="CKL_I_HIERARCHIQUE" />
     </IF>
   </LOOP>

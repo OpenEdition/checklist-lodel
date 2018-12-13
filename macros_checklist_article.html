@@ -7,19 +7,14 @@
   <LOOP NAME="ckl_a_main"
         TABLE="textes"
         WHERE="id=[#DOCUMENT]">
-    <DO>
-      <MACRO NAME="CKL_CREATE_CONTEXT"/>
+    <MACRO NAME="CKL_CREATE_CONTEXT"/>
 
-      <div class="ckl-main ckl-article">
-        <div class="ckl-content">
-          <MACRO NAME="CKL_A_CONTENT"/>
-        </div>
-        <div class="ckl-pane"></div>
+    <div class="ckl-main ckl-article">
+      <div class="ckl-content">
+        <MACRO NAME="CKL_A_CONTENT"/>
       </div>
-    </DO>
-    <ALTERNATIVE>
-      <p>Article [#DOCUMENT] not found.</p>
-    </ALTERNATIVE>
+      <div class="ckl-pane"></div>
+    </div>
   </LOOP>
 </DEFMACRO>
 

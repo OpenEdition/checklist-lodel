@@ -7,21 +7,16 @@
   <LOOP NAME="ckl_p_main"
         TABLE="publications"
         WHERE="id=[#DOCUMENT]">
-    <DO>
-      <MACRO NAME="CKL_CREATE_CONTEXT"/>
-      <MACRO NAME="CKL_P_CREATE_PUBLI"/>
+    <MACRO NAME="CKL_CREATE_CONTEXT"/>
+    <MACRO NAME="CKL_P_CREATE_PUBLI"/>
 
-      <div class="ckl-main ckl-publication">
-        <div class="ckl-content">
-          <div class="ckl-toc"></div>
-          <MACRO NAME="CKL_P_CONTENT"/>
-        </div>
-        <div class="ckl-pane"></div>
+    <div class="ckl-main ckl-publication">
+      <div class="ckl-content">
+        <div class="ckl-toc"></div>
+        <MACRO NAME="CKL_P_CONTENT"/>
       </div>
-    </DO>
-    <ALTERNATIVE>
-      <p>Publication [#DOCUMENT] not found.</p>
-    </ALTERNATIVE>
+      <div class="ckl-pane"></div>
+    </div>
   </LOOP>
 </DEFMACRO>
 
