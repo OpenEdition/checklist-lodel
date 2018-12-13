@@ -537,6 +537,11 @@ a:hover, a:active, a:focus {
   font-size: 16px;
 }
 
+/* Masquer le fil d'arianne de Lodel */
+#siteContext {
+  display: none;
+}
+
 /* Fix Lodel : eviter le scroll horizontal */
 img#lodelGlobalDeskDisplayer-img {
   display: block;
