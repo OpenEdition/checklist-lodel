@@ -1,64 +1,109 @@
 <CONTENT VERSION="1.0" LANG="fr" CHARSET="utf-8"/>
 
 /**
- * Checklist main.
+ * Initialisation des variables globales.
  */
-<DEFMACRO NAME="CKL_MAIN">
+<DEFMACRO NAME="CKL_INIT">
+  <!--[ Dependances ]-->
   <USE MACROFILE="macros_checklist_article.html"/>
   <USE MACROFILE="macros_checklist_index.html"/>
   <USE MACROFILE="macros_checklist_publication.html"/>
 
-  <LOOP NAME="ckl_main"
+  <MACRO NAME="CKL_INIT_TYPE"/>
+  <MACRO NAME="CKL_INIT_TITLE"/>
+</DEFMACRO>
+
+/**
+ * Déterminer le type de template (globale [%TPL_TYPE]).
+ */
+<DEFMACRO NAME="CKL_INIT_TYPE">
+  <LOOP NAME="ckl_init_type"
         TABLE="entities, types"
         SELECT="id, class, type"
         WHERE="id = '[#DOCUMENT]' AND class IN ('publications', 'textes') AND entities.idtype = types.id">
-      <DO>
-        <IF COND="[#CLASS] EQ 'textes'">
-          <MACRO NAME="CKL_A_MAIN"/>
-        <ELSE/>
-          <MACRO NAME="CKL_P_MAIN"/>
-        </IF>
-      </DO>
-      <ALTERNATIVE>
-
-        <!--[ Indexes ]-->
-        <LOOP NAME="ckl_main_indexes" TABLE="entrytypes" WHERE="id = '[#DOCUMENT]'" >
-          <DO>
-            <MACRO NAME="CKL_I_MAIN_INDEXES"/>
-          </DO>
-          <ALTERNATIVE>
-
-            <!--[ Personnes ]-->
-            <LOOP NAME="ckl_main_persons" TABLE="persontypes" WHERE="id = '[#DOCUMENT]'" >
-              <DO>
-                <MACRO NAME="CKL_I_MAIN_PERSONS"/>
-              </DO>
-
-              <!--[ Erreur ]-->
-              <ALTERNATIVE>
-                <p>Document not found.</p>
-              </ALTERNATIVE>
-            </LOOP>
-          </ALTERNATIVE>
-        </LOOP>
-      </ALTERNATIVE>
+    <DO>
+      <IF COND="[#CLASS] EQ 'textes'">
+        <LET VAR="tpl_type" GLOBAL="1">textes</LET>
+      <ELSE/>
+        <LET VAR="tpl_type" GLOBAL="1">publications</LET>
+      </IF>
+    </DO>
+    <ALTERNATIVE>
+      <!--[ Indexes ]-->
+      <LOOP NAME="ckl_main_indexes" TABLE="entrytypes" WHERE="id = '[#DOCUMENT]'" >
+        <DO>
+          <LET VAR="tpl_type" GLOBAL="1">entrytypes</LET>
+        </DO>
+        <ALTERNATIVE>
+          <!--[ Personnes ]-->
+          <LOOP NAME="ckl_main_persons" TABLE="persontypes" WHERE="id = '[#DOCUMENT]'" >
+            <LET VAR="tpl_type" GLOBAL="1">persontypes</LET>
+          </LOOP>
+        </ALTERNATIVE>
+      </LOOP>
+    </ALTERNATIVE>
   </LOOP>
 </DEFMACRO>
 
 /**
- * Ouverture de la page HTML.
- * @param {string} title - Titre de la page.
+ * Calcul de la balise title de la page.
  */
-<DEFFUNC NAME="CKL_HTML_START" REQUIRED="title">
+<DEFMACRO NAME="CKL_INIT_TITLE">
+  <IF COND="[%TPL_TYPE] EQ 'textes' OR [%TPL_TYPE] EQ 'publications'">
+    <LOOP NAME="ckl_init_title_textes_publications" TABLE="#_TP_[%TPL_TYPE]" SELECT="titre" WHERE="identity = '[#DOCUMENT]'">
+      <LET VAR="page_title" GLOBAL="1">[#TITRE]</LET>
+    </LOOP>
+  <ELSEIF COND="[%TPL_TYPE] EQ 'entrytypes' OR [%TPL_TYPE] EQ 'persontypes'"/>
+    <LOOP NAME="ckl_init_title_index" TABLE="#_TP_[%TPL_TYPE]" SELECT="title" WHERE="id = '[#DOCUMENT]'">
+      <LET VAR="page_title" GLOBAL="1">[#TITLE]</LET>
+    </LOOP>
+  </IF>
+</DEFMACRO>
+
+/**
+ * Macro principale de Checklist.
+ * Initialisation puis routage vers le bon template.
+ */
+<DEFMACRO NAME="CKL_MAIN">
+  <MACRO NAME="CKL_INIT"/>
+
+  <MACRO NAME="CKL_HTML_START"/>
+
+  <SWITCH TEST="[%TPL_TYPE]">
+    <DO CASE="textes">
+      <MACRO NAME="CKL_A_MAIN"/>
+    </DO>
+    <DO CASE="publications">
+      <MACRO NAME="CKL_P_MAIN"/>
+    </DO>
+    <DO CASE="entrytypes">
+      <MACRO NAME="CKL_I_MAIN_INDEXES"/>
+    </DO>
+    <DO CASE="persontypes">
+      <MACRO NAME="CKL_I_MAIN_PERSONS"/>
+    </DO>
+    <DO CASE="default">
+      <p>Document not found.</p>
+    </DO>
+  </SWITCH>
+
+  <MACRO NAME="CKL_HTML_END"/>
+</DEFMACRO>
+
+/**
+ * Ouverture de la page HTML.
+ */
+<DEFMACRO NAME="CKL_HTML_START">
   <!DOCTYPE html>
   <html lang="fr">
   <head>
     <meta charset="utf-8">
-    <title>[#TITLE|textebrut] – [#OPTIONS.METADONNEESSITE.TITRESITE] (OpenEdition Checklist)</title>
+    <!--[ Bug lodel : pour une raison obscure le body ne peut pas être déclaré dans une FUNC ou dans une LOOP. On passe donc par une variable globale pour déclarer le title ici. ]-->
+    <title>[%PAGE_TITLE|textebrut] – [#OPTIONS.METADONNEESSITE.TITRESITE] (OpenEdition Checklist)</title>
     <MACRO NAME="CKL_HTML_STYLES"/>
   </head>
   <body>
-</DEFFUNC>
+</DEFMACRO>
 
 /**
  * Fermeture de la page HTML.
