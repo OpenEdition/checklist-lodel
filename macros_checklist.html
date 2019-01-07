@@ -470,6 +470,19 @@
 </DEFMACRO>
 
 /**
+ * Nav entities : fil d'arianne + précédent/suivant.
+ */
+<DEFMACRO NAME="CKL_NAV_ENTITIES">
+  <!--[ Breadcrumbs ]-->
+  <MACRO NAME="CKL_BREADCRUMBS"/>
+
+  <!--[ Siblings ]-->
+  <MACRO NAME="CKL_SIBLINGS_FIX"/>
+  <FUNC NAME="CKL_SIBLING" DIRECTION="previous"/>
+  <FUNC NAME="CKL_SIBLING" DIRECTION="next"/>
+</DEFMACRO>
+
+/**
  * Affiche les publications parentes (fil d'arianne)
  */
 <DEFMACRO NAME="CKL_BREADCRUMBS">
@@ -524,3 +537,102 @@
     </IF>
   </span>
 </DEFMACRO>
+
+/**
+ * Récupérer la vraie TOC du parent pour créer des liens précédent/suivant corrects.
+ */
+<DEFMACRO NAME="CKL_SIBLINGS_FIX">
+  <!--[ ID des parents de l'entité courante ]-->
+  <LOOP NAME="ckl_lister_parents" SELECT="id" TABLE="publications, relations" WHERE="id2 = '[#ID]' AND id1 = publications.identity" ORDER="degree">
+    <IF COND="[#NBRESULTS] EQ 1">
+      <LET VAR="idrealparent" GLOBAL="1">[#ID]</LET>
+    <ELSE/>
+      <IF COND="[#COUNT] EQ [#NBRESULTS|lmath('-',1)]">
+        <LET VAR="idrealparent" GLOBAL="1">[#ID]</LET>
+      </IF>
+      <SWITCH TEST="[#TYPE]">
+        <DO CASE="numero"><LET VAR="idnumero" GLOBAL="1">[#ID]</LET></DO>
+        <DO CASE="rubrique"><LET VAR="idrubrique" GLOBAL="1">[#ID]</LET></DO>
+        <DO CASE="souspartie"><LET VAR="idsouspartie" GLOBAL="1">[#ID]</LET></DO>
+        <DO CASE="rubriqueannuelle"><LET VAR="idrubriqueannuelle" GLOBAL="1">[#ID]</LET></DO>
+      </SWITCH>
+    </IF>
+  </LOOP>
+
+  <!--[ Reconstitution de la toc a plat dans un array ]-->
+  <LET VAR="current_parent_id">[%IDREALPARENT]</LET>
+  <LOOP NAME="ckl_siblings_fix"
+        TABLE="entities, types"
+        SELECT="id, class, type"
+        WHERE="idparent = '[#CURRENT_PARENT_ID]'
+          AND type NOT IN ('fluxdesyndication','imageaccroche','rubriqueannuelle', 'imageaccrochelibrairie') AND type NOT LIKE '%annexe%'
+          AND entities.idtype = types.id"
+        ORDER="entities.rank">
+    <IF COND="[#CLASS] EQ 'publications' AND [#TYPE] EQ 'souspartie'">
+      <LET VAR="current_parent_id">[#ID]</LET>
+      <LOOP NAME="ckl_siblings_fix"></LOOP>
+    <ELSE />
+      <LET ARRAY="parent_real_toc[]" GLOBAL="1">[#ID]</LET>
+    </IF>
+  </LOOP>
+
+  <!--[ %ID_ARTICLE_PRECEDENT ]-->
+  <LOOP NAME="foreach" ARRAY="[%PARENT_REAL_TOC]">
+    <IF COND="[#VALUE] EQ [#ID]">
+      <LET VAR="id_article_precedent" GLOBAL="1">[%PREV_ID]</LET>
+    </IF>
+    <LET VAR="prev_id" GLOBAL="1">[#VALUE]</LET>
+  </LOOP>
+
+  <!--[ %ID_ARTICLE_SUIVANT ]-->
+  <LOOP NAME="foreach" ARRAY="[%PARENT_REAL_TOC]">
+    <IF COND="[%ID_IS_NEXT] EQ 1">
+      <LET VAR="id_article_suivant" GLOBAL="1">[#VALUE]</LET>
+      <LET VAR="ID_IS_NEXT" GLOBAL="1">0</LET>
+    </IF>
+    <IF COND="[#VALUE] EQ [#ID]">
+      <LET VAR="ID_IS_NEXT" GLOBAL="1">1</LET>
+    </IF>
+  </LOOP>
+</DEFMACRO>
+
+/**
+ * Affiche les publications de même niveau.
+ * @param {string} direction - "previous" ou "next".
+ */
+<DEFFUNC NAME="CKL_SIBLING" REQUIRED="direction">
+  <!--[ Fix pour les éléments d'un numéro (car problème des sousparties) ]-->
+  <IF COND="[#CLASS] EQ 'textes' OR [#CLASS] EQ 'liens' OR [#CLASS] EQ 'fichiers' OR [#CLASS] EQ 'textessimples'">
+    <IF COND="[#DIRECTION] EQ 'previous' AND [%ID_ARTICLE_PRECEDENT]">
+      <FUNC NAME="CKL_SIBLING_BUTTON" ENTITY_ID="[%ID_ARTICLE_PRECEDENT]" DIRECTION="[#DIRECTION]" />
+      <ELSEIF COND="[#DIRECTION] EQ 'next' AND [%ID_ARTICLE_SUIVANT]" />
+      <FUNC NAME="CKL_SIBLING_BUTTON" ENTITY_ID="[%ID_ARTICLE_SUIVANT]" DIRECTION="[#DIRECTION]" />
+    </IF>
+    <ELSE />
+    <!--[ Fonctionnement standard pour tout le reste ]-->
+    <IF COND="[#DIRECTION] EQ 'previous'">
+      <LOOP NAME="previous" ID="[#ID]">
+        <FUNC NAME="CKL_SIBLING_BUTTON" ENTITY_ID="[#ID]" DIRECTION="[#DIRECTION]" />
+      </LOOP>
+      <ELSEIF COND="[#DIRECTION] EQ 'next'" />
+      <LOOP NAME="next" ID="[#ID]">
+        <FUNC NAME="CKL_SIBLING_BUTTON" ENTITY_ID="[#ID]" DIRECTION="[#DIRECTION]" />
+      </LOOP>
+    </IF>
+  </IF>
+</DEFFUNC>
+
+/**
+ * Bouton précédent/suivant.
+ * @param {integer} [entity_id] - Identifiant de la cible.
+ * @param {string} direction - "previous" ou "next".
+ */
+ <DEFFUNC NAME="CKL_SIBLING_BUTTON" REQUIRED="entity_id, direction">
+  <IF COND="[#DIRECTION] EQ 'previous'">
+    <LET VAR="btn_icon">step-backward</LET>
+  <ELSE />
+    <LET VAR="btn_icon">step-forward</LET>
+  </IF>
+
+  <a href="./?page=checklist&document=[#ENTITY_ID]" class="btn"><i class="fas fa-[#BTN_ICON]"></i></a>
+ </DEFFUNC>
