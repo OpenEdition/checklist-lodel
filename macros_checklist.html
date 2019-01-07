@@ -468,3 +468,55 @@
     </AFTER>
   </LOOP>
 </DEFMACRO>
+
+/**
+ * Affiche les publications parentes (fil d'arianne)
+ */
+<DEFMACRO NAME="CKL_BREADCRUMBS">
+  <LET VAR="doc_id">[#ID]</LET>
+	<LOOP NAME="ckl_breadcrumbs"
+        SELECT="id, titre, numero, datepubli, datepublipapier, degree, periode, altertitre"
+        TABLE="publications, relations"
+        WHERE="id2 = '[#DOC_ID]' AND id1 = publications.identity AND type != 'collection'"
+        ORDER="degree DESC">
+    <BEFORE>
+      <div class="ckl-breadcrumbs">
+    </BEFORE>
+    <DOFIRST>
+      <MACRO NAME="CKL_BREADCRUMBS_ITEM" />
+    </DOFIRST>
+    <DO>
+      &gt; <MACRO NAME="CKL_BREADCRUMBS_ITEM" />
+    </DO>
+    <AFTER>
+      </div>
+    </AFTER>
+	</LOOP>
+</DEFMACRO>
+
+/**
+ * Item du fil d'Arianne.
+ */
+<DEFMACRO NAME="CKL_BREADCRUMBS_ITEM">
+  <LET VAR="a_contents">
+    <IF COND="[#TYPE] EQ 'numero'">
+      <IF COND="[#NUMERO]"><span class="ckl-breadcrumbs-item-numero">[#NUMERO]</span> | </IF>
+
+      <IF COND="[#DATEPUBLIPAPIER|isadate]">
+        <LET VAR="annee">[#DATEPUBLIPAPIER|formateddate("%Y")]</LET>
+      <ELSEIF COND="[#DATEPUBLI|isadate]"/>
+        <LET VAR="annee">[#DATEPUBLI|formateddate("%Y")]</LET>
+      <ELSEIF COND="[#CREATIONDATE|isadate]"/>
+        <LET VAR="annee">[#CREATIONDATE|formateddate("%Y")]</LET>
+      </IF>
+
+      <IF COND="[#ANNEE]"><span class="ckl-breadcrumbs-item-annee">[#ANNEE]</span> : </IF>
+    </IF>
+
+    <IF COND="[#TITRE]"><span class="ckl-breadcrumbs-item-titre">[#TITRE]</span></IF>
+  </LET>
+
+  <span class="ckl-breadcrumbs-item" data-type="[#TYPE]" data-degree="[#DEGREE]">
+    <a href="./?page=checklist&document=[#ID]">[#A_CONTENTS|trim]</a>
+  </span>
+</DEFMACRO>
