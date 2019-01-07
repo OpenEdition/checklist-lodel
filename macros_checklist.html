@@ -490,7 +490,7 @@
 	<LOOP NAME="ckl_breadcrumbs"
         SELECT="id, titre, numero, datepubli, datepublipapier, degree, periode, altertitre"
         TABLE="publications, relations"
-        WHERE="id2 = '[#DOC_ID]' AND id1 = publications.identity AND type != 'collection'"
+        WHERE="id2 = '[#DOC_ID]' AND id1 = publications.identity"
         ORDER="degree DESC">
     <BEFORE>
       <div class="ckl-breadcrumbs">
