@@ -394,62 +394,6 @@ a:hover, a:active, a:focus {
   content: "]";
 }
 
-/* Styles publication */
-
-.ckl-summary {
-  list-style: none;
-  padding-left: 0;
-}
-
-.ckl-summary-item {
-  margin-top: 26px;
-}
-
-.ckl-summary-item .ckl-field {
-  padding: 0;
-  margin: 0;
-}
-
-.ckl-summary-item-publications {
-  border-left: 4px solid #ddd;
-  padding: 4px 0 4px 16px;
-}
-
-.ckl-summary-text-title, .ckl-summary .ckl-traduction {
-  margin: 2px 0 0 0;
-  font-family: Georgia, "DejaVu Serif", Norasi, serif;
-  font-size: 18px;
-}
-
-.ckl-summary .ckl-traduction .ckl-field-ml-lang {
-  display: none;
-}
-
-.ckl-summary-publi-header [data-field=titre] .ckl-field-value {
-  font-size: 20px;
-}
-
-.ckl-summary-publi-header [data-field=soustitre] {
-  margin-top: 4px;
-}
-
-.ckl-summary-publi-header [data-field=altertitre] .ckl-field-ml-item {
-  font-family: Georgia, "DejaVu Serif", Norasi, serif;
-  margin-top: 4px;
-}
-
-.ckl-summary-item .ckl-field-ml-id, .ckl-summary-item .ckl-field-title {
-  display: none;
-}
-
-.ckl-summary-item .ckl-field[data-type=directeurdelapublication] .ckl-field-title {
-  display: block;
-  width: auto;
-  min-width: auto;
-  margin-right: 20px;
-  align-self: flex-end;
-}
-
 /* Indexes */
 
 .ckl-index-list {
