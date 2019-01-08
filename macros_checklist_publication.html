@@ -46,12 +46,18 @@
                  AND entities.idtype = types.id"
               ORDER="entities.rank">
 
+          <IF COND="[#COUNT] GT 1">, </IF>
+
           <LOOP NAME="create_publi_summary_item" TABLE="#_TP_[#CLASS]" WHERE="identity = '[#ID]'">
             <SWITCH TEST="[#CLASS]">
-              <!--[ Publications ]-->
+              <!--[ Publications : sommaire récursif ]-->
               <DO CASE="publications">
-                <!--[ Sommaire récursif ]-->
-                <LOOP NAME="create_publi_summary"></LOOP>
+                {
+                  title: "[#TITRE|replace('"', "'")]",
+                  section: [
+                    <LOOP NAME="create_publi_summary"></LOOP>
+                  ]
+                }
               </DO>
 
               <!--[ Textes ]-->
