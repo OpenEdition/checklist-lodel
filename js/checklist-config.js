@@ -3,7 +3,7 @@ window.initChecklist = function (docId, context, publi) {
 
   // Intialisation de checklist
   window.checklist.init({
-    parent: ".ckl-pane",
+    parent: "#ckl-pane",
 
     docId: docId,
 
@@ -264,6 +264,15 @@ window.initChecklist = function (docId, context, publi) {
     ]
   })
   .then(function () {
+    // Show toc when action targets it
+    checklist.on("ui.afterAction", function (action) {
+      if (/^toc-/.test(action)) {
+        var body = $("html, body");
+        var top = $("#ckl-toc").offset().top;
+        $(body).animate({scrollTop: top}, 300);
+      }
+    });
+
     // Ne pas lancer automatiquement sur les publications.
     if (publi != null) return;
 
