@@ -279,6 +279,8 @@ window.initChecklist = function (docId, context, publi) {
     checklist.run().then(function (checker) {
       console.log(checker);
       console.log("Exécution terminée !");
-    });
-  });
+    })
+    .catch(console.error);
+  })
+  .catch(console.error);
 };
