@@ -170,6 +170,16 @@ window.initChecklist = function (docId, context, publi) {
         },
         color: "#999",
         bgcolor: "#eee"
+      },
+      {
+        id: "failed",
+        icon: "<i class='far fas fa-exclamation-triangle'></i>",
+        text: {
+          fr: "Erreur lors du chargement de la source.",
+          en: "Error while loading source."
+        },
+        color: "#fff",
+        bgcolor: "#333"
       }
     ],
 
