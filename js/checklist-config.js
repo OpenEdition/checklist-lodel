@@ -266,12 +266,7 @@ window.initChecklist = function (docId, context, publi) {
   .then(function () {
     // Ne pas lancer automatiquement sur les publications.
     if (publi != null) return;
-
-    checklist.run().then(function (checker) {
-      console.log(checker);
-      console.log("Exécution terminée !");
-    })
-    .catch(console.error);
+    return checklist.run();
   })
   .catch(console.error);
 };
