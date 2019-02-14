@@ -49,6 +49,41 @@ a:hover, a:active, a:focus {
   margin-left: 20px;
 }
 
+/* Nav-entities: breadcrumbs + siblings */
+.ckl-nav-entities {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 0;
+}
+
+.ckl-nav-entities {
+  color: #888;
+}
+
+.ckl-nav-entities a {
+  color: #888;
+}
+
+.ckl-nav-entities a:hover, .ckl-nav-entities a:active, .ckl-nav-entities a:focus {
+  color: #333;
+}
+
+.ckl-nav-entities > div {
+  flex: 1;
+}
+
+.ckl-siblings {
+  width: 50px;
+  text-align: right;
+}
+
+.ckl-siblings .btn {
+  display: inline-block;
+  font-size: 16px;
+  padding: 4px 6px;
+}
+
 /* Article et champs basiques */
 
 .ckl-section {

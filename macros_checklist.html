@@ -473,13 +473,18 @@
  * Nav entities : fil d'arianne + précédent/suivant.
  */
 <DEFMACRO NAME="CKL_NAV_ENTITIES">
-  <!--[ Breadcrumbs ]-->
-  <MACRO NAME="CKL_BREADCRUMBS"/>
+  <div class="ckl-nav-entities">
+    <!--[ Breadcrumbs ]-->
+    <MACRO NAME="CKL_BREADCRUMBS"/>
 
-  <!--[ Siblings ]-->
-  <MACRO NAME="CKL_SIBLINGS_FIX"/>
-  <FUNC NAME="CKL_SIBLING" DIRECTION="previous"/>
-  <FUNC NAME="CKL_SIBLING" DIRECTION="next"/>
+    <div class="ckl-siblings">
+      <!--[ Siblings ]-->
+      <MACRO NAME="CKL_SIBLINGS_FIX"/>
+      <FUNC NAME="CKL_SIBLING" DIRECTION="previous"/>
+      <FUNC NAME="CKL_SIBLING" DIRECTION="next"/>
+    </div>
+  </div>
+
 </DEFMACRO>
 
 /**
@@ -494,6 +499,7 @@
         ORDER="degree DESC">
     <BEFORE>
       <div class="ckl-breadcrumbs">
+        <i class="fas fa-map-marker-alt"></i>
     </BEFORE>
     <DOFIRST>
       <MACRO NAME="CKL_BREADCRUMBS_ITEM" />
@@ -629,9 +635,9 @@
  */
  <DEFFUNC NAME="CKL_SIBLING_BUTTON" REQUIRED="entity_id, direction">
   <IF COND="[#DIRECTION] EQ 'previous'">
-    <LET VAR="btn_icon">step-backward</LET>
+    <LET VAR="btn_icon">chevron-circle-left</LET>
   <ELSE />
-    <LET VAR="btn_icon">step-forward</LET>
+    <LET VAR="btn_icon">chevron-circle-right</LET>
   </IF>
 
   <a href="./?page=checklist&document=[#ENTITY_ID]" class="btn"><i class="fas fa-[#BTN_ICON]"></i></a>
