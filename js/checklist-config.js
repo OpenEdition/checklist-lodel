@@ -132,14 +132,14 @@ window.initChecklist = function (docId, context, publi) {
     // Liste des notes attribuées aux documents et configuration de leur affichage dans l'interface
     ratings: [
       {
-        id: "bad",
-        icon: "<i class='far fa-meh'></i>",
+        id: "excellent",
+        icon: "<i class='far fa-laugh-wink '></i>",
         text: {
-          fr: "Ce document contient des erreurs de composition.",
-          en: "This document contains issues."
+          fr: "Ce document est très bien composé.",
+          en: "This document is well formated"
         },
-        color: "#a94442",
-        bgcolor: "#f2dede"
+        color: "#3c763d",
+        bgcolor: "#dff0d8"
       },
       {
         id: "good",
@@ -152,14 +152,14 @@ window.initChecklist = function (docId, context, publi) {
         bgcolor: "#d9edf7"
       },
       {
-        id: "excellent",
-        icon: "<i class='far fa-laugh-wink '></i>",
+        id: "bad",
+        icon: "<i class='far fa-meh'></i>",
         text: {
-          fr: "Ce document est très bien composé.",
-          en: "This document is well formated"
+          fr: "Ce document contient des erreurs de composition.",
+          en: "This document contains issues."
         },
-        color: "#3c763d",
-        bgcolor: "#dff0d8"
+        color: "#a94442",
+        bgcolor: "#f2dede"
       },
       {
         id: "empty",
@@ -170,16 +170,6 @@ window.initChecklist = function (docId, context, publi) {
         },
         color: "#999",
         bgcolor: "#eee"
-      },
-      {
-        id: "failed",
-        icon: "<i class='far fas fa-exclamation-triangle'></i>",
-        text: {
-          fr: "Erreur lors du chargement de la source.",
-          en: "Error while loading source."
-        },
-        color: "#fff",
-        bgcolor: "#333"
       }
     ],
 
@@ -238,7 +228,7 @@ window.initChecklist = function (docId, context, publi) {
           fr: "Remplissage du pane"
         },
         condition: "textes",
-        type: "warning",
+        type: "info",
         action: function ($, bodyClasses) {
           for (var i=0; i<3; i++) {
             var statement = this.notify("Notification " + i);
