@@ -9,14 +9,15 @@
 body {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   font-size: 16px;
+  background-color: #f6f8fa;
 }
 
 a, a:visited {
-  color: #056A87;
+  color: #006fe6;
 }
 
 a:hover, a:active, a:focus {
-  color: #023746;
+  color: #007bff;
 }
 
 .hidden {
@@ -26,7 +27,7 @@ a:hover, a:active, a:focus {
 .ckl-main {
   position: relative;
   display: block;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
@@ -36,17 +37,22 @@ a:hover, a:active, a:focus {
   align-items: flex-start;
 }
 
-.ckl-content {
-  flex: 1;
-}
-
 .ckl-pane {
   flex: 1;
   position: -webkit-sticky;
   position: sticky;
   top: 0;
-  max-width: 320px;
-  margin-left: 20px;
+  width: 360px;
+  max-width: 360px;
+  height: 100vh;
+}
+
+.ckl-content {
+  flex: 1;
+  padding: 0 40px 100px;
+  background-color: #fff;
+  border-left: #dde1e4 1px solid;
+  border-right: #dde1e4 1px solid;
 }
 
 /* Nav-entities: breadcrumbs + siblings */
@@ -58,15 +64,15 @@ a:hover, a:active, a:focus {
 }
 
 .ckl-nav-entities {
-  color: #888;
+  color: #586069;
 }
 
 .ckl-nav-entities a {
-  color: #888;
+  color: #586069;
 }
 
 .ckl-nav-entities a:hover, .ckl-nav-entities a:active, .ckl-nav-entities a:focus {
-  color: #333;
+  color: #4c535b;
 }
 
 .ckl-nav-entities > div {
@@ -87,7 +93,7 @@ a:hover, a:active, a:focus {
 /* Article et champs basiques */
 
 .ckl-section {
-  border-top: 4px solid #ddd;
+  border-top: 1px solid #dde1e4;
   padding: 16px 0;
 }
 
@@ -96,17 +102,17 @@ a:hover, a:active, a:focus {
 }
 
 .ckl-cartouche {
-  background-color: #ddd;
+  background-color: #f6f8fa;
+  border: #dde1e4 1px solid;
   border-radius: 5px;
   padding: 16px 0;
   margin: 10px 0;
-  border: none;
 }
 
 .ckl-section-title {
   font-weight: normal;
   font-size: 22px;
-  color: #777;
+  color: #4c535b;
 }
 
 .ckl-field {
@@ -130,12 +136,13 @@ a:hover, a:active, a:focus {
 }
 
 .ckl-field-title {
-  color: #777;
+  font-size: 15px;
+  color: #79848E;
 }
 
 .ckl-field-ml-lang {
   color: #fff;
-  background-color: #999;
+  background-color: #C6CDD2;
   padding: 3px 6px;
   border-radius: 2px;
   margin-right: 6px;
@@ -156,7 +163,7 @@ a:hover, a:active, a:focus {
 
 .ckl-personne-description {
   font-size: 14px;
-  color: #666;
+  color: #586069;
   margin: 0;
   margin-top: 6px;
 }
@@ -171,7 +178,7 @@ a:hover, a:active, a:focus {
 
 .ckl-fichier, .ckl-fichierexterne {
   margin-bottom: 20px;
-  border-left: 4px solid #FFE49F;
+  border-left: 4px solid #dde1e4;
   padding-left: 10px;
 }
 
@@ -290,7 +297,7 @@ a:hover, a:active, a:focus {
     top: 16px;
     font-size: 12px;
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-    color: #aaa;
+    color: #586069;
 }
 
 /* Styles du texte de l'article */
@@ -298,7 +305,7 @@ a:hover, a:active, a:focus {
 .ckl-field-text .ckl-field-value {
   font-family: Georgia, "DejaVu Serif", Norasi, serif;
   line-height: 150%;
-  max-width: 540px;
+  max-width: 600px;
 }
 
 .ckl-field-text p {
@@ -313,8 +320,8 @@ a:hover, a:active, a:focus {
 .ckl-field-text p.citationbis,
 .ckl-field-text p.citationter {
   font-size: 14px;
-  color: #777;
-  border-left: 4px solid #ddd;
+  color: #586069;
+  border-left: 4px solid #dde1e4;
   padding-left: 20px;
 }
 
@@ -351,7 +358,7 @@ a:hover, a:active, a:focus {
 }
 
 .ckl-field-text .encadre {
-  background-color: #eee;
+  background-color: #f6f8fa;
   margin-bottom: 0;
   padding: 16px;
 }
@@ -375,7 +382,7 @@ a:hover, a:active, a:focus {
 }
 
 .ckl-field-text .creditillustration {
-  color: #777;
+  color: #586069;
 }
 
 .ckl-field-text .encadre + .encadre {
@@ -385,12 +392,12 @@ a:hover, a:active, a:focus {
 
 .ckl-field-text .separateur {
   text-align: center;
-  color: #999;
+  color: #4c535b;
   font-size: 20px;
 }
 
 .ckl-field-text .question, .ckl-field-text .reponse {
-  color: #444;
+  color: #4c535b;
 }
 
 .ckl-field-text .question {
@@ -471,15 +478,15 @@ a:hover, a:active, a:focus {
 
 /* Styles media desktop */
 
-@media screen and (min-width: 500px) {
+@media screen and (min-width: 1150px) {
   .ckl-field {
     display: flex;
     align-items: flex-start;
   }
 
   .ckl-field-title {
-    min-width: 300px;
-    width: 300px;
+    min-width: 200px;
+    width: 200px;
     position: -webkit-sticky;
     position: sticky;
     top: 30px;

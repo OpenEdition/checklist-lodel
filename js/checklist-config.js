@@ -1,6 +1,12 @@
 window.initChecklist = function (docId, context, publi) {
   if (window.checklist == null) return;
 
+  function getField ($, name) {
+    var $el = $("[data-field='" + name + "'] .ckl-field-value");
+    if ($el.length === 0) return;
+    return $el.text().trim();
+  }
+
   // Intialisation de checklist
   window.checklist.init({
     parent: "#ckl-pane",
@@ -217,10 +223,17 @@ window.initChecklist = function (docId, context, publi) {
           fr: "Remplissage du pane"
         },
         condition: "textes",
-        type: "info",
+        type: "warning",
         action: function ($, bodyClasses) {
-          for (var i=0; i<3; i++) {
-            var statement = this.notify("Notification " + i);
+          var langue = getField($, "langue");
+          if (langue !== "it") return;
+          for (var i=0; i<20; i++) {
+            this.notify({
+              name: {
+                fr: "Notification " + i
+              },
+              id: "notif-" + i
+            });
           }
           this.resolve();
         }
@@ -248,7 +261,7 @@ window.initChecklist = function (docId, context, publi) {
             this.resolve(true);
           }, 1000);
         }
-      },
+      }
       // etc.
     ]
   })
