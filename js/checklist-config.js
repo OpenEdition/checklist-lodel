@@ -226,7 +226,7 @@ window.initChecklist = function (docId, context, publi) {
         type: "warning",
         action: function ($, bodyClasses) {
           var langue = getField($, "langue");
-          if (langue !== "it") return;
+          if (langue !== "it") return this.resolve();
           for (var i=0; i<20; i++) {
             this.notify({
               name: {
