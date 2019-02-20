@@ -40,7 +40,7 @@ a:hover, a:active, a:focus {
 }
 
 .ckl-pane {
-  flex: 1;
+  flex: 1 0 auto;
   position: -webkit-sticky;
   position: sticky;
   top: 0;
@@ -63,9 +63,6 @@ a:hover, a:active, a:focus {
   align-items: center;
   justify-content: space-between;
   padding: 15px 0;
-}
-
-.ckl-nav-entities {
   color: #586069;
 }
 
@@ -77,12 +74,13 @@ a:hover, a:active, a:focus {
   color: #4c535b;
 }
 
-.ckl-nav-entities > div {
-  flex: 1;
+.ckl-breadcrumbs {
 }
 
 .ckl-siblings {
-  width: 50px;
+  flex: 1;
+  min-width: 70px;
+  flex-basis: auto;
   text-align: right;
 }
 
@@ -487,8 +485,10 @@ a:hover, a:active, a:focus {
   }
 
   .ckl-field-title {
+    flex-shrink: 0;
     min-width: 200px;
     width: 200px;
+    padding-right: 20px;
     position: -webkit-sticky;
     position: sticky;
     top: 30px;
