@@ -420,7 +420,7 @@ window.initChecklist = function (docId, context, publi) {
           var $field = getField($, "alterfichier");
           if ($field.length === 0) return this.resolve();
           var mime = $field.attr("data-facsimile-mime");
-          var flag = mime !== "image/application/pdf";
+          var flag = mime !== "application/pdf";
           this.resolve(flag);
         }
       },
