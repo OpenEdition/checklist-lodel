@@ -469,6 +469,24 @@ window.initChecklist = function (docId, context, publi) {
         }
       },
 
+      {
+        id: "imageaccroche:quality(size)",
+        name: {
+          fr: "Couverture de taille insuffisante",
+        },
+        description: {
+          fr: "<p>La couverture est de taille insuffisante. Elle doit mesurer au moins 1400 pixels de large.</p>",
+        },
+        condition: "publications",
+        type: "info",
+        action: function ($, bodyClasses) {
+          var $cover = getFile($, "imageaccroche", "couverture1");
+          if ($cover.length === 0) return this.resolve();
+          var width = $cover.attr("data-document-imagewidth");
+          this.resolve(width < 1400);
+        }
+      },
+
     ]
   })
     .then(function () {

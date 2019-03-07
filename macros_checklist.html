@@ -425,7 +425,13 @@
         <p class="ckl-fichier-type" data-label="Type">[#TYPE]</p>
         <IF COND="[#DOCUMENT]">
           <LET VAR="label_document"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="document"/></LET>
-          <p class="ckl-fichier-document" data-label="[#LABEL_DOCUMENT|trim]" data-document-mime="[#DOCUMENT|getFileMime]" data-document-size="[#DOCUMENT|nicefilesize]><a href="[#DOCUMENT]">[#DOCUMENT]</a></p>
+          <p class="ckl-fichier-document" 
+            data-label="[#LABEL_DOCUMENT|trim]" 
+            data-document-mime="[#DOCUMENT|getFileMime]" 
+            data-document-filesize="[#DOCUMENT|nicefilesize]" 
+            data-document-imagewidth="[#DOCUMENT|imagewidth]">
+            <a href="[#DOCUMENT]">[#DOCUMENT]</a>
+          </p>
         </IF>
       </div>
     </DO>
