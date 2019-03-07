@@ -323,6 +323,23 @@ window.initChecklist = function (docId, context, publi) {
         }
       },
 
+      {
+        id: "texte:existence",
+        name: {
+          fr: "Pas de texte dans le document",
+        },
+        description: {
+          fr: "<p>Le document ne contient pas de texte courant. Tout le contenu de la publication doit être disponible dans tous les formats, y compris le HTML.</p>",
+        },
+        condition: "textes",
+        type: "danger",
+        action: function ($, bodyClasses) {
+          var text = getField($, "texte").text().trim();
+          var flag = text.length === 0;
+          this.resolve(flag);
+        }
+      },
+
     ]
   })
     .then(function () {
