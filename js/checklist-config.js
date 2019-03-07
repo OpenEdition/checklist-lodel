@@ -316,7 +316,8 @@ window.initChecklist = function (docId, context, publi) {
         action: function ($, bodyClasses) {
           var $couvType = $(".ckl-fichier-type:contains(imageaccroche), .ckl-fichier-type:contains(couverture1)");
           var $couvDoc = $couvType.siblings(".ckl-fichier-document");
-          if ($couvDoc.length !== 1) this.resolve(true);
+          if ($couvDoc.length === 0) return this.resolve(true);
+          if ($couvDoc.length > 1) return this.reject("More than 1 cover file was found.");
           var mime = $couvDoc.attr("data-document-mime");
           var flag = mime !== "image/jpeg" && mime !== "image/png";
           this.resolve(flag);
@@ -387,7 +388,8 @@ window.initChecklist = function (docId, context, publi) {
         action: function ($, bodyClasses) {
           var $fsType = $(".ckl-fichier-type:contains(facsimile)");
           var $fsDoc = $fsType.siblings(".ckl-fichier-document");
-          if ($fsDoc.length !== 1) this.resolve(true);
+          if ($fsDoc.length === 0) return this.resolve(true);
+          if ($fsDoc.length > 1) return this.reject("More than 1 facsimile was found.");
           var mime = $fsDoc.attr("data-document-mime");
           var flag = mime !== "image/application/pdf";
           this.resolve(flag);
