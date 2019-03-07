@@ -357,6 +357,23 @@ window.initChecklist = function (docId, context, publi) {
         }
       },
 
+      {
+        id: "lang:existence",
+        name: {
+          fr: "Absence de la métadonnée de langue",
+        },
+        description: {
+          fr: "<p>La langue de cette publication ou de ce document est absente ou n'est pas reconnue. Elle est obligatoire.</p>",
+        },
+        condition: "publications || textes",
+        type: "danger",
+        action: function ($, bodyClasses) {
+          var text = getField($, "langue").text().trim();
+          var flag = text.length === 0;
+          this.resolve(flag);
+        }
+      },
+
     ]
   })
     .then(function () {
