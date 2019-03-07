@@ -228,6 +228,35 @@ window.initChecklist = function (docId, context, publi) {
           this.resolve(flag);
         }
       },
+
+      {
+        id: "title:quality(br)",
+        name: {
+          fr: "Saut de ligne dans le titre ou le sous titre",
+        },
+        description: {
+          fr: "<p>Des sauts de ligne sont utilisés dans le titre ou le sous-titre de ce document ou de cette publication. Ils doivent constituer un seul paragraphe sans retour à la ligne.</p>",
+        },
+        condition: "publications || textes",
+        type: "danger",
+        action: function ($, bodyClasses) {
+          var $fields = getField($, "titre", "soustitre");
+          var $br = $fields.find("br");
+          var flag = $br.length > 0;
+          var statement = this.notify(flag);
+          if (statement) {
+            statement.addMarker({
+              name: {
+                fr: "Saut de ligne",
+              },
+              target: $br,
+              position: "before"
+            });
+          }
+          resolve();
+        }
+      },
+
     ]
   })
     .then(function () {
