@@ -285,6 +285,23 @@ window.initChecklist = function (docId, context, publi) {
         }
       },
 
+      {
+        id: "imageaccroche:existence",
+        name: {
+          fr: "Pas de couverture",
+        },
+        description: {
+          fr: "<p>La couverture est manquante. Il est conseillé d’ajouter une couverture aux numéros quand c’est possible.</p>",
+        },
+        condition: "publications",
+        type: "info",
+        tags: ["paper"],
+        action: function ($, bodyClasses) {
+          var flag = $(".ckl-fichier-type:contains(imageaccroche), .ckl-fichier-type:contains(couverture1)").length === 0;
+          this.resolve(flag);
+        }
+      },
+
     ]
   })
     .then(function () {
