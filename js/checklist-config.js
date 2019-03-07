@@ -487,6 +487,37 @@ window.initChecklist = function (docId, context, publi) {
         }
       },
 
+      {
+        // TODO: possibilite de merger cette regle avec title:quality(br) et d'utiliser un statement alternatif pour changer le type affiché.
+        id: "headings:quality(br)",
+        name: {
+          fr: "Saut de ligne dans un intertitre ou titre alternatif",
+        },
+        description: {
+          fr: "<p>Des sauts de lignes sont présents dans les intertitres ou les titres alternatifs, ils doivent être supprimés.</p>",
+        },
+        condition: "textes",
+        type: "warning",
+        action: function ($, bodyClasses) {
+          var $intertitres = getField($, "texte").find(":header");
+          var $altertitres = getField($, "altertitre").find(".ckl-field-ml-value");
+          var $both = $intertitres.add($altertitres);
+          var $br = $both.find("br");
+          var flag = $br.length > 0;
+          var statement = this.notify(flag);
+          if (statement) {
+            statement.addMarker({
+              name: {
+                fr: "Saut de ligne",
+              },
+              target: $br,
+              position: "before"
+            });
+          }
+          this.resolve();
+        }
+      },
+
     ]
   })
     .then(function () {
