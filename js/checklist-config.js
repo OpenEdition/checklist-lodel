@@ -415,6 +415,23 @@ window.initChecklist = function (docId, context, publi) {
         }
       },
 
+      {
+        id: "numero:existence",
+        name: {
+          fr: "Absence de la numérotation",
+        },
+        description: {
+          fr: "<p>La numérotation du numéro n’est pas définie, elle est à renseigner dans le formulaire d’édition du numéro.</p>",
+        },
+        condition: "publications",
+        type: "danger",
+        action: function ($, bodyClasses) {
+          var $field = getField($, "numero");
+          var flag = !$field || $field.length === 0 || $field.text().trim() === "";
+          this.resolve(flag);
+        }
+      },
+
     ]
   })
     .then(function () {
