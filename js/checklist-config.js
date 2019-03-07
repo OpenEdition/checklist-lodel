@@ -211,12 +211,29 @@ window.initChecklist = function (docId, context, publi) {
         }
       },
 
+      {
+        id: "datepublipapier:existence",
+        name: {
+          fr: "Absence de la date de publication papier",
+        },
+        description: {
+          fr: "<p>Ce numéro ou ce document n’a pas de date de publication papier. Cette information est obligatoire pour les revues ayant une édition papier.</p>",
+        },
+        condition: "publications || textes",
+        type: "danger",
+        tags: ["paper"],
+        action: function ($, bodyClasses) {
+          var field = getField($, "datepublipapier").text();
+          var flag = !field || field.length === 0 || field === "0000-00-00";
+          this.resolve(flag);
+        }
+      },
     ]
   })
-  .then(function () {
-    // Ne pas lancer automatiquement sur les publications.
-    if (publi != null) return;
-    return checklist.run();
-  })
-  .catch(console.error);
+    .then(function () {
+      // Ne pas lancer automatiquement sur les publications.
+      if (publi != null) return;
+      return checklist.run();
+    })
+    .catch(console.error);
 };
