@@ -374,6 +374,26 @@ window.initChecklist = function (docId, context, publi) {
         }
       },
 
+      {
+        id: "facsimile:quality(format)[publications]",
+        name: {
+          fr: "Fac-similé non PDF",
+        },
+        description: {
+          fr: "<p>Le fichier attaché en tant que fac-similé n’est pas un document PDF.</p>",
+        },
+        condition: "publications",
+        type: "danger",
+        action: function ($, bodyClasses) {
+          var $fsType = $(".ckl-fichier-type:contains(facsimile)");
+          var $fsDoc = $fsType.siblings(".ckl-fichier-document");
+          if ($fsDoc.length !== 1) this.resolve(true);
+          var mime = $fsDoc.attr("data-document-mime");
+          var flag = mime !== "image/application/pdf";
+          this.resolve(flag);
+        }
+      },
+
     ]
   })
     .then(function () {
