@@ -554,6 +554,36 @@ window.initChecklist = function (docId, context, publi) {
         }
       },
 
+      {
+        id: "texte:quality(quote-style)",
+        name: {
+          fr: "Mauvais style de citation",
+        },
+        description: {
+          fr: "<p>Certains paragraphes sont peut-être des citations non stylées.</p>",
+        },
+        condition: "textes",
+        type: "warning",
+        action: function ($, bodyClasses) {
+          var $p = getField($, "texte").find("p.texte");
+          var $wrongQuotes = $p.filter(function () {
+            var text = $(this).text();
+            return text.charAt(0).match(/[«"“]/) && text.slice(-50).match(/[”"»]/);
+          });
+          var statement = this.notify($wrongQuotes.length > 0);
+          if (statement) {
+            statement.addMarker({
+              name: {
+                fr: "Citation",
+              },
+              target: $wrongQuotes,
+              position: "before"
+            });
+          }
+          this.resolve();
+        }
+      },
+
     ]
   })
     .then(function () {
