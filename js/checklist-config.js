@@ -1,10 +1,12 @@
 window.initChecklist = function (docId, context, publi) {
   if (window.checklist == null) return;
 
-  function getField ($, name) {
-    var $el = $("[data-field='" + name + "'] .ckl-field-value");
-    if ($el.length === 0) return;
-    return $el.text().trim();
+  // NOTE: ES2016 here
+  function getField($, ...names) {
+    var selectors = names.map(function (name) {
+      return "[data-field='" + name + "'] .ckl-field-value";
+    });
+    return $(selectors.join(", "));
   }
 
   // Intialisation de checklist
@@ -29,7 +31,7 @@ window.initChecklist = function (docId, context, publi) {
             en: "View"
           },
           icon: "<i class='far fa-eye'></i>",
-          attributes : {
+          attributes: {
             href: "./" + docId
           }
         },
@@ -39,7 +41,7 @@ window.initChecklist = function (docId, context, publi) {
             en: "Edit"
           },
           icon: "<i class='fas fa-edit'></i>",
-          attributes : {
+          attributes: {
             href: (
               context.publications || context.textes ?
                 "./lodel/edition/index.php?do=view&id=" + docId :
@@ -56,7 +58,7 @@ window.initChecklist = function (docId, context, publi) {
           },
           condition: "publications",
           icon: "<i class='fas fa-stream'></i>",
-          attributes : {
+          attributes: {
             href: "./lodel/edition/index.php?id=" + docId
           }
         },
@@ -173,7 +175,7 @@ window.initChecklist = function (docId, context, publi) {
     // Prends les statements du report en paramètre et retourne un id de rating.
     computeRating: function (statements, report) {
       var warning = false;
-      for (var i=0; i < statements.length; i++) {
+      for (var i = 0; i < statements.length; i++) {
         var statement = statements[i];
         var type = statement.type;
         if (type === "danger") return "bad";
@@ -189,7 +191,27 @@ window.initChecklist = function (docId, context, publi) {
     publi: publi,
 
     // Liste des règles.
-    rules: []
+    // Pour la création des id, on respecte le format suivant si possible :
+    // <nom du champ>:<objet du test>(<detail optionnel>)[<type optionnel>]
+    rules: [
+      {
+        id: "datepubli:existence",
+        name: {
+          fr: "Absence de la date de publication électronique",
+        },
+        description: {
+          fr: "<p>Ce numéro ou ce document n’a pas de date de publication électronique. Cette information est obligatoire.</p>",
+        },
+        condition: "publications || textes",
+        type: "danger",
+        action: function ($, bodyClasses) {
+          var field = getField($, "datepubli").text();
+          var flag = !field || field.length === 0 || field === "0000-00-00";
+          this.resolve(flag);
+        }
+      },
+
+    ]
   })
   .then(function () {
     // Ne pas lancer automatiquement sur les publications.
