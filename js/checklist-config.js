@@ -521,6 +521,39 @@ window.initChecklist = function (docId, context, publi) {
         }
       },
 
+      {
+        id: "texte:quality(paragraph-lowercase)",
+        name: {
+          fr: "Caractère minuscule en début de paragraphe",
+        },
+        description: {
+          fr: "<p>Certains paragraphes commencent par une minuscule.</p>",
+        },
+        condition: "textes",
+        type: "warning",
+        action: function ($, bodyClasses) {
+          var $p = getField($, "texte").find("p").not(".citation,.paragraphesansretrait, blockquote, .sidenotes, ol, ul, li, table, table *");
+          var $lowerP = $p.filter(function() {
+            var initial = $(this).text().charAt(0);
+            var lowerCase = initial.toLowerCase();
+            var upperCase = initial.toUpperCase();
+            var isLowercase = initial === lowerCase && lowerCase !== upperCase;
+            return isLowercase;
+          });
+          var statement = this.notify($lowerP.length > 0);
+          if (statement) {
+            statement.addMarker({
+              name: {
+                fr: "Minuscule",
+              },
+              target: $lowerP,
+              position: "before"
+            });
+          }
+          this.resolve();
+        }
+      },
+
     ]
   })
     .then(function () {
