@@ -302,6 +302,27 @@ window.initChecklist = function (docId, context, publi) {
         }
       },
 
+      {
+        id: "imageaccroche:quality",
+        name: {
+          fr: "La couverture n'est pas au format attendu",
+        },
+        description: {
+          fr: "<p>Les couvertures doivent être aux formats JPG ou PNG.</p>",
+        },
+        condition: "publications",
+        type: "info",
+        tags: ["paper"],
+        action: function ($, bodyClasses) {
+          var $couvType = $(".ckl-fichier-type:contains(imageaccroche), .ckl-fichier-type:contains(couverture1)");
+          var $couvDoc = $couvType.siblings(".ckl-fichier-document");
+          if ($couvDoc.length !== 1) this.resolve(true);
+          var mime = $couvDoc.attr("data-document-mime");
+          var flag = mime !== "image/jpeg" && mime !== "image/png";
+          this.resolve(flag);
+        }
+      },
+
     ]
   })
     .then(function () {
