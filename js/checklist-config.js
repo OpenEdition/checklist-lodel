@@ -432,6 +432,36 @@ window.initChecklist = function (docId, context, publi) {
         }
       },
 
+      {
+        id: "title:quality(href)",
+        name: {
+          fr: "Lien hypertexte dans le titre ou dans un intertitre",
+        },
+        description: {
+          fr: "<p>Des liens hypertextes se trouvent dans le titre ou les intertitres du document, il faut les supprimer.</p>",
+        },
+        condition: "textes",
+        type: "danger",
+        action: function ($, bodyClasses) {
+          var $titre = getField($, "titre");
+          var $intertitres = getField($, "texte").find(":header");
+          var $both = $titre.add($intertitres);
+          var $links = $both.find("a:not([href^='#'])");
+          var flag = $links.length > 0;
+          var statement = this.notify(flag);
+          if (statement) {
+            statement.addMarker({
+              name: {
+                fr: "Lien hypertexte",
+              },
+              target: $links,
+              position: "after"
+            });
+          }
+          resolve();
+        }
+      },
+
     ]
   })
     .then(function () {
