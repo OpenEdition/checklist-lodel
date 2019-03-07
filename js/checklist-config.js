@@ -263,7 +263,7 @@ window.initChecklist = function (docId, context, publi) {
               position: "before"
             });
           }
-          resolve();
+          this.resolve();
         }
       },
 
@@ -291,7 +291,7 @@ window.initChecklist = function (docId, context, publi) {
               position: "after"
             });
           }
-          resolve();
+          this.resolve();
         }
       },
 
@@ -415,7 +415,7 @@ window.initChecklist = function (docId, context, publi) {
         type: "danger",
         action: function ($, bodyClasses) {
           var $field = getField($, "alterfichier");
-          if ($field.length === 0) return resolve();
+          if ($field.length === 0) return this.resolve();
           var mime = $field.attr("data-facsimile-mime");
           var flag = mime !== "image/application/pdf";
           this.resolve(flag);
@@ -465,7 +465,7 @@ window.initChecklist = function (docId, context, publi) {
               position: "after"
             });
           }
-          resolve();
+          this.resolve();
         }
       },
 
