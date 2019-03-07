@@ -268,7 +268,7 @@ window.initChecklist = function (docId, context, publi) {
       },
 
       {
-        id: "images:quality",
+        id: "images:existence",
         name: {
           fr: "Image non affichée",
         },
@@ -278,8 +278,11 @@ window.initChecklist = function (docId, context, publi) {
         condition: "textes",
         type: "warning",
         action: function ($, bodyClasses) {
-          var $fields = getField($, "texte");
-          var $broken = $fields.find("p:contains([Image non convertie])");
+          var $texte = getField($, "texte");
+          var $broken = $texte.find("img").filter(function() {
+            return this.naturalWidth != null && this.naturalWidth === 0 && this.naturalHeight != null && this.naturalHeight === 0;
+          });
+          $broken.add($texte.find("p:contains([Image non convertie])"));
           var flag = $broken.length > 0;
           var statement = this.notify(flag);
           if (statement) {
