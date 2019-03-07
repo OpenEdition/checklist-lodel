@@ -251,19 +251,15 @@ window.initChecklist = function (docId, context, publi) {
         type: "danger",
         action: function ($, bodyClasses) {
           var $fields = getField($, "titre", "soustitre");
-          var $br = $fields.find("br");
-          var flag = $br.length > 0;
-          var statement = this.notify(flag);
-          if (statement) {
-            statement.addMarker({
-              name: {
-                fr: "Saut de ligne",
-              },
-              target: $br,
-              position: "before"
-            });
-          }
-          this.resolve();
+          var $bad = $fields.find("br");
+          var marker = {
+            name: {
+              fr: "Saut de ligne",
+            },
+            target: $bad,
+            position: "before"
+          };
+          this.resolve($bad.length, marker);
         }
       },
 
@@ -279,22 +275,19 @@ window.initChecklist = function (docId, context, publi) {
         type: "warning",
         action: function ($, bodyClasses) {
           var $texte = getField($, "texte");
-          var $broken = $texte.find("img").filter(function() {
-            return this.naturalWidth != null && this.naturalWidth === 0 && this.naturalHeight != null && this.naturalHeight === 0;
-          });
-          $broken.add($texte.find("p:contains([Image non convertie])"));
-          var flag = $broken.length > 0;
-          var statement = this.notify(flag);
-          if (statement) {
-            statement.addMarker({
-              name: {
-                fr: "Image non affichée",
-              },
-              target: $broken,
-              position: "after"
-            });
-          }
-          this.resolve();
+          var $bad = $texte.find("img")
+            .filter(function() {
+              return this.naturalWidth != null && this.naturalWidth === 0 && this.naturalHeight != null && this.naturalHeight === 0;
+            })
+            .add($texte.find("p:contains([Image non convertie])"));
+          var marker = {
+            name: {
+              fr: "Image non affichée",
+            },
+            target: $bad,
+            position: "after"
+          };
+          this.resolve($bad.length, marker);
         }
       },
 
@@ -454,21 +447,16 @@ window.initChecklist = function (docId, context, publi) {
         type: "danger",
         action: function ($, bodyClasses) {
           var $titre = getField($, "titre");
-          var $intertitres = getField($, "texte").find(":header");
-          var $both = $titre.add($intertitres);
-          var $links = $both.find("a:not([href^='#'])");
-          var flag = $links.length > 0;
-          var statement = this.notify(flag);
-          if (statement) {
-            statement.addMarker({
-              name: {
-                fr: "Lien hypertexte",
-              },
-              target: $links,
-              position: "after"
-            });
-          }
-          this.resolve();
+          var $headers = getField($, "texte").find(":header");
+          var $bad = $titre.add($headers).find("a:not([href^='#'])");
+          var marker = {
+            name: {
+              fr: "Lien hypertexte",
+            },
+            target: $bad,
+            position: "after"
+          };
+          this.resolve($bad.length, marker);
         }
       },
 
@@ -503,21 +491,16 @@ window.initChecklist = function (docId, context, publi) {
         type: "warning",
         action: function ($, bodyClasses) {
           var $intertitres = getField($, "texte").find(":header");
-          var $altertitres = getField($, "altertitre").find(".ckl-field-ml-value");
-          var $both = $intertitres.add($altertitres);
-          var $br = $both.find("br");
-          var flag = $br.length > 0;
-          var statement = this.notify(flag);
-          if (statement) {
-            statement.addMarker({
-              name: {
-                fr: "Saut de ligne",
-              },
-              target: $br,
-              position: "before"
-            });
-          }
-          this.resolve();
+          var $headers = getField($, "altertitre").find(".ckl-field-ml-value");
+          var $bad = $intertitres.add($headers).find("br");
+          var marker = {
+            name: {
+              fr: "Saut de ligne",
+            },
+            target: $bad,
+            position: "before"
+          };
+          this.resolve($bad.length, marker);
         }
       },
 
@@ -533,24 +516,20 @@ window.initChecklist = function (docId, context, publi) {
         type: "warning",
         action: function ($, bodyClasses) {
           var $p = getField($, "texte").find("p").not(".citation,.paragraphesansretrait, blockquote, .sidenotes, ol, ul, li, table, table *");
-          var $lowerP = $p.filter(function() {
+          var $bad = $p.filter(function() {
             var initial = $(this).text().charAt(0);
             var lowerCase = initial.toLowerCase();
             var upperCase = initial.toUpperCase();
-            var isLowercase = initial === lowerCase && lowerCase !== upperCase;
-            return isLowercase;
+            return initial === lowerCase && lowerCase !== upperCase;
           });
-          var statement = this.notify($lowerP.length > 0);
-          if (statement) {
-            statement.addMarker({
-              name: {
-                fr: "Minuscule",
-              },
-              target: $lowerP,
-              position: "before"
-            });
-          }
-          this.resolve();
+          var marker = {
+            name: {
+              fr: "Minuscule",
+            },
+            target: $bad,
+            position: "before"
+          };
+          this.resolve($bad.length, marker);
         }
       },
 
@@ -566,21 +545,21 @@ window.initChecklist = function (docId, context, publi) {
         type: "warning",
         action: function ($, bodyClasses) {
           var $p = getField($, "texte").find("p.texte");
-          var $wrongQuotes = $p.filter(function () {
+          var $bad = $p.filter(function () {
             var text = $(this).text();
             return text.charAt(0).match(/[«"“]/) && text.slice(-50).match(/[”"»]/);
           });
-          var statement = this.notify($wrongQuotes.length > 0);
-          if (statement) {
-            statement.addMarker({
-              name: {
-                fr: "Citation",
-              },
-              target: $wrongQuotes,
-              position: "before"
-            });
-          }
-          this.resolve();
+          var marker = {
+            name: {
+              fr: "Citation",
+            },
+            target: $bad,
+            position: "before"
+          };
+          this.resolve($bad.length, marker);
+        }
+      },
+
         }
       },
 
