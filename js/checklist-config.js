@@ -340,6 +340,23 @@ window.initChecklist = function (docId, context, publi) {
         }
       },
 
+      {
+        id: "title:existence",
+        name: {
+          fr: "Document sans titre",
+        },
+        description: {
+          fr: "<p>La métadonnée « Titre » des publications et documents est obligatoire.</p>",
+        },
+        condition: "publications || textes",
+        type: "danger",
+        action: function ($, bodyClasses) {
+          var titre = getField($, "titre").text().trim();
+          var flag = titre.length === 0 || titre === "Document sans titre";
+          this.resolve(flag);
+        }
+      },
+
     ]
   })
     .then(function () {
