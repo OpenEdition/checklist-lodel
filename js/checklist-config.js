@@ -3,10 +3,20 @@ window.initChecklist = function (docId, context, publi) {
 
   // NOTE: ES2016 here
   function getField($, ...names) {
-    var selectors = names.map(function (name) {
+    var selectors = names.map(function(name) {
       return "[data-field='" + name + "'] .ckl-field-value";
     });
     return $(selectors.join(", "));
+  }
+
+  // NOTE: ES2016 here
+  function getFile($, ...types) {
+    var selector = types.map(function(type) {
+      return ".ckl-fichier-type:contains(" + type + ")";
+    }).join(", ");
+    var $type = $(selector);
+    var $file = $type.siblings(".ckl-fichier-document").eq(0);
+    return $file;
   }
 
   // Intialisation de checklist
@@ -297,8 +307,9 @@ window.initChecklist = function (docId, context, publi) {
         type: "info",
         tags: ["paper"],
         action: function ($, bodyClasses) {
-          var flag = $(".ckl-fichier-type:contains(imageaccroche), .ckl-fichier-type:contains(couverture1)").length === 0;
-          this.resolve(flag);
+          var $coverType = $(".ckl-fichier-type:contains(imageaccroche), .ckl-fichier-type:contains(couverture1)");
+          if ($coverType.length > 1) return this.reject("More than 1 cover file was found.");
+          this.resolve($coverType.length === 0);
         }
       },
 
@@ -314,11 +325,9 @@ window.initChecklist = function (docId, context, publi) {
         type: "info",
         tags: ["paper"],
         action: function ($, bodyClasses) {
-          var $couvType = $(".ckl-fichier-type:contains(imageaccroche), .ckl-fichier-type:contains(couverture1)");
-          var $couvDoc = $couvType.siblings(".ckl-fichier-document");
-          if ($couvDoc.length === 0) return this.resolve(true);
-          if ($couvDoc.length > 1) return this.reject("More than 1 cover file was found.");
-          var mime = $couvDoc.attr("data-document-mime");
+          var $cover = getFile($, "imageaccroche", "couverture1");
+          if ($cover.length === 0) return this.resolve();
+          var mime = $cover.attr("data-document-mime");
           var flag = mime !== "image/jpeg" && mime !== "image/png";
           this.resolve(flag);
         }
@@ -386,12 +395,10 @@ window.initChecklist = function (docId, context, publi) {
         condition: "publications",
         type: "danger",
         action: function ($, bodyClasses) {
-          var $fsType = $(".ckl-fichier-type:contains(facsimile)");
-          var $fsDoc = $fsType.siblings(".ckl-fichier-document");
-          if ($fsDoc.length === 0) return this.resolve(true);
-          if ($fsDoc.length > 1) return this.reject("More than 1 facsimile was found.");
-          var mime = $fsDoc.attr("data-document-mime");
-          var flag = mime !== "image/application/pdf";
+          var $file = getFile($, "facsimile");
+          if ($file.length !== 1) return this.resolve();
+          var mime = $file.attr("data-document-mime");
+          var flag = mime !== "application/pdf";
           this.resolve(flag);
         }
       },
