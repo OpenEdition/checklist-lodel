@@ -257,6 +257,34 @@ window.initChecklist = function (docId, context, publi) {
         }
       },
 
+      {
+        id: "images:quality",
+        name: {
+          fr: "Image non affichée",
+        },
+        description: {
+          fr: "<p>Certaines images du document ne sont pas affichées dans Lodel. Cela peut être un problème de format d'image ou de structure du fichier source.</p>",
+        },
+        condition: "textes",
+        type: "warning",
+        action: function ($, bodyClasses) {
+          var $fields = getField($, "texte");
+          var $broken = $fields.find("p:contains([Image non convertie])");
+          var flag = $broken.length > 0;
+          var statement = this.notify(flag);
+          if (statement) {
+            statement.addMarker({
+              name: {
+                fr: "Image non affichée",
+              },
+              target: $broken,
+              position: "after"
+            });
+          }
+          resolve();
+        }
+      },
+
     ]
   })
     .then(function () {
