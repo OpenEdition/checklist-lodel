@@ -565,6 +565,59 @@ window.initChecklist = function (docId, context, publi) {
         }
       },
 
+      {
+        id: "texte:quality(list-style)",
+        name: {
+          fr: "Listes mal formatées",
+        },
+        description: {
+          fr: "<p>Certains paragraphes sont peut-être des listes mal formatées.</p>",
+        },
+        condition: "textes",
+        type: "warning",
+        action: function ($, bodyClasses) {
+          var $p = getField($, "texte").children();
+          var prevIndex = -1;
+          var lists = [];
+          var re = /^([0-9A-z]{1,3}(?=[\/.):–—-])|[•●∙◊–—>-](?= ))/;
+
+          $p.each(function (index) {
+            // Exclude some elements
+            if ($(this).is(":not(p), .titreillustration")) return false;
+
+            // Match bullets to test their existence
+            var text = $(this).text();
+            var match = text.match(re);
+            if (match == null) return;
+            
+            // Group lists depending on element index
+            var isNewList = lists.length === 0 || index > prevIndex + 1;
+            if (isNewList) {
+              lists.push([$(this)]);
+            } else {
+              lists[lists.length - 1].push($(this));
+            }
+            prevIndex = index;
+          });
+          
+          // Ignore lists which contains a single item
+          var $bad = lists.reduce(function ($bad, list) {
+            if (list.length < 2) return $bad;
+            var $list = list.reduce(jQuery.merge);
+            return $bad.add($list);
+          }, $());
+
+          var marker = {
+            name: {
+              fr: "Liste",
+            },
+            target: $bad,
+            position: "before"
+          };
+          this.resolve($bad.length, marker);
+        }
+      },
+
         }
       },
 
