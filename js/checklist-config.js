@@ -515,12 +515,17 @@ window.initChecklist = function (docId, context, publi) {
         condition: "textes",
         type: "warning",
         action: function ($, bodyClasses) {
-          var $p = getField($, "texte").find("p").not(".citation,.paragraphesansretrait, blockquote, .sidenotes, ol, ul, li, table, table *");
+          var $p = getField($, "texte").find("p").not(".citation, .paragraphesansretrait, blockquote, ol, ul, li, table, table *");
+          
           var $bad = $p.filter(function() {
-            var initial = $(this).text().charAt(0);
-            var lowerCase = initial.toLowerCase();
-            var upperCase = initial.toUpperCase();
-            return initial === lowerCase && lowerCase !== upperCase;
+            var sub = $(this).text().substring(0, 2);
+
+            var isList = /[\/.):–—-]/.test(sub[1]);
+
+            if (isList) return false;
+            var lowerCase = sub[0].toLowerCase();
+            var upperCase = sub[0].toUpperCase();
+            return sub[0] === lowerCase && lowerCase !== upperCase;
           });
           var marker = {
             name: {
