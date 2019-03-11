@@ -618,6 +618,38 @@ window.initChecklist = function (docId, context, publi) {
         }
       },
 
+      {
+        id: "texte:quality(unknown-styles)",
+        name: {
+          fr: "Styles inconnus utilisés",
+        },
+        description: {
+          fr: "<p>Des styles dans votre document source n'ont pas été reconnus. Certains éléments n'ont peut-être pas été interprétés correctement par Lodel. Merci de reprendre votre fichier source et d'appliquer les styles adéquats.</p>",
+        },
+        condition: "textes",
+        type: "warning",
+        action: function ($, bodyClasses) {
+          var styles = "p.remerciements, p.texte, p.paragraphesansretrait, p.creditillustration, p.crditsillustration, p.epigraphe, p.citation, p.citationbis, p.citationter, p.titreillustration, p.legendeillustration, p.question, p.reponse, p.separateur, p.encadre, p.code, p.notesbaspage, p.mathml, p.latex, p.mathlatex";
+          var $bad = getField($, "texte").children("p").not(styles);
+
+          if ($bad.length === 0) return this.resolve();
+
+          var statement = this.notify($bad.length);
+          $bad.each(function () {
+            var $el = $(this);
+            var classname = $el.attr("class");
+            statement.addMarker({
+              name: {
+                fr: "Style inconnu&nbsp: " + classname,
+              },
+              target: $el,
+              position: "before"
+            });
+          });
+          this.resolve();
+        }
+      },
+
         }
       },
 
