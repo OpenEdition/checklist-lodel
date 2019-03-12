@@ -716,6 +716,35 @@ window.initChecklist = function (docId, context, publi) {
         }
       },
 
+      {
+        id: "index:quality(format)",
+        name: {
+          fr: "Composition des index",
+        },
+        description: {
+          fr: "<p>Certaines entrées d’index ne sont peut-être pas correctement composées.</p><p>Voir <a href='http://www.maisondesrevues.org/108'>http://www.maisondesrevues.org/108</a></p>",
+        },
+        condition: "publications || textes",
+        type: "warning",
+        action: function ($, bodyClasses) {
+          var $fields = getField($, "motsclesfr", "motsclesen", "motscleses", "motsclesde", "motsclesit", "theme", "geographie", "chrono", "motsclespt");
+          var $entries = $fields.find(".ckl-entry");
+          var re = /( [-–—.] |[;,] |[/\\]|\.$)/g;
+          var $bad = $entries.filter(function () {
+            var text = $(this).text().trim();
+            return text.match(re) != null;
+          });
+          var marker = {
+            name: {
+              fr: "Composition",
+            },
+            target: $bad,
+            position: "after"
+          };
+          this.resolve($bad.length, marker);
+        }
+      },
+
         }
       },
 
