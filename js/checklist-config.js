@@ -772,6 +772,46 @@ window.initChecklist = function (docId, context, publi) {
         }
       },
 
+      {
+        id: "index:quality(duplicates)",
+        name: {
+          fr: "Vérifier les doublons d’index",
+        },
+        description: {
+          fr: "<p>Certaines entrées d’index sont peut-être des doublons. Nous vous conseillons de renseigner les mots-clés au singulier et en minuscule lorsqu'il s'agit de noms communs.</p>",
+        },
+        condition: "publications || textes || indexes",
+        type: "warning",
+        action: function ($, bodyClasses) {
+          // http://stackoverflow.com/questions/990904/javascript-remove-accents-in-strings
+          function latinize(str) {
+            return str.normalize('NFKD').replace(/[\u0300-\u036f]/g, "");
+          };
+
+          var list = {};
+          $(".ckl-entry").each(function () {
+            var id = latinize($(this).text()).replace(/\W/g, "").toLowerCase();
+            list[id] = list[id] ? list[id].add($(this)) : $(this);
+          });
+          
+          var $bad = Object.keys(list).reduce(function ($res, id) {
+            if (list[id].length > 1) {
+              $res = $res.add(list[id]);
+            }
+            return $res;
+          }, $());
+
+          var marker = {
+            name: {
+              fr: "Doublon",
+            },
+            target: $bad,
+            position: "after"
+          };
+          this.resolve($bad.length, marker);
+        }
+      },
+
         }
       },
 
