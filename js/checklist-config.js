@@ -417,7 +417,7 @@ window.initChecklist = function (docId, context, publi) {
         action: function ($, bodyClasses) {
           var $field = getField($, "alterfichier");
           if ($field.length === 0) return this.resolve();
-          var mime = $field.attr("data-facsimile-mime");
+          var mime = $field.attr("data-document-mime");
           var flag = mime !== "application/pdf";
           this.resolve(flag);
         }
@@ -922,6 +922,25 @@ window.initChecklist = function (docId, context, publi) {
           var $file = getFile($, "facsimile");
           if ($file.length === 0) return this.resolve();
           var filesize = parseInt($file.attr("data-document-filesize"));
+          this.resolve(filesize > maxFilesize);
+        }
+      },
+
+      {
+        id: "facsimile:quality(filesize)[textes]",
+        name: {
+          fr: "Fac-similé de poids trop important",
+        },
+        description: {
+          fr: "<p>Le poids du fac-similé PDF du document n'est pas adapté pour une bonne diffusion. Nous recommandons de charger des PDF de 10 Mo maximum.</p>",
+        },
+        condition: "textes",
+        type: "warning",
+        action: function ($, bodyClasses) {
+          var maxFilesize = 10;
+          var $facsimile = getField($, "alterfichier");
+          if ($facsimile.length === 0) return this.resolve();
+          var filesize = parseInt($facsimile.attr("data-document-filesize"));
           this.resolve(filesize > maxFilesize);
         }
       },
