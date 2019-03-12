@@ -727,10 +727,8 @@ window.initChecklist = function (docId, context, publi) {
         condition: "publications || textes",
         type: "warning",
         action: function ($, bodyClasses) {
-          var $fields = getField($, "motsclesfr", "motsclesen", "motscleses", "motsclesde", "motsclesit", "theme", "geographie", "chrono", "motsclespt");
-          var $entries = $fields.find(".ckl-entry");
           var re = /( [-–—.] |[;,] |[/\\]|\.$)/g;
-          var $bad = $entries.filter(function () {
+          var $bad = $(".ckl-entry").filter(function () {
             var text = $(this).text().trim();
             return text.match(re) != null;
           });
