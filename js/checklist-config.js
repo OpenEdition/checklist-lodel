@@ -787,7 +787,7 @@ window.initChecklist = function (docId, context, publi) {
         description: {
           fr: "<p>Certaines entrées d’index sont peut-être des doublons. Nous vous conseillons de renseigner les mots-clés au singulier et en minuscule lorsqu'il s'agit de noms communs.</p>",
         },
-        condition: "publications || textes || indexes || auteurs",
+        condition: "indexes || auteurs",
         type: "warning",
         action: function ($, bodyClasses) {
           var list = {};
