@@ -985,6 +985,24 @@ window.initChecklist = function (docId, context, publi) {
         }
       },
 
+      {
+        id: "pagination:existence",
+        name: {
+          fr: "Absence de pagination",
+        },
+        description: {
+          fr: "<p>Si le document existe en version imprimée il est fortement recommandé d’en préciser la pagination au format attendu. Cette métadonnée génère la citation bibliographique papier.</p>",
+        },
+        condition: "textes",
+        type: "info",
+        tags: ["paper"],
+        action: function ($, bodyClasses) {
+          var $pagination = getField($, "pagination");
+          var flag = $pagination.length === 0 || $pagination.text().length === 0;
+          this.resolve(flag);
+        }
+      },
+
     ]
   })
     .then(function () {
