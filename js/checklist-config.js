@@ -1023,6 +1023,23 @@ window.initChecklist = function (docId, context, publi) {
         }
       },
 
+      {
+        id: "souspartie:quality",
+        name: {
+          fr: "Sous-partie vide",
+        },
+        description: {
+          fr: "<p>Le sommaire de la publication inclut une ou plusieurs sous-parties qui ne contiennent aucun document. Cette construction est incorrecte.</p>",
+        },
+        condition: "publications",
+        type: "warning",
+        action: function ($, bodyClasses) {
+          // FIXME: add marker "Sous-partie vide" in publication
+          var $bad = $(".checklist-toc-section-contents:empty");
+          this.resolve($bad.length);
+        }
+      },
+
     ]
   })
     .then(function () {
