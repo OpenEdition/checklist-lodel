@@ -1040,6 +1040,33 @@ window.initChecklist = function (docId, context, publi) {
         }
       },
 
+      {
+        id: "bibliography:quality(nom-auteur)",
+        name: {
+          fr: "Absence de nom d'auteur dans une entrée bibliographique",
+        },
+        description: {
+          fr: "<p>Un tiret remplace le nom de l'auteur déjà cité dans l'entrée précédente : cela pose problème pour le moissonage de Bilbo.</p> <p>Voir : <a href='http://www.maisondesrevues.org/680'>http://www.maisondesrevues.org/680</a></p>",
+        },
+        condition: "textes",
+        type: "warning",
+        action: function ($, bodyClasses) {
+          var dashes = /^\s?[\-\u058A\u05BE\u1400\u1806\u2010-\u2015\u2E17\u2E1A\u2E3A\u2E3B\u2E40\u301C\u3030\u30A0\uFE31\uFE32\uFE58\uFE63\uFF0D\u005F\u02CD\u0331\u0332\u2017\uFF3F]/u;
+          var $biblio = getField($, "bibliographie");
+          var $bad = $biblio.find("p").filter(function () {
+            return dashes.test($(this).text());
+          });
+
+          var marker = {
+            name: {
+              fr: "Tirets",
+            },
+            target: $bad,
+            position: "before"
+          };
+          this.resolve($bad.length, marker);
+        }
+      }
     ]
   })
     .then(function () {
