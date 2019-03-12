@@ -907,6 +907,25 @@ window.initChecklist = function (docId, context, publi) {
         }
       },
 
+      {
+        id: "facsimile:quality(filesize)[publications]",
+        name: {
+          fr: "Fac-similé de poids trop important",
+        },
+        description: {
+          fr: "<p>Le poids du fac-similé PDF de la publication n'est pas adapté pour une bonne diffusion. Nous recommandons de charger des PDF de 30 Mo maximum.</p>",
+        },
+        condition: "publications",
+        type: "warning",
+        action: function ($, bodyClasses) {
+          var maxFilesize = 30;
+          var $file = getFile($, "facsimile");
+          if ($file.length === 0) return this.resolve();
+          var filesize = parseInt($file.attr("data-document-filesize"));
+          this.resolve(filesize > maxFilesize);
+        }
+      },
+
     ]
   })
     .then(function () {
