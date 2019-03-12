@@ -19,6 +19,11 @@ window.initChecklist = function (docId, context, publi) {
     return $file;
   }
 
+  // http://stackoverflow.com/questions/990904/javascript-remove-accents-in-strings
+  function latinize(str) {
+    return str.normalize('NFKD').replace(/[\u0300-\u036f]/g, "");
+  };
+
   // Intialisation de checklist
   window.checklist.init({
     parent: "#ckl-pane",
@@ -579,7 +584,7 @@ window.initChecklist = function (docId, context, publi) {
           var $p = getField($, "texte").children();
           var prevIndex = -1;
           var lists = [];
-          var re = /^([0-9A-z]{1,3}(?=[\/.):–—-])|[•●∙◊–—>-](?= ))/;
+          var re = /^([0-9A-z]{1,3}(?=[\/.):–—‑-])|[•●∙◊–—>-](?= ))/;
 
           $p.each(function (index) {
             // Exclude some elements
@@ -716,6 +721,8 @@ window.initChecklist = function (docId, context, publi) {
         }
       },
 
+      },
+
       {
         id: "index:quality(format)",
         name: {
@@ -727,7 +734,7 @@ window.initChecklist = function (docId, context, publi) {
         condition: "publications || textes",
         type: "warning",
         action: function ($, bodyClasses) {
-          var re = /( [-–—.] |[;,] |[/\\]|\.$)/g;
+          var re = /( [-–—.-] |[;,] |[/\\]|\.$)/g;
           var $bad = $(".ckl-entry").filter(function () {
             var text = $(this).text().trim();
             return text.match(re) != null;
@@ -780,14 +787,9 @@ window.initChecklist = function (docId, context, publi) {
         description: {
           fr: "<p>Certaines entrées d’index sont peut-être des doublons. Nous vous conseillons de renseigner les mots-clés au singulier et en minuscule lorsqu'il s'agit de noms communs.</p>",
         },
-        condition: "publications || textes || indexes",
+        condition: "publications || textes || indexes || auteurs",
         type: "warning",
         action: function ($, bodyClasses) {
-          // http://stackoverflow.com/questions/990904/javascript-remove-accents-in-strings
-          function latinize(str) {
-            return str.normalize('NFKD').replace(/[\u0300-\u036f]/g, "");
-          };
-
           var list = {};
           $(".ckl-entry").each(function () {
             var id = latinize($(this).text()).replace(/\W/g, "").toLowerCase();
@@ -807,6 +809,36 @@ window.initChecklist = function (docId, context, publi) {
             },
             target: $bad,
             position: "after"
+          };
+          this.resolve($bad.length, marker);
+        }
+      },
+
+      {
+        id: "author:quality(format)",
+        name: {
+          fr: "Format de nom d’auteur",
+        },
+        description: {
+          fr: "<p>Certains noms d’auteurs ne respectent pas le format attendu ou contiennent des caractères inconnus. Les noms doivent être composés en minuscules avec une majuscule initiale.</p>",
+        },
+        condition: "publications || textes || indexes || auteurs",
+        type: "warning",
+        action: function ($, bodyClasses) {
+          var forbiddenChars = /[0-9!#%*,/\:;?@\[\]_\{\}]/g
+          var $bad = $(".ckl-personne").filter(function () {
+            var firstname = $(this).find(".ckl-personne-firstname").text().trim();
+            var familyname = $(this).find(".ckl-personne-familyname").text().trim();
+            if (!firstname || !familyname) return true;
+            var text = latinize(firstname + familyname);           
+            return text === text.toUpperCase() || text[0] === text[0].toLowerCase || text.match(forbiddenChars);
+          });
+          var marker = {
+            name: {
+              fr: "Mauvais format de nom",
+            },
+            target: $bad,
+            position: "before"
           };
           this.resolve($bad.length, marker);
         }

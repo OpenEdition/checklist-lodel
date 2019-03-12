@@ -173,7 +173,7 @@
         <li>
           <LET VAR="label_prenom"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="prenom"/></LET>
           <LET VAR="label_nom"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="nomfamille"/></LET>
-          <a href="[#ID|makeurlwithid]">
+          <a href="[#ID|makeurlwithid]" class="ckl-personne">
             <span class="ckl-personne-firstname" data-label="[#LABEL_PRENOM|trim]">[#G_FIRSTNAME]</span>
             <span class="ckl-personne-familyname" data-label="[#LABEL_NOM|trim]">[#G_FAMILYNAME]</span>
             <LOOP NAME="ckl_personne_index_count" SELECT="count(id) AS n" TABLE="relations, entities"
