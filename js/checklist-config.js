@@ -945,6 +945,26 @@ window.initChecklist = function (docId, context, publi) {
         }
       },
 
+      {
+        id: "facsimile:existence[publications]",
+        name: {
+          fr: "Absence du fac-similé",
+        },
+        description: {
+          fr: "<p>Aucun fac-similé PDF n’est associé à cette publication. Un PDF sera automatiquement généré. Si vous souhaitez qu'un PDF composé par vos soins soit diffusé, vous devez l'attacher à cette publication. Il doit s'agir du PDF final, sans traits de coupe ni hirondelles.</p>",
+        },
+        condition: "publications",
+        type: "info",
+        tags: ["paper"],
+        action: function ($, bodyClasses) {
+          // TODO: fusionner avec facsimile:quality(filesize) ?
+          var $file = getFile($, "facsimile");
+          if ($file.length === 0) return this.resolve(true);
+          var filesize = parseInt($file.attr("data-document-filesize"));
+          this.resolve(filesize === 0);
+        }
+      },
+
     ]
   })
     .then(function () {
