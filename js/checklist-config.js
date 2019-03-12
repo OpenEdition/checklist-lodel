@@ -650,6 +650,44 @@ window.initChecklist = function (docId, context, publi) {
         }
       },
 
+      {
+        id: "texte:quality(notes-numbering)",
+        name: {
+          fr: "Incohérence dans la numérotation des notes",
+        },
+        description: {
+          fr: "<p>La numérotation des notes de bas de page et notes de fin du document ne suit pas un ordre logique.</p>",
+        },
+        condition: "textes",
+        type: "warning",
+        action: function ($, bodyClasses) {
+          function getBad (fieldName) {
+            var $p = getField($, fieldName).children("p");
+            if ($p.length === 0) return $();
+            var firstNum = 0;
+            return $p.filter(function (index) {
+              var $a = $(this).children("a[id^=ftn]").first();
+              var num = parseInt($a.text());
+              if (index === 0) {
+                firstNum = num;
+                return false;
+              }
+              return num !== index + firstNum;
+            });
+          }
+
+          var $bad = getBad("notesbaspage").add(getBad("notefin"));
+          var marker = {
+            name: {
+              fr: "Numérotation incohérente",
+            },
+            target: $bad,
+            position: "before"
+          };
+          this.resolve($bad.length, marker);
+        }
+      },
+
         }
       },
 
