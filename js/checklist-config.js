@@ -1003,6 +1003,26 @@ window.initChecklist = function (docId, context, publi) {
         }
       },
 
+      {
+        id: "pagination:quality",
+        name: {
+          fr: "Erreur de pagination",
+        },
+        description: {
+          fr: "<p>La pagination de la version papier n’est pas correctement renseignée, le format attendu est page de début-page de fin, exemple 12-72.</p>",
+        },
+        condition: "textes",
+        type: "warning",
+        tags: ["paper"],
+        action: function ($, bodyClasses) {
+          var $pagination = getField($, "pagination");
+          if ($pagination.length === 0) return this.resolve();
+          var text = $pagination.text().trim();
+          var flag = (!/^[a-z0-9]+(-[a-z0-9]+)?$/.test(text));
+          this.resolve(flag);
+        }
+      },
+
     ]
   })
     .then(function () {
