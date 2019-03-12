@@ -26,17 +26,14 @@ a:hover, a:active, a:focus {
   display: none;
 }
 
-.ckl-main {
-  position: relative;
-  display: block;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
 /* Main content + Pane */
 .ckl-main {
+  position: relative;
+  max-width: 1400px;
+  margin: 0 auto;
   display: flex;
-  align-items: flex-start;
+  align-items: stretch;
+  
 }
 
 .ckl-pane {
