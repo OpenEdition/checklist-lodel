@@ -29,7 +29,7 @@
       parent: ".ckl-toc",
       toc: [
         {
-          title: "<span class='title'>[#TITRE|replace('"', "'")]</span>",
+          title: "<span class='title'>[#TITRE|replace('"', "'")|reg_replace("#\R+#", " ")]</span>",
           href: window.location.href,
           docId: "[#DOCUMENT]",
           type: "Publication",
@@ -50,7 +50,7 @@
               <!--[ Publications : sommaire récursif ]-->
               <DO CASE="publications">
                 ,{
-                  title: "[#TITRE|replace('"', "'")]",
+                  title: "[#TITRE|replace('"', "'")|reg_replace("#\R+#", " ")]",
                   section: [
                     <LOOP NAME="create_publi_summary"></LOOP>
                   ]
@@ -64,7 +64,7 @@
                 </LET>
                 <LET VAR="entry_full_title">
                   <span class='authors'>[#ENTRY_AUTHORS|textebrut|trim]</span>
-                  <span class='title'>[#TITRE|replace('"', "'")]</span>
+                  <span class='title'>[#TITRE|replace('"', "'")|reg_replace("#\R+#", " ")]</span>
                 </LET>
                 ,{
                   title: "[#ENTRY_FULL_TITLE|trim]",
