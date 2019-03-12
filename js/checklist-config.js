@@ -745,6 +745,35 @@ window.initChecklist = function (docId, context, publi) {
         }
       },
 
+      {
+        id: "summary:quality",
+        name: {
+          fr: "Hiérarchie du plan incohérente",
+        },
+        description: {
+          fr: "<p>Les intertitres du document ne se suivent pas hiérarchiquement. Il ne faut pas utiliser un intertitre de deuxième niveau (“Titre 2”) qui ne suivrait pas un intertitre de premier niveau (“Titre 1”).</p>",
+        },
+        condition: "textes",
+        type: "danger",
+        action: function ($, bodyClasses) {
+          var $li = $(".ckl-a-toc ul li");
+          var $bad = $li.filter(function () {
+            var level = Number($(this).attr("data-toc-level"));
+            if (level === 1) return false;
+            var $parent = $(this).parents("li[data-toc-level='" + (level - 1) + "']");
+            return $parent.length !== 1;
+          });
+          var marker = {
+            name: {
+              fr: "Hiérarchie incohérente",
+            },
+            target: $bad,
+            position: "before"
+          };
+          this.resolve($bad.length, marker);
+        }
+      },
+
         }
       },
 
