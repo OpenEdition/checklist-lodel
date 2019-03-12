@@ -844,6 +844,39 @@ window.initChecklist = function (docId, context, publi) {
         }
       },
 
+      {
+        id: "links:quality",
+        name: {
+          fr: "Lien(s) à vérifier",
+        },
+        description: {
+          fr: "<p>Certains liens semblent incorrects. Vérifiez notamment que les URL ne contiennent pas de marques de ponctuation indésirables (point final, virgule, etc.).</p>",
+        },
+        condition: "publications || textes",
+        type: "warning",
+        action: function ($, bodyClasses) {
+          function isValidURL (url) {
+            var regex = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/i;
+            return regex.test(url) && url.trim().substr(-1).match(/[).,;\]]/) === null;
+          }
+
+          var $a = $(".ckl-content p a[href]:not(.footnotecall, .endnotecall, .FootnoteSymbol, .EndnoteSymbol, [href^=mailto])");
+          var $bad = $a.filter(function () {
+            var url = $(this).attr("href");
+            return !isValidURL(url);
+          });
+
+          var marker = {
+            name: {
+              fr: "Lien à vérifier",
+            },
+            target: $bad,
+            position: "after"
+          };
+          this.resolve($bad.length, marker);
+        }
+      },
+
         }
       },
 
