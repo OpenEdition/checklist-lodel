@@ -877,6 +877,33 @@ window.initChecklist = function (docId, context, publi) {
         }
       },
 
+      {
+        id: "note:quality(point)",
+        name: {
+          fr: "Note précédée par un point",
+        },
+        description: {
+          fr: "<p>Une ou plusieurs notes de bas de page commencent par un point. Il est recommandé de le supprimer.</p>",
+        },
+        condition: "textes",
+        type: "warning",
+        action: function ($, bodyClasses) {
+          var $notes  = getField($, "notesbaspage", "notefin").find("p");
+          var $bad = $notes.filter(function () {
+            var $clone = $(this).clone();
+            $clone.children("a[id^=ftn]").remove();
+            var text = $clone.text();
+            return /^\s*\./.test(text);
+          });
+
+          var marker = {
+            name: {
+              fr: "Point à supprimer",
+            },
+            target: $bad,
+            position: "before"
+          };
+          this.resolve($bad.length, marker);
         }
       },
 
