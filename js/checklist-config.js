@@ -262,7 +262,7 @@ window.initChecklist = function (docId, context, publi) {
               fr: "Saut de ligne",
             },
             target: $bad,
-            position: "prepend"
+            position: "before"
           };
           this.resolve($bad.length, marker);
         }
@@ -503,7 +503,7 @@ window.initChecklist = function (docId, context, publi) {
               fr: "Saut de ligne",
             },
             target: $bad,
-            position: "prepend"
+            position: "before"
           };
           this.resolve($bad.length, marker);
         }
