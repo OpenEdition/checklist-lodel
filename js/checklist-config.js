@@ -476,7 +476,7 @@ window.initChecklist = function (docId, context, publi) {
         condition: "publications",
         type: "info",
         action: function ($, bodyClasses) {
-          var $cover = getFile($, "imageaccroche", "couverture1");
+          var $cover = getFile($, "couverture1");
           if ($cover.length === 0) return this.resolve();
           var width = $cover.attr("data-document-imagewidth");
           this.resolve(width < 1400);
