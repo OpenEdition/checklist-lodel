@@ -290,7 +290,8 @@ window.initChecklist = function (docId, context, publi) {
               fr: "Image non affichée",
             },
             target: $bad,
-            position: "append"
+            position: "append",
+            highlight: true
           };
           this.resolve($bad.length, marker);
         }
@@ -459,7 +460,8 @@ window.initChecklist = function (docId, context, publi) {
               fr: "Lien hypertexte",
             },
             target: $bad,
-            position: "append"
+            position: "append",
+            highlight: true
           };
           this.resolve($bad.length, marker);
         }
@@ -503,7 +505,8 @@ window.initChecklist = function (docId, context, publi) {
               fr: "Saut de ligne",
             },
             target: $bad,
-            position: "before"
+            position: "before",
+            highlight: true
           };
           this.resolve($bad.length, marker);
         }
@@ -689,7 +692,8 @@ window.initChecklist = function (docId, context, publi) {
               fr: "Numérotation incohérente",
             },
             target: $bad,
-            position: "prepend"
+            position: "prepend",
+            highlight: true
           };
           this.resolve($bad.length, marker);
         }
@@ -761,7 +765,8 @@ window.initChecklist = function (docId, context, publi) {
               fr: "Champ ou lien parasite",
             },
             target: $bad,
-            position: "prepend"
+            position: "prepend",
+            highlight: true
           };
           this.resolve($bad.length, marker);
         }
@@ -817,7 +822,8 @@ window.initChecklist = function (docId, context, publi) {
               fr: "Hiérarchie incohérente",
             },
             target: $bad,
-            position: "prepend"
+            position: "prepend",
+            highlight: true
           };
           this.resolve($bad.length, marker);
         }
@@ -852,7 +858,8 @@ window.initChecklist = function (docId, context, publi) {
               fr: "Doublon",
             },
             target: $bad,
-            position: "append"
+            position: "append",
+            highlight: true
           };
           this.resolve($bad.length, marker);
         }
@@ -882,7 +889,8 @@ window.initChecklist = function (docId, context, publi) {
               fr: "Mauvais format de nom",
             },
             target: $bad,
-            position: "prepend"
+            position: "prepend",
+            highlight: true
           };
           this.resolve($bad.length, marker);
         }
@@ -915,7 +923,8 @@ window.initChecklist = function (docId, context, publi) {
               fr: "Lien à vérifier",
             },
             target: $bad,
-            position: "append"
+            position: "append",
+            highlight: true
           };
           this.resolve($bad.length, marker);
         }
@@ -1106,7 +1115,8 @@ window.initChecklist = function (docId, context, publi) {
               fr: "Tirets",
             },
             target: $bad,
-            position: "prepend"
+            position: "prepend",
+            highlight: true
           };
           this.resolve($bad.length, marker);
         }
