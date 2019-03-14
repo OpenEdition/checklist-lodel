@@ -733,7 +733,7 @@ window.initChecklist = function (docId, context, publi) {
         description: {
           fr: "<p>Certaines entrées d’index ne sont peut-être pas correctement composées.</p><p>Voir <a href='http://www.maisondesrevues.org/108'>http://www.maisondesrevues.org/108</a></p>",
         },
-        condition: "publications || textes",
+        condition: "publications || textes || indexes",
         type: "warning",
         action: function ($, bodyClasses) {
           var re = /( [-–—.-] |[;,] |[/\\]|\.$)/g;
