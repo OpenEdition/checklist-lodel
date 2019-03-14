@@ -723,6 +723,48 @@ window.initChecklist = function (docId, context, publi) {
         }
       },
 
+      {
+        id: "texte:quality(champs)",
+        name: {
+          fr: "Champs ou liens parasites",
+        },
+        description: {
+          fr: "<p>Le document source contient des codes de champs, des signets ou des liens internes qui doivent être supprimés.</p>",
+        },
+        condition: "textes",
+        type: "danger",
+        action: function ($, bodyClasses) {
+          var $field = getField($, "texte");
+
+          // Links
+          var $bad = $field.find("a[href ^= '#id_']");
+
+          // Orphan Text and Elements
+          $field.contents().each(function () {
+            var isElement = this.nodeType === 1;
+            var isText = this.nodeType === 3;
+            var isEmptyText = isText && this.textContent.trim() === "";
+            var isBlockElement = isElement && $(this).css("display") === "block";
+            if ((!isElement && !isText) || isEmptyText || isBlockElement) return;
+            
+            var $prev = $(this).prev(".ckl-orphan");
+            if ($prev.length > 0) {
+              $(this).appendTo($prev);
+              return;
+            }
+            $(this).wrap("<div class='ckl-orphan'></div>");
+          });
+
+          var $bad = $bad.add($field.find(".ckl-orphan"));
+          var marker = {
+            name: {
+              fr: "Champ ou lien parasite",
+            },
+            target: $bad,
+            position: "prepend"
+          };
+          this.resolve($bad.length, marker);
+        }
       },
 
       {
