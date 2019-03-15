@@ -42,8 +42,8 @@ window.initChecklist = function (docId, context, publi) {
       return [
         {
           title: {
-            fr: "Voir",
-            en: "View"
+            fr: "Voir en ligne",
+            en: "View online"
           },
           icon: "<i class='far fa-eye'></i>",
           attributes: {
