@@ -744,13 +744,14 @@ window.initChecklist = function (docId, context, publi) {
           var $bad = $field.find("a[href ^= '#id_']");
 
           // Orphan Text and Elements
+          var allowedTags = ["p", "h1", "h2", "h3", "h4", "h5", "h6", "ol", "ul", "pre", "address", "blockquote", "dl", "div", "hr", "table"];
           $field.contents().each(function () {
             var isElement = this.nodeType === 1;
             var isText = this.nodeType === 3;
             var isEmptyText = isText && this.textContent.trim() === "";
-            var isBlockElement = isElement && $(this).css("display") === "block";
-            if ((!isElement && !isText) || isEmptyText || isBlockElement) return;
-            
+            var isBlock = isElement && allowedTags.indexOf(this.tagName.toLowerCase()) !== -1;
+            if ((!isElement && !isText) || isEmptyText || isBlock) return;
+
             var $prev = $(this).prev(".ckl-orphan");
             if ($prev.length > 0) {
               $(this).appendTo($prev);
