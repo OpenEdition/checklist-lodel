@@ -71,9 +71,6 @@ a:hover, a:active, a:focus {
   color: #4c535b;
 }
 
-.ckl-breadcrumbs {
-}
-
 .ckl-siblings {
   flex: 1;
   min-width: 70px;
@@ -221,7 +218,7 @@ a:hover, a:active, a:focus {
   padding-top: 15px;
 }
 
-[data-label]::before {
+[data-label]:not(:empty)::before {
   content: attr(data-label);
   position: absolute;
   left: 0;
