@@ -63,6 +63,7 @@
                   <FUNC NAME="CKL_PERSONNES_RAW" TYPE="auteur"/>
                 </LET>
                 <LET VAR="entry_full_title">
+                  <!--[ Can't use <p> elements here because of whitespaces injected by HTMLPurifier ]-->
                   <span class='authors'>[#ENTRY_AUTHORS|textebrut|trim]</span>
                   <span class='title'>[#TITRE|replace('"', "'")|reg_replace("#\R+#", " ")]</span>
                 </LET>

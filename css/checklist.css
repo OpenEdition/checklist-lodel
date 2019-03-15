@@ -506,7 +506,8 @@ a:hover, a:active, a:focus {
 }
 
 /* Personnalisation des styles du script */
-.checklist-entry-title span {
+.checklist-entry-title span.authors,
+.checklist-entry-title span.title {
   display: block;
 }
 
