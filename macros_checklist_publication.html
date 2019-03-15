@@ -29,7 +29,7 @@
       parent: ".ckl-toc",
       toc: [
         {
-          title: "<span class='title'>[#TITRE|replace('"', "'")|reg_replace("/(\r\n|\r|\n)+/", " ")]</span>",
+          title: "<span class='title'>[#TITRE|removenotes|replacequotationmark|reg_replace("/(\r\n|\r|\n)+/", " ")]</span>",
           href: window.location.href,
           docId: "[#DOCUMENT]",
           type: "Publication",
@@ -50,7 +50,7 @@
               <!--[ Publications : sommaire récursif ]-->
               <DO CASE="publications">
                 ,{
-                  title: "[#TITRE|replace('"', "'")|reg_replace("/(\r\n|\r|\n)+/", " ")]",
+                  title: "[#TITRE|removenotes|replacequotationmark|reg_replace("/(\r\n|\r|\n)+/", " ")]",
                   section: [
                     <LOOP NAME="create_publi_summary"></LOOP>
                   ]
@@ -65,10 +65,10 @@
                 <LET VAR="entry_full_title">
                   <!--[ Can't use <p> elements here because of whitespaces injected by HTMLPurifier ]-->
                   <span class='authors'>[#ENTRY_AUTHORS|textebrut|trim]</span>
-                  <span class='title'>[#TITRE|replace('"', "'")|reg_replace("/(\r\n|\r|\n)+/", " ")]</span>
+                  <span class='title'>[#TITRE]</span>
                 </LET>
                 ,{
-                  title: "[#ENTRY_FULL_TITLE|trim]",
+                  title: "[#ENTRY_FULL_TITLE|removenotes|replacequotationmark|reg_replace("/(\r\n|\r|\n)+/", " ")|trim]",
                   href: "./?page=checklist&document=[#ID]",
                   docId: "[#ID]",
                   context: {
