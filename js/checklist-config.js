@@ -121,7 +121,7 @@ window.initChecklist = function (docId, context, publi) {
           fr: "Avertissements",
           en: "Danger"
         },
-        color: "#ed5740"
+        color: "#e57373"
       },
       {
         id: "warning",
@@ -129,7 +129,7 @@ window.initChecklist = function (docId, context, publi) {
           fr: "Recommandations",
           en: "Warning"
         },
-        color: "#F5C110"
+        color: "#ffc107"
       },
       {
         id: "info",
@@ -137,7 +137,7 @@ window.initChecklist = function (docId, context, publi) {
           fr: "Informations",
           en: "Information"
         },
-        color: "#3d9cdf"
+        color: "#8bc34a"
       }
     ],
 
@@ -161,8 +161,8 @@ window.initChecklist = function (docId, context, publi) {
           fr: "Ce document est très bien composé.",
           en: "This document is well formated"
         },
-        color: "#3c763d",
-        bgcolor: "#dff0d8"
+        color: "#292d32",
+        bgcolor: "#c5e1a5"
       },
       {
         id: "good",
@@ -171,8 +171,8 @@ window.initChecklist = function (docId, context, publi) {
           fr: "Ce document est correctement composé.",
           en: "This document is well formated."
         },
-        color: "#31708f",
-        bgcolor: "#d9edf7"
+        color: "#292d32",
+        bgcolor: "#ffe082"
       },
       {
         id: "bad",
@@ -181,8 +181,8 @@ window.initChecklist = function (docId, context, publi) {
           fr: "Ce document contient des erreurs de composition.",
           en: "This document contains issues."
         },
-        color: "#a94442",
-        bgcolor: "#f2dede"
+        color: "#292d32",
+        bgcolor: "#ef9a9a"
       }
     ],
 
