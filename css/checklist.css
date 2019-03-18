@@ -196,7 +196,7 @@ a:hover, a:active, a:focus {
   margin-right: 10px;
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   font-size: 12px;
-  color: #f8b500;
+  color: #9CA4AB;
   font-weight: bold;
 }
 
@@ -225,7 +225,7 @@ a:hover, a:active, a:focus {
   top: 0;
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   font-size: 12px;
-  color: #f8b500;
+  color: #9CA4AB;
 }
 
 /* Labels dans le texte */
@@ -238,7 +238,7 @@ a:hover, a:active, a:focus {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   font-size: 12px;
   line-height: 12px;
-  color: #f8b500;
+  color: #9CA4AB;
 }
 
 .ckl-field-text .ckl-field-value > p::before,

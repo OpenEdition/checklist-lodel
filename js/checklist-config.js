@@ -129,7 +129,7 @@ window.initChecklist = function (docId, context, publi) {
           fr: "Recommandations",
           en: "Warning"
         },
-        color: "#f8d14c"
+        color: "#F5C110"
       },
       {
         id: "info",
