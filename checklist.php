@@ -5,7 +5,7 @@ class checklist extends Plugins {
 	public function disableAction (&$context, &$error) {}
 
 	public function preview (&$context)	{
-		if(!defined('backoffice') || $context['view']['tpl'] != 'checklist') return;
+		if(!defined('backoffice') || $context['view']['tpl'] != 'checklist' || !parent::_checkRights(LEVEL_REDACTOR)) return;
 		C::set('view.base_rep.checklist', 'checklist');
 	}
 
