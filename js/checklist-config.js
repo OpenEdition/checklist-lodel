@@ -905,7 +905,7 @@ window.initChecklist = function (docId, context, publi) {
         description: {
           fr: "<p>Certains liens semblent incorrects. Vérifiez notamment que les URL ne contiennent pas de marques de ponctuation indésirables (point final, virgule, etc.).</p>",
         },
-        condition: "publications || textes",
+        condition: "textes",
         type: "warning",
         action: function ($, bodyClasses) {
           function isValidURL (url) {
