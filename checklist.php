@@ -1,8 +1,12 @@
 <?php
 class checklist extends Plugins {
-	public function enableAction (&$context, &$error) {}
+	public function enableAction (&$context, &$error) {
+		if(!parent::_checkRights(LEVEL_ADMINLODEL)) { return; }
+	}
 
-	public function disableAction (&$context, &$error) {}
+	public function disableAction (&$context, &$error) {
+		if(!parent::_checkRights(LEVEL_ADMINLODEL)) { return; }
+	}
 
 	public function preview (&$context)	{
 		if($context['view']['tpl'] != 'checklist' || !parent::_checkRights(LEVEL_REDACTOR)) return;
