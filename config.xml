@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LodelPlugin>
+	<title>Checklist</title>
+	<description>Outil de vérification qualité</description>
+	<sql>0</sql>
+	<hookType>class</hookType>
+	<hook>class</hook>
+	 <triggers>preview,postview</triggers>
+	<parameters>
+	</parameters>
+</LodelPlugin>
