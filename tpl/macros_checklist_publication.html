@@ -32,8 +32,8 @@
           title: "<span class='title'>[#TITRE|removenotes|replacequotationmark|reg_replace("/(\r\n|\r|\n)+/", " ")]</span>",
           href: window.location.href,
           docId: "[#DOCUMENT]",
-          type: "Publication",
-          icon: "<i class='fas fa-book'></i>",
+          type: "[#TYPE|majuscule]",
+          icon: "fas fa-book",
           context: {"publications": true}
         }
 
@@ -71,6 +71,7 @@
                   title: "[#ENTRY_FULL_TITLE|removenotes|replacequotationmark|reg_replace("/(\r\n|\r|\n)+/", " ")|trim]",
                   href: "./?page=checklist&document=[#ID]",
                   docId: "[#ID]",
+                  type: "[#TYPE|majuscule]",
                   context: {
                     "[#CLASS]": true,
                     "[#TYPE]": true
