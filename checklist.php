@@ -22,11 +22,15 @@ class checklist extends Plugins {
 		// Get page contents
 		$page = View::$page;
 		$dom = new DOMDocument;
+
+		// Avoid errors with invalid HTML when using DOMDocument::loadHTML()
+		$internalErrors = libxml_use_internal_errors(true);
 		$dom->loadHTML($page);
+		libxml_use_internal_errors($internalErrors);
+		
+		// Create a "Checklist" item in Lodel tabs
 		$finder = new DomXPath($dom);
 		$ul = $finder->query('//*[@id="lodel-desk"]//*[contains(concat(" ",normalize-space(@class)," ")," group1 ")]')[0];
-
-		// Create a "Checklist" item in Lodel tabs
 		$li = $dom->createElement('li');
 		$ul->appendChild($li);
 		$a = $dom->createElement('a', 'Checklist');
