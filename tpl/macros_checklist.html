@@ -375,7 +375,7 @@
     <DO>
       <li class="ckl-traduction" lang="[#LANGUE]">
         <span class="ckl-field-ml-lang">[#LANGUE]</span>
-        <span class="ckl-field-ml-value"><a href="./?page=checklist&document=[#ID]">[#TITRE]</a></span>
+        <span class="ckl-field-ml-value"><a href="./?do=_checklist_view&document=[#ID]">[#TITRE]</a></span>
         <span class="ckl-field-ml-id">([#ID])</span>
         <IF COND="[#ORIGINAL]">
           <span class="ckl-traduction-original">[original]</span>
@@ -543,7 +543,7 @@
 
   <span class="ckl-breadcrumbs-item" data-type="[#TYPE]" data-degree="[#DEGREE]">
     <IF COND="[#TYPE] EQ 'numero'">
-      <a href="./?page=checklist&document=[#ID]">[#A_CONTENTS|trim]</a>
+      <a href="./?do=_checklist_view&document=[#ID]">[#A_CONTENTS|trim]</a>
     <ELSE/>
       [#A_CONTENTS|trim]
     </IF>
@@ -646,5 +646,5 @@
     <LET VAR="btn_icon">chevron-circle-right</LET>
   </IF>
 
-  <a href="./?page=checklist&document=[#ENTITY_ID]" class="btn"><i class="fas fa-[#BTN_ICON]"></i></a>
+  <a href="./?do=_checklist_view&document=[#ENTITY_ID]" class="btn"><i class="fas fa-[#BTN_ICON]"></i></a>
  </DEFFUNC>

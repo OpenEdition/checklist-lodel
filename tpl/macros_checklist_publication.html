@@ -69,7 +69,7 @@
                 </LET>
                 ,{
                   title: "[#ENTRY_FULL_TITLE|removenotes|replacequotationmark|reg_replace("/(\r\n|\r|\n)+/", " ")|trim]",
-                  href: "./?page=checklist&document=[#ID]",
+                  href: "./?do=_checklist_view&document=[#ID]",
                   docId: "[#ID]",
                   type: "[#TYPE|majuscule]",
                   context: {
