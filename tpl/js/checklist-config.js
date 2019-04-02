@@ -1,4 +1,4 @@
-window.initChecklist = function (docId, context, publi) {
+window.initChecklist = function (sitename, docId, context, publi) {
   if (window.checklist == null) return;
 
   // NOTE: ES2016 here
@@ -31,8 +31,7 @@ window.initChecklist = function (docId, context, publi) {
     docId: docId,
 
     // Prefixe des clés du localStorage
-    // TODO: utiliser ici le nom court du site
-    namespace: "foobar",
+    namespace: sitename,
 
     // Langue de l'interface
     lang: "fr",
