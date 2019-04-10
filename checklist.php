@@ -9,7 +9,19 @@ class checklist extends Plugins {
 	}
 
 	public function preview (&$context)	{
-		if($context['view']['tpl'] != 'checklist' || !parent::_checkRights(LEVEL_REDACTOR)) return;
+		if ($context['view']['tpl'] != 'checklist') return;
+		if (!parent::_checkRights(LEVEL_REDACTOR)) {
+			header("HTTP/1.0 404 Not Found");
+			header("Status: 404 Not Found");
+			header("Connection: Close");
+			$missing = C::get('home', 'cfg')."../../missing.php";
+			if (file_exists($missing)) {
+				include $missing;
+			} else {
+				header('Location: not-found.html');
+			}
+			exit;
+		}
 		C::set('view.base_rep.checklist', 'checklist');
 	}
 
