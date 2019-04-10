@@ -150,7 +150,7 @@
         <MACRO NAME="CKL_A_TOC"/>
 
         <!--[ Texte intégral ]-->
-        <FUNC NAME="CKL_FIELD_STRING" FIELD="texte" VALUE="[#TEXTE|cleanCallNotes|tocable|tocss('heading')|vignettiser(300)|embedMedia]" CLASSNAME="ckl-field-text" />
+        <FUNC NAME="CKL_FIELD_STRING" FIELD="texte" VALUE="[#TEXTE|cleanCallNotes|tocable|tocss('heading')|vignettiser(300, 300)|embedMedia]" CLASSNAME="ckl-field-text" />
     </LET>
     <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
   </IF>
@@ -159,7 +159,7 @@
   <IF COND="[#BIBLIOGRAPHIE]">
     <LET VAR="section_contents">
       <!--[ Bibliographie ]-->
-      <FUNC NAME="CKL_FIELD_STRING" FIELD="bibliographie" VALUE="[(#BIBLIOGRAPHIE|cleanCallNotes|tocss('heading')|vignettiser(300)|embedMedia)]" CLASSNAME="ckl-field-text" />
+      <FUNC NAME="CKL_FIELD_STRING" FIELD="bibliographie" VALUE="[(#BIBLIOGRAPHIE|cleanCallNotes|tocss('heading')|vignettiser(300, 300)|embedMedia)]" CLASSNAME="ckl-field-text" />
     </LET>
     <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
   </IF>
@@ -168,7 +168,7 @@
   <IF COND="[#ANNEXE]">
     <LET VAR="section_contents">
       <!--[ Annexes (texte) ]-->
-      <FUNC NAME="CKL_FIELD_STRING" FIELD="annexe" VALUE="[#ANNEXE|cleanCallNotes|tocss('heading')|vignettiser(300)|embedMedia]" CLASSNAME="ckl-field-text" />
+      <FUNC NAME="CKL_FIELD_STRING" FIELD="annexe" VALUE="[#ANNEXE|cleanCallNotes|tocss('heading')|vignettiser(300, 300)|embedMedia]" CLASSNAME="ckl-field-text" />
     </LET>
     <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
   </IF>
