@@ -214,7 +214,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           fr: "Absence de la date de publication électronique",
         },
         description: {
-          fr: "<p>Ce numéro ou ce document n’a pas de date de publication électronique. Cette information est obligatoire.</p><p>Voir : <a  href="http://www.maisondesrevues.org/84">http://www.maisondesrevues.org/84</a></p>",
+          fr: "<p>Ce numéro ou ce document n’a pas de date de publication électronique. Cette information est obligatoire.</p><p>Voir : <a  href=\"http://www.maisondesrevues.org/84\">http://www.maisondesrevues.org/84</a></p>",
         },
         condition: "publications || textes",
         type: "danger",
@@ -231,7 +231,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           fr: "Absence de la date de publication papier",
         },
         description: {
-          fr: "<p>Ce numéro ou ce document n’a pas de date de publication papier. Cette information est obligatoire pour les revues ayant une édition papier.</p><p>Voir : <a href="http://www.maisondesrevues.org/84">http://www.maisondesrevues.org/84</a> et <a href="http://www.maisondesrevues.org/804#tocto1n4">http://www.maisondesrevues.org/804#tocto1n4</a></p>",
+          fr: "<p>Ce numéro ou ce document n’a pas de date de publication papier. Cette information est obligatoire pour les revues ayant une édition papier.</p><p>Voir : <a href=\"http://www.maisondesrevues.org/84\">http://www.maisondesrevues.org/84</a> et <a href=\"http://www.maisondesrevues.org/804#tocto1n4\">http://www.maisondesrevues.org/804#tocto1n4</a></p>",
         },
         condition: "publications || textes",
         type: "danger",
@@ -249,7 +249,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           fr: "Saut de ligne dans le titre ou le sous titre",
         },
         description: {
-          fr: "<p>Des sauts de ligne sont utilisés dans le titre ou le sous-titre de ce document ou de cette publication. Ils doivent constituer un seul paragraphe sans retour à la ligne.</p><p>Voir : <a href="http://www.maisondesrevues.org/1295">http://www.maisondesrevues.org/1295</a> et <a href="http://www.maisondesrevues.org/804#tocto1n4">http://www.maisondesrevues.org/804#tocto1n4</a></p>",
+          fr: "<p>Des sauts de ligne sont utilisés dans le titre ou le sous-titre de ce document ou de cette publication. Ils doivent constituer un seul paragraphe sans retour à la ligne.</p><p>Voir : <a href=\"http://www.maisondesrevues.org/1295\">http://www.maisondesrevues.org/1295</a> et <a href=\"http://www.maisondesrevues.org/804#tocto1n4\">http://www.maisondesrevues.org/804#tocto1n4</a></p>",
         },
         condition: "publications || textes",
         type: "danger",
@@ -273,7 +273,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           fr: "Image non affichée",
         },
         description: {
-          fr: "<p>Certaines images du document ne sont pas affichées dans Lodel. Cela peut être un problème de format d'image ou de structure du fichier source.</p><p>Voir : <a href="http://www.maisondesrevues.org/155">http://www.maisondesrevues.org/155</a></p>",
+          fr: "<p>Certaines images du document ne sont pas affichées dans Lodel. Cela peut être un problème de format d'image ou de structure du fichier source.</p><p>Voir : <a href=\"http://www.maisondesrevues.org/155\">http://www.maisondesrevues.org/155</a></p>",
         },
         condition: "textes",
         type: "warning",
@@ -302,7 +302,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           fr: "Pas de couverture",
         },
         description: {
-          fr: "<p>La couverture est manquante. Il est conseillé d’ajouter une couverture aux numéros quand c’est possible.</p><p>Voir : <a href="http://www.maisondesrevues.org/792">http://www.maisondesrevues.org/792</a></p>",
+          fr: "<p>La couverture est manquante. Il est conseillé d’ajouter une couverture aux numéros quand c’est possible.</p><p>Voir : <a href=\"http://www.maisondesrevues.org/792\">http://www.maisondesrevues.org/792</a></p>",
         },
         condition: "publications",
         type: "info",
@@ -320,7 +320,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           fr: "La couverture n'est pas au format attendu",
         },
         description: {
-          fr: "<p>Les couvertures doivent être aux formats JPG ou PNG.</p><p>Voir : <a href="http://www.maisondesrevues.org/792">http://www.maisondesrevues.org/792</a></p>",
+          fr: "<p>Les couvertures doivent être aux formats JPG ou PNG.</p><p>Voir : <a href=\"http://www.maisondesrevues.org/792\">http://www.maisondesrevues.org/792</a></p>",
         },
         condition: "publications",
         type: "info",
@@ -374,7 +374,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           fr: "Absence de la métadonnée de langue",
         },
         description: {
-          fr: "<p>La langue de cette publication ou de ce document est absente ou n'est pas reconnue. Elle est obligatoire.</p><p>Voir : <a href="http://www.maisondesrevues.org/85">http://www.maisondesrevues.org/85</a></p>",
+          fr: "<p>La langue de cette publication ou de ce document est absente ou n'est pas reconnue. Elle est obligatoire.</p><p>Voir : <a href=\"http://www.maisondesrevues.org/85\">http://www.maisondesrevues.org/85</a></p>",
         },
         condition: "publications || textes",
         type: "danger",
@@ -391,7 +391,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           fr: "Fac-similé non PDF",
         },
         description: {
-          fr: "<p>Le fichier attaché en tant que fac-similé n’est pas un document PDF.</p><p>Voir : <a href="http://www.maisondesrevues.org/612">http://www.maisondesrevues.org/612</a></p>",
+          fr: "<p>Le fichier attaché en tant que fac-similé n’est pas un document PDF.</p><p>Voir : <a href=\"http://www.maisondesrevues.org/612\">http://www.maisondesrevues.org/612</a></p>",
         },
         condition: "publications",
         type: "danger",
@@ -410,7 +410,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           fr: "Fac-similé non PDF",
         },
         description: {
-          fr: "<p>Le fichier attaché en tant que fac-similé n’est pas un document PDF.</p><p>Voir : <a href="http://www.maisondesrevues.org/793">http://www.maisondesrevues.org/793</a></p>",
+          fr: "<p>Le fichier attaché en tant que fac-similé n’est pas un document PDF.</p><p>Voir : <a href=\"http://www.maisondesrevues.org/793\">http://www.maisondesrevues.org/793</a></p>",
         },
         condition: "textes",
         type: "danger",
@@ -429,7 +429,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           fr: "Absence de la numérotation",
         },
         description: {
-          fr: "<p>La numérotation du numéro n’est pas définie, elle est à renseigner dans le formulaire d’édition du numéro.</p><p>Voir : <a href="http://www.maisondesrevues.org/804#tocfrom1n4">http://www.maisondesrevues.org/804#tocfrom1n4</a></p>",
+          fr: "<p>La numérotation du numéro n’est pas définie, elle est à renseigner dans le formulaire d’édition du numéro.</p><p>Voir : <a href=\"http://www.maisondesrevues.org/804#tocfrom1n4\">http://www.maisondesrevues.org/804#tocfrom1n4</a></p>",
         },
         condition: "publications",
         type: "danger",
@@ -472,7 +472,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           fr: "Couverture de taille insuffisante",
         },
         description: {
-          fr: "<p>La couverture est de taille insuffisante. Elle doit mesurer au moins 1400 pixels de large.</p><p>Voir : <a href="http://www.maisondesrevues.org/792">http://www.maisondesrevues.org/792</a></p>",
+          fr: "<p>La couverture est de taille insuffisante. Elle doit mesurer au moins 1400 pixels de large.</p><p>Voir : <a href=\"http://www.maisondesrevues.org/792\">http://www.maisondesrevues.org/792</a></p>",
         },
         condition: "publications",
         type: "info",
@@ -491,7 +491,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           fr: "Saut de ligne dans un intertitre ou titre alternatif",
         },
         description: {
-          fr: "<p>Des sauts de lignes sont présents dans les intertitres ou les titres alternatifs, ils doivent être supprimés.</p><p>Voir : <a href="http://www.maisondesrevues.org/1303?lang=en#tocto1n2">http://www.maisondesrevues.org/1303?lang=en#tocto1n2</a></p>",
+          fr: "<p>Des sauts de lignes sont présents dans les intertitres ou les titres alternatifs, ils doivent être supprimés.</p><p>Voir : <a href=\"http://www.maisondesrevues.org/1303?lang=en#tocto1n2\">http://www.maisondesrevues.org/1303?lang=en#tocto1n2</a></p>",
         },
         condition: "textes",
         type: "warning",
@@ -553,7 +553,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           fr: "Mauvais style de citation",
         },
         description: {
-          fr: "<p>Certains paragraphes sont peut-être des citations non stylées.</p><p>Voir : <a href="http://www.maisondesrevues.org/1303#tocto1n3">http://www.maisondesrevues.org/1303#tocto1n3</a></p>",
+          fr: "<p>Certains paragraphes sont peut-être des citations non stylées.</p><p>Voir : <a href=\"http://www.maisondesrevues.org/1303#tocto1n3\">http://www.maisondesrevues.org/1303#tocto1n3</a></p>",
         },
         condition: "textes",
         type: "warning",
@@ -580,7 +580,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           fr: "Listes mal formatées",
         },
         description: {
-          fr: "<p>Certains paragraphes sont peut-être des listes mal formatées.</p><p>Voir : <a href="http://www.maisondesrevues.org/91">http://www.maisondesrevues.org/91</a></p>",
+          fr: "<p>Certains paragraphes sont peut-être des listes mal formatées.</p><p>Voir : <a href=\"http://www.maisondesrevues.org/91\">http://www.maisondesrevues.org/91</a></p>",
         },
         condition: "textes",
         type: "warning",
@@ -805,7 +805,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           fr: "Hiérarchie du plan incohérente",
         },
         description: {
-          fr: "<p>Les intertitres du document ne se suivent pas hiérarchiquement. Il ne faut pas utiliser un intertitre de deuxième niveau (“Titre 2”) qui ne suivrait pas un intertitre de premier niveau (“Titre 1”).</p><p>Voir : <a href="http://www.maisondesrevues.org/90>http://www.maisondesrevues.org/90</a></p>",
+          fr: "<p>Les intertitres du document ne se suivent pas hiérarchiquement. Il ne faut pas utiliser un intertitre de deuxième niveau (“Titre 2”) qui ne suivrait pas un intertitre de premier niveau (“Titre 1”).</p><p>Voir : <a href=\"http://www.maisondesrevues.org/90\">http://www.maisondesrevues.org/90</a></p>",
         },
         condition: "textes",
         type: "danger",
@@ -835,7 +835,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           fr: "Vérifier les doublons d’index",
         },
         description: {
-          fr: "<p>Certaines entrées d’index sont peut-être des doublons. Nous vous conseillons de renseigner les mots-clés au singulier et en minuscule lorsqu'il s'agit de noms communs.</p><p>Voir : <a href="http://www.maisondesrevues.org/221">http://www.maisondesrevues.org/221</a></p>",
+          fr: "<p>Certaines entrées d’index sont peut-être des doublons. Nous vous conseillons de renseigner les mots-clés au singulier et en minuscule lorsqu'il s'agit de noms communs.</p><p>Voir : <a href=\"http://www.maisondesrevues.org/221\">http://www.maisondesrevues.org/221</a></p>",
         },
         condition: "indexes || auteurs",
         type: "warning",
@@ -871,7 +871,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           fr: "Format de nom d’auteur",
         },
         description: {
-          fr: "<p>Certains noms d’auteurs ne respectent pas le format attendu ou contiennent des caractères inconnus. Les noms doivent être composés en minuscules avec une majuscule initiale.</p><p>Voir : <a href="http://www.maisondesrevues.org/222">http://www.maisondesrevues.org/222</a></p>",
+          fr: "<p>Certains noms d’auteurs ne respectent pas le format attendu ou contiennent des caractères inconnus. Les noms doivent être composés en minuscules avec une majuscule initiale.</p><p>Voir : <a href=\"http://www.maisondesrevues.org/222\">http://www.maisondesrevues.org/222</a></p>",
         },
         condition: "publications || textes || indexes || auteurs",
         type: "warning",
@@ -966,7 +966,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           fr: "Fac-similé de poids trop important",
         },
         description: {
-          fr: "<p>Le poids du fac-similé PDF de la publication n'est pas adapté pour une bonne diffusion. Nous recommandons de charger des PDF de 30 Mo maximum.</p><p>Voir : <a href="http://www.maisondesrevues.org/612">http://www.maisondesrevues.org/612</a></p>",
+          fr: "<p>Le poids du fac-similé PDF de la publication n'est pas adapté pour une bonne diffusion. Nous recommandons de charger des PDF de 30 Mo maximum.</p><p>Voir : <a href=\"http://www.maisondesrevues.org/612\">http://www.maisondesrevues.org/612</a></p>",
         },
         condition: "publications",
         type: "warning",
@@ -1004,7 +1004,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           fr: "Absence du fac-similé",
         },
         description: {
-          fr: "<p>Aucun fac-similé PDF n’est associé à cette publication. Un PDF sera automatiquement généré. Si vous souhaitez qu'un PDF composé par vos soins soit diffusé, vous devez l'attacher à cette publication. Il doit s'agir du PDF final, sans traits de coupe ni hirondelles.</p><p>Voir : <a href="http://www.maisondesrevues.org/612">http://www.maisondesrevues.org/612</a></p>",
+          fr: "<p>Aucun fac-similé PDF n’est associé à cette publication. Un PDF sera automatiquement généré. Si vous souhaitez qu'un PDF composé par vos soins soit diffusé, vous devez l'attacher à cette publication. Il doit s'agir du PDF final, sans traits de coupe ni hirondelles.</p><p>Voir : <a href=\"http://www.maisondesrevues.org/612\">http://www.maisondesrevues.org/612</a></p>",
         },
         condition: "publications",
         type: "info",
@@ -1024,7 +1024,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           fr: "Absence du fac-similé",
         },
         description: {
-          fr: "<p>Aucun fac-similé PDF n’est associé à ce document. Un PDF sera automatiquement généré. Si vous souhaitez qu'un PDF composé par vos soins soit diffusé, vous devez l'attacher à ce document. Il doit s'agir du PDF final, sans traits de coupe ni hirondelles.</p><p>Voir : <a href="http://www.maisondesrevues.org/793">http://www.maisondesrevues.org/793</a></p>",
+          fr: "<p>Aucun fac-similé PDF n’est associé à ce document. Un PDF sera automatiquement généré. Si vous souhaitez qu'un PDF composé par vos soins soit diffusé, vous devez l'attacher à ce document. Il doit s'agir du PDF final, sans traits de coupe ni hirondelles.</p><p>Voir : <a href=\"http://www.maisondesrevues.org/793\">http://www.maisondesrevues.org/793</a></p>",
         },
         condition: "textes",
         type: "info",
@@ -1044,7 +1044,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           fr: "Absence de pagination",
         },
         description: {
-          fr: "<p>Si le document existe en version imprimée il est fortement recommandé d’en préciser la pagination au format attendu. Cette métadonnée génère la citation bibliographique papier.</p><p>Voir : <a href="http://www.maisondesrevues.org/1295">http://www.maisondesrevues.org/1295</a></p>",
+          fr: "<p>Si le document existe en version imprimée il est fortement recommandé d’en préciser la pagination au format attendu. Cette métadonnée génère la citation bibliographique papier.</p><p>Voir : <a href=\"http://www.maisondesrevues.org/1295\">http://www.maisondesrevues.org/1295</a></p>",
         },
         condition: "textes",
         type: "info",
@@ -1062,7 +1062,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           fr: "Erreur de pagination",
         },
         description: {
-          fr: "<p>La pagination de la version papier n’est pas correctement renseignée, le format attendu est page de début-page de fin, exemple 12-72.</p><p>Voir : <a href="http://www.maisondesrevues.org/1295">http://www.maisondesrevues.org/1295</a></p>",
+          fr: "<p>La pagination de la version papier n’est pas correctement renseignée, le format attendu est page de début-page de fin, exemple 12-72.</p><p>Voir : <a href=\"http://www.maisondesrevues.org/1295\">http://www.maisondesrevues.org/1295</a></p>",
         },
         condition: "textes",
         type: "warning",
