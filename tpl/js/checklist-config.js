@@ -231,7 +231,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           fr: "Absence de la date de publication papier",
         },
         description: {
-          fr: "<p>Ce numéro ou ce document n’a pas de date de publication papier. Cette information est obligatoire pour les revues ayant une édition papier.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;:<br /><ul><li><a href=\"http://www.maisondesrevues.org/84\" target=\"_blank\">Date de publication papier / électronique</a></li><li><a href=\"http://www.maisondesrevues.org/804#tocto1n4\" target=\"_blank\">Créer un numéro dans Lodel</a></li></ul></p>",
+          fr: "<p>Ce numéro ou ce document n’a pas de date de publication papier. Cette information est obligatoire pour les revues ayant une édition papier.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;:</p><ul><li><a href=\"http://www.maisondesrevues.org/84\" target=\"_blank\">Date de publication papier / électronique</a></li><li><a href=\"http://www.maisondesrevues.org/804#tocto1n4\" target=\"_blank\">Créer un numéro dans Lodel</a></li></ul>",
         },
         condition: "publications || textes",
         type: "danger",
@@ -249,7 +249,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           fr: "Saut de ligne dans le titre ou le sous titre",
         },
         description: {
-          fr: "<p>Des sauts de ligne sont utilisés dans le titre ou le sous-titre de ce document ou de cette publication. Ils doivent constituer un seul paragraphe sans retour à la ligne.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;:<br /><ul><li><a href=\"http://www.maisondesrevues.org/1295\" target=\"_blank\">Styler les métadonnées de l’article</a></li><li><a href=\"http://www.maisondesrevues.org/804#tocto1n4\" target=\"_blank\">Créer un numéro dans Lodel</a></li></ul></p>",
+          fr: "<p>Des sauts de ligne sont utilisés dans le titre ou le sous-titre de ce document ou de cette publication. Ils doivent constituer un seul paragraphe sans retour à la ligne.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;:</p><ul><li><a href=\"http://www.maisondesrevues.org/1295\" target=\"_blank\">Styler les métadonnées de l’article</a></li><li><a href=\"http://www.maisondesrevues.org/804#tocto1n4\" target=\"_blank\">Créer un numéro dans Lodel</a></li></ul>",
         },
         condition: "publications || textes",
         type: "danger",
