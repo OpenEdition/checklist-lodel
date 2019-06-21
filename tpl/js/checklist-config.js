@@ -491,7 +491,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           fr: "Saut de ligne dans un intertitre ou titre alternatif",
         },
         description: {
-          fr: "<p>Des sauts de lignes sont présents dans les intertitres ou les titres alternatifs, ils doivent être supprimés.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/1303" target=\"_blank\">Styler un texte</a></p>",
+          fr: "<p>Des sauts de lignes sont présents dans les intertitres ou les titres alternatifs, ils doivent être supprimés.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/1303\" target=\"_blank\">Styler un texte</a></p>",
         },
         condition: "textes",
         type: "warning",
