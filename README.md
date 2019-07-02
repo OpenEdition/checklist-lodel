@@ -27,3 +27,5 @@ Pour modifier les templates, la configuration du script JS ou les règles :
 
 1. Modifier les fichiers adéquats dans ce dépôt
 2. Il n'y a pas de 2
+
+Pour voir comment utiliser ou modifier `checklist-config.js`, lire https://github.com/OpenEdition/checklist#utilisation
