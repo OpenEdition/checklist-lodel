@@ -21,5 +21,11 @@
   "bugs": {
     "url": "https://github.com/OpenEdition/checklist-lodel/issues"
   },
-  "homepage": "https://github.com/OpenEdition/checklist-lodel#readme"
+  "homepage": "https://github.com/OpenEdition/checklist-lodel#readme",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.9.0",
+    "@openedition/checklist": "latest",
+    "jquery": "^3.4.1",
+    "largetable": "^0.1.3"
+  }
 }
