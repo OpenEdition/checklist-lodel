@@ -1,0 +1,25 @@
+{
+  "name": "checklist-lodel",
+  "version": "1.0.0",
+  "description": "OpenEdition Checklist Plugin for Lodel CMS",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OpenEdition/checklist-lodel.git"
+  },
+  "keywords": [
+    "openedition",
+    "checklist",
+    "lodel"
+  ],
+  "author": {
+    "name": "Thomas Brouard",
+    "email": "contact@brrd.fr",
+    "url": "https://brrd.fr"
+  },
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/OpenEdition/checklist-lodel/issues"
+  },
+  "homepage": "https://github.com/OpenEdition/checklist-lodel#readme"
+}
