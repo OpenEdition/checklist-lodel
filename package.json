@@ -2,6 +2,7 @@
   "name": "checklist-lodel",
   "version": "1.0.0",
   "description": "OpenEdition Checklist Plugin for Lodel CMS",
+  "private": true,
   "scripts": {},
   "repository": {
     "type": "git",
