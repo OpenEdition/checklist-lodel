@@ -1,6 +1,6 @@
 {
   "name": "checklist-lodel",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "OpenEdition Checklist Plugin for Lodel CMS",
   "private": true,
   "scripts": {},
