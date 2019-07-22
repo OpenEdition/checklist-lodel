@@ -42,7 +42,11 @@ class checklist extends Plugins {
 		
 		// Create a "Checklist" item in Lodel tabs
 		$finder = new DomXPath($dom);
-		$ul = $finder->query('//*[@id="lodel-desk"]//*[contains(concat(" ",normalize-space(@class)," ")," group1 ")]')[0];
+		$uls = $finder->query('//*[@id="lodel-desk"]//*[contains(concat(" ",normalize-space(@class)," ")," group1 ")]');
+		if ($uls->length == 0) {
+			return;
+		}
+		$ul = $uls[0];
 		$li = $dom->createElement('li');
 		$ul->appendChild($li);
 		$a = $dom->createElement('a', 'Checklist');
