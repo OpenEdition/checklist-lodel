@@ -33,45 +33,22 @@ class checklist extends Plugins {
 
 		// Get page contents
 		$page = View::$page;
-		$dom = new DOMDocument;
-
-		// Avoid errors with invalid HTML when using DOMDocument::loadHTML()
-		$internalErrors = libxml_use_internal_errors(true);
-		$dom->loadHTML($page);
-		libxml_use_internal_errors($internalErrors);
-		
-		// Create a "Checklist" item in Lodel tabs
-		$finder = new DomXPath($dom);
-		$uls = $finder->query('//*[@id="lodel-desk"]//*[contains(concat(" ",normalize-space(@class)," ")," group1 ")]');
-		if ($uls->length == 0) {
-			return;
-		}
-		$ul = $uls[0];
-		$li = $dom->createElement('li');
-		$ul->appendChild($li);
-		$a = $dom->createElement('a', 'Checklist');
-		$href = $dom->createAttribute('href');
-		$href->value = './?do=_checklist_view&amp;document=' . $context['id'];
+		$doc_id = $context['id'];
 
 		// If Checklist is active
 		if ($tpl == 'checklist') {
-			// Deactivate other tabs
-			$actifs = $finder->query('.//*[@id="lodel-desk"]//*[contains(concat(" ",normalize-space(@class)," ")," group1 ")]//li//a[contains(concat(" ",normalize-space(@class)," ")," actif ")]');
-			foreach ($actifs as $el) {
-				$el->removeAttribute('class');
-			}
-			
-			// Change Checklist tab href and class
-			$href->value = './?index.php&amp;id=' . $_GET['document'];
-			$classname = $dom->createAttribute('class');
-			$classname->value = 'actif';
-			$a->appendChild($classname);
+			// Deactivate "Site" tab
+			$re = '/<li class="site">\R?<a class="actif" href="index\.php"  title="Site">\R?Site<\/a>\R?<\/li>/m';
+			$replacement = '<li class="site"><a href="index.php" title="Site">Site</a></li>';
+			$doc_id = $_GET['document'];
+			$page = preg_replace($re, $replacement, $page);
 		}
 
-		// Update page contents
-		$a->appendChild($href);
-		$li->appendChild($a);
-		$page = $dom->saveHTML();
+		// Add a "Checklist" tab
+		$re = '/<li>\R?<a href="lodel\/admin\/index\.php\?do=list&amp;lo=internal_messaging" title="Messagerie interne">Messagerie interne<\/a>\R?<\/li>/m';
+		$replacement = '\0<li><a href="./?do=_checklist_view&amp;document=' . $doc_id . '" title="Checklist">Checklist</a></li>';
+		$page = preg_replace($re, $replacement, $page);
+
 		View::$page = $page;
 	}
 
