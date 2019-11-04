@@ -261,7 +261,8 @@ window.initChecklist = function (sitename, docId, context, publi) {
               fr: "Saut de ligne",
             },
             target: $bad,
-            position: "before"
+            position: "before",
+            highlight: $bad.parent()
           };
           this.resolve($bad.length, marker);
         }
