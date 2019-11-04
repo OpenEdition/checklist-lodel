@@ -799,7 +799,8 @@ window.initChecklist = function (sitename, docId, context, publi) {
               fr: "Composition",
             },
             target: $bad,
-            position: "append"
+            position: "append",
+            highlight: true
           };
           this.resolve($bad.length, marker);
         }
