@@ -725,7 +725,8 @@ window.initChecklist = function (sitename, docId, context, publi) {
               fr: "Ponctuation",
             },
             target: $bad,
-            position: "append"
+            position: "append",
+            highlight: true
           };
           this.resolve($bad.length, marker);
         }
