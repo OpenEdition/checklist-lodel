@@ -656,7 +656,8 @@ window.initChecklist = function (sitename, docId, context, publi) {
                 fr: "Style inconnu&nbsp: " + classname,
               },
               target: $el,
-              position: "prepend"
+              position: "prepend",
+              highlight: true
             });
           });
           this.resolve();
