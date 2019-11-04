@@ -506,7 +506,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
             },
             target: $bad,
             position: "before",
-            highlight: true
+            highlight: $bad.parent()
           };
           this.resolve($bad.length, marker);
         }
