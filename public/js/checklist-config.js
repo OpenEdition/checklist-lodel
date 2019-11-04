@@ -372,9 +372,18 @@ window.initChecklist = function (sitename, docId, context, publi) {
         condition: "publications || textes",
         type: "danger",
         action: function ($, bodyClasses) {
-          var titre = getField($, "titre").text().trim();
+          var $titre = getField($, "titre");
+          var titre = $titre.text().trim();
           var flag = titre.length === 0 || titre === "Document sans titre";
-          this.resolve(flag);
+          var marker = {
+            name: {
+              fr: "Document sans titre",
+            },
+            target: $titre,
+            position: "append",
+            highlight: true
+          };
+          this.resolve(flag, marker);
         }
       },
 
