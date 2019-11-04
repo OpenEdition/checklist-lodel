@@ -1098,7 +1098,15 @@ window.initChecklist = function (sitename, docId, context, publi) {
           if ($pagination.length === 0) return this.resolve();
           var text = $pagination.text().trim();
           var flag = (!/^[a-z0-9]+(-[a-z0-9]+)?$/.test(text));
-          this.resolve(flag);
+          var marker = {
+            name: {
+              fr: "Pagination invalide",
+            },
+            target: $pagination,
+            position: "after",
+            highlight: true
+          };
+          this.resolve(flag, marker);
         }
       },
 
