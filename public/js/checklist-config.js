@@ -569,7 +569,8 @@ window.initChecklist = function (sitename, docId, context, publi) {
               fr: "Citation",
             },
             target: $bad,
-            position: "prepend"
+            position: "prepend",
+            highlight: true
           };
           this.resolve($bad.length, marker);
         }
