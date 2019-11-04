@@ -237,9 +237,18 @@ window.initChecklist = function (sitename, docId, context, publi) {
         type: "danger",
         tags: ["paper"],
         action: function ($, bodyClasses) {
-          var field = getField($, "datepublipapier").text();
-          var flag = !field || field.length === 0 || field === "0000-00-00";
-          this.resolve(flag);
+          var $field = getField($, "datepublipapier")
+          var date = $field.text();
+          var flag = $field.length === 0 || date.length === 0 || date === "0000-00-00";
+          var marker = {
+            name: {
+              fr: "Date vide",
+            },
+            target: $field,
+            position: "after",
+            highlight: $field
+          };
+          this.resolve(flag, marker);
         }
       },
 
