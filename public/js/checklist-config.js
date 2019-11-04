@@ -106,7 +106,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           condition: "textes",
           icon: "<i class='far fa-file-code'></i>",
           attributes: {
-            href: "./lodel/edition/index.php?do=download&type=source&id=" + docId
+            href: "./lodel/edition/index.php?do=download&type=tei&id=" + docId
           }
         }
       ];
