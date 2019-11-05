@@ -151,9 +151,11 @@
 
         <!--[ Texte intégral ]-->
         <FUNC NAME="CKL_FIELD_STRING" FIELD="texte" VALUE="[#TEXTE|cleanCallNotes|tocable|tocss('heading')|vignettiser(300, 300)|embedMedia]" CLASSNAME="ckl-field-text" />
+
+        <!--[ Test sur l'existence des images ]-->
+        <FUNC NAME="CKL_A_CHECK_IMAGES_EXISTENCE" TEXT="[#TEXTE]" />
     </LET>
     <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
-    <FUNC NAME="CKL_A_CHECK_IMAGES_EXISTENCE" TEXT="[#TEXTE]" />
   </IF>
 
   <!--[ Section Bibliographie ]-->
@@ -161,6 +163,9 @@
     <LET VAR="section_contents">
       <!--[ Bibliographie ]-->
       <FUNC NAME="CKL_FIELD_STRING" FIELD="bibliographie" VALUE="[(#BIBLIOGRAPHIE|cleanCallNotes|tocss('heading')|vignettiser(300, 300)|embedMedia)]" CLASSNAME="ckl-field-text" />
+
+      <!--[ Test sur l'existence des images ]-->
+      <FUNC NAME="CKL_A_CHECK_IMAGES_EXISTENCE" TEXT="[#BIBLIOGRAPHIE]" />
     </LET>
     <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
   </IF>
@@ -170,6 +175,9 @@
     <LET VAR="section_contents">
       <!--[ Annexes (texte) ]-->
       <FUNC NAME="CKL_FIELD_STRING" FIELD="annexe" VALUE="[#ANNEXE|cleanCallNotes|tocss('heading')|vignettiser(300, 300)|embedMedia]" CLASSNAME="ckl-field-text" />
+
+      <!--[ Test sur l'existence des images ]-->
+      <FUNC NAME="CKL_A_CHECK_IMAGES_EXISTENCE" TEXT="[#ANNEXE]" />
     </LET>
     <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
   </IF>
@@ -286,9 +294,11 @@
  * @param {string} text - Texte à tester.
  */
 <DEFFUNC NAME="CKL_A_CHECK_IMAGES_EXISTENCE" REQUIRED="text">
-  <!--[
-    <LOOP NAME="EXTRAIT_IMAGES" TEXT="[#TEXT]">
-      puis utiliser [#IMAGE|file_exists]
+  <IF COND="[#TEXT] LIKE /<img src=\"(.*?)\"/">
+    <LOOP NAME="foreach" ARRAY="[#MATCHES.1]">
+      <IF COND="![#VALUE|file_exists]">
+        <div class="ckl-image-not-found hidden">[#VALUE]</div>
+      </IF>
     </LOOP>
-  ]-->
+  </IF>
 </DEFFUNC>
