@@ -306,6 +306,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
             .filter(function() {
               return this.naturalWidth != null && this.naturalWidth === 0 && this.naturalHeight != null && this.naturalHeight === 0;
             })
+            .parents("p")
             .add($texte.find("p:contains([Image non convertie])"));
           var marker = {
             name: {
