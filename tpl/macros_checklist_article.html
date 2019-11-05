@@ -43,7 +43,7 @@
     <!--[ Date de la publication papier ]-->
     <FUNC NAME="CKL_FIELD_STRING" FIELD="datepublipapier" VALUE="[#DATEPUBLIPAPIER]"/>
 
-    <!-- [ Barrière mobile ] -->
+    <!--[ Barrière mobile ]-->
     <LET VAR="BM">0</LET>
     <IF COND="[#TYPE] EQ 'article' AND [#DATEPUBLI] GT today()">
       <LET VAR="BM">1</LET>
@@ -53,12 +53,12 @@
     <!--[ Langue ]-->
     <FUNC NAME="CKL_FIELD_STRING" FIELD="langue" VALUE="[#LANGUE]"/>
 
-    <!-- [ Vignettisation simple ] -->
+    <!--[ Vignettisation simple ]-->
     <FUNC NAME="CKL_FIELD_BOOL" FIELD="vignettesimple" VALUE="[#VIGNETTESIMPLE]" OUI="Zoom illustration désactivé" NON=""/>
   </LET>
   <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" CLASSNAME="ckl-cartouche" />
 
-  <!-- [ Section Personnes ] -->
+  <!--[ Section Personnes ]-->
   <LET VAR="section_contents">
     <!--[ Auteurs ]-->
     <FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="auteur" IDDOC="[#ID]"/>
@@ -71,7 +71,7 @@
   </LET>
   <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
 
-  <!-- [ Section Métadonnées ] -->
+  <!--[ Section Métadonnées ]-->
   <LET VAR="section_contents">
     <!--[ Numéro de document ]-->
     <IF COND="[#NUMERODOCUMENT] AND [#NUMERODOCUMENT] NE '0'">
@@ -84,10 +84,10 @@
     <!--[ Alias de traduction ]-->
     <MACRO NAME="CKL_TRADUCTIONS"/>
 
-    <!-- [ Résumés ] -->
+    <!--[ Résumés ]-->
     <FUNC NAME="CKL_FIELD_ML" FIELD="resume" VALUE="[#RESUME]"/>
 
-    <!-- [ Entrées d'index ] -->
+    <!--[ Entrées d'index ]-->
     <FUNC NAME="CKL_ENTRIES" CLASSNAME="indexes"/>
 
     <!--[ Pagination ]-->
@@ -95,7 +95,7 @@
   </LET>
   <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
 
-  <!-- [ Section Œuvre commentée ] -->
+  <!--[ Section Œuvre commentée ]-->
   <LET VAR="section_contents">
     <!--[ Notice bibliographique de l’œuvre commentée ]-->
     <FUNC NAME="CKL_FIELD_STRING" FIELD="noticebibliooeuvre" VALUE="[#NOTICEBIBLIOOEUVRE]"/>
@@ -146,7 +146,7 @@
   <!--[ Section Texte ]-->
   <IF COND="[#TEXTE]">
     <LET VAR="section_contents">
-        <!-- [ Sommaire de l'article ] -->
+        <!--[ Sommaire de l'article ]-->
         <MACRO NAME="CKL_A_TOC"/>
 
         <!--[ Texte intégral ]-->
@@ -241,7 +241,7 @@
   <IF COND="[#ALTERFICHIER]">
     <div class="ckl-field ckl-facsimile" data-field="alterfichier">
       <div class="ckl-field-title"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="alterfichier"/></div>
-      <!-- TODO: i18n "Oui" -->
+      <!--[ TODO: i18n "Oui" ]-->
       <div class="ckl-field-value" data-document-mime="[#ALTERFICHIER|getFileMime]" data-document-filesize="[#ALTERFICHIER|nicefilesize]">Oui</div>
     </div>
   </IF>

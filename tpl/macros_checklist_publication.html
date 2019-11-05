@@ -114,10 +114,10 @@
     <!--[ Date de la publication papier ]-->
     <FUNC NAME="CKL_FIELD_STRING" FIELD="datepublipapier" VALUE="[#DATEPUBLIPAPIER]"/>
 
-    <!-- [ Cette publication est-elle à paraître ? ] -->
+    <!--[ Cette publication est-elle à paraître ? ]-->
     <FUNC NAME="CKL_FIELD_BOOL" FIELD="paraitre" VALUE="[#PARAITRE]" OUI="Oui" NON="Non"/>
 
-    <!-- [ Numéro ouvert ] -->
+    <!--[ Numéro ouvert ]-->
     <FUNC NAME="CKL_FIELD_BOOL" FIELD="numeroouvert" VALUE="[#NUMEROOUVERT]" OUI="Oui" NON="Non"/>
 
     <!--[ Date de mise en ligne ]-->
@@ -126,7 +126,7 @@
     <!--[ Date de mise en accès libre ]-->
     <FUNC NAME="CKL_FIELD_STRING" FIELD="dateacceslibre" VALUE="[#DATEACCESLIBRE]"/>
 
-    <!-- [ Cette publication est-elle en libre accès ? ] -->
+    <!--[ Cette publication est-elle en libre accès ? ]-->
     <FUNC NAME="CKL_FIELD_BOOL" FIELD="integralite" VALUE="[#INTEGRALITE]" OUI="Oui" NON="Non"/>
   </LET>
   <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" CLASSNAME="ckl-cartouche" />
@@ -148,13 +148,13 @@
     <!--[ Numéro de publication ]-->
     <FUNC NAME="CKL_FIELD_STRING" FIELD="numero" VALUE="[#NUMERO]"/>
 
-    <!-- [ Licence ] -->
+    <!--[ Licence ]-->
     <FUNC NAME="CKL_ENTRIES" CLASSNAME="indexavances"/>
 
     <!--[ Directeur de la publication ]-->
     <FUNC NAME="CKL_PERSONNES" TYPE="directeurdelapublication"/>
 
-    <!-- [ Entrées d'index ] -->
+    <!--[ Entrées d'index ]-->
     <FUNC NAME="CKL_ENTRIES" CLASSNAME="indexes"/>
   </LET>
   <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
