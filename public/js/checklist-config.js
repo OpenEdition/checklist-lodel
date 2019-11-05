@@ -19,6 +19,19 @@ window.initChecklist = function (sitename, docId, context, publi) {
     return $file;
   }
 
+  // Return true if filesize from field is greater than maxSizeMo
+  function fileIsTooBig($, fieldname, maxSizeMo) {
+    var $field = getField($, fieldname);
+    if ($field.length === 0) return false;
+
+    var fileinfo = $field.attr("data-document-filesize");
+    var unit = fileinfo.charAt(fileinfo.length - 1);
+    if (unit === "k") return false;
+
+    var filesize = parseInt(fileinfo);
+    return filesize > maxSizeMo;
+  }
+
   // http://stackoverflow.com/questions/990904/javascript-remove-accents-in-strings
   function latinize(str) {
     return str.normalize('NFKD').replace(/[\u0300-\u036f]/g, "");
@@ -998,11 +1011,8 @@ window.initChecklist = function (sitename, docId, context, publi) {
         condition: "publications",
         type: "warning",
         action: function ($, bodyClasses) {
-          var maxFilesize = 30;
-          var $file = getFile($, "facsimile");
-          if ($file.length === 0) return this.resolve();
-          var filesize = parseInt($file.attr("data-document-filesize"));
-          this.resolve(filesize > maxFilesize);
+          var flag = fileIsTooBig($, "facsimile", 30);
+          this.resolve(flag);
         }
       },
 
@@ -1017,11 +1027,8 @@ window.initChecklist = function (sitename, docId, context, publi) {
         condition: "textes",
         type: "warning",
         action: function ($, bodyClasses) {
-          var maxFilesize = 10;
-          var $facsimile = getField($, "alterfichier");
-          if ($facsimile.length === 0) return this.resolve();
-          var filesize = parseInt($facsimile.attr("data-document-filesize"));
-          this.resolve(filesize > maxFilesize);
+          var flag = fileIsTooBig($, "alterfichier", 10);
+          this.resolve(flag);
         }
       },
 
@@ -1037,7 +1044,6 @@ window.initChecklist = function (sitename, docId, context, publi) {
         type: "info",
         tags: ["paper"],
         action: function ($, bodyClasses) {
-          // TODO: fusionner avec facsimile:quality(filesize) ?
           var $file = getFile($, "facsimile");
           if ($file.length === 0) return this.resolve(true);
           var filesize = parseInt($file.attr("data-document-filesize"));
@@ -1057,7 +1063,6 @@ window.initChecklist = function (sitename, docId, context, publi) {
         type: "info",
         tags: ["paper"],
         action: function ($, bodyClasses) {
-          // TODO: fusionner avec facsimile:quality(filesize) ?
           var $facsimile = getField($, "alterfichier");
           if ($facsimile.length === 0) return this.resolve(true);
           var filesize = parseInt($facsimile.attr("data-document-filesize"));
