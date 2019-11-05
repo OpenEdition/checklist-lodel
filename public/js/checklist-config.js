@@ -938,7 +938,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
             return regex.test(url) && url.trim().substr(-1).match(/[).,;\]]/) === null;
           }
 
-          var $a = $(".ckl-content p a[href]:not(.footnotecall, .endnotecall, .FootnoteSymbol, .EndnoteSymbol, [href^=mailto])");
+          var $a = $(".ckl-content p:not(.ckl-fichier-document) a[href]:not(.footnotecall, .endnotecall, .FootnoteSymbol, .EndnoteSymbol, [href^=mailto])");
           var $bad = $a.filter(function () {
             var url = $(this).attr("href");
             return !isValidURL(url);
