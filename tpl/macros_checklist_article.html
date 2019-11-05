@@ -153,6 +153,7 @@
         <FUNC NAME="CKL_FIELD_STRING" FIELD="texte" VALUE="[#TEXTE|cleanCallNotes|tocable|tocss('heading')|vignettiser(300, 300)|embedMedia]" CLASSNAME="ckl-field-text" />
     </LET>
     <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
+    <FUNC NAME="CKL_A_CHECK_IMAGES_EXISTENCE" TEXT="[#TEXTE]" />
   </IF>
 
   <!--[ Section Bibliographie ]-->
@@ -278,4 +279,16 @@
       </div>
     </AFTER>
   </LOOP>
+</DEFFUNC>
+
+/**
+ * Vérifier l'existence des images appelées dans un texte.
+ * @param {string} text - Texte à tester.
+ */
+<DEFFUNC NAME="CKL_A_CHECK_IMAGES_EXISTENCE" REQUIRED="text">
+  <!--[
+    <LOOP NAME="EXTRAIT_IMAGES" TEXT="[#TEXT]">
+      puis utiliser [#IMAGE|file_exists]
+    </LOOP>
+  ]-->
 </DEFFUNC>
