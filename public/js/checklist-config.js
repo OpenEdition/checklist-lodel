@@ -699,6 +699,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
             var firstNum = 0;
             return $p.filter(function (index) {
               var $a = $(this).children("a[id^=ftn]").first();
+              if ($a.length === 0) return false;
               var num = parseInt($a.text());
               if (index === 0) {
                 firstNum = num;
