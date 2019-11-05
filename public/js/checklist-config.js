@@ -301,13 +301,15 @@ window.initChecklist = function (sitename, docId, context, publi) {
         condition: "textes",
         type: "warning",
         action: function ($, bodyClasses) {
-          var $texte = getField($, "texte");
-          var $bad = $texte.find("img")
+          var $textes = getField($, "texte", "annexe", "bibliographie", "notesbaspage", "notefin");
+          console.log($textes);
+          
+          var $bad = $textes.find("img")
             .filter(function() {
               return this.naturalWidth != null && this.naturalWidth === 0 && this.naturalHeight != null && this.naturalHeight === 0;
             })
             .parents("p")
-            .add($texte.find("p:contains([Image non convertie])"));
+            .add($textes.find("p:contains([Image non convertie])"));
           var marker = {
             name: {
               fr: "Image non affichée",
