@@ -314,7 +314,6 @@ window.initChecklist = function (sitename, docId, context, publi) {
         type: "warning",
         action: function ($, bodyClasses) {
           var $textes = getField($, "texte", "annexe", "bibliographie", "notesbaspage", "notefin");
-          console.log($textes);
           
           var $bad = $textes.find("img")
             .filter(function() {
