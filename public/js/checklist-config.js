@@ -733,23 +733,24 @@ window.initChecklist = function (sitename, docId, context, publi) {
           function getBad(fieldName) {
             var $p = getField($, fieldName).children("p");
             if ($p.length === 0) return $();
+            var i = -1;
             var firstNum = 0;
             var listIsRoman;
             var getNum = function(value) {
               return listIsRoman ? deromanize(value) : parseInt(value);
             };
 
-            return $p.filter(function (index) {
+            return $p.filter(function () {
               var $a = $(this).find("a[id^=ftn]").first();
               if ($a.length === 0) return false;
-              
+              i++;
               var value = $a.text();
-              if (index === 0) {
+              if (i === 0) {
                 listIsRoman = /^[IVXLCDM]+$/i.test(value);
                 firstNum = getNum(value);
                 return false;
               }
-              return getNum(value) !== index + firstNum;
+              return getNum(value) !== i + firstNum;
             });
           }
 
