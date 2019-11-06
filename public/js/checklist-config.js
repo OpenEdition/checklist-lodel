@@ -740,12 +740,12 @@ window.initChecklist = function (sitename, docId, context, publi) {
             };
 
             return $p.filter(function (index) {
-              var $a = $(this).children("a[id^=ftn]").first();
+              var $a = $(this).find("a[id^=ftn]").first();
               if ($a.length === 0) return false;
               
               var value = $a.text();
               if (index === 0) {
-                listIsRoman = /^̂[IVXLCDM]+$/i.test(value);
+                listIsRoman = /^[IVXLCDM]+$/i.test(value);
                 firstNum = getNum(value);
                 return false;
               }
