@@ -576,9 +576,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         condition: "textes",
         type: "warning",
         action: function ($, bodyClasses) {
-          var $p = getField($, "texte").find("p").not(".citation, .paragraphesansretrait, blockquote, ol, ul, li, table, table *");
+          var $p = getField($, "texte").find("p").not(".citation, .citationbis, .citationter, .paragraphesansretrait");
           
           var $bad = $p.filter(function() {
+            if ($p.parent("li, td, blockquote").length > 0) return;
+
             var text = $(this).text();
             if (text.length < 2) return false;
 
