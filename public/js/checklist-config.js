@@ -936,13 +936,13 @@ window.initChecklist = function (sitename, docId, context, publi) {
         condition: "publications || textes || indexes || auteurs",
         type: "warning",
         action: function ($, bodyClasses) {
-          var forbiddenChars = /[0-9!#%*,/\:;?@\[\]_\{\}]/g
+          var forbiddenChars = /[0-9!#%*,/\:;?@\[\]_\{\}]/g;
           var $bad = $(".ckl-personne").filter(function () {
             var firstname = $(this).find(".ckl-personne-firstname").text().trim();
             var familyname = $(this).find(".ckl-personne-familyname").text().trim();
             if (!firstname || !familyname) return true;
             var text = latinize(firstname + familyname);           
-            return text === text.toUpperCase() || text[0] === text[0].toLowerCase || text.match(forbiddenChars);
+            return firstname === firstname.toUpperCase() || familyname === familyname.toUpperCase() || text[0] === text[0].toLowerCase || text.match(forbiddenChars);
           });
           var marker = {
             name: {
