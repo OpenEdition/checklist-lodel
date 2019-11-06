@@ -156,11 +156,21 @@
  */
 <DEFMACRO NAME="CKL_CREATE_CONTEXT">
   <LET VAR="checklist_context" GLOBAL="1">
-    {
-      "[#CLASS]": true,
-      "[#TYPE]": true
-    }
+    <MACRO NAME="CKL_CREATE_CONTEXT_JSON" />
   </LET>
+</DEFMACRO>
+
+/**
+ * Contenu JSON de CKL_CREATE_CONTEXT.
+ */
+<DEFMACRO NAME="CKL_CREATE_CONTEXT_JSON">
+  {
+    "[#CLASS]": true,
+    "[#TYPE]": true,
+    <LOOP NAME="ckl_create_context_json_get_creationmethod" TABLE="entities" WHERE="id='[#ID]' AND creationmethod != ''" SELECT="creationmethod, creationinfo" />
+    "extension-[#CREATIONINFO|reg_replace("/^.*\./", "")]": true
+    </LOOP>
+  }
 </DEFMACRO>
 
 /**

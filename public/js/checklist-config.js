@@ -122,10 +122,10 @@ window.initChecklist = function (sitename, docId, context, publi) {
         },
         {
           title: {
-            fr: "Télécharger la source au format .doc",
-            en: "Download source in .doc"
+            fr: "Télécharger la source",
+            en: "Download source"
           },
-          condition: "textes",
+          condition: "textes && otx && !extension-xml",
           icon: "<i class='far fa-file-word'></i>",
           attributes: {
             href: "./lodel/edition/index.php?do=download&type=source&id=" + docId
@@ -133,8 +133,8 @@ window.initChecklist = function (sitename, docId, context, publi) {
         },
         {
           title: {
-            fr: "Télécharger la source au format XML TEI",
-            en: "Download XML"
+            fr: "Télécharger la source (XML)",
+            en: "Download source (XML)"
           },
           condition: "textes",
           icon: "<i class='far fa-file-code'></i>",
