@@ -37,6 +37,18 @@ window.initChecklist = function (sitename, docId, context, publi) {
     return str.normalize('NFKD').replace(/[\u0300-\u036f]/g, "");
   };
 
+  // http://blog.stevenlevithan.com/archives/javascript-roman-numeral-converter
+  function deromanize(roman) {
+    var roman = roman.toUpperCase().split(''),
+      lookup = { I: 1, V: 5, X: 10, L: 50, C: 100, D: 500, M: 1000 },
+      num = 0, val = 0;
+    while (roman.length) {
+      val = lookup[roman.shift()];
+      num += val * (val < lookup[roman[0]] ? -1 : 1);
+    }
+    return num;
+  }
+
   // Intialisation de checklist
   window.checklist.init({
     parent: "#ckl-pane",
@@ -709,19 +721,26 @@ window.initChecklist = function (sitename, docId, context, publi) {
         condition: "textes",
         type: "warning",
         action: function ($, bodyClasses) {
-          function getBad (fieldName) {
+          function getBad(fieldName) {
             var $p = getField($, fieldName).children("p");
             if ($p.length === 0) return $();
             var firstNum = 0;
+            var listIsRoman;
+            var getNum = function(value) {
+              return listIsRoman ? deromanize(value) : parseInt(num);
+            };
+
             return $p.filter(function (index) {
               var $a = $(this).children("a[id^=ftn]").first();
               if ($a.length === 0) return false;
-              var num = parseInt($a.text());
+              
+              var value = $a.text();
               if (index === 0) {
-                firstNum = num;
+                listIsRoman = /^̂[IVXLCDM]+$/i.test(value);
+                firstNum = getNum(value);
                 return false;
               }
-              return num !== index + firstNum;
+              return getNum(value) !== index + firstNum;
             });
           }
 
