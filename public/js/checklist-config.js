@@ -736,7 +736,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
             var firstNum = 0;
             var listIsRoman;
             var getNum = function(value) {
-              return listIsRoman ? deromanize(value) : parseInt(num);
+              return listIsRoman ? deromanize(value) : parseInt(value);
             };
 
             return $p.filter(function (index) {
