@@ -49,6 +49,14 @@ window.initChecklist = function (sitename, docId, context, publi) {
     return num;
   }
 
+  function isUpperCase(str){
+    return str === str.toUpperCase();
+  }
+
+  function isLowerCase(str) {
+    return str === str.toLowerCase();
+  }
+
   // Intialisation de checklist
   window.checklist.init({
     parent: "#ckl-pane",
@@ -926,7 +934,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
       },
 
       {
-        id: "author:quality(format)",
+        id: " ",
         name: {
           fr: "Format de nom d’auteur",
         },
@@ -936,13 +944,24 @@ window.initChecklist = function (sitename, docId, context, publi) {
         condition: "publications || textes || indexes || auteurs",
         type: "warning",
         action: function ($, bodyClasses) {
-          var forbiddenChars = /[0-9!#%*,/\:;?@\[\]_\{\}]/g;
+          var forbiddenChars = /[0-9!#%*,/\:;?@\[\]_\{\}&]/g;
           var $bad = $(".ckl-personne").filter(function () {
             var firstname = $(this).find(".ckl-personne-firstname").text().trim();
             var familyname = $(this).find(".ckl-personne-familyname").text().trim();
             if (!firstname || !familyname) return true;
-            var text = latinize(firstname + familyname);           
-            return firstname === firstname.toUpperCase() || familyname === familyname.toUpperCase() || text[0] === text[0].toLowerCase || text.match(forbiddenChars);
+            var text = latinize(firstname + familyname); 
+
+            // Find "et" & "and" in firstname
+            var matchAnd = firstname.match(/(?:et|and) (.)/);
+            if (matchAnd) {
+              var captured = matchAnd[1];
+              if (isUpperCase(captured)) return true;
+            }
+            
+            return isUpperCase(firstname)
+              || isUpperCase(familyname)
+              || isLowerCase(text[0])
+              || text.match(forbiddenChars);
           });
           var marker = {
             name: {
