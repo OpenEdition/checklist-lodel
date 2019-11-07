@@ -942,7 +942,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
         action: function ($, bodyClasses) {
           var list = {};
           $(".ckl-entry").each(function () {
-            var id = latinize($(this).text()).replace(/\W/g, "").toLowerCase();
+            var id = latinize($(this).text()).replace(/\W/g, "").toLowerCase().replace(/s$/, "");
             list[id] = list[id] ? list[id].add($(this)) : $(this);
           });
           
