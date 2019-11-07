@@ -679,17 +679,17 @@ window.initChecklist = function (sitename, docId, context, publi) {
           var $p = getField($, "texte").children();
           var prevIndex = -1;
           var lists = [];
-          var re = /^([0-9A-z]{1,3}(?=[\/.):–—‑-])|[•●∙◊–—>-](?= ))/;
+          var re = /^((?:[IVXLCDMivxlcdm0-9]{1,3}|[A-z])(?=[\/.):–—‑-])|[•●∙◊–—>-])/;
 
           $p.each(function (index) {
             // Exclude some elements
-            if ($(this).is(":not(p), .titreillustration")) return false;
+            if ($(this).is(":not(p), .titreillustration")) return;
 
             // Match bullets to test their existence
             var text = $(this).text();
             var match = text.match(re);
             if (match == null) return;
-            
+
             // Group lists depending on element index
             var isNewList = lists.length === 0 || index > prevIndex + 1;
             if (isNewList) {
