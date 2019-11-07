@@ -55,6 +55,9 @@
 
     <!--[ Vignettisation simple ]-->
     <FUNC NAME="CKL_FIELD_BOOL" FIELD="vignettesimple" VALUE="[#VIGNETTESIMPLE]" OUI="Zoom illustration désactivé" NON=""/>
+
+    <!--[ Format du fichier importé ]-->
+    <MACRO NAME="CKL_A_GET_FORMAT" />
   </LET>
   <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" CLASSNAME="ckl-cartouche" />
 
@@ -302,3 +305,15 @@
     </LOOP>
   </IF>
 </DEFFUNC>
+
+/**
+ * Récupérer le format du fichier importé.
+ */
+<DEFMACRO NAME="CKL_A_GET_FORMAT">
+  <LOOP NAME="ckl_a_get_format" TABLE="entities" WHERE="id='[#ID]'" SELECT="creationinfo" />
+    <div class="ckl-field ckl-field-string" data-field="format">
+      <div class="ckl-field-title">[@FORMAT]</div>
+      <div class="ckl-field-value">[#CREATIONINFO|reg_replace("/^.*\./", "")]</div>
+    </div>
+  </LOOP>
+</DEFMACRO>

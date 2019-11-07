@@ -37,6 +37,26 @@ window.initChecklist = function (sitename, docId, context, publi) {
     return str.normalize('NFKD').replace(/[\u0300-\u036f]/g, "");
   };
 
+  // http://blog.stevenlevithan.com/archives/javascript-roman-numeral-converter
+  function deromanize(roman) {
+    var roman = roman.toUpperCase().split(''),
+      lookup = { I: 1, V: 5, X: 10, L: 50, C: 100, D: 500, M: 1000 },
+      num = 0, val = 0;
+    while (roman.length) {
+      val = lookup[roman.shift()];
+      num += val * (val < lookup[roman[0]] ? -1 : 1);
+    }
+    return num;
+  }
+
+  function isUpperCase(str){
+    return str === str.toUpperCase();
+  }
+
+  function isLowerCase(str) {
+    return str === str.toLowerCase();
+  }
+
   // Intialisation de checklist
   window.checklist.init({
     parent: "#ckl-pane",
@@ -102,10 +122,10 @@ window.initChecklist = function (sitename, docId, context, publi) {
         },
         {
           title: {
-            fr: "Télécharger la source au format .doc",
-            en: "Download source in .doc"
+            fr: "Télécharger la source",
+            en: "Download source"
           },
-          condition: "textes",
+          condition: "textes && otx && !extension-xml",
           icon: "<i class='far fa-file-word'></i>",
           attributes: {
             href: "./lodel/edition/index.php?do=download&type=source&id=" + docId
@@ -113,8 +133,8 @@ window.initChecklist = function (sitename, docId, context, publi) {
         },
         {
           title: {
-            fr: "Télécharger la source au format XML TEI",
-            en: "Download XML"
+            fr: "Télécharger la source (XML)",
+            en: "Download source (XML)"
           },
           condition: "textes",
           icon: "<i class='far fa-file-code'></i>",
@@ -301,12 +321,14 @@ window.initChecklist = function (sitename, docId, context, publi) {
         condition: "textes",
         type: "warning",
         action: function ($, bodyClasses) {
-          var $texte = getField($, "texte");
-          var $bad = $texte.find("img")
+          var $textes = getField($, "texte", "annexe", "bibliographie", "notesbaspage", "notefin");
+          
+          var $bad = $textes.find("img")
             .filter(function() {
               return this.naturalWidth != null && this.naturalWidth === 0 && this.naturalHeight != null && this.naturalHeight === 0;
             })
-            .add($texte.find("p:contains([Image non convertie])"));
+            .parents("p")
+            .add($textes.find("p:contains([Image non convertie])"));
           var marker = {
             name: {
               fr: "Image non affichée",
@@ -554,9 +576,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         condition: "textes",
         type: "warning",
         action: function ($, bodyClasses) {
-          var $p = getField($, "texte").find("p").not(".citation, .paragraphesansretrait, blockquote, ol, ul, li, table, table *");
+          var $p = getField($, "texte").find("p").not(".citation, .citationbis, .citationter, .paragraphesansretrait");
           
           var $bad = $p.filter(function() {
+            if ($p.parent("li, td, blockquote").length > 0) return;
+
             var text = $(this).text();
             if (text.length < 2) return false;
 
@@ -706,19 +730,27 @@ window.initChecklist = function (sitename, docId, context, publi) {
         condition: "textes",
         type: "warning",
         action: function ($, bodyClasses) {
-          function getBad (fieldName) {
+          function getBad(fieldName) {
             var $p = getField($, fieldName).children("p");
             if ($p.length === 0) return $();
+            var i = -1;
             var firstNum = 0;
-            return $p.filter(function (index) {
-              var $a = $(this).children("a[id^=ftn]").first();
+            var listIsRoman;
+            var getNum = function(value) {
+              return listIsRoman ? deromanize(value) : parseInt(value);
+            };
+
+            return $p.filter(function () {
+              var $a = $(this).find("a[id^=ftn]").first();
               if ($a.length === 0) return false;
-              var num = parseInt($a.text());
-              if (index === 0) {
-                firstNum = num;
+              i++;
+              var value = $a.text();
+              if (i === 0) {
+                listIsRoman = /^[IVXLCDM]+$/i.test(value);
+                firstNum = getNum(value);
                 return false;
               }
-              return num !== index + firstNum;
+              return getNum(value) !== i + firstNum;
             });
           }
 
@@ -905,7 +937,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
       },
 
       {
-        id: "author:quality(format)",
+        id: " ",
         name: {
           fr: "Format de nom d’auteur",
         },
@@ -915,13 +947,24 @@ window.initChecklist = function (sitename, docId, context, publi) {
         condition: "publications || textes || indexes || auteurs",
         type: "warning",
         action: function ($, bodyClasses) {
-          var forbiddenChars = /[0-9!#%*,/\:;?@\[\]_\{\}]/g
+          var forbiddenChars = /[0-9!#%*,/\:;?@\[\]_\{\}&]/g;
           var $bad = $(".ckl-personne").filter(function () {
             var firstname = $(this).find(".ckl-personne-firstname").text().trim();
             var familyname = $(this).find(".ckl-personne-familyname").text().trim();
             if (!firstname || !familyname) return true;
-            var text = latinize(firstname + familyname);           
-            return text === text.toUpperCase() || text[0] === text[0].toLowerCase || text.match(forbiddenChars);
+            var text = latinize(firstname + familyname); 
+
+            // Find "et" & "and" in firstname
+            var matchAnd = firstname.match(/(?:et|and) (.)/);
+            if (matchAnd) {
+              var captured = matchAnd[1];
+              if (isUpperCase(captured)) return true;
+            }
+            
+            return isUpperCase(firstname)
+              || isUpperCase(familyname)
+              || isLowerCase(text[0])
+              || text.match(forbiddenChars);
           });
           var marker = {
             name: {
