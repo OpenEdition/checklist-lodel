@@ -157,6 +157,10 @@ a:hover, a:active, a:focus {
 
 /* Personnes */
 
+.ckl-personne + .ckl-personne {
+  margin-top: 20px;
+}
+
 .ckl-personne-description {
   font-size: 14px;
   color: #586069;
