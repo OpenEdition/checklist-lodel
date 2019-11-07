@@ -715,10 +715,21 @@ window.initChecklist = function (sitename, docId, context, publi) {
         condition: "textes",
         type: "warning",
         action: function ($, bodyClasses) {
-          var styles = "p.remerciements, p.texte, p.paragraphesansretrait, p.creditillustration, p.crditsillustration, p.epigraphe, p.citation, p.citationbis, p.citationter, p.titreillustration, p.legendeillustration, p.question, p.reponse, p.separateur, p.encadre, p.code, p.notesbaspage, p.mathml, p.latex, p.mathlatex";
-          var $bad = getField($, "texte").children("p").not(styles);
+          var allowed = {
+            texte: "p.remerciements, p.texte, p.paragraphesansretrait, p.creditillustration, p.crditsillustration, p.epigraphe, p.citation, p.citationbis, p.citationter, p.titreillustration, p.legendeillustration, p.question, p.reponse, p.separateur, p.encadre, p.code, p.mathml, p.latex, p.mathlatex",
+            annexe: "p.annexe, p.creditillustration, p.crditsillustration, p.citation, p.citationbis, p.citationter, p.titreillustration, p.legendeillustration",
+            bibliographie: "p.bibliographie, p.creditillustration, p.crditsillustration, p.citation, p.citationbis, p.citationter, p.titreillustration, p.legendeillustration",
+            notesbaspage: "p.notesbaspage, p.creditillustration, p.crditsillustration, p.citation, p.citationbis, p.citationter, p.titreillustration, p.legendeillustration",
+            notefin: "p.notefin, p.creditillustration, p.crditsillustration, p.citation, p.citationbis, p.citationter, p.titreillustration, p.legendeillustration"
+          };
 
-          if ($bad.length === 0) return this.resolve();
+          var $bad = $();
+          Object.keys(allowed).forEach(function (fieldname) {
+            var styles = allowed[fieldname];
+            var $els = getField($, fieldname).children("p").not(styles);
+            if ($els.length === 0) return;
+            $bad.add($els);
+          });
 
           var statement = this.notify($bad.length);
           $bad.each(function () {
