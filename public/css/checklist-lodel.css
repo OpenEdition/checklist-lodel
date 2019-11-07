@@ -52,6 +52,8 @@ a:hover, a:active, a:focus {
   background-color: #fff;
   border-left: #dde1e4 1px solid;
   border-right: #dde1e4 1px solid;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 /* Nav-entities: breadcrumbs + siblings */
