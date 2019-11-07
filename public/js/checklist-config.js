@@ -980,7 +980,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
       },
 
       {
-        id: " ",
+        id: "author:quality",
         name: {
           fr: "Format de nom d’auteur",
         },
