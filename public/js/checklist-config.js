@@ -74,8 +74,8 @@ window.initChecklist = function (sitename, docId, context, publi) {
       return [
         {
           title: {
-            fr: "Voir en ligne",
-            en: "View online"
+            fr: "Voir côté Site",
+            en: "View Online"
           },
           icon: "<i class='far fa-eye'></i>",
           attributes: {
@@ -100,8 +100,8 @@ window.initChecklist = function (sitename, docId, context, publi) {
         },
         {
           title: {
-            fr: "Parcourir",
-            en: "Browse"
+            fr: "Voir côté Édition",
+            en: "View in Backoffice"
           },
           condition: "publications",
           icon: "<i class='fas fa-stream'></i>",
