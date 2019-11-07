@@ -125,7 +125,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
             fr: "Télécharger la source",
             en: "Download source"
           },
-          condition: "textes && otx && !extension-xml",
+          condition: "textes && !extension-xml",
           icon: "<i class='far fa-file-word'></i>",
           attributes: {
             href: "./lodel/edition/index.php?do=download&type=source&id=" + docId
