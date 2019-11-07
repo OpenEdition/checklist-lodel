@@ -372,8 +372,23 @@ window.initChecklist = function (sitename, docId, context, publi) {
         tags: ["paper"],
         action: function ($, bodyClasses) {
           var $coverType = $(".ckl-fichier-type:contains(imageaccroche), .ckl-fichier-type:contains(couverture1)");
-          if ($coverType.length > 1) return this.reject("More than 1 cover file was found.");
           this.resolve($coverType.length === 0);
+        }
+      },
+
+      {
+        id: "imageaccroche:duplicate",
+        name: {
+          fr: "Plusieurs couvertures",
+        },
+        description: {
+          fr: "<p>Plusieurs couvertures sont associées à cette publication. Seule une couverture doit être ajoutée.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/792\" target=\"_blank\">Ajouter une couverture de numéro de revue</a></p>",
+        },
+        condition: "publications",
+        type: "info",
+        action: function ($, bodyClasses) {
+          var $coverType = $(".ckl-fichier-type:contains(imageaccroche), .ckl-fichier-type:contains(couverture1)");
+          this.resolve($coverType.length > 1);
         }
       },
 
