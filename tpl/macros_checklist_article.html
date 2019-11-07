@@ -297,7 +297,7 @@
  * @param {string} text - Texte à tester.
  */
 <DEFFUNC NAME="CKL_A_CHECK_IMAGES_EXISTENCE" REQUIRED="text">
-  <IF COND="[#TEXT] LIKE /<img src=\"(.*?)\"/">
+  <IF COND="[#TEXT] LIKE /<img src=\"(docannexe\/image\/[0-9]+\/img-[0-9]+\.jpg)\"/">
     <LOOP NAME="foreach" ARRAY="[#MATCHES.1]">
       <IF COND="![#VALUE|file_exists]">
         <div class="ckl-image-not-found hidden">[#VALUE]</div>

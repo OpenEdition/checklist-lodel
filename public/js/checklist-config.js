@@ -321,23 +321,41 @@ window.initChecklist = function (sitename, docId, context, publi) {
         condition: "textes",
         type: "warning",
         action: function ($, bodyClasses) {
-          var $textes = getField($, "texte", "annexe", "bibliographie", "notesbaspage", "notefin");
+          // See https://github.com/OpenEdition/checklist-lodel/issues/36
+          var $phpFileExistsIndicators = $(".ckl-image-not-found");
+          var $imagesNonConverties = $(".image_error");
+          var count = $imagesNonConverties.length + $phpFileExistsIndicators.length;
           
+          var contextIsArticle = $($.root).is("body");
+          if (!contextIsArticle) {
+            return this.resolve(count);
+          }
+
+          var badSrc = [];
+          $phpFileExistsIndicators.each(function() {
+            var src = $(this).text();
+            if (badSrc.indexOf(src) > -1) return;
+            badSrc.push(src);
+          });
+
+          var $textes = getField($, "texte", "annexe", "bibliographie", "notesbaspage", "notefin");
+
           var $bad = $textes.find("img")
             .filter(function() {
-              return this.naturalWidth != null && this.naturalWidth === 0 && this.naturalHeight != null && this.naturalHeight === 0;
+              var src = $(this).attr("src");
+              return badSrc.indexOf(src) > -1;
             })
-            .parents("p")
-            .add($textes.find("p:contains([Image non convertie])"));
+            .add($imagesNonConverties);
+
           var marker = {
             name: {
               fr: "Image non affichée",
             },
             target: $bad,
-            position: "append",
+            position: "after",
             highlight: true
           };
-          this.resolve($bad.length, marker);
+          this.resolve(count, marker);
         }
       },
 
