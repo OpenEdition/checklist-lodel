@@ -980,6 +980,22 @@ window.initChecklist = function (sitename, docId, context, publi) {
       },
 
       {
+        id: "author:existence",
+        name: {
+          fr: "Absence d'auteur",
+        },
+        description: {
+          fr: "<p>Aucun auteur, éditeur scientifique ou collaborateur n'a été indiqué pour ce document.</p>",
+        },
+        condition: "textes",
+        type: "info",
+        action: function ($, bodyClasses) {
+          var flag = $(".ckl-personne").length === 0;
+          this.resolve(flag);
+        }
+      },
+
+      {
         id: "author:quality",
         name: {
           fr: "Format de nom d’auteur",
