@@ -735,15 +735,14 @@ window.initChecklist = function (sitename, docId, context, publi) {
             annexe: "p.annexe, p.creditillustration, p.crditsillustration, p.citation, p.citationbis, p.citationter, p.titreillustration, p.legendeillustration",
             bibliographie: "p.bibliographie, p.creditillustration, p.crditsillustration, p.citation, p.citationbis, p.citationter, p.titreillustration, p.legendeillustration",
             notesbaspage: "p.notesbaspage, p.creditillustration, p.crditsillustration, p.citation, p.citationbis, p.citationter, p.titreillustration, p.legendeillustration",
-            notefin: "p.notefin, p.creditillustration, p.crditsillustration, p.citation, p.citationbis, p.citationter, p.titreillustration, p.legendeillustration"
+            notefin: "p.notesbaspage, p.creditillustration, p.crditsillustration, p.citation, p.citationbis, p.citationter, p.titreillustration, p.legendeillustration"
           };
 
           var $bad = $();
           Object.keys(allowed).forEach(function (fieldname) {
             var styles = allowed[fieldname];
             var $els = getField($, fieldname).children("p").not(styles);
-            if ($els.length === 0) return;
-            $bad.add($els);
+            $bad = $bad.add($els);
           });
 
           var statement = this.notify($bad.length);
