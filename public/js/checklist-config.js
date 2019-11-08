@@ -734,8 +734,8 @@ window.initChecklist = function (sitename, docId, context, publi) {
             texte: "p.remerciements, p.texte, p.paragraphesansretrait, p.creditillustration, p.crditsillustration, p.epigraphe, p.citation, p.citationbis, p.citationter, p.titreillustration, p.legendeillustration, p.question, p.reponse, p.separateur, p.encadre, p.code, p.mathml, p.latex, p.mathlatex",
             annexe: "p.annexe, p.creditillustration, p.crditsillustration, p.citation, p.citationbis, p.citationter, p.titreillustration, p.legendeillustration",
             bibliographie: "p.bibliographie, p.creditillustration, p.crditsillustration, p.citation, p.citationbis, p.citationter, p.titreillustration, p.legendeillustration",
-            notesbaspage: "p.notesbaspage, p.creditillustration, p.crditsillustration, p.citation, p.citationbis, p.citationter, p.titreillustration, p.legendeillustration",
-            notefin: "p.notesbaspage, p.creditillustration, p.crditsillustration, p.citation, p.citationbis, p.citationter, p.titreillustration, p.legendeillustration"
+            notesbaspage: "p.notesbaspage, p.notefin, p.creditillustration, p.crditsillustration, p.citation, p.citationbis, p.citationter, p.titreillustration, p.legendeillustration",
+            notefin: "p.notesbaspage, p.notefin, p.creditillustration, p.crditsillustration, p.citation, p.citationbis, p.citationter, p.titreillustration, p.legendeillustration"
           };
 
           var $bad = $();
