@@ -587,7 +587,7 @@
         TABLE="entities, types"
         SELECT="id, class, type"
         WHERE="idparent = '[#CURRENT_PARENT_ID]'
-          AND type NOT IN ('fluxdesyndication','imageaccroche','rubriqueannuelle', 'imageaccrochelibrairie') AND type NOT LIKE '%annexe%'
+          AND class IN ('publications', 'textes') AND type NOT LIKE '%annexe%'
           AND entities.idtype = types.id"
         ORDER="entities.rank">
     <IF COND="[#CLASS] EQ 'publications' AND [#TYPE] EQ 'souspartie'">
