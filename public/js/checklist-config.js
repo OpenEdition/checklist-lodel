@@ -640,7 +640,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
       {
         id: "texte:quality(quote-style)",
         name: {
-          fr: "Mauvais style de citation",
+          fr: "Mauvais style de citation&nbsp;?",
         },
         description: {
           fr: "<p>Certains paragraphes sont peut-être des citations non stylées.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/1303#tocto1n3\" target=\"_blank\">Styler un texte</a></p>",
@@ -1196,7 +1196,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           fr: "Erreur de pagination",
         },
         description: {
-          fr: "<p>La pagination de la version papier n’est pas correctement renseignée, le format attendu est page de début-page de fin, exemple 12-72.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/1295\" target=\"_blank\">Styler les métadonnées de l’article</a></p>",
+          fr: "<p>La pagination de la version papier n’est pas correctement renseignée, le format attendu est <code>page de début-page de fin</code>, exemple <code>12-72</code>. Le séparateur doit être un tiret quart de cadratin.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/1295\" target=\"_blank\">Styler les métadonnées de l’article</a></p>",
         },
         condition: "textes",
         type: "warning",
