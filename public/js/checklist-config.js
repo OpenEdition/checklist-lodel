@@ -891,7 +891,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           fr: "Composition des index",
         },
         description: {
-          fr: "<p>Certaines entrées d’index ne sont peut-être pas correctement composées.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href='http://www.maisondesrevues.org/804' target=\"_blank\">Créer un numéro dans Lodel</a></p>",
+          fr: "<p>Certaines entrées d’index ne sont peut-être pas correctement composées.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href='http://www.maisondesrevues.org/1295' target=\"_blank\">Styler les métadonnées de l’article</a></p>",
         },
         condition: "publications || textes || indexes",
         type: "warning",
