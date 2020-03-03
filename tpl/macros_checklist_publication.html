@@ -64,7 +64,7 @@
                 </LET>
                 <LET VAR="entry_full_title">
                   <!--[ Can't use <p> elements here because of whitespaces injected by HTMLPurifier ]-->
-                  <span class='authors'>[#ENTRY_AUTHORS|textebrut|trim]</span>
+                  <span class='authors'>[#ENTRY_AUTHORS|textebrut|trim|reg_replace('/ +,/', ',')]</span>
                   <span class='title'>[#TITRE]</span>
                 </LET>
                 ,{
