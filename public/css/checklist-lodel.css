@@ -289,7 +289,7 @@ a:hover, a:active, a:focus {
   position: relative;
 }
 
-.ckl-field-text .ckl-field-value > p.texte:after {
+.ckl-field-text .ckl-field-value > p.texte:not([data-numbering="false"]):after {
     counter-increment: p; /* Increment the p counter */
     content: counter(p); /* Display the counter */
     position: absolute;
