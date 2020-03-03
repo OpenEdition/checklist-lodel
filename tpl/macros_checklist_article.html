@@ -45,10 +45,10 @@
 
     <!--[ Barrière mobile ]-->
     <LET VAR="BM">0</LET>
-    <IF COND="[#TYPE] EQ 'article' AND [#DATEPUBLI] GT today()">
+    <IF COND="[#DATEPUBLI] GT today()">
       <LET VAR="BM">1</LET>
     </IF>
-    <FUNC NAME="CKL_FIELD_BOOL" FIELD="Barrière mobile" VALUE="[#BM]" OUI="Cet article est sous barrière mobile." NON="Cet article est en libre accès."/>
+    <FUNC NAME="CKL_FIELD_BOOL" FIELD="Barrière mobile" VALUE="[#BM]" OUI="Ce document est sous barrière mobile." NON="Ce document est en libre accès."/>
 
     <!--[ Langue ]-->
     <FUNC NAME="CKL_FIELD_STRING" FIELD="langue" VALUE="[#LANGUE]"/>
