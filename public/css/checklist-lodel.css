@@ -48,7 +48,7 @@ a:hover, a:active, a:focus {
 
 .ckl-content {
   flex: 1;
-  padding: 0 40px 100px;
+  padding: 0 40px;
   background-color: #fff;
   border-left: #dde1e4 1px solid;
   border-right: #dde1e4 1px solid;
@@ -63,6 +63,12 @@ a:hover, a:active, a:focus {
   justify-content: space-between;
   padding: 15px 0;
   color: #586069;
+}
+
+.ckl-nav-entities.position-bottom {
+  border-top: 1px solid #dde1e4;
+  padding: 16px 0;
+  margin-top: 40px;
 }
 
 .ckl-nav-entities a {

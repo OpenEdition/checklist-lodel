@@ -23,7 +23,7 @@
  */
 <DEFMACRO NAME="CKL_A_CONTENT">
   <!--[ Nav entities ]-->
-  <MACRO NAME="CKL_NAV_ENTITIES"/>
+  <FUNC NAME="CKL_NAV_ENTITIES" POSITION="top"/>
 
   <!--[ Section Titre ]-->
   <LET VAR="section_contents">
@@ -194,6 +194,9 @@
     <FUNC NAME="CKL_FIELD_STRING" FIELD="notefin" VALUE="[#NOTEFIN]" CLASSNAME="ckl-field-text"/>
   </LET>
   <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
+
+  <!--[ Nav entities ]-->
+  <FUNC NAME="CKL_NAV_ENTITIES" POSITION="bottom" />
 </DEFMACRO>
 
 /**

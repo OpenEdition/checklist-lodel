@@ -14,7 +14,6 @@
       <div id="ckl-pane" class="ckl-pane"></div>
       <div class="ckl-content">
         <MACRO NAME="CKL_P_CONTENT"/>
-        <div id="ckl-toc" class="ckl-toc"></div>
       </div>
     </div>
   </LOOP>
@@ -88,7 +87,7 @@
  */
 <DEFMACRO NAME="CKL_P_CONTENT">
   <!--[ Nav entities ]-->
-  <MACRO NAME="CKL_NAV_ENTITIES"/>
+  <FUNC NAME="CKL_NAV_ENTITIES" POSITION="top" />
 
   <!--[ Section Titre ]-->
   <LET VAR="section_contents">
@@ -165,4 +164,10 @@
     <MACRO NAME="CKL_FICHIERSEXTERNES"/>
   </LET>
   <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
+
+  <!--[ Checklist va injecter la table des matières ici ]-->
+  <div id="ckl-toc" class="ckl-toc"></div>
+  
+  <!--[ Nav entities ]-->
+  <FUNC NAME="CKL_NAV_ENTITIES" POSITION="bottom" />
 </DEFMACRO>

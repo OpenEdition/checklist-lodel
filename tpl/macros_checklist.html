@@ -487,21 +487,23 @@
 
 /**
  * Nav entities : fil d'arianne + précédent/suivant.
+ * @param {string} position - Indique la position dans la page.
  */
-<DEFMACRO NAME="CKL_NAV_ENTITIES">
-  <div class="ckl-nav-entities">
+<DEFFUNC NAME="CKL_NAV_ENTITIES" REQUIRED="position">
+  <div class="ckl-nav-entities position-[#POSITION]">
     <!--[ Breadcrumbs ]-->
     <MACRO NAME="CKL_BREADCRUMBS"/>
 
     <div class="ckl-siblings">
       <!--[ Siblings ]-->
-      <MACRO NAME="CKL_SIBLINGS_FIX"/>
+      <IF COND="[#POSITION] EQ 'top'">
+        <MACRO NAME="CKL_SIBLINGS_FIX"/>
+      </IF>
       <FUNC NAME="CKL_SIBLING" DIRECTION="previous"/>
       <FUNC NAME="CKL_SIBLING" DIRECTION="next"/>
     </div>
   </div>
-
-</DEFMACRO>
+</DEFFUNC>
 
 /**
  * Affiche les publications parentes (fil d'arianne)
