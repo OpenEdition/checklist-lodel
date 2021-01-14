@@ -295,6 +295,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
         },
         condition: "publications || textes",
         type: "danger",
+        displayCount: true,
         action: function ($, bodyClasses) {
           var $fields = getField($, "titre", "soustitre");
           var $bad = $fields.find("br");
@@ -320,6 +321,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
         },
         condition: "textes",
         type: "warning",
+        displayCount: true,
         action: function ($, bodyClasses) {
           // See https://github.com/OpenEdition/checklist-lodel/issues/36
           var $phpFileExistsIndicators = $(".ckl-image-not-found");
@@ -537,6 +539,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
         },
         condition: "textes",
         type: "danger",
+        displayCount: true,
         action: function ($, bodyClasses) {
           var $titre = getField($, "titre");
           var $headers = getField($, "texte").find(":header");
@@ -582,6 +585,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
         },
         condition: "textes",
         type: "warning",
+        displayCount: true,
         action: function ($, bodyClasses) {
           var $intertitres = getField($, "texte").find(":header");
           var $headers = getField($, "altertitre").find(".ckl-field-ml-value");
@@ -608,6 +612,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
         },
         condition: "textes",
         type: "warning",
+        displayCount: true,
         action: function ($, bodyClasses) {
           var $p = getField($, "texte").find("p").not(".citation, .citationbis, .citationter, .paragraphesansretrait");
           
@@ -647,6 +652,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
         },
         condition: "textes",
         type: "warning",
+        displayCount: true,
         action: function ($, bodyClasses) {
           var $p = getField($, "texte").find("p.texte");
           var $bad = $p.filter(function () {
@@ -675,6 +681,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
         },
         condition: "textes",
         type: "warning",
+        displayCount: true,
         action: function ($, bodyClasses) {
           var $p = getField($, "texte").children();
           var prevIndex = -1;
@@ -820,6 +827,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
         },
         condition: "textes",
         type: "info",
+        displayCount: true,
         action: function ($, bodyClasses) {
           var $titre = getField($, "titre");
           var $headers = getField($, "texte").find(":header");
@@ -849,6 +857,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
         },
         condition: "textes",
         type: "danger",
+        displayCount: true,
         action: function ($, bodyClasses) {
           var $field = getField($, "texte");
 
@@ -895,6 +904,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
         },
         condition: "publications || textes || indexes",
         type: "warning",
+        displayCount: true,
         action: function ($, bodyClasses) {
           var re = /( [-–—.-] |[;,] |[/\\]|\.$)/g;
           var $bad = $(".ckl-entry").filter(function () {
@@ -953,6 +963,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
         },
         condition: "indexes || auteurs",
         type: "warning",
+        displayCount: true,
         action: function ($, bodyClasses) {
           var list = {};
           $(".ckl-entry").each(function () {
@@ -1005,6 +1016,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
         },
         condition: "publications || textes || indexes || auteurs",
         type: "warning",
+        displayCount: true,
         action: function ($, bodyClasses) {
           var forbiddenChars = /[0-9!#%*,/\:;?@\[\]_\{\}&]/g;
           var $bad = $(".ckl-personne").filter(function () {
@@ -1047,6 +1059,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
         },
         condition: "textes",
         type: "warning",
+        displayCount: true,
         action: function ($, bodyClasses) {
           function isValidURL (url) {
             var regex = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/i;
@@ -1081,6 +1094,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
         },
         condition: "textes",
         type: "warning",
+        displayCount: true,
         action: function ($, bodyClasses) {
           var $notes  = getField($, "notesbaspage", "notefin").find("p");
           var $bad = $notes.filter(function () {
@@ -1228,8 +1242,8 @@ window.initChecklist = function (sitename, docId, context, publi) {
         },
         condition: "publications",
         type: "danger",
+        displayCount: true,
         action: function ($, bodyClasses) {
-          // FIXME: add marker "Sous-partie vide" in publication
           var $bad = $(".checklist-toc-section-contents:empty");
           this.resolve($bad.length);
         }
