@@ -66,8 +66,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
     // Prefixe des clés du localStorage
     namespace: sitename,
 
-    // Langue de l'interface
-    lang: "fr",
+    // Langues de l'interface
+    langs: [
+      {code: "fr", name: "Français"},
+      {code: "en", name: "English"},
+    ],
 
     // Boutons
     buttonsCreator: function (docId, context) {
@@ -112,7 +115,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
         {
           title: {
             fr: "Réimporter la source",
-            en: "Upload source"
+            en: "Upload Source"
           },
           condition: "textes",
           icon: "<i class='fas fa-file-upload'></i>",
@@ -123,7 +126,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
         {
           title: {
             fr: "Télécharger la source",
-            en: "Download source"
+            en: "Download Source"
           },
           condition: "textes && !extension-xml",
           icon: "<i class='far fa-file-word'></i>",
@@ -134,7 +137,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
         {
           title: {
             fr: "Télécharger la source (XML)",
-            en: "Download source (XML)"
+            en: "Download Source (XML)"
           },
           condition: "textes",
           icon: "<i class='far fa-file-code'></i>",
@@ -191,7 +194,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
         icon: "<i class='far fa-laugh-wink '></i>",
         text: {
           fr: "Ce document est très bien composé.",
-          en: "This document is well formated"
+          en: "This document is very well formated."
         },
         color: "#292d32",
         bgcolor: "#c5e1a5"
@@ -245,9 +248,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "datepubli:existence",
         name: {
           fr: "Absence de la date de publication électronique",
+          en: "Missing date of online publication"
         },
         description: {
           fr: "<p>Ce numéro ou ce document n’a pas de date de publication électronique. Cette information est obligatoire.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a  href=\"http://www.maisondesrevues.org/84\" target=\"_blank\">Date de publication papier / électronique</a></p>",
+          en: "<p>This issue or document has no date of online publication . This information is required.</p>"
         },
         condition: "publications || textes",
         type: "danger",
@@ -262,9 +267,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "datepublipapier:existence",
         name: {
           fr: "Absence de la date de publication papier",
+          en: "Missing date of publication (print edition)"
         },
         description: {
           fr: "<p>Ce numéro ou ce document n’a pas de date de publication papier. Cette information est obligatoire pour les revues ayant une édition papier.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;:</p><ul><li><a href=\"http://www.maisondesrevues.org/84\" target=\"_blank\">Date de publication papier / électronique</a></li><li><a href=\"http://www.maisondesrevues.org/804#tocto1n4\" target=\"_blank\">Créer un numéro dans Lodel</a></li></ul>",
+          en: "<p>This issue or document has no date of publication. This information is required for journals with a paper edition.</p>"
         },
         condition: "publications || textes",
         type: "danger",
@@ -276,6 +283,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           var marker = {
             name: {
               fr: "Date vide",
+              en: "Empty date"
             },
             target: $field,
             position: "after",
@@ -289,9 +297,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "title:quality(br)",
         name: {
           fr: "Saut de ligne dans le titre ou le sous titre",
+          en: "Line break in title or subtitle"
         },
         description: {
           fr: "<p>Des sauts de ligne sont utilisés dans le titre ou le sous-titre de ce document ou de cette publication. Ils doivent constituer un seul paragraphe sans retour à la ligne.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;:</p><ul><li><a href=\"http://www.maisondesrevues.org/1295\" target=\"_blank\">Styler les métadonnées de l’article</a></li><li><a href=\"http://www.maisondesrevues.org/804#tocto1n4\" target=\"_blank\">Créer un numéro dans Lodel</a></li></ul>",
+          en: "<p>Line breaks must be removed from the title or subtitle of this document or publication.</p>"
         },
         condition: "publications || textes",
         type: "danger",
@@ -302,6 +312,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           var marker = {
             name: {
               fr: "Saut de ligne",
+              en: "Line break"
             },
             target: $bad,
             position: "before",
@@ -315,9 +326,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "images:existence",
         name: {
           fr: "Image non affichée",
+          en: "Image not displayed"
         },
         description: {
           fr: "<p>Certaines images du document ne sont pas affichées dans Lodel. Cela peut être un problème de format d'image ou de structure du fichier source.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/155\" target=\"_blank\">Traitement des images</a></p>",
+          en: "<p>Some images of the document are not displayed by Lodel. This may be an issue with image format or structure of the source file.</p>"
         },
         condition: "textes",
         type: "warning",
@@ -352,6 +365,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           var marker = {
             name: {
               fr: "Image non affichée",
+              en: "Image not displayed"
             },
             target: $bad,
             position: "after",
@@ -365,9 +379,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "imageaccroche:existence",
         name: {
           fr: "Pas de couverture",
+          en: "Missing cover"
         },
         description: {
           fr: "<p>La couverture est manquante. Il est conseillé d’ajouter une couverture aux numéros quand c’est possible.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/792\" target=\"_blank\">Ajouter une couverture de numéro de revue</a></p>",
+          en: "<p>Cover is missing. It is recommended to attach covers to issues when possible.</p>"
         },
         condition: "publications",
         type: "info",
@@ -382,9 +398,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "imageaccroche:duplicate",
         name: {
           fr: "Plusieurs couvertures",
+          en: "Too many covers"
         },
         description: {
           fr: "<p>Plusieurs couvertures sont associées à cette publication. Seule une couverture doit être ajoutée.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/792\" target=\"_blank\">Ajouter une couverture de numéro de revue</a></p>",
+          en: "<p>Several covers are joined to this publication. Only a single cover should be.</p>"
         },
         condition: "publications",
         type: "info",
@@ -398,9 +416,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "imageaccroche:quality",
         name: {
           fr: "La couverture n'est pas au format attendu",
+          en: "Cover is not in the expected format"
         },
         description: {
           fr: "<p>Les couvertures doivent être aux formats JPG ou PNG.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/792\" target=\"_blank\">Ajouter une couverture de numéro de revue</a></p>",
+          en: "<p>Covers must be in JPG or PNG formats.</p>"
         },
         condition: "publications",
         type: "info",
@@ -418,9 +438,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "texte:existence",
         name: {
           fr: "Pas de texte dans le document",
+          en: "Missing body text"
         },
         description: {
           fr: "<p>Le document ne contient pas de texte courant. Tout le contenu de la publication doit être disponible dans tous les formats, y compris le HTML.</p>",
+          en: "<p>Document contains no body text. The whole content of the publication should be available in all formats, including HTML.</p>"
         },
         condition: "textes",
         type: "danger",
@@ -435,9 +457,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "title:existence",
         name: {
           fr: "Document sans titre",
+          en: "Untitled document"
         },
         description: {
           fr: "<p>La métadonnée « Titre » des publications et documents est obligatoire.</p>",
+          en: "<p>“Title” metadata is required in publications and documents.</p>"
         },
         condition: "publications || textes",
         type: "danger",
@@ -448,6 +472,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           var marker = {
             name: {
               fr: "Document sans titre",
+              en: "Untitled document"
             },
             target: $titre,
             position: "append",
@@ -461,9 +486,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "lang:existence",
         name: {
           fr: "Absence de la métadonnée de langue",
+          en: "Missing language metadata"
         },
         description: {
           fr: "<p>La langue de cette publication ou de ce document est absente ou n'est pas reconnue. Elle est obligatoire.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/85\" target=\"_blank\">Langue</a></p>",
+          en: "<p>The language of this issue or document is missing or not recognized. It is required.</p>"
         },
         condition: "publications || textes",
         type: "danger",
@@ -478,9 +505,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "facsimile:quality(format)[publications]",
         name: {
           fr: "Fac-similé non PDF",
+          en: "Facsimile is not a PDF"
         },
         description: {
           fr: "<p>Le fichier attaché en tant que fac-similé n’est pas un document PDF.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/612\" target=\"_blank\">Comment importer le fac-similé de son numéro</a></p>",
+          en: "<p>The file attached as a facsimile is not a PDF document.</p>"
         },
         condition: "publications",
         type: "danger",
@@ -497,9 +526,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "facsimile:quality(format)[textes]",
         name: {
           fr: "Fac-similé non PDF",
+          en: "Facsimile is not a PDF"
         },
         description: {
           fr: "<p>Le fichier attaché en tant que fac-similé n’est pas un document PDF.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/793\" target=\"_blank\">Comment importer le fac-similé d’un article</a></p>",
+          en: "<p>The file attached as a facsimile is not a PDF document.</p>"
         },
         condition: "textes",
         type: "danger",
@@ -516,9 +547,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "numero:existence",
         name: {
           fr: "Absence de la numérotation",
+          en: "Missing issue number"
         },
         description: {
           fr: "<p>La numérotation du numéro n’est pas définie, elle est à renseigner dans le formulaire d’édition du numéro.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/804#tocfrom1n4\" target=\"_blank\">Créer un numéro dans Lodel</a></p>",
+          en: "<p>Issue number is not defined. It must be filled in the publication edit form.</p>"
         },
         condition: "publications",
         type: "danger",
@@ -533,9 +566,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "title:quality(href)",
         name: {
           fr: "Lien hypertexte dans le titre ou dans un intertitre",
+          en: "Hyperlink in the title or a heading"
         },
         description: {
           fr: "<p>Des liens hypertextes se trouvent dans le titre ou les intertitres du document, il faut les supprimer.</p>",
+          en: "<p>There are hyperlinks in the title or the headings of the document. They must be removed.</p>"
         },
         condition: "textes",
         type: "danger",
@@ -547,6 +582,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           var marker = {
             name: {
               fr: "Lien hypertexte",
+              en: "Hyperlink"
             },
             target: $bad,
             position: "append",
@@ -560,9 +596,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "imageaccroche:quality(size)",
         name: {
           fr: "Couverture de taille insuffisante",
+          en: "Small cover"
         },
         description: {
           fr: "<p>La couverture est de taille insuffisante. Elle doit mesurer au moins 1400 pixels de large.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/792\" target=\"_blank\">Ajouter une couverture de numéro de revue</a></p>",
+          en: "<p>Cover is too small. It must be at least 1400 pixels wide.</p>"
         },
         condition: "publications",
         type: "info",
@@ -575,13 +613,14 @@ window.initChecklist = function (sitename, docId, context, publi) {
       },
 
       {
-        // TODO: possibilite de merger cette regle avec title:quality(br) et d'utiliser un statement alternatif pour changer le type affiché.
         id: "headings:quality(br)",
         name: {
           fr: "Saut de ligne dans un intertitre ou titre alternatif",
+          en: "Line break in a heading or translated title"
         },
         description: {
           fr: "<p>Des sauts de lignes sont présents dans les intertitres ou les titres alternatifs, ils doivent être supprimés.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/1303\" target=\"_blank\">Styler un texte</a></p>",
+          en: "<p>Line breaks must be removed from headings or translated titles.</p>"
         },
         condition: "textes",
         type: "warning",
@@ -593,6 +632,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           var marker = {
             name: {
               fr: "Saut de ligne",
+              en: "Line break"
             },
             target: $bad,
             position: "before",
@@ -606,9 +646,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "texte:quality(paragraph-lowercase)",
         name: {
           fr: "Caractère minuscule en début de paragraphe",
+          en: "Lowercase character at the beginning of a paragraph"
         },
         description: {
           fr: "<p>Certains paragraphes commencent par une minuscule.</p>",
+          en: "<p>Some paragraphs start with a lowercase letter.</p>"
         },
         condition: "textes",
         type: "warning",
@@ -633,6 +675,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           var marker = {
             name: {
               fr: "Minuscule",
+              en: "Lowercase"
             },
             target: $bad,
             position: "prepend",
@@ -646,9 +689,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "texte:quality(quote-style)",
         name: {
           fr: "Mauvais style de citation&nbsp;?",
+          en: "Bad quote style?"
         },
         description: {
           fr: "<p>Certains paragraphes sont peut-être des citations non stylées.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/1303#tocto1n3\" target=\"_blank\">Styler un texte</a></p>",
+          en: "<p>Some paragraphs may be unstyled quotes.</p>"
         },
         condition: "textes",
         type: "warning",
@@ -662,6 +707,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           var marker = {
             name: {
               fr: "Citation",
+              en: "Quote"
             },
             target: $bad,
             position: "prepend",
@@ -675,9 +721,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "texte:quality(list-style)",
         name: {
           fr: "Listes mal formatées",
+          en: "Unformated lists"
         },
         description: {
           fr: "<p>Certains paragraphes sont peut-être des listes mal formatées.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/91\" target=\"_blank\">Listes à puces</a></p>",
+          en: "<p>Some paragraphs may be poorly formatted lists.</p>"
         },
         condition: "textes",
         type: "warning",
@@ -717,6 +765,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           var marker = {
             name: {
               fr: "Liste",
+              en: "List"
             },
             target: $bad,
             position: "prepend",
@@ -730,9 +779,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "texte:quality(unknown-styles)",
         name: {
           fr: "Styles inconnus utilisés",
+          en: "Unknown styles"
         },
         description: {
           fr: "<p>Des styles dans votre document source n'ont pas été reconnus. Certains éléments n'ont peut-être pas été interprétés correctement par Lodel. Merci de reprendre votre fichier source et d'appliquer les styles adéquats.</p>",
+          en: "<p>Document contains unexpected styles. Some elements may not have been interpreted correctly by Lodel. Please fix the related source file by applying correct styles.</p>"
         },
         condition: "textes",
         type: "warning",
@@ -759,6 +810,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
             statement.addMarker({
               name: {
                 fr: "Style inconnu&nbsp: " + classname,
+                en: "Unknown style: " + classname,
               },
               target: $el,
               position: "prepend",
@@ -773,9 +825,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "texte:quality(notes-numbering)",
         name: {
           fr: "Incohérence dans la numérotation des notes",
+          en: "Inconsistent note numbering"
         },
         description: {
           fr: "<p>La numérotation des notes de bas de page et notes de fin du document ne suit pas un ordre logique.</p>",
+          en: "<p>The numbering of footnotes and endnotes does not follow a logical order.</p>"
         },
         condition: "textes",
         type: "warning",
@@ -808,6 +862,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           var marker = {
             name: {
               fr: "Numérotation incohérente",
+              en: "Inconsistent numbering"
             },
             target: $bad,
             position: "prepend",
@@ -821,9 +876,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "title:quality(ponctuation)",
         name: {
           fr: "Ponctuation à la fin du titre ou d’un intertitre",
+          en: "Punctuation at the end of title or heading",
         },
         description: {
           fr: "<p>Un ou plusieurs intertitres du document se terminent par un signe de ponctuation, ce qui n’est pas typographiquement correct.</p>",
+          en: "<p>One or more headings of the document end with a punctuation mark, which is not typographically correct.</p>"
         },
         condition: "textes",
         type: "info",
@@ -838,6 +895,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           var marker = {
             name: {
               fr: "Ponctuation",
+              en: "Punctuation"
             },
             target: $bad,
             position: "append",
@@ -851,9 +909,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "texte:quality(champs)",
         name: {
           fr: "Champs ou liens parasites",
+          en: "Unwanted fields or links"
         },
         description: {
           fr: "<p>Le document source contient des codes de champs, des signets ou des liens internes qui doivent être supprimés.</p>",
+          en: "<p>The source document contains field codes, bookmarks, or internal links that must be removed.</p>",
         },
         condition: "textes",
         type: "danger",
@@ -885,6 +945,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           var marker = {
             name: {
               fr: "Champ ou lien parasite",
+              en: "Unwanted field or link"
             },
             target: $bad,
             position: "prepend",
@@ -898,9 +959,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "index:quality(format)",
         name: {
           fr: "Composition des index",
+          en: "Composition of indexes"
         },
         description: {
           fr: "<p>Certaines entrées d’index ne sont peut-être pas correctement composées.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href='http://www.maisondesrevues.org/1295' target=\"_blank\">Styler les métadonnées de l’article</a></p>",
+          en: "<p>Some index entries may not be composed correctly.</p>"
         },
         condition: "publications || textes || indexes",
         type: "warning",
@@ -914,6 +977,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           var marker = {
             name: {
               fr: "Composition",
+              en: "Composition"
             },
             target: $bad,
             position: "append",
@@ -927,9 +991,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "summary:quality",
         name: {
           fr: "Hiérarchie du plan incohérente",
+          en: "Inconsistent outline"
         },
         description: {
           fr: "<p>Les intertitres du document ne se suivent pas hiérarchiquement. Il ne faut pas utiliser un intertitre de deuxième niveau (“Titre 2”) qui ne suivrait pas un intertitre de premier niveau (“Titre 1”).</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/90\" target=\"_blank\">Titre n et Section n</a></p>",
+          en: "<p>Document headings don't appear in the hierarchical order. By instance, second level headings (“Heading 2”) must always be used under a first level heading (“Heading 1”).</p>"
         },
         condition: "textes",
         type: "danger",
@@ -944,6 +1010,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           var marker = {
             name: {
               fr: "Hiérarchie incohérente",
+              en: "Inconsistent outline"
             },
             target: $bad,
             position: "prepend",
@@ -957,9 +1024,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "index:quality(duplicates)",
         name: {
           fr: "Vérifier les doublons d’index",
+          en: "Check index duplicates",
         },
         description: {
           fr: "<p>Certaines entrées d’index sont peut-être des doublons. Nous vous conseillons de renseigner les mots-clés au singulier et en minuscule lorsqu'il s'agit de noms communs.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/221\" target=\"_blank\">Une entrée apparaît plusieurs fois dans l’index</a></p>",
+          en: "<p>Some index entries may be duplicates. In order avoid duplicate entries, we recommend to always use singular and lowercase for common names.</p>"
         },
         condition: "indexes || auteurs",
         type: "warning",
@@ -981,6 +1050,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           var marker = {
             name: {
               fr: "Doublon",
+              en: "Duplicate"
             },
             target: $bad,
             position: "append",
@@ -994,9 +1064,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "author:existence",
         name: {
           fr: "Absence d'auteur",
+          en: "Missing author"
         },
         description: {
           fr: "<p>Aucun auteur, éditeur scientifique ou collaborateur n'a été indiqué pour ce document.</p>",
+          en: "<p>No author, scientific editor or collaborator is specified for this item.</p>"
         },
         condition: "textes",
         type: "info",
@@ -1010,9 +1082,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "author:quality",
         name: {
           fr: "Format de nom d’auteur",
+          en: "Author name format"
         },
         description: {
           fr: "<p>Certains noms d’auteurs ne respectent pas le format attendu ou contiennent des caractères inconnus. Les noms doivent être composés en minuscules avec une majuscule initiale.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/222\" target=\"_blank\">Un auteur n’est pas classé à la bonne lettre dans l’index</a></p>",
+          en: "<p>Some author names do not follow the expected format or contain unknown characters. Names must be capitalized.</p>"
         },
         condition: "publications || textes || indexes || auteurs",
         type: "warning",
@@ -1040,6 +1114,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           var marker = {
             name: {
               fr: "Mauvais format de nom",
+              en: "Wrong name format"
             },
             target: $bad,
             position: "prepend",
@@ -1053,9 +1128,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "links:quality",
         name: {
           fr: "Lien(s) à vérifier",
+          en: "Link(s) to check"
         },
         description: {
           fr: "<p>Certains liens semblent incorrects. Vérifiez notamment que les URL ne contiennent pas de marques de ponctuation indésirables (point final, virgule, etc.).</p>",
+          en: "<p>Some links appear to be incorrect. URLs must not contain unwanted punctuation marks (endpoint, comma, etc.).</p>"
         },
         condition: "textes",
         type: "warning",
@@ -1075,6 +1152,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           var marker = {
             name: {
               fr: "Lien à vérifier",
+              en: "Link to check"
             },
             target: $bad,
             position: "append",
@@ -1088,9 +1166,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "note:quality(point)",
         name: {
           fr: "Note précédée par un point",
+          en: "Note preceded by a period"
         },
         description: {
           fr: "<p>Une ou plusieurs notes de bas de page commencent par un point. Il est recommandé de le supprimer.</p>",
+          en: "<p>One or more footnotes begin with a period. It is recommended to remove it.</p>"
         },
         condition: "textes",
         type: "warning",
@@ -1107,6 +1187,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           var marker = {
             name: {
               fr: "Point à supprimer",
+              en: "Period to remove"
             },
             target: $bad,
             position: "prepend",
@@ -1120,9 +1201,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "facsimile:quality(filesize)[publications]",
         name: {
           fr: "Fac-similé de poids trop important",
+          en: "Large facsimile"
         },
         description: {
           fr: "<p>Le poids du fac-similé PDF de la publication n'est pas adapté pour une bonne diffusion. Nous recommandons de charger des PDF de 30 Mo maximum.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/612\" target=\"_blank\">Comment importer le fac-similé de son numéro</a></p>",
+          en: "<p>The size of the facsimile attached to this issue is not suitable for proper distribution. We recommend uploading PDFs of up to 30 MB.</p>"
         },
         condition: "publications",
         type: "warning",
@@ -1136,9 +1219,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "facsimile:quality(filesize)[textes]",
         name: {
           fr: "Fac-similé de poids trop important",
+          en: "Large facsimile"
         },
         description: {
           fr: "<p>Le poids du fac-similé PDF du document n'est pas adapté pour une bonne diffusion. Nous recommandons de charger des PDF de 10 Mo maximum.</p>",
+          en: "<p>The size of the facsimile attached to this document is not suitable for proper distribution. We recommend uploading PDFs of up to 10 MB.</p>"
         },
         condition: "textes",
         type: "warning",
@@ -1152,9 +1237,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "facsimile:existence[publications]",
         name: {
           fr: "Absence du fac-similé",
+          en: "Missing facsimile"
         },
         description: {
           fr: "<p>Aucun fac-similé PDF n’est associé à cette publication. Un PDF sera automatiquement généré. Si vous souhaitez qu'un PDF composé par vos soins soit diffusé, vous devez l'attacher à cette publication. Il doit s'agir du PDF final, sans traits de coupe ni hirondelles.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/612\" target=\"_blank\">Comment importer le fac-similé de son numéro</a></p>",
+          en: "<p>This issue has no attached facsimile. A PDF will be automatically generated. If you want your own PDF file to be distributed instead, please attach it to this issue. This should be the final version with no crop marks.</p>"
         },
         condition: "publications",
         type: "info",
@@ -1171,9 +1258,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "facsimile:existence[textes]",
         name: {
           fr: "Absence du fac-similé",
+          en: "Missing facsimile"
         },
         description: {
           fr: "<p>Aucun fac-similé PDF n’est associé à ce document. Un PDF sera automatiquement généré. Si vous souhaitez qu'un PDF composé par vos soins soit diffusé, vous devez l'attacher à ce document. Il doit s'agir du PDF final, sans traits de coupe ni hirondelles.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/793\" target=\"_blank\">Comment importer le fac-similé d’un article</a></p>",
+          en: "<p>This document has no attached facsimile. A PDF will be automatically generated. If you want your own PDF file to be distributed instead, please attach it to this issue. This should be the final version with no crop marks.</p>"
         },
         condition: "textes",
         type: "info",
@@ -1190,9 +1279,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "pagination:existence",
         name: {
           fr: "Absence de pagination",
+          en: "Missing pagination"
         },
         description: {
           fr: "<p>Si le document existe en version imprimée il est fortement recommandé d’en préciser la pagination au format attendu. Cette métadonnée génère la citation bibliographique papier.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/1295\" target=\"_blank\">Styler les métadonnées de l’article</a></p>",
+          en: "<p>If the document exists in a printed version, it is strongly recommended to specify the pagination in the expected format. This will generate the bibliographic reference of the printed version.</p>"
         },
         condition: "textes",
         type: "info",
@@ -1208,9 +1299,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "pagination:quality",
         name: {
           fr: "Erreur de pagination",
+          en: "Pagination error"
         },
         description: {
           fr: "<p>La pagination de la version papier n’est pas correctement renseignée, le format attendu est <code>page de début-page de fin</code>, exemple <code>12-72</code>. Le séparateur doit être un tiret quart de cadratin.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/1295\" target=\"_blank\">Styler les métadonnées de l’article</a></p>",
+          en: "<p>Pagination is not correct, the expected format is <code>start page-end page</code>, example <code>12-72</code>. Separator must be a hyphen-minus.</p>"
         },
         condition: "textes",
         type: "warning",
@@ -1223,6 +1316,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           var marker = {
             name: {
               fr: "Pagination invalide",
+              en: "Invalid pagination"
             },
             target: $pagination,
             position: "after",
@@ -1236,9 +1330,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "souspartie:quality",
         name: {
           fr: "Sous-partie vide",
+          en: "Empty subpart"
         },
         description: {
           fr: "<p>Le sommaire de la publication inclut une ou plusieurs sous-parties qui ne contiennent aucun document. Cette construction est incorrecte.</p>",
+          en: "<p>The table of contents contains one or more empty subparts, which is not correct.</p>"
         },
         condition: "publications",
         type: "danger",
@@ -1253,9 +1349,11 @@ window.initChecklist = function (sitename, docId, context, publi) {
         id: "bibliography:quality(nom-auteur)",
         name: {
           fr: "Absence de nom d'auteur dans une entrée bibliographique",
+          en: "No author's name in a bibliographic entry"
         },
         description: {
           fr: "<p>Un tiret remplace le nom de l'auteur déjà cité dans l'entrée précédente&nbsp; cela pose problème pour le moissonage de Bilbo.</p> <p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href='http://www.maisondesrevues.org/680' target=\"_blank\">Bilbo, un outil d’annotation automatique des références</a></p>",
+          en: "<p>A hyphen stands for the name of the author already mentioned in the previous entry. This causes issues when harvesting bibliography with the Bilbo application.</p>"
         },
         condition: "textes",
         type: "warning",
@@ -1269,6 +1367,7 @@ window.initChecklist = function (sitename, docId, context, publi) {
           var marker = {
             name: {
               fr: "Tirets",
+              en: "Hyphen"
             },
             target: $bad,
             position: "prepend",
