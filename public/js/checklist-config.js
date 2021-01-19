@@ -1,4 +1,4 @@
-window.initChecklist = function (sitename, docId, context, publi) {
+window.initChecklist = function (sitename, docId, lang, context, publi) {
   if (window.checklist == null) return;
 
   // NOTE: ES2016 here
@@ -66,11 +66,8 @@ window.initChecklist = function (sitename, docId, context, publi) {
     // Prefixe des clés du localStorage
     namespace: sitename,
 
-    // Langues de l'interface
-    langs: [
-      {code: "fr", name: "Français"},
-      {code: "en", name: "English"},
-    ],
+    // Langues de l'interface. On utilise le sélecteur de langue de Lodel.
+    langs: [{code: lang}],
 
     // Boutons
     buttonsCreator: function (docId, context) {
