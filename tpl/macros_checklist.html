@@ -192,7 +192,6 @@
 
 /**
  * Récupérer le titre d'un champ.
- * TODO: inclure les traductions.
  * @param {string} field - Nom du champ.
  * @param {string} [classname] - Classe (surcharge le [#CLASS] du contexte).
  */
@@ -202,11 +201,11 @@
   </IF>
   <LOOP NAME="ckl_get_field"
         TABLE="tablefields"
-        SELECT="name, title, class"
+        SELECT="title, altertitle"
         WHERE="class='[#CLASSNAME]' AND name = '[#FIELD]'"
         LIMIT="0,1">
     <DO>
-      [#TITLE]
+      <IF COND="[#ALTERTITLE:#SITELANG]"/>[#ALTERTITLE:#SITELANG]<ELSE/>[#TITLE]</IF>
     </DO>
     <ALTERNATIVE>
       [#FIELD]
