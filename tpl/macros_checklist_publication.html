@@ -111,10 +111,10 @@
     <FUNC NAME="CKL_FIELD_STRING" FIELD="datepublipapier" VALUE="[#DATEPUBLIPAPIER]"/>
 
     <!--[ Cette publication est-elle à paraître ? ]-->
-    <FUNC NAME="CKL_FIELD_BOOL" FIELD="paraitre" VALUE="[#PARAITRE]" OUI="Oui" NON="Non"/>
+    <FUNC NAME="CKL_FIELD_BOOL" FIELD="paraitre" VALUE="[#PARAITRE]" OUI="[#CKL_TRANSLATIONS.YES]" NON="[#CKL_TRANSLATIONS.NO]"/>
 
     <!--[ Numéro ouvert ]-->
-    <FUNC NAME="CKL_FIELD_BOOL" FIELD="numeroouvert" VALUE="[#NUMEROOUVERT]" OUI="Oui" NON="Non"/>
+    <FUNC NAME="CKL_FIELD_BOOL" FIELD="numeroouvert" VALUE="[#NUMEROOUVERT]" OUI="[#CKL_TRANSLATIONS.YES]" NON="[#CKL_TRANSLATIONS.NO]"/>
 
     <!--[ Date de mise en ligne ]-->
     <FUNC NAME="CKL_FIELD_STRING" FIELD="datemisenligne" VALUE="[#DATEMISENLIGNE]"/>
@@ -123,7 +123,7 @@
     <FUNC NAME="CKL_FIELD_STRING" FIELD="dateacceslibre" VALUE="[#DATEACCESLIBRE]"/>
 
     <!--[ Cette publication est-elle en libre accès ? ]-->
-    <FUNC NAME="CKL_FIELD_BOOL" FIELD="integralite" VALUE="[#INTEGRALITE]" OUI="Oui" NON="Non"/>
+    <FUNC NAME="CKL_FIELD_BOOL" FIELD="integralite" VALUE="[#INTEGRALITE]" OUI="[#CKL_TRANSLATIONS.YES]" NON="[#CKL_TRANSLATIONS.NO]"/>
   </LET>
   <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" CLASSNAME="ckl-cartouche" />
 

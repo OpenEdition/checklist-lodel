@@ -5,6 +5,7 @@
  */
 <DEFMACRO NAME="CKL_INIT">
   <!--[ Dependances ]-->
+  <USE TEMPLATEFILE="checklist_translations">
   <USE MACROFILE="macros_checklist_article.html"/>
   <USE MACROFILE="macros_checklist_index.html"/>
   <USE MACROFILE="macros_checklist_publication.html"/>
@@ -95,7 +96,7 @@
  */
 <DEFMACRO NAME="CKL_HTML_START">
   <!DOCTYPE html>
-  <html lang="fr">
+  <html lang="[#SITELANG]">
   <head>
     <meta charset="utf-8">
     <!--[ Bug lodel : pour une raison obscure le body ne peut pas être déclaré dans une FUNC ou dans une LOOP. On passe donc par une variable globale pour déclarer le title ici. ]-->
@@ -236,7 +237,7 @@
  * @param {string} [oui] - Valeur affichée si oui.
  * @param {string} [non] - Valeur affichée si non.
  */
-<DEFFUNC NAME="CKL_FIELD_BOOL" REQUIRED="field, value">
+<DEFFUNC NAME="CKL_FIELD_BOOL" REQUIRED="field, value" OPTIONAL="oui, non">
   <IF COND="[#VALUE] NE ''">
     <IF COND="[#VALUE] EQ '1'">
       <IF COND="[#OUI]">
@@ -423,15 +424,14 @@
         ORDER="rank">
     <BEFORE>
       <div class="ckl-field ckl-fichiers">
-        <div class="ckl-field-title">Fichiers</div>
+        <div class="ckl-field-title">[#CKL_TRANSLATIONS.FILES]</div>
         <div class="ckl-field-value">
     </BEFORE>
     <DO>
       <div class="ckl-fichier">
         <LET VAR="label_titre"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="titre"/></LET>
         <p class="ckl-fichier-titre" data-label="[#LABEL_TITRE|trim]"><IF COND="[#TITRE]">[#TITRE]<ELSE/>-</IF></p>
-        <!--[ TODO: Label dynamique ]-->
-        <p class="ckl-fichier-type" data-label="Type">[#TYPE]</p>
+        <p class="ckl-fichier-type" data-label="[#CKL_TRANSLATIONS.TYPE]">[#TYPE]</p>
         <IF COND="[#DOCUMENT]">
           <LET VAR="label_document"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="document"/></LET>
           <p class="ckl-fichier-document" 
@@ -469,8 +469,7 @@
       <div class="ckl-fichierexterne">
         <LET VAR="label_titre"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="titre"/></LET>
         <p class="ckl-fichierexterne-titre" data-label="[#LABEL_TITRE|trim]"><IF COND="[#TITRE]">[#TITRE]<ELSE/>-</IF></p>
-        <!--[ TODO: Label dynamique ]-->
-        <p class="ckl-fichierexterne-type" data-label="Type">[#TYPE]</p>
+        <p class="ckl-fichierexterne-type" data-label="[#CKL_TRANSLATIONS.TYPE]">[#TYPE]</p>
         <IF COND="[#URLMEDIA]">
           <LET VAR="label_urlmedia"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="urlmedia"/></LET>
           <p class="ckl-fichierexterne-urlmedia" data-label="[#LABEL_URLMEDIA]"><a href="[#URLMEDIA]">[#URLMEDIA]</a></p>

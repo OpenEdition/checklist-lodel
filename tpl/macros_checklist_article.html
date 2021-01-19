@@ -256,8 +256,7 @@
   <IF COND="[#ALTERFICHIER]">
     <div class="ckl-field ckl-facsimile" data-field="alterfichier">
       <div class="ckl-field-title"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="alterfichier"/></div>
-      <!--[ TODO: i18n "Oui" ]-->
-      <div class="ckl-field-value" data-document-mime="[#ALTERFICHIER|getFileMime]" data-document-filesize="[#ALTERFICHIER|nicefilesize]">Oui</div>
+      <div class="ckl-field-value" data-document-mime="[#ALTERFICHIER|getFileMime]" data-document-filesize="[#ALTERFICHIER|nicefilesize]">[#CKL_TRANSLATIONS.YES]</div>
     </div>
   </IF>
 </DEFMACRO>
@@ -282,8 +281,7 @@
           <span class="ckl-personne-firstname" data-label="[#LABEL_PRENOM|trim]">[#G_FIRSTNAME]</span>
           <span class="ckl-personne-familyname" data-label="[#LABEL_NOM|trim]">[#G_FAMILYNAME]</span>
           <IF COND="[#DESCRIPTION]">
-            <!--[ TODO: label dynamique ]-->
-            <p class="ckl-personne-description" data-label="Description">[#DESCRIPTION|removetags("p")]</p>
+            <p class="ckl-personne-description" data-label="[#CKL_TRANSLATIONS.DESCRIPTION]">[#DESCRIPTION|removetags("p")]</p>
           </IF>
         </div>
       </LOOP>

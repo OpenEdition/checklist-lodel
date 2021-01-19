@@ -1,0 +1,22 @@
+<CONTENT VERSION="1.0" LANG="fr" CHARSET="utf-8"/>
+
+<!--[ Définition des quelques variables de traduction qui ne sont pas définies ailleurs. Voir #73. ]-->
+<LET ARRAY="ckl_translations"></LET>
+
+<!--[ English ]-->
+<IF COND="[#SITELANG] EQ 'en'">
+	<LET ARRAY="ckl_translations.description">Description</LET>
+	<LET ARRAY="ckl_translations.files">Files</LET>
+	<LET ARRAY="ckl_translations.no">No</LET>
+	<LET ARRAY="ckl_translations.type">Type</LET>
+	<LET ARRAY="ckl_translations.yes">Yes</LET>
+
+<!--[ Français (par défaut) ]-->
+<ELSE>
+	<LET ARRAY="ckl_translations.description">Description</LET>
+	<LET ARRAY="ckl_translations.files">Fichiers</LET>
+	<LET ARRAY="ckl_translations.no">Non</LET>
+	<LET ARRAY="ckl_translations.type">Type</LET>
+	<LET ARRAY="ckl_translations.yes">Oui</LET>
+
+</IF>
