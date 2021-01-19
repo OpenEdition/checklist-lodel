@@ -248,7 +248,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
           en: "Missing date of online publication"
         },
         description: {
-          fr: "<p>Ce numéro ou ce document n’a pas de date de publication électronique. Cette information est obligatoire.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a  href=\"http://www.maisondesrevues.org/84\" target=\"_blank\">Date de publication papier / électronique</a></p>",
+          fr: "<p>Ce numéro ou ce document n’a pas de date de publication électronique. Cette information est obligatoire.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a  href=\"http://www.maisondesrevues.org/84\" target="_blank\">Date de publication papier / électronique</a></p>",
           en: "<p>This issue or document has no date of online publication . This information is required.</p>"
         },
         condition: "publications || textes",
