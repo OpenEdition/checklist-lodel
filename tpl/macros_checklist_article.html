@@ -205,7 +205,7 @@
 <DEFMACRO NAME="CKL_A_TOC">
   <IF COND="[#TEXTE]">
     <div class="ckl-field">
-      <div class="ckl-field-title">[@TOC]</div>
+      <div class="ckl-field-title">[#CKL_TRANSLATIONS.OUTLINE]</div>
       <div class="ckl-field-value">
         <LET VAR="TOC_PREV_NIVEAU" GLOBAL="1">1</LET>
         <LET VAR="OUVRIR_UL"><ul></LET>
@@ -313,7 +313,7 @@
 <DEFMACRO NAME="CKL_A_GET_FORMAT">
   <LOOP NAME="ckl_a_get_format" TABLE="entities" WHERE="id='[#ID]'" SELECT="creationinfo" />
     <div class="ckl-field ckl-field-string" data-field="format">
-      <div class="ckl-field-title">[@FORMAT]</div>
+      <div class="ckl-field-title">[#CKL_TRANSLATIONS.FORMAT]</div>
       <div class="ckl-field-value">[#CREATIONINFO|reg_replace("/^.*\./", "")]</div>
     </div>
   </LOOP>
