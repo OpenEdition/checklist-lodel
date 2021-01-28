@@ -532,6 +532,26 @@ a:hover, a:active, a:focus {
   font-size: 16px;
 }
 
+.checklist-toc-entry.checklist-report-context-publications {
+  background-color: #FFF3CD;
+}
+
+.checklist-toc-entry.checklist-report-context-publications,
+.checklist-report-context-publications .checklist-toc-entry-footer a,
+.checklist-report-context-publications .checklist-toc-entry-header {
+  border-color: #FFE69C;
+}
+
+.checklist-report-context-publications .checklist-statements-group ul {
+  border-top-color: #FFE69C;
+  border-right-color: #FFE69C;
+  border-bottom-color: #FFE69C;
+}
+
+.checklist-report-context-publications .checklist-statement + .checklist-statement {
+  border-color: #FFF3CD;
+}
+
 /* Masquer le fil d'arianne de Lodel */
 #siteContext {
   display: none;
