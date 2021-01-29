@@ -57,6 +57,11 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
     return str === str.toLowerCase();
   }
 
+  // Distinction index/document (cf #53)
+  var isIndex = $(".ckl-main.ckl-index").length > 0;
+  var thisDocumentFr = isIndex ? "Cet index" : "Ce document";
+  var thisDocumentEn = isIndex ? "This index" : "This document";
+
   // Intialisation de checklist
   window.checklist.init({
     parent: "#ckl-pane",
@@ -190,8 +195,8 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         id: "excellent",
         icon: "<i class='far fa-laugh-wink '></i>",
         text: {
-          fr: "Ce document est très bien composé.",
-          en: "This document is very well formated."
+          fr: thisDocumentFr + " est très bien composé.",
+          en: thisDocumentEn + " is very well formated."
         },
         color: "#292d32",
         bgcolor: "#c5e1a5"
@@ -200,8 +205,8 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         id: "good",
         icon: "<i class='far fa-smile'></i>",
         text: {
-          fr: "Ce document est correctement composé.",
-          en: "This document is well formated."
+          fr: thisDocumentFr + " est correctement composé.",
+          en: thisDocumentEn + " is well formated."
         },
         color: "#292d32",
         bgcolor: "#ffe082"
@@ -210,8 +215,8 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         id: "bad",
         icon: "<i class='far fa-meh'></i>",
         text: {
-          fr: "Ce document contient des erreurs de composition.",
-          en: "This document contains issues."
+          fr: thisDocumentFr + " contient des erreurs de composition.",
+          en: thisDocumentEn + " contains issues."
         },
         color: "#292d32",
         bgcolor: "#ef9a9a"
