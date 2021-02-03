@@ -111,6 +111,10 @@ a:hover, a:active, a:focus {
   margin: 10px 0;
 }
 
+.ckl-status-icon {
+  margin-right: 4px;
+}
+
 .ckl-section-title {
   font-weight: normal;
   font-size: 22px;

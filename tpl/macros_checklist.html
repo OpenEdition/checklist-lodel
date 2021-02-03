@@ -294,6 +294,53 @@
 </DEFFUNC>
 
 /**
+ * Affiche un champ pour le statut de l'entité.
+ */
+<DEFMACRO NAME="CKL_STATUS">
+  <div class="ckl-field ckl-field-status">
+    <div class="ckl-field-title">[#CKL_TRANSLATIONS.STATUS]</div>
+    <div class="ckl-field-value">
+      <IF COND="[#STATUS]==-32">
+        <FUNC NAME="CKL_STATUS_VALUE" ICON="draft" STATUS_NAME="[@EDITION.PERMANENT_UNPUBLISHED]" />
+
+      <ELSEIF COND="[#STATUS]==-8">
+        <FUNC NAME="CKL_STATUS_VALUE" ICON="draft" STATUS_NAME="[@EDITION.DRAFT]" />
+
+      <ELSEIF COND="[#STATUS]==-1">
+        <FUNC NAME="CKL_STATUS_VALUE" ICON="unpublished" STATUS_NAME="[@EDITION.READY_TO_BE_PUBLISHED]" />
+
+      <ELSEIF COND="[#STATUS]==1">
+        <IF COND="[#CLASS]">
+          <LET VAR="status_value" GLOBAL="1" ><FUNC NAME="CKL_STATUS_VALUE" ICON="published" STATUS_NAME="[@EDITION.PUBLISHED]" /></LET>
+          <LET VAR="table">[#TP][#CLASS]</LET>
+          <LOOP NAME="CKL_STATUS_datepubli" TABLE="[#TABLE]" WHERE="identity = '[#ID]'">
+            <IF COND="[#DATEPUBLI|isadate] AND [#DATEPUBLI] GT today()">
+              <LET VAR="status_value" GLOBAL="1" ><FUNC NAME="CKL_STATUS_VALUE" ICON="later_published" STATUS_NAME="[@EDITION.LATER_PUBLISHED]" /></LET>
+            </IF>
+          </LOOP>
+        </IF>
+        [%STATUS_VALUE]
+
+      <ELSEIF COND="[#STATUS]==8">
+        <FUNC NAME="CKL_STATUS_VALUE" ICON="locked" STATUS_NAME="[@EDITION.PROTECTED]" />
+
+      <ELSEIF COND="[#STATUS]==32">
+        <FUNC NAME="CKL_STATUS_VALUE" ICON="locked" STATUS_NAME="[@EDITION.PERMANENT_PUBLISHED]" />
+      </IF>
+    </div>
+  </div>
+</DEFMACRO>
+
+/**
+ * Affiche d'un statut et de son icone.
+ * @param {string} status_name - Nom du statut.
+ * @param {string} icon - Nom du fichier de l'icone.
+ */
+<DEFFUNC NAME="CKL_STATUS_VALUE" REQUIRED="status_name, icon">
+  <img class="ckl-status-icon" src="[#SHAREURL]/images/[#ICON].gif" alt="" /> <span class="ckl-status-name">[#STATUS_NAME]</span>
+</DEFFUNC>
+
+/**
  * Affiche les personnes liées à l'entité en cours.
  * @param {string} type - Nom du type des personnes.
  */
