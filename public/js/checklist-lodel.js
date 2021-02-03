@@ -12,5 +12,5 @@ $(function () {
   });
 
   // Largetable
-  $(".ckl-field-text table").largetable();
+  $(".ckl-field-text table").largetable({ enableMaximize: true });
 });

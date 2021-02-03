@@ -27,6 +27,6 @@
     "@fortawesome/fontawesome-free": "^5.9.0",
     "@openedition/checklist": "latest",
     "jquery": "^3.4.1",
-    "largetable": "^0.1.3"
+    "largetable": "^1.0.0"
   }
 }
