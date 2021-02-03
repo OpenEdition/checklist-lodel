@@ -107,6 +107,10 @@
     <!--[ Statut de publication ]-->
     <MACRO NAME="CKL_STATUS" />
 
+    <!--[ Type de document ]-->
+    <LET VAR="type_title"><FUNC NAME="CKL_GET_TYPE_TITLE" TYPE="[#TYPE]" /></LET>
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="[#CKL_TRANSLATIONS.TYPE]" VALUE="[#TYPE_TITLE]"/>
+
     <!--[ Date de la publication électronique ]-->
     <FUNC NAME="CKL_FIELD_STRING" FIELD="datepubli" VALUE="[#DATEPUBLI]"/>
 

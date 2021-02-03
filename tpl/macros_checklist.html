@@ -215,6 +215,16 @@
 </DEFFUNC>
 
 /**
+ * Récupérer le titre d'un type.
+ * @param {string} type - Type.
+ */
+<DEFFUNC NAME="CKL_GET_TYPE_TITLE" REQUIRED="type">
+  <LOOP NAME="ckl_get_type_title" TABLE="types" SELECT="title, altertitle" WHERE="type='[#TYPE]'" LIMIT="0,1">
+    <IF COND="[#ALTERTITLE:#SITELANG]"/>[#ALTERTITLE:#SITELANG]<ELSE/>[#TITLE]</IF>
+  </LOOP>
+</DEFFUNC>
+
+/**
  * Affichage simple d'un champ texte.
  * @param {string} field - Nom du champ (détermine le classname).
  * @param {string} value - Valeur à afficher.
