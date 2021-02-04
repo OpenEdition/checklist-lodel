@@ -279,7 +279,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         type: "danger",
         tags: ["paper"],
         action: function ($) {
-          var $field = getField($, "datepublipapier")
+          var $field = getField($, "datepublipapier");
           var date = $field.text();
           var flag = $field.length === 0 || date.length === 0 || date === "0000-00-00";
           var marker = {
@@ -1384,6 +1384,27 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
             highlight: true
           };
           this.resolve($bad.length, marker);
+        }
+      },
+
+      {
+        id: "datepublipapier:consistency",
+        name: {
+          fr: "Dates de publication papier incohérentes",
+          en: "Inconsistent print publication dates "
+        },
+        description: {
+          fr: "<p>La date de publication papier du document doit être identique à la date de publication papier du numéro.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/1295\" target=\"_blank\">Date de publication papier / électronique</a></p>",
+          en: "<p>Publication dates of the document and the issue must be the same.</p>"
+        },
+        condition: "textes",
+        type: "warning",
+        tags: ["paper"],
+        action: function ($) {
+          var articleDate = getField($, "datepublipapier").text();
+          var issueDate = getField($, "datepublipapier-parent").text();
+          var flag = articleDate !== issueDate;
+          this.resolve(flag);
         }
       }
     ]

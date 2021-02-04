@@ -50,6 +50,12 @@
     <!--[ Date de la publication papier ]-->
     <FUNC NAME="CKL_FIELD_STRING" FIELD="datepublipapier" VALUE="[#DATEPUBLIPAPIER]"/>
 
+    <!--[ Date de la publication papier du numéro ]-->
+    <LET VAR="numero_id">[#ID|getParentByType('numero')]</LET>
+    <LOOP NAME="ckl_datepublipapier_parent" TABLE="publications" WHERE="id = '[#NUMERO_ID]'" SELECT="datepublipapier" />
+      <FUNC NAME="CKL_FIELD_STRING" FIELD="datepublipapier-parent" VALUE="[#DATEPUBLIPAPIER]" CLASSNAME="hidden"/>
+    </LOOP>
+
     <!--[ Barrière mobile ]-->
     <LET VAR="BM">0</LET>
     <IF COND="[#DATEPUBLI] GT today()">
