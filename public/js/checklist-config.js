@@ -1032,33 +1032,41 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
           fr: "<p>Certaines entrées d’index sont peut-être des doublons. Nous vous conseillons de renseigner les mots-clés au singulier et en minuscule lorsqu'il s'agit de noms communs.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/221\" target=\"_blank\">Une entrée apparaît plusieurs fois dans l’index</a></p>",
           en: "<p>Some index entries may be duplicates. In order avoid duplicate entries, we recommend to always use singular and lowercase for common names.</p>"
         },
-        condition: "indexes || auteurs",
+        condition: "indexes || auteurs || textes",
         type: "warning",
         displayCount: true,
-        action: function ($) {
-          var list = {};
-          $(".ckl-entry").each(function () {
-            var id = latinize($(this).text()).replace(/\W/g, "").toLowerCase().replace(/s$/, "");
-            list[id] = list[id] ? list[id].add($(this)) : $(this);
+        action: function ($, context) {
+          var $parents = context.textes ? $(".ckl-entrytype") : $(document.body);
+          var that = this;
+
+          $parents.each(function() {
+            var list = {};
+            $(this).find(".ckl-entry").each(function () {
+              var id = latinize($(this).text()).replace(/\W/g, "").toLowerCase().replace(/s$/, "");
+              list[id] = list[id] ? list[id].add($(this)) : $(this);
+            });
+            
+            var $bad = Object.keys(list).reduce(function ($res, id) {
+              if (list[id].length > 1) {
+                $res = $res.add(list[id]);
+              }
+              return $res;
+            }, $());
+
+            var marker = {
+              name: {
+                fr: "Doublon",
+                en: "Duplicate"
+              },
+              target: $bad,
+              position: "append",
+              highlight: true
+            };
+
+            that.notify($bad.length, marker);
           });
           
-          var $bad = Object.keys(list).reduce(function ($res, id) {
-            if (list[id].length > 1) {
-              $res = $res.add(list[id]);
-            }
-            return $res;
-          }, $());
-
-          var marker = {
-            name: {
-              fr: "Doublon",
-              en: "Duplicate"
-            },
-            target: $bad,
-            position: "append",
-            highlight: true
-          };
-          this.resolve($bad.length, marker);
+          this.resolve();
         }
       },
 
