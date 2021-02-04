@@ -258,7 +258,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         },
         condition: "publications || textes",
         type: "danger",
-        action: function ($, bodyClasses) {
+        action: function ($) {
           var field = getField($, "datepubli").text();
           var flag = !field || field.length === 0 || field === "0000-00-00";
           this.resolve(flag);
@@ -278,7 +278,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         condition: "publications || textes",
         type: "danger",
         tags: ["paper"],
-        action: function ($, bodyClasses) {
+        action: function ($) {
           var $field = getField($, "datepublipapier")
           var date = $field.text();
           var flag = $field.length === 0 || date.length === 0 || date === "0000-00-00";
@@ -308,7 +308,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         condition: "publications || textes",
         type: "danger",
         displayCount: true,
-        action: function ($, bodyClasses) {
+        action: function ($) {
           var $fields = getField($, "titre", "soustitre");
           var $bad = $fields.find("br");
           var marker = {
@@ -337,7 +337,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         condition: "textes",
         type: "warning",
         displayCount: true,
-        action: function ($, bodyClasses) {
+        action: function ($) {
           // See https://github.com/OpenEdition/checklist-lodel/issues/36
           var $phpFileExistsIndicators = $(".ckl-image-not-found");
           var $imagesNonConverties = $(".image_error");
@@ -390,7 +390,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         condition: "publications",
         type: "info",
         tags: ["paper"],
-        action: function ($, bodyClasses) {
+        action: function ($) {
           var $coverType = $(".ckl-fichier-type:contains(imageaccroche), .ckl-fichier-type:contains(couverture1)");
           this.resolve($coverType.length === 0);
         }
@@ -408,7 +408,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         },
         condition: "publications",
         type: "info",
-        action: function ($, bodyClasses) {
+        action: function ($) {
           var $coverType = $(".ckl-fichier-type:contains(imageaccroche), .ckl-fichier-type:contains(couverture1)");
           this.resolve($coverType.length > 1);
         }
@@ -427,7 +427,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         condition: "publications",
         type: "info",
         tags: ["paper"],
-        action: function ($, bodyClasses) {
+        action: function ($) {
           var $cover = getFile($, "imageaccroche", "couverture1");
           if ($cover.length === 0) return this.resolve();
           var mime = $cover.attr("data-document-mime");
@@ -448,7 +448,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         },
         condition: "textes",
         type: "danger",
-        action: function ($, bodyClasses) {
+        action: function ($) {
           var text = getField($, "texte").text().trim();
           var flag = text.length === 0;
           this.resolve(flag);
@@ -467,7 +467,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         },
         condition: "publications || textes",
         type: "danger",
-        action: function ($, bodyClasses) {
+        action: function ($) {
           var $titre = getField($, "titre");
           var titre = $titre.text().trim();
           var flag = titre.length === 0 || titre === "Document sans titre";
@@ -496,7 +496,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         },
         condition: "publications || textes",
         type: "danger",
-        action: function ($, bodyClasses) {
+        action: function ($) {
           var text = getField($, "langue").text().trim();
           var flag = text.length === 0;
           this.resolve(flag);
@@ -515,7 +515,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         },
         condition: "publications",
         type: "danger",
-        action: function ($, bodyClasses) {
+        action: function ($) {
           var $file = getFile($, "facsimile");
           if ($file.length !== 1) return this.resolve();
           var mime = $file.attr("data-document-mime");
@@ -536,7 +536,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         },
         condition: "textes",
         type: "danger",
-        action: function ($, bodyClasses) {
+        action: function ($) {
           var $field = getField($, "alterfichier");
           if ($field.length === 0) return this.resolve();
           var mime = $field.attr("data-document-mime");
@@ -557,7 +557,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         },
         condition: "publications",
         type: "danger",
-        action: function ($, bodyClasses) {
+        action: function ($) {
           var $field = getField($, "numero");
           var flag = !$field || $field.length === 0 || $field.text().trim() === "";
           this.resolve(flag);
@@ -577,7 +577,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         condition: "textes",
         type: "danger",
         displayCount: true,
-        action: function ($, bodyClasses) {
+        action: function ($) {
           var $titre = getField($, "titre");
           var $headers = getField($, "texte").find(":header");
           var $bad = $titre.add($headers).find("a:not([href^='#'])");
@@ -606,7 +606,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         },
         condition: "publications",
         type: "info",
-        action: function ($, bodyClasses) {
+        action: function ($) {
           var $cover = getFile($, "couverture1");
           if ($cover.length === 0) return this.resolve();
           var width = $cover.attr("data-document-imagewidth");
@@ -627,7 +627,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         condition: "textes",
         type: "warning",
         displayCount: true,
-        action: function ($, bodyClasses) {
+        action: function ($) {
           var $intertitres = getField($, "texte").find(":header");
           var $headers = getField($, "altertitre").find(".ckl-field-ml-value");
           var $bad = $intertitres.add($headers).find("br");
@@ -657,7 +657,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         condition: "textes",
         type: "warning",
         displayCount: true,
-        action: function ($, bodyClasses) {
+        action: function ($) {
           var $p = getField($, "texte").find("p").not(".citation, .citationbis, .citationter, .paragraphesansretrait");
           
           var $bad = $p.filter(function() {
@@ -700,7 +700,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         condition: "textes",
         type: "warning",
         displayCount: true,
-        action: function ($, bodyClasses) {
+        action: function ($) {
           var $p = getField($, "texte").find("p.texte");
           var $bad = $p.filter(function () {
             var text = $(this).text();
@@ -732,7 +732,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         condition: "textes",
         type: "warning",
         displayCount: true,
-        action: function ($, bodyClasses) {
+        action: function ($) {
           var $p = getField($, "texte").children();
           var prevIndex = -1;
           var lists = [];
@@ -789,7 +789,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         },
         condition: "textes",
         type: "warning",
-        action: function ($, bodyClasses) {
+        action: function ($) {
           var allowed = {
             texte: "p.remerciements, p.texte, p.paragraphesansretrait, p.creditillustration, p.crditsillustration, p.epigraphe, p.citation, p.citationbis, p.citationter, p.titreillustration, p.legendeillustration, p.question, p.reponse, p.separateur, p.encadre, p.code, p.mathml, p.latex, p.mathlatex",
             annexe: "p.annexe, p.creditillustration, p.crditsillustration, p.citation, p.citationbis, p.citationter, p.titreillustration, p.legendeillustration",
@@ -835,7 +835,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         },
         condition: "textes",
         type: "warning",
-        action: function ($, bodyClasses) {
+        action: function ($) {
           function getBad(fieldName) {
             var $p = getField($, fieldName).children("p");
             if ($p.length === 0) return $();
@@ -887,7 +887,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         condition: "textes",
         type: "info",
         displayCount: true,
-        action: function ($, bodyClasses) {
+        action: function ($) {
           var $titre = getField($, "titre");
           var $headers = getField($, "texte").find(":header");
           var $bad = $titre.add($headers).filter(function () {
@@ -920,7 +920,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         condition: "textes",
         type: "danger",
         displayCount: true,
-        action: function ($, bodyClasses) {
+        action: function ($) {
           var $field = getField($, "texte");
 
           // Links
@@ -970,7 +970,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         condition: "publications || textes || indexes",
         type: "warning",
         displayCount: true,
-        action: function ($, bodyClasses) {
+        action: function ($) {
           var re = /( [-–—.-] |[;,] |[/\\]|\.$)/g;
           var $bad = $(".ckl-entry").filter(function () {
             var text = $(this).text().trim();
@@ -1001,7 +1001,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         },
         condition: "textes",
         type: "danger",
-        action: function ($, bodyClasses) {
+        action: function ($) {
           var $li = $(".ckl-a-toc ul li");
           var $bad = $li.filter(function () {
             var level = Number($(this).attr("data-toc-level"));
@@ -1035,7 +1035,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         condition: "indexes || auteurs",
         type: "warning",
         displayCount: true,
-        action: function ($, bodyClasses) {
+        action: function ($) {
           var list = {};
           $(".ckl-entry").each(function () {
             var id = latinize($(this).text()).replace(/\W/g, "").toLowerCase().replace(/s$/, "");
@@ -1074,7 +1074,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         },
         condition: "textes",
         type: "info",
-        action: function ($, bodyClasses) {
+        action: function ($) {
           var flag = $(".ckl-personne").length === 0;
           this.resolve(flag);
         }
@@ -1093,7 +1093,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         condition: "publications || textes || indexes || auteurs",
         type: "warning",
         displayCount: true,
-        action: function ($, bodyClasses) {
+        action: function ($) {
           var forbiddenChars = /[0-9!#%*,/\:;?@\[\]_\{\}&]/g;
           var $bad = $(".ckl-personne").filter(function () {
             var firstname = $(this).find(".ckl-personne-firstname").text().trim();
@@ -1139,7 +1139,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         condition: "textes",
         type: "warning",
         displayCount: true,
-        action: function ($, bodyClasses) {
+        action: function ($) {
           function isValidURL (url) {
             var regex = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/i;
             return regex.test(url) && url.trim().substr(-1).match(/[).,;\]]/) === null;
@@ -1177,7 +1177,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         condition: "textes",
         type: "warning",
         displayCount: true,
-        action: function ($, bodyClasses) {
+        action: function ($) {
           var $notes  = getField($, "notesbaspage", "notefin").find("p");
           var $bad = $notes.filter(function () {
             var $clone = $(this).clone();
@@ -1211,7 +1211,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         },
         condition: "publications",
         type: "warning",
-        action: function ($, bodyClasses) {
+        action: function ($) {
           var flag = fileIsTooBig($, "facsimile", 30);
           this.resolve(flag);
         }
@@ -1229,7 +1229,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         },
         condition: "textes",
         type: "warning",
-        action: function ($, bodyClasses) {
+        action: function ($) {
           var flag = fileIsTooBig($, "alterfichier", 10);
           this.resolve(flag);
         }
@@ -1248,7 +1248,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         condition: "publications",
         type: "info",
         tags: ["paper"],
-        action: function ($, bodyClasses) {
+        action: function ($) {
           var $file = getFile($, "facsimile");
           if ($file.length === 0) return this.resolve(true);
           var filesize = parseInt($file.attr("data-document-filesize"));
@@ -1269,7 +1269,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         condition: "textes",
         type: "info",
         tags: ["paper"],
-        action: function ($, bodyClasses) {
+        action: function ($) {
           var $facsimile = getField($, "alterfichier");
           if ($facsimile.length === 0) return this.resolve(true);
           var filesize = parseInt($facsimile.attr("data-document-filesize"));
@@ -1290,7 +1290,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         condition: "textes",
         type: "info",
         tags: ["paper"],
-        action: function ($, bodyClasses) {
+        action: function ($) {
           var $pagination = getField($, "pagination");
           var flag = $pagination.length === 0 || $pagination.text().length === 0;
           this.resolve(flag);
@@ -1310,7 +1310,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         condition: "textes",
         type: "warning",
         tags: ["paper"],
-        action: function ($, bodyClasses) {
+        action: function ($) {
           var $pagination = getField($, "pagination");
           if ($pagination.length === 0) return this.resolve();
           var text = $pagination.text().trim();
@@ -1341,7 +1341,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         condition: "publications",
         type: "danger",
         displayCount: true,
-        action: function ($, bodyClasses) {
+        action: function ($) {
           var $bad = $(".checklist-toc-section-contents:empty");
           this.resolve($bad.length);
         }
@@ -1359,7 +1359,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         },
         condition: "textes",
         type: "warning",
-        action: function ($, bodyClasses) {
+        action: function ($) {
           var dashes = /^\s?[\-\u058A\u05BE\u1400\u1806\u2010-\u2015\u2E17\u2E1A\u2E3A\u2E3B\u2E40\u301C\u3030\u30A0\uFE31\uFE32\uFE58\uFE63\uFF0D\u005F\u02CD\u0331\u0332\u2017\uFF3F]/u;
           var $biblio = getField($, "bibliographie");
           var $bad = $biblio.find("p").filter(function () {
