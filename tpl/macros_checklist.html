@@ -422,6 +422,32 @@
 </DEFFUNC>
 
 /**
+ * Affichage des financements liés à l'entité.
+ */
+<DEFMACRO NAME="CKL_FUNDER">
+  <LOOP NAME="ckl_funder_table_exists" SELECT="id AS funderclassid" TABLE="classes" WHERE="class='funder' AND classtype='entries'" LIMIT="1">
+    <LOOP NAME="ckl_funder" 
+      SELECT="f.fundername, ef.grantnumber" 
+      TABLE="funder f, entries e, relations r,entities_funder ef, entrytypes et"
+      WHERE="f.identry=e.id AND et.id=e.idtype AND r.id2=e.id AND r.idrelation=ef.idrelation AND r.id1=[#ID] AND et.type='funder' AND e.status > 0">
+      <BEFORE>
+        <div class="ckl-field ckl-funder">
+          <div class="ckl-field-title"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="funder"/></div>
+          <div class="ckl-field-value">
+      </BEFORE>
+      <DO>
+        [#FUNDERNAME]<IF COND="[#GRANTNUMBER]">, [#GRANTNUMBER]</IF>
+      </DO>
+      <AFTER>
+          </div>
+        </div>
+      </AFTER>
+    </LOOP>
+  </LOOP>
+  
+</DEFMACRO>
+
+/**
  * Affichage des alias de traduction du document.
  */
 <DEFMACRO NAME="CKL_TRADUCTIONS">
