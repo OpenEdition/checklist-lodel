@@ -31,22 +31,24 @@ class checklist extends Plugins {
 
 		if(defined('backoffice') || !in_array($tpl, $displayOnTpl) || !parent::_checkRights(LEVEL_REDACTOR)) return;
 
-		// Get page contents
 		$page = View::$page;
 		$doc_id = $context['id'];
+		$class_attr = " ";
 
 		// If Checklist is active
 		if ($tpl == 'checklist') {
+			$doc_id = $_GET['document'];
+			$class_attr = " class=\"actif\"";
+
 			// Deactivate "Site" tab
 			$re = '/<li class="site">\R?<a class="actif" href="index\.php"  title="Site">\R?Site<\/a>\R?<\/li>/m';
 			$replacement = '<li class="site"><a href="index.php" title="Site">Site</a></li>';
-			$doc_id = $_GET['document'];
 			$page = preg_replace($re, $replacement, $page);
 		}
 
 		// Add a "Checklist" tab
 		$re = '/<li>\R?<a href="lodel\/admin\/index\.php\?do=list&amp;lo=internal_messaging" title="[^"]*">[^<]*<\/a>\R?<\/li>/m';
-		$replacement = '\0<li><a href="./?do=_checklist_view&amp;document=' . $doc_id . '" title="Checklist">Checklist</a></li>';
+		$replacement = '\0<li><a href="./?do=_checklist_view&amp;document=' . $doc_id . '" title="Checklist"' . $class_attr . '>Checklist</a></li>';
 		$page = preg_replace($re, $replacement, $page);
 
 		View::$page = $page;
