@@ -23,6 +23,11 @@
  * Création du paramètre 'publi' passé à Checklist.
  */
 <DEFMACRO NAME="CKL_P_CREATE_PUBLI"/>
+  <LET VAR="typename">[#TYPE]</LET>
+  <IF COND="[#NUMEROOUVERT]">
+    <LET VAR="typename"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="numeroouvert" /></LET>
+  </IF>
+
   <LET VAR="checklist_publi" GLOBAL="1">
     {
       parent: ".ckl-toc",
@@ -31,7 +36,7 @@
           title: "<span class='title'>[#TITRE|removenotes|replacequotationmark|reg_replace("/(\r\n|\r|\n)+/", " ")]</span>",
           href: window.location.href,
           docId: "[#DOCUMENT]",
-          type: "[#TYPE|majuscule]",
+          type: "[#TYPENAME|trim|majuscule]",
           icon: "fas fa-book",
           context: {
             <IF COND="[#NUMEROOUVERT]">"numeroouvert": true,</IF>
@@ -111,8 +116,12 @@
     <MACRO NAME="CKL_STATUS" />
 
     <!--[ Type de document ]-->
-    <LET VAR="type_title"><FUNC NAME="CKL_GET_TYPE_TITLE" TYPE="[#TYPE]" /></LET>
-    <FUNC NAME="CKL_FIELD_STRING" FIELD="[#CKL_TRANSLATIONS.TYPE]" VALUE="[#TYPE_TITLE]"/>
+    <IF COND="[#NUMEROOUVERT]">
+      <LET VAR="type_title"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="numeroouvert" /></LET>
+    <ELSE />
+      <LET VAR="type_title"><FUNC NAME="CKL_GET_TYPE_TITLE" TYPE="[#TYPE]" /></LET>
+    </IF>
+    <FUNC NAME="CKL_FIELD_STRING" FIELD="[#CKL_TRANSLATIONS.TYPE]" VALUE="[#TYPE_TITLE|trim]"/>
 
     <!--[ Date de la publication électronique ]-->
     <FUNC NAME="CKL_FIELD_STRING" FIELD="datepubli" VALUE="[#DATEPUBLI]"/>
