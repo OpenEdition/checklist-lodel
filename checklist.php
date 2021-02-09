@@ -26,13 +26,13 @@ class checklist extends Plugins {
 	}
 
 	public function postview (&$context) {
-		$displayOnTpl = array("article", "sommaire", "entrees", "personnes", "checklist");
+		$displayOnTpl = array("article", "sommaire", "entrees", "personnes", "checklist", "edition", "edit_entities_edition", "entries");
 		$tpl = $context['view']['tpl'];
 
-		if(defined('backoffice') || !in_array($tpl, $displayOnTpl) || !parent::_checkRights(LEVEL_REDACTOR)) return;
+		if(!in_array($tpl, $displayOnTpl) || !parent::_checkRights(LEVEL_REDACTOR)) return;
 
 		$page = View::$page;
-		$doc_id = $context['id'];
+		$doc_id = ($tpl == 'entries' ? $context['idtype'] : $context['id']);
 		$class_attr = " ";
 
 		// If Checklist is active
@@ -46,8 +46,10 @@ class checklist extends Plugins {
 			$page = preg_replace($re, $replacement, $page);
 		}
 
+		if (!$doc_id || $doc_id == 0) return;
+
 		// Add a "Checklist" tab
-		$re = '/<li>\R?<a href="lodel\/admin\/index\.php\?do=list&amp;lo=internal_messaging" title="[^"]*">[^<]*<\/a>\R?<\/li>/m';
+		$re = '/<li>\R?<a href="[.\/]*lodel\/admin\/index\.php\?do=list&amp;lo=internal_messaging" title="[^"]*">[^<]*<\/a>\R?<\/li>/m';
 		$replacement = '\0<li><a href="./?do=_checklist_view&amp;document=' . $doc_id . '" title="Checklist"' . $class_attr . '>Checklist</a></li>';
 		$page = preg_replace($re, $replacement, $page);
 
