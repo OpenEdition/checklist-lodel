@@ -84,7 +84,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
           },
           icon: "<i class='far fa-eye'></i>",
           attributes: {
-            href: "./" + docId
+            href: context.url || "./" + docId
           }
         },
         {
