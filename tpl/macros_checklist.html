@@ -168,9 +168,18 @@
   {
     "[#CLASS]": true,
     "[#TYPE]": true,
+
     <LOOP NAME="ckl_create_context_json_get_creationmethod" TABLE="entities" WHERE="id='[#ID]' AND creationmethod != ''" SELECT="creationmethod, creationinfo" />
-    "extension-[#CREATIONINFO|reg_replace("/^.*\./", "")]": true
+      "extension-[#CREATIONINFO|reg_replace("/^.*\./", "")]": true,
     </LOOP>
+
+    <LET VAR="numero_id">[#ID|getParentByType('numero')]</LET>
+    <IF COND="[#NUMERO_ID]">
+      <LOOP NAME="ckl_create_context_json_numeroouvert" TABLE="publications" WHERE="id='[#NUMERO_ID]' AND numeroouvert" LIMIT="0,1" />
+        "numeroouvert": true
+      </LOOP>
+    </IF>
+
   }
 </DEFMACRO>
 

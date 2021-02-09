@@ -33,7 +33,10 @@
           docId: "[#DOCUMENT]",
           type: "[#TYPE|majuscule]",
           icon: "fas fa-book",
-          context: {"publications": true}
+          context: {
+            <IF COND="[#NUMEROOUVERT]">"numeroouvert": true,</IF>
+            "publications": true
+          }
         }
 
         <LOOP NAME="create_publi_summary"

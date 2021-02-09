@@ -275,7 +275,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
           fr: "<p>Ce numéro ou ce document n’a pas de date de publication papier. Cette information est obligatoire pour les revues ayant une édition papier.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;:</p><ul><li><a href=\"http://www.maisondesrevues.org/84\" target=\"_blank\">Date de publication papier / électronique</a></li><li><a href=\"http://www.maisondesrevues.org/804#tocto1n4\" target=\"_blank\">Créer un numéro dans Lodel</a></li></ul>",
           en: "<p>This issue or document has no date of publication. This information is required for journals with a paper edition.</p>"
         },
-        condition: "publications || textes",
+        condition: "(publications || textes) && !numeroouvert",
         type: "danger",
         tags: ["paper"],
         action: function ($) {
@@ -387,7 +387,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
           fr: "<p>La couverture est manquante. Il est conseillé d’ajouter une couverture aux numéros quand c’est possible.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/792\" target=\"_blank\">Ajouter une couverture de numéro de revue</a></p>",
           en: "<p>Cover is missing. It is recommended to attach covers to issues when possible.</p>"
         },
-        condition: "publications",
+        condition: "publications && !numeroouvert",
         type: "info",
         tags: ["paper"],
         action: function ($) {
@@ -424,7 +424,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
           fr: "<p>Les couvertures doivent être aux formats JPG ou PNG.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/792\" target=\"_blank\">Ajouter une couverture de numéro de revue</a></p>",
           en: "<p>Covers must be in JPG or PNG formats.</p>"
         },
-        condition: "publications",
+        condition: "publications && !numeroouvert",
         type: "info",
         tags: ["paper"],
         action: function ($) {
@@ -1253,7 +1253,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
           fr: "<p>Aucun fac-similé PDF n’est associé à cette publication. Un PDF sera automatiquement généré. Si vous souhaitez qu'un PDF composé par vos soins soit diffusé, vous devez l'attacher à cette publication. Il doit s'agir du PDF final, sans traits de coupe ni hirondelles.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/612\" target=\"_blank\">Comment importer le fac-similé de son numéro</a></p>",
           en: "<p>This issue has no attached facsimile. A PDF will be automatically generated. If you want your own PDF file to be distributed instead, please attach it to this issue. This should be the final version with no crop marks.</p>"
         },
-        condition: "publications",
+        condition: "publications && !numeroouvert",
         type: "info",
         tags: ["paper"],
         action: function ($) {
@@ -1274,7 +1274,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
           fr: "<p>Aucun fac-similé PDF n’est associé à ce document. Un PDF sera automatiquement généré. Si vous souhaitez qu'un PDF composé par vos soins soit diffusé, vous devez l'attacher à ce document. Il doit s'agir du PDF final, sans traits de coupe ni hirondelles.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/793\" target=\"_blank\">Comment importer le fac-similé d’un article</a></p>",
           en: "<p>This document has no attached facsimile. A PDF will be automatically generated. If you want your own PDF file to be distributed instead, please attach it to this issue. This should be the final version with no crop marks.</p>"
         },
-        condition: "textes",
+        condition: "textes && !numeroouvert",
         type: "info",
         tags: ["paper"],
         action: function ($) {
@@ -1295,7 +1295,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
           fr: "<p>Si le document existe en version imprimée il est fortement recommandé d’en préciser la pagination au format attendu. Cette métadonnée génère la citation bibliographique papier.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/1295\" target=\"_blank\">Styler les métadonnées de l’article</a></p>",
           en: "<p>If the document exists in a printed version, it is strongly recommended to specify the pagination in the expected format. This will generate the bibliographic reference of the printed version.</p>"
         },
-        condition: "textes",
+        condition: "textes && !numeroouvert",
         type: "info",
         tags: ["paper"],
         action: function ($) {
@@ -1315,7 +1315,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
           fr: "<p>La pagination de la version papier n’est pas correctement renseignée, le format attendu est <code>page de début-page de fin</code>, exemple <code>12-72</code>. Le séparateur doit être un tiret quart de cadratin.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/1295\" target=\"_blank\">Styler les métadonnées de l’article</a></p>",
           en: "<p>Pagination is not correct, the expected format is <code>start page-end page</code>, example <code>12-72</code>. Separator must be a hyphen-minus.</p>"
         },
-        condition: "textes",
+        condition: "textes && !numeroouvert",
         type: "warning",
         tags: ["paper"],
         action: function ($) {
@@ -1397,7 +1397,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
           fr: "<p>La date de publication papier du document doit être identique à la date de publication papier du numéro.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/1295\" target=\"_blank\">Date de publication papier / électronique</a></p>",
           en: "<p>Publication dates of the document and the issue must be the same.</p>"
         },
-        condition: "textes",
+        condition: "textes && !numeroouvert",
         type: "warning",
         tags: ["paper"],
         action: function ($) {
