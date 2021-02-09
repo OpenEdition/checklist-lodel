@@ -1391,7 +1391,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         id: "datepublipapier:consistency",
         name: {
           fr: "Dates de publication papier incohérentes",
-          en: "Inconsistent print publication dates "
+          en: "Inconsistent print publication dates"
         },
         description: {
           fr: "<p>La date de publication papier du document doit être identique à la date de publication papier du numéro.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/1295\" target=\"_blank\">Date de publication papier / électronique</a></p>",
@@ -1406,7 +1406,26 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
           var flag = articleDate !== issueDate;
           this.resolve(flag);
         }
-      }
+      },
+
+      {
+        id: "numeroouvert:quality(historique)",
+        name: {
+          fr: "Historique non renseigné",
+          en: "Missing history"
+        },
+        description: {
+          fr: "<p>Pour les numéros ouverts, il est recommandé de renseigner le champ “Historique de la publication” avec une mention “Numéro ouvert le XXX”.</p><p> Au moment de la clôture du numéro, il est nécessaire de décocher la case “Numéro ouvert” dans l’interface et de compléter le champ “Historique de la publication” avec une mention “Numéro fermé le XXX”.</p>",
+          en: "<p>In the case of open issues, it is recommended to fill in the “Publication history” field with the information “Issue open on XXX”.</p><p>When closing the issue, it is necessary to uncheck the “Open number” option and to append to the “Publication history” the information “Number closed on XXX”."
+        },
+        condition: "publications && numeroouvert",
+        type: "warning",
+        action: function ($) {
+          var $historique = getField($, "historique");
+          var flag = $historique.length === 0;
+          this.resolve(flag);
+        }
+      },
     ]
   })
     .then(function () {
