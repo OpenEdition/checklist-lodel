@@ -11,10 +11,10 @@ class checklist extends Plugins {
 	public function preview (&$context)	{
 		if ($context['view']['tpl'] != 'checklist') return;
 		if (!parent::_checkRights(LEVEL_REDACTOR)) {
-			header("HTTP/1.0 404 Not Found");
-			header("Status: 404 Not Found");
-			header("Connection: Close");
-			$missing = C::get('home', 'cfg')."../../missing.php";
+			header('HTTP/1.0 404 Not Found');
+			header('Status: 404 Not Found');
+			header('Connection: Close');
+			$missing = C::get('home', 'cfg').'../../missing.php';
 			if (file_exists($missing)) {
 				include $missing;
 			} else {
@@ -26,19 +26,19 @@ class checklist extends Plugins {
 	}
 
 	public function postview (&$context) {
-		$displayOnTpl = array("article", "sommaire", "entrees", "personnes", "checklist", "edition", "edit_entities_edition", "entries");
+		$displayOnTpl = array('article', 'sommaire', 'entrees', 'personnes', 'checklist', 'edition', 'edit_entities_edition', 'entries');
 		$tpl = $context['view']['tpl'];
 
 		if(!in_array($tpl, $displayOnTpl) || !parent::_checkRights(LEVEL_REDACTOR)) return;
 
 		$page = View::$page;
 		$doc_id = ($tpl == 'entries' ? $context['idtype'] : $context['id']);
-		$class_attr = " ";
+		$class_attr = ' ';
 
 		// If Checklist is active
 		if ($tpl == 'checklist') {
 			$doc_id = $_GET['document'];
-			$class_attr = " class=\"actif\"";
+			$class_attr = ' class="actif"';
 
 			// Deactivate "Site" tab
 			$re = '/<li class="site">\R?<a class="actif" href="index\.php"  title="Site">\R?Site<\/a>\R?<\/li>/m';
@@ -58,7 +58,7 @@ class checklist extends Plugins {
 
 	public function viewAction (&$context, &$error) {
 		View::getView()->renderCached('checklist') ;
-		return "_ajax" ;
+		return '_ajax' ;
 	}
 }
 ?>
