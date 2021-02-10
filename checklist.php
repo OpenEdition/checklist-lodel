@@ -26,13 +26,13 @@ class checklist extends Plugins {
 	}
 
 	public function postview (&$context) {
-		$displayOnTpl = array('article', 'sommaire', 'entrees', 'personnes', 'checklist', 'edition', 'edit_entities_edition', 'entries');
+		$displayOnTpl = array('article', 'sommaire', 'entrees', 'personnes', 'checklist', 'edition', 'edit_entities_edition', 'entries', 'persons');
 		$tpl = $context['view']['tpl'];
 
 		if(!in_array($tpl, $displayOnTpl) || !parent::_checkRights(LEVEL_REDACTOR)) return;
 
 		$page = View::$page;
-		$doc_id = ($tpl == 'entries' ? $context['idtype'] : $context['id']);
+		$doc_id = (($tpl == 'entries' || $tpl == 'persons') ? $context['idtype'] : $context['id']);
 		$class_attr = ' ';
 
 		// If Checklist is active
