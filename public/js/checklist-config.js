@@ -1103,23 +1103,24 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         displayCount: true,
         action: function ($) {
           var forbiddenChars = /[0-9!#%*,/\:;?@\[\]_\{\}&]/g;
-          var $bad = $(".ckl-personne").filter(function () {
-            var firstname = $(this).find(".ckl-personne-firstname").text().trim();
-            var familyname = $(this).find(".ckl-personne-familyname").text().trim();
-            if (!firstname || !familyname) return true;
-            var text = latinize(firstname + familyname); 
+          var $bad = $(".ckl-personne-firstname, .ckl-personne-familyname").filter(function () {
+            var text = $(this).text().trim();
+            if (!text) return true;
 
             // Find "et" & "and" in firstname
-            var matchAnd = firstname.match(/(?:et|and) (.)/);
-            if (matchAnd) {
-              var captured = matchAnd[1];
-              if (isUpperCase(captured)) return true;
+            if ($(this).hasClass("ckl-personne-firstname")) {
+              var matchAnd = text.match(/(?:et|and) (.)/);
+              if (matchAnd) {
+                var captured = matchAnd[1];
+                if (isUpperCase(captured)) return true;
+              }
             }
+
+            var latinizedText = latinize(text); 
             
-            return isUpperCase(firstname)
-              || isUpperCase(familyname)
-              || isLowerCase(text[0])
-              || text.match(forbiddenChars);
+            return isUpperCase(text)
+              || isLowerCase(latinizedText[0])
+              || latinizedText.match(forbiddenChars);
           });
           var marker = {
             name: {
