@@ -40,9 +40,9 @@ class checklist extends Plugins {
 			$doc_id = $_GET['document'];
 			$class_attr = ' class="actif"';
 
-			// Deactivate "Site" tab
-			$re = '/<li class="site">\R?<a class="actif" href="index\.php"  title="Site">\R?Site<\/a>\R?<\/li>/m';
-			$replacement = '<li class="site"><a href="index.php" title="Site">Site</a></li>';
+			// Deactivate active tab
+			$re = '/(<ul *class="group1">)(.*)(?>class="actif")(.*)(<\/ul>)/Us';
+			$replacement = '$1$2$3$4';
 			$page = preg_replace($re, $replacement, $page);
 		}
 
