@@ -169,10 +169,8 @@
     <!--[ Entrées d'index ]-->
     <FUNC NAME="CKL_ENTRIES" CLASSNAME="indexes"/>
 
-    <!--[ Historique pour les numéros ouverts ]-->
-    <IF COND="[#NUMEROOUVERT]">
-      <FUNC NAME="CKL_FIELD_ML" FIELD="historique" VALUE="[#HISTORIQUE]"/>
-    </IF>
+    <!--[ Historique ]-->
+    <FUNC NAME="CKL_FIELD_ML" FIELD="historique" VALUE="[#HISTORIQUE]"/>
   </LET>
   <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
 
