@@ -1420,7 +1420,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
           en: "<p>In the case of open issues, it is recommended to fill in the “Publication history” field with the information “Issue open on XXX”.</p><p>When closing the issue, it is necessary to uncheck the “Open number” option and to append to the “Publication history” the information “Number closed on XXX”."
         },
         condition: "publications && numeroouvert",
-        type: "warning",
+        type: "danger",
         action: function ($) {
           var $historique = getField($, "historique");
           var flag = $historique.length === 0;
