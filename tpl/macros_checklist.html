@@ -7,6 +7,7 @@
   <!--[ Dependances ]-->
   <USE TEMPLATEFILE="checklist_translations">
   <USE MACROFILE="macros_checklist_article.html"/>
+  <USE MACROFILE="macros_checklist_home.html"/>
   <USE MACROFILE="macros_checklist_index.html"/>
   <USE MACROFILE="macros_checklist_publication.html"/>
 
@@ -84,7 +85,7 @@
       <MACRO NAME="CKL_I_MAIN_PERSONS"/>
     </DO>
     <DO CASE="default">
-      <p>Document [#DOCUMENT] not found.</p>
+      <MACRO NAME="CKL_H_MAIN"/>
     </DO>
   </SWITCH>
 

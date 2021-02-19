@@ -46,8 +46,6 @@ class checklist extends Plugins {
 			$page = preg_replace($re, $replacement, $page);
 		}
 
-		if (!$doc_id || $doc_id == 0) return;
-
 		// Add a "Checklist" tab
 		$re = '/<li>\R?<a href="[.\/]*lodel\/admin\/index\.php\?do=list&amp;lo=internal_messaging" title="[^"]*">[^<]*<\/a>\R?<\/li>/m';
 		$replacement = '\0<li><a href="./?do=_checklist_view&amp;document=' . $doc_id . '" title="Checklist"' . $class_attr . '>Checklist</a></li>';
