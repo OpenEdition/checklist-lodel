@@ -76,6 +76,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
 
     // Boutons
     buttonsCreator: function (docId, context) {
+      if (context.home) return;
       return [
         {
           title: {
