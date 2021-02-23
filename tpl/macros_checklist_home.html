@@ -18,6 +18,7 @@
  * Contenu home.
  */
 <DEFMACRO NAME="CKL_H_CONTENT">
+	<h1 class="main-title">[#OPTIONS.METADONNEESSITE.TITRESITE]</h1>
 	<MACRO NAME="CKL_H_ISSUES" />
 </DEFMACRO>
 
@@ -28,12 +29,15 @@
 	<LET VAR="NUMEROS_PAR_PAGE">10</LET>
 	<LOOP NAME="ckl_h_numeros" TABLE="publications" WHERE="type = 'numero' AND paraitre != 1" ORDER="rank DESC" SPLIT="[#NUMEROS_PAR_PAGE]">
 		<BEFORE>
+			<h2 class="ckl-section-title">[#CKL_TRANSLATIONS.ISSUES]</h2>
 			<div class="ckl-issues">
 		</BEFORE>
 		<DO>
 			<MACRO NAME="CKL_H_ISSUE" />
 		</DO>
 		<AFTER>
+			<!--[ Flexbox workaround ]-->
+			<div class="ckl-issue-placeholder"></div>
 			</div>
 			<IF COND="[#NBRESULTS] GT [#NUMEROS_PAR_PAGE]">
 				<MACRO NAME="CKL_PAGE_SCALE" />
@@ -46,12 +50,18 @@
  * Afficher un numéro.
  */
 <DEFMACRO NAME="CKL_H_ISSUE">
+	<LET VAR="issue_href">./?do=_checklist_view&document=[#ID]</LET>
 	<div class="ckl-issue">
 		<!--[ Titre et numéro ]-->
-		<h2 class="ckl-issue-title"><a href="./?do=_checklist_view&document=[#ID]"><IF COND="[#NUMERO]"><span class="ckl-issue-number">[#NUMERO] | </span></IF>[#TITRE|removenotes|replacequotationmark|reg_replace("/(\r\n|\r|\n)+/", " ")]</a></h2>
+		<h2 class="ckl-issue-title"><a href="[#ISSUE_HREF]"><IF COND="[#NUMERO]"><span class="ckl-issue-number">[#NUMERO] | </span></IF>[#TITRE|removenotes|replacequotationmark|reg_replace("/(\r\n|\r|\n)+/", " ")]</a></h2>
 
-		<!--[ Progression Checklist ]-->
-		<div class="ckl-issue-stackedbar-container" data-children-ids='<MACRO NAME="CKL_H_ISSUE_CONTENTS" />'></div>
+		<div class="ckl-issue-row">
+			<!--[ Progression Checklist ]-->
+			<div class="ckl-issue-stackedbar-container" data-children-ids='<MACRO NAME="CKL_H_ISSUE_CONTENTS" />'></div>
+
+			<!--[ Bouton "Vérifier" ]-->
+			<a href="[#ISSUE_HREF]" class="ckl-issue-link"><i class="far fa-play-circle"></i> [#CKL_TRANSLATIONS.CHECK]</a>
+		</div>
 	</div>
 </DEFMACRO>
 
