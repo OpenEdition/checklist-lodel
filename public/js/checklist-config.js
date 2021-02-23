@@ -1431,7 +1431,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
     ]
   })
     .then(function () {
-      if (context.textes) {
+      if (context.textes || context.indexes || context.auteurs) {
         return checklist.run();
       }
       if (context.home) {
