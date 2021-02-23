@@ -19,7 +19,41 @@
  */
 <DEFMACRO NAME="CKL_H_CONTENT">
 	<h1 class="main-title">[#OPTIONS.METADONNEESSITE.TITRESITE]</h1>
+	<MACRO NAME="CKL_H_INDEXES" />
 	<MACRO NAME="CKL_H_ISSUES" />
+</DEFMACRO>
+
+/**
+ * Tous les index.
+ */
+<DEFMACRO NAME="CKL_H_INDEXES">
+	<!--[ Mots-clés ]-->
+	<LET VAR="tableindex">#_TP_entries</LET>
+	<LET VAR="tabletypes">#_TP_entrytypes</LET>
+	<LET VAR="tableclass">indexes</LET>
+	<LET VAR="tablefilter">AND class = 'indexes'</LET>
+
+	<LOOP NAME="ckl_h_indexes" TABLE="[#TABLEINDEX], [#TABLETYPES]" SELECT="DISTINCT(idtype), title, altertitle" WHERE="[#TABLEINDEX].idtype = [#TABLETYPES].id AND [#TABLEINDEX].status GT 0 [#TABLEFILTER]" ORDER="CASE WHEN type LIKE 'motscles%' THEN 0 ELSE 1 END, [#TABLETYPES].rank">
+		<BEFORE>
+			<h2 class="ckl-section-title"><FUNC NAME="CKL_GET_CLASS_TITLE" CLASS="[#TABLECLASS]" /></h2>
+			<ul class="ckl-indexes">
+		</BEFORE>
+		<DO>
+			<li class="ckl-index">
+				<a href="./?do=_checklist_view&document=[#IDTYPE]"><IF COND="[#ALTERTITLE:#SITELANG]">[#ALTERTITLE:#SITELANG]<ELSE/>[#TITLE]</IF></a>
+			</li>
+		</DO>
+		<AFTER>
+			</ul>
+		</AFTER>
+	</LOOP>
+
+	<!--[ Auteurs ]-->
+	<LET VAR="tableindex">#_TP_persons</LET>
+	<LET VAR="tabletypes">#_TP_persontypes</LET>
+	<LET VAR="tableclass">auteurs</LET>
+	<LET VAR="tablefilter"></LET>
+	<LOOP NAME="ckl_h_indexes"></LOOP>
 </DEFMACRO>
 
 /**

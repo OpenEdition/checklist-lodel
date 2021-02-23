@@ -228,7 +228,17 @@
 </DEFFUNC>
 
 /**
- * Récupérer le titre d'un type.
+ * Récupérer le titre d'une classe dans la langue du site.
+ * @param {string} class - Classe.
+ */
+<DEFFUNC NAME="CKL_GET_CLASS_TITLE" REQUIRED="class">
+  <LOOP NAME="ckl_get_class_title" TABLE="classes" SELECT="title, altertitle" WHERE="class='[#CLASS]'" LIMIT="0,1">
+    <IF COND="[#ALTERTITLE:#SITELANG]"/>[#ALTERTITLE:#SITELANG]<ELSE/>[#TITLE]</IF>
+  </LOOP>
+</DEFFUNC>
+
+/**
+ * Récupérer le titre d'un type dans la langue du site.
  * @param {string} type - Type.
  */
 <DEFFUNC NAME="CKL_GET_TYPE_TITLE" REQUIRED="type">
