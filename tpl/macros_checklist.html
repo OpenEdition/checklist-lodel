@@ -59,6 +59,8 @@
     <LOOP NAME="ckl_init_title_index" TABLE="#_TP_[%TPL_TYPE]" SELECT="title" WHERE="id = '[#DOCUMENT]'">
       <LET VAR="page_title" GLOBAL="1">[#TITLE]</LET>
     </LOOP>
+  <ELSE />
+    <LET VAR="page_title" GLOBAL="1">[#OPTIONS.METADONNEESSITE.TITRESITE]</LET>
   </IF>
 </DEFMACRO>
 
@@ -101,7 +103,7 @@
   <head>
     <meta charset="utf-8">
     <!--[ Bug lodel : pour une raison obscure le body ne peut pas être déclaré dans une FUNC ou dans une LOOP. On passe donc par une variable globale pour déclarer le title ici. ]-->
-    <title>[%PAGE_TITLE|textebrut] – [#OPTIONS.METADONNEESSITE.TITRESITE] (OpenEdition Checklist)</title>
+    <title><IF COND="[%PAGE_TITLE]">[%PAGE_TITLE|textebrut] – </IF>OpenEdition Checklist</title>
     <MACRO NAME="CKL_HTML_STYLES"/>
   </head>
   <body>
