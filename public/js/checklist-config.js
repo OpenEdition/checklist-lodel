@@ -1430,9 +1430,16 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
     ]
   })
     .then(function () {
-      // Ne pas lancer automatiquement sur les publications.
-      if (publi != null) return;
-      return checklist.run();
+      if (context.textes) {
+        return checklist.run();
+      }
+      if (context.home) {
+        $("[data-children-ids]").each(function() {
+          var $target = $(this);
+          var docIds = $target.attr("data-children-ids").split(/,\s*/);
+          checklist.ui.createStackedbarFromCache($target, docIds);
+        });
+      }
     })
     .catch(console.error);
 };

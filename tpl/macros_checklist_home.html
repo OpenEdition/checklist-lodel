@@ -4,5 +4,82 @@
  * Main home.
  */
 <DEFMACRO NAME="CKL_H_MAIN">
-  Hello home!
+	<LET VAR="checklist_context" GLOBAL="1">{ home: true }</LET>
+
+	<div class="ckl-main ckl-home">
+		<div id="ckl-pane" class="ckl-pane"></div>
+		<div class="ckl-content">
+			<MACRO NAME="CKL_H_CONTENT"/>
+		</div>
+	</div>
+</DEFMACRO>
+
+/**
+ * Contenu home.
+ */
+<DEFMACRO NAME="CKL_H_CONTENT">
+	<MACRO NAME="CKL_H_ISSUES" />
+</DEFMACRO>
+
+/**
+ * Tous les numéros.
+ */
+<DEFMACRO NAME="CKL_H_ISSUES">
+	<LET VAR="NUMEROS_PAR_PAGE">10</LET>
+	<LOOP NAME="ckl_h_numeros" TABLE="publications" WHERE="type = 'numero' AND paraitre != 1" ORDER="rank DESC" SPLIT="[#NUMEROS_PAR_PAGE]">
+		<BEFORE>
+			<div class="ckl-issues">
+		</BEFORE>
+		<DO>
+			<MACRO NAME="CKL_H_ISSUE" />
+		</DO>
+		<AFTER>
+			</div>
+			<IF COND="[#NBRESULTS] GT [#NUMEROS_PAR_PAGE]">
+				<MACRO NAME="CKL_PAGE_SCALE" />
+			</IF>
+		</AFTER>
+	</LOOP>
+</DEFMACRO>
+
+/**
+ * Afficher un numéro.
+ */
+<DEFMACRO NAME="CKL_H_ISSUE">
+	<div class="ckl-issue">
+		<!--[ Titre et numéro ]-->
+		<h2 class="ckl-issue-title"><a href="./?do=_checklist_view&document=[#ID]"><IF COND="[#NUMERO]"><span class="ckl-issue-number">[#NUMERO] | </span></IF>[#TITRE|removenotes|replacequotationmark|reg_replace("/(\r\n|\r|\n)+/", " ")]</a></h2>
+
+		<!--[ Progression Checklist ]-->
+		<div class="ckl-issue-stackedbar-container" data-children-ids='<MACRO NAME="CKL_H_ISSUE_CONTENTS" />'></div>
+	</div>
+</DEFMACRO>
+
+/**
+ * Récupérer les identifiants d'une publication (récursif).
+ */
+<DEFMACRO NAME="CKL_H_ISSUE_CONTENTS">
+	[#ID]
+	<LOOP NAME="ckl_h_issue_contents"
+		TABLE="entities, types"
+		SELECT="id, class, type"
+		WHERE="idparent = '[#ID]'
+			AND type NOT IN ('fluxdesyndication','imageaccroche','rubriqueannuelle', 'imageaccrochelibrairie') AND type NOT LIKE '%annexe%'
+			AND entities.idtype = types.id"
+		ORDER="entities.rank">
+
+		<LOOP NAME="ckl_h_issue_contents_item" TABLE="#_TP_[#CLASS]" WHERE="identity = '[#ID]'">
+			<SWITCH TEST="[#CLASS]">
+				<!--[ Publication : recursion ]-->
+				<DO CASE="publications">
+					<LOOP NAME="ckl_h_issue_contents"></LOOP>
+				</DO>
+
+				<!--[ Textes ]-->
+				<DO CASE="textes">
+					, [#ID]
+				</DO>
+			</SWITCH>
+		</LOOP>
+	</LOOP>
 </DEFMACRO>

@@ -92,6 +92,29 @@ a:hover, a:active, a:focus {
   padding: 4px 6px;
 }
 
+/* Home */
+
+.ckl-issues {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: stretch;
+}
+
+.ckl-issue {
+  background: #f6f8fa;
+  flex-grow: 1;
+  width: 400px;
+  margin: 10px;
+  padding: 10px;
+  border: #dde1e4 1px solid;
+}
+
+.ckl-issue-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 0;
+}
+
 /* Article et champs basiques */
 
 .ckl-section {
