@@ -40,7 +40,8 @@
 		</BEFORE>
 		<DO>
 			<li class="ckl-index">
-				<a href="./?do=_checklist_view&document=[#IDTYPE]"><IF COND="[#ALTERTITLE:#SITELANG]">[#ALTERTITLE:#SITELANG]<ELSE/>[#TITLE]</IF></a>
+				<LET VAR="href"><FUNC NAME="CKL_URL" DOCUMENT="[#IDTYPE]" /></LET>
+				<a href="[#HREF]"><IF COND="[#ALTERTITLE:#SITELANG]">[#ALTERTITLE:#SITELANG]<ELSE/>[#TITLE]</IF></a>
 			</li>
 		</DO>
 		<AFTER>
@@ -84,17 +85,17 @@
  * Afficher un numéro.
  */
 <DEFMACRO NAME="CKL_H_ISSUE">
-	<LET VAR="issue_href">./?do=_checklist_view&document=[#ID]</LET>
+	<LET VAR="href"><FUNC NAME="CKL_URL" DOCUMENT="[#IDTYPE]" /></LET>
 	<div class="ckl-issue">
 		<!--[ Titre et numéro ]-->
-		<h2 class="ckl-issue-title"><a href="[#ISSUE_HREF]"><IF COND="[#NUMERO]"><span class="ckl-issue-number">[#NUMERO] | </span></IF>[#TITRE|removenotes|replacequotationmark|reg_replace("/(\r\n|\r|\n)+/", " ")]</a></h2>
+		<h2 class="ckl-issue-title"><a href="[#HREF]"><IF COND="[#NUMERO]"><span class="ckl-issue-number">[#NUMERO] | </span></IF>[#TITRE|removenotes|replacequotationmark|reg_replace("/(\r\n|\r|\n)+/", " ")]</a></h2>
 
 		<div class="ckl-issue-row">
 			<!--[ Progression Checklist ]-->
 			<div class="ckl-issue-stackedbar-container" data-children-ids='<MACRO NAME="CKL_H_ISSUE_CONTENTS" />'></div>
 
 			<!--[ Bouton "Vérifier" ]-->
-			<a href="[#ISSUE_HREF]" class="ckl-issue-link"><i class="far fa-play-circle"></i> [#CKL_TRANSLATIONS.CHECK]</a>
+			<a href="[#HREF]" class="ckl-issue-link"><i class="far fa-play-circle"></i> [#CKL_TRANSLATIONS.CHECK]</a>
 		</div>
 	</div>
 </DEFMACRO>

@@ -188,6 +188,15 @@
 </DEFMACRO>
 
 /**
+ * Obtenir l'URL vers une page Checklist.
+ * @param {string} document - Identifiant du document demandé.
+ * @param {string} [parameters] - Paramètres additionnel ajoutés à l'URL. Doit être préfixé avec &.
+ */
+<DEFFUNC NAME="CKL_URL" REQUIRED="document" OPTIONAL="parameters">
+  ./?do=_checklist_view&document=[#DOCUMENT][#PARAMETERS]
+</DEFFUNC>
+
+/**
  * Affiche une <section> (n'affiche rien si [#CONTENTS] est vide).
  * @param {string} contents - Contenu HTML de la section.
  * @param {string} [title] - Titre de la section.
@@ -491,7 +500,8 @@
     <DO>
       <li class="ckl-traduction" lang="[#LANGUE]">
         <span class="ckl-field-ml-lang">[#LANGUE]</span>
-        <span class="ckl-field-ml-value"><a href="./?do=_checklist_view&document=[#ID]">[#TITRE]</a></span>
+        <LET VAR="href" ><FUNC NAME="CKL_URL" DOCUMENT="[#ID]" /></LET>
+        <span class="ckl-field-ml-value"><a href="[#HREF]">[#TITRE]</a></span>
         <span class="ckl-field-ml-id">([#ID])</span>
         <IF COND="[#ORIGINAL]">
           <span class="ckl-traduction-original">[original]</span>
@@ -659,7 +669,8 @@
 
   <span class="ckl-breadcrumbs-item" data-type="[#TYPE]" data-degree="[#DEGREE]">
     <IF COND="[#TYPE] EQ 'numero'">
-      <a href="./?do=_checklist_view&document=[#ID]">[#A_CONTENTS|trim]</a>
+      <LET VAR="href"><FUNC NAME="CKL_URL" DOCUMENT="[#ID]" /></LET>
+      <a href="[#HREF]">[#A_CONTENTS|trim]</a>
     <ELSE/>
       [#A_CONTENTS|trim]
     </IF>
@@ -762,7 +773,8 @@
     <LET VAR="btn_icon">chevron-circle-right</LET>
   </IF>
 
-  <a href="./?do=_checklist_view&document=[#ENTITY_ID]" class="btn"><i class="fas fa-[#BTN_ICON]"></i></a>
+  <LET VAR="href"><FUNC NAME="CKL_URL" DOCUMENT="[#ENTITY_ID]" /></LET>
+  <a href="[#HREF]" class="btn"><i class="fas fa-[#BTN_ICON]"></i></a>
  </DEFFUNC>
 
  /**
