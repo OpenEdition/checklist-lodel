@@ -121,7 +121,7 @@
  * Afficher un numéro.
  */
 <DEFMACRO NAME="CKL_H_ISSUE">
-	<LET VAR="href"><FUNC NAME="CKL_URL" DOCUMENT="[#IDTYPE]" /></LET>
+	<LET VAR="href"><FUNC NAME="CKL_URL" DOCUMENT="[#ID]" /></LET>
 	<div class="ckl-issue">
 		<!--[ Titre et numéro ]-->
 		<h2 class="ckl-issue-title"><a href="[#HREF]"><IF COND="[#NUMERO]"><span class="ckl-issue-number">[#NUMERO] | </span></IF>[#TITRE|removenotes|replacequotationmark|reg_replace("/(\r\n|\r|\n)+/", " ")]</a></h2>
