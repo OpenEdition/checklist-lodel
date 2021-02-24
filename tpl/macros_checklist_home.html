@@ -35,6 +35,9 @@
 
 		<LET VAR="indexes_title"><FUNC NAME="CKL_GET_CLASS_TITLE" CLASS="indexes" /></LET>
 		<FUNC NAME="CKL_H_TAB" TITLE="[#INDEXES_TITLE]" TARGET="indexes" />
+
+		<LET VAR="auteurs_title"><FUNC NAME="CKL_GET_CLASS_TITLE" CLASS="auteurs" /></LET>
+		<FUNC NAME="CKL_H_TAB" TITLE="[#AUTEURS_TITLE]" TARGET="auteurs" />
 	</nav>
 </DEFMACRO>
 
@@ -45,7 +48,7 @@
  * @param {string} active - Force la class "active".
  */
 <DEFFUNC NAME="CKL_H_TAB" REQUIRED="title, target" OPTIONAL="active">
-	<IF COND="[#ACTIVE] OR ([#VIEW_TAB] EQ [#TARGET])">
+	<IF COND="[#ACTIVE] OR [#VIEW_TAB] EQ [#TARGET]">
 		<LET VAR="active_class">active</LET>
 	</IF>
 	<LET VAR="href"><FUNC NAME="CKL_URL" DOCUMENT="0" PARAMETER="view_tab=[#TARGET]" /></LET>
@@ -56,42 +59,54 @@
  * Contenus des onglets.
  */
 <DEFMACRO NAME="CKL_H_TABCONTENTS">
-	<IF COND="[#VIEW_TAB] EQ 'indexes'">
-		<MACRO NAME="CKL_H_INDEXES" />
+	<IF COND="[#VIEW_TAB] EQ 'indexes' OR [#VIEW_TAB] EQ 'auteurs'">
+		<MACRO NAME="CKL_H_CREATE_PUBLI" />
+		<!--[ Checklist va injecter la table des matières ici ]-->
+		<div id="ckl-toc" class="ckl-toc"></div>
 	<ELSE />
 		<MACRO NAME="CKL_H_ISSUES" />
 	</IF>
 </DEFMACRO>
 
 /**
- * Tous les index.
+ * Création du paramètre 'publi' passé à Checklist.
  */
-<DEFMACRO NAME="CKL_H_INDEXES">
-	<!--[ Mots-clés ]-->
-	<LET VAR="tableindex">#_TP_entries</LET>
-	<LET VAR="tabletypes">#_TP_entrytypes</LET>
-	<LET VAR="tablefilter">AND class = 'indexes'</LET>
+<DEFMACRO NAME="CKL_H_CREATE_PUBLI"/>
+	<LET VAR="typename"><FUNC NAME="CKL_GET_CLASS_TITLE" CLASS="[#VIEW_TAB]" /></LET>
 
-	<LOOP NAME="ckl_h_indexes" TABLE="[#TABLEINDEX], [#TABLETYPES]" SELECT="DISTINCT(idtype), title, altertitle" WHERE="[#TABLEINDEX].idtype = [#TABLETYPES].id AND [#TABLEINDEX].status GT 0 [#TABLEFILTER]" ORDER="CASE WHEN type LIKE 'motscles%' THEN 0 ELSE 1 END, [#TABLETYPES].rank">
-		<BEFORE>
-			<ul class="ckl-indexes">
-		</BEFORE>
-		<DO>
-			<li class="ckl-index">
-				<LET VAR="href"><FUNC NAME="CKL_URL" DOCUMENT="[#IDTYPE]" /></LET>
-				<a href="[#HREF]"><IF COND="[#ALTERTITLE:#SITELANG]">[#ALTERTITLE:#SITELANG]<ELSE/>[#TITLE]</IF></a>
-			</li>
-		</DO>
-		<AFTER>
-			</ul>
-		</AFTER>
-	</LOOP>
+	<IF COND="[#VIEW_TAB] EQ 'indexes'">
+		<LET VAR="tableindex">#_TP_entries</LET>
+		<LET VAR="tabletypes">#_TP_entrytypes</LET>
+		<LET VAR="tablefilter">AND class = 'indexes'</LET>
+		<LET VAR="icon">tag</LET>
+	<ELSE />
+		<LET VAR="tableindex">#_TP_persons</LET>
+		<LET VAR="tabletypes">#_TP_persontypes</LET>
+		<LET VAR="tablefilter"></LET>
+		<LET VAR="icon">user</LET>
+	</IF>
 
-	<!--[ Auteurs ]-->
-	<LET VAR="tableindex">#_TP_persons</LET>
-	<LET VAR="tabletypes">#_TP_persontypes</LET>
-	<LET VAR="tablefilter"></LET>
-	<LOOP NAME="ckl_h_indexes"></LOOP>
+  <LET VAR="checklist_publi" GLOBAL="1">
+    {
+      parent: ".ckl-toc",
+      toc: [
+				<LOOP NAME="ckl_h_indexes" TABLE="[#TABLEINDEX], [#TABLETYPES]" SELECT="DISTINCT(idtype), title, altertitle, type, class" WHERE="[#TABLEINDEX].idtype = [#TABLETYPES].id AND [#TABLEINDEX].status GT 0 [#TABLEFILTER]" ORDER="CASE WHEN type LIKE 'motscles%' THEN 0 ELSE 1 END, [#TABLETYPES].rank">
+					{
+						title: "<IF COND="[#ALTERTITLE:#SITELANG]">[#ALTERTITLE:#SITELANG]<ELSE/>[#TITLE]</IF>",
+						href: "<FUNC NAME="CKL_URL" DOCUMENT="[#IDTYPE]" />",
+						docId: "[#IDTYPE]",
+						type: "[#TYPENAME|majuscule]",
+						icon: "fas fa-[#ICON]",
+						context: {
+							"url": "[#IDTYPE|makeurlwithid]",
+							"[#CLASS]": true,
+							"[#TYPE]": true
+						}
+					},
+				</LOOP>
+      ]
+    }
+  </LET>
 </DEFMACRO>
 
 /**
