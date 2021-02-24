@@ -45,7 +45,7 @@
  * @param {string} active - Force la class "active".
  */
 <DEFFUNC NAME="CKL_H_TAB" REQUIRED="title, target" OPTIONAL="active">
-	<IF COND="[#VIEW_TAB] EQ [#TARGET]">
+	<IF COND="[#ACTIVE] OR ([#VIEW_TAB] EQ [#TARGET])">
 		<LET VAR="active_class">active</LET>
 	</IF>
 	<LET VAR="href"><FUNC NAME="CKL_URL" DOCUMENT="0" PARAMETER="view_tab=[#TARGET]" /></LET>
