@@ -11,6 +11,10 @@
   <USE MACROFILE="macros_checklist_index.html"/>
   <USE MACROFILE="macros_checklist_publication.html"/>
 
+  <IF COND="![#DOCUMENT]">
+    <LET VAR="document">0</LET>
+  </IF>
+
   <MACRO NAME="CKL_INIT_TYPE"/>
   <MACRO NAME="CKL_INIT_TITLE"/>
 </DEFMACRO>
