@@ -19,8 +19,48 @@
  */
 <DEFMACRO NAME="CKL_H_CONTENT">
 	<h1 class="main-title">[#OPTIONS.METADONNEESSITE.TITRESITE]</h1>
-	<MACRO NAME="CKL_H_INDEXES" />
-	<MACRO NAME="CKL_H_ISSUES" />
+	<MACRO NAME="CKL_H_TABS" />
+	<MACRO NAME="CKL_H_TABCONTENTS" />
+</DEFMACRO>
+
+/**
+ * Onglets de la home.
+ */
+<DEFMACRO NAME="CKL_H_TABS">
+	<nav class="ckl-tabs">
+		<IF COND="![#VIEW_TAB]">
+			<LET VAR="activate_first">1</LET>
+		</IF>
+		<FUNC NAME="CKL_H_TAB" TITLE="[#CKL_TRANSLATIONS.ISSUES]" TARGET="issues" ACTIVE="[#ACTIVATE_FIRST]" />
+
+		<LET VAR="indexes_title"><FUNC NAME="CKL_GET_CLASS_TITLE" CLASS="indexes" /></LET>
+		<FUNC NAME="CKL_H_TAB" TITLE="[#INDEXES_TITLE]" TARGET="indexes" />
+	</nav>
+</DEFMACRO>
+
+/**
+ * Onglet.
+ * @param {string} title - Titre de l'onglet.
+ * @param {string} target - Target id.
+ * @param {string} active - Force la class "active".
+ */
+<DEFFUNC NAME="CKL_H_TAB" REQUIRED="title, target" OPTIONAL="active">
+	<IF COND="[#VIEW_TAB] EQ [#TARGET]">
+		<LET VAR="active_class">active</LET>
+	</IF>
+	<LET VAR="href"><FUNC NAME="CKL_URL" DOCUMENT="0" PARAMETER="view_tab=[#TARGET]" /></LET>
+	<a class="ckl-tab [#ACTIVE_CLASS]" href="[#HREF]">[#TITLE]</a>
+</DEFFUNC>
+
+/**
+ * Contenus des onglets.
+ */
+<DEFMACRO NAME="CKL_H_TABCONTENTS">
+	<IF COND="[#VIEW_TAB] EQ 'indexes'">
+		<MACRO NAME="CKL_H_INDEXES" />
+	<ELSE />
+		<MACRO NAME="CKL_H_ISSUES" />
+	</IF>
 </DEFMACRO>
 
 /**
@@ -30,12 +70,10 @@
 	<!--[ Mots-clés ]-->
 	<LET VAR="tableindex">#_TP_entries</LET>
 	<LET VAR="tabletypes">#_TP_entrytypes</LET>
-	<LET VAR="tableclass">indexes</LET>
 	<LET VAR="tablefilter">AND class = 'indexes'</LET>
 
 	<LOOP NAME="ckl_h_indexes" TABLE="[#TABLEINDEX], [#TABLETYPES]" SELECT="DISTINCT(idtype), title, altertitle" WHERE="[#TABLEINDEX].idtype = [#TABLETYPES].id AND [#TABLEINDEX].status GT 0 [#TABLEFILTER]" ORDER="CASE WHEN type LIKE 'motscles%' THEN 0 ELSE 1 END, [#TABLETYPES].rank">
 		<BEFORE>
-			<h2 class="ckl-section-title"><FUNC NAME="CKL_GET_CLASS_TITLE" CLASS="[#TABLECLASS]" /></h2>
 			<ul class="ckl-indexes">
 		</BEFORE>
 		<DO>
@@ -52,7 +90,6 @@
 	<!--[ Auteurs ]-->
 	<LET VAR="tableindex">#_TP_persons</LET>
 	<LET VAR="tabletypes">#_TP_persontypes</LET>
-	<LET VAR="tableclass">auteurs</LET>
 	<LET VAR="tablefilter"></LET>
 	<LOOP NAME="ckl_h_indexes"></LOOP>
 </DEFMACRO>
@@ -64,7 +101,6 @@
 	<LET VAR="NUMEROS_PAR_PAGE">10</LET>
 	<LOOP NAME="ckl_h_numeros" TABLE="publications" WHERE="type = 'numero' AND paraitre != 1" ORDER="rank DESC" SPLIT="[#NUMEROS_PAR_PAGE]">
 		<BEFORE>
-			<h2 class="ckl-section-title">[#CKL_TRANSLATIONS.ISSUES]</h2>
 			<div class="ckl-issues">
 		</BEFORE>
 		<DO>

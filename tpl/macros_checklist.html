@@ -190,10 +190,10 @@
 /**
  * Obtenir l'URL vers une page Checklist.
  * @param {string} document - Identifiant du document demandé.
- * @param {string} [parameters] - Paramètres additionnel ajoutés à l'URL. Doit être préfixé avec &.
+ * @param {string} [parameter] - Paramètre ajouté en fin d'URL.
  */
-<DEFFUNC NAME="CKL_URL" REQUIRED="document" OPTIONAL="parameters">
-  ./?do=_checklist_view&document=[#DOCUMENT][#PARAMETERS]
+<DEFFUNC NAME="CKL_URL" REQUIRED="document" OPTIONAL="parameter">
+  ./?do=_checklist_view&document=[#DOCUMENT]<IF COND="[#PARAMETER]">&[#PARAMETER]</IF>
 </DEFFUNC>
 
 /**
