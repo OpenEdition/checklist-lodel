@@ -193,11 +193,11 @@
 
 /**
  * Obtenir l'URL vers une page Checklist.
- * @param {string} document - Identifiant du document demandé.
+ * @param {string} [document] - Identifiant du document demandé.
  * @param {string} [parameter] - Paramètre ajouté en fin d'URL.
  */
-<DEFFUNC NAME="CKL_URL" REQUIRED="document" OPTIONAL="parameter">
-  ./?do=_checklist_view&document=[#DOCUMENT]<IF COND="[#PARAMETER]">&[#PARAMETER]</IF>
+<DEFFUNC NAME="CKL_URL" OPTIONAL="document, parameter">
+  ./?do=_checklist_view<IF COND="[#DOCUMENT]">&document=[#DOCUMENT]</IF><IF COND="[#PARAMETER]">&[#PARAMETER]</IF>
 </DEFFUNC>
 
 /**
@@ -674,10 +674,17 @@
   <span class="ckl-breadcrumbs-item" data-type="[#TYPE]" data-degree="[#DEGREE]">
     <IF COND="[#TYPE] EQ 'numero'">
       <LET VAR="href"><FUNC NAME="CKL_URL" DOCUMENT="[#ID]" /></LET>
-      <a href="[#HREF]">[#A_CONTENTS|trim]</a>
+
+    <!--[ TODO: add breadcrumb to indexes and authors ]-->
+    <ELSEIF COND="[#CLASS] EQ 'indexes'">
+      <LET VAR="href"><FUNC NAME="CKL_URL" PARAMETER="view_tab=indexes" /></LET>
+    <ELSEIF COND="[#CLASS] EQ 'auteurs'">
+      <LET VAR="href"><FUNC NAME="CKL_URL" PARAMETER="view_tab=auteurs" /></LET>
+      
     <ELSE/>
-      [#A_CONTENTS|trim]
+      <LET VAR="href"><FUNC NAME="CKL_URL" /></LET>
     </IF>
+    <a href="[#HREF]">[#A_CONTENTS|trim]</a>
   </span>
 </DEFMACRO>
 
