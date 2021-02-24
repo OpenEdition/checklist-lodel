@@ -152,6 +152,7 @@ a:hover, a:active, a:focus {
   margin: 16px;
   padding: 16px;
   border: #dde1e4 1px solid;
+  border-radius: 5px;
 }
 
 .ckl-issue-placeholder {
@@ -211,6 +212,7 @@ a:hover, a:active, a:focus {
   margin: 0 5px;
   border: 1px solid #dde1e4;
   text-decoration: none;
+  border-radius: 5px;
 }
 
 .page-link:hover {
