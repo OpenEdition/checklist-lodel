@@ -4,7 +4,10 @@
  * Main home.
  */
 <DEFMACRO NAME="CKL_H_MAIN">
-	<LET VAR="checklist_context" GLOBAL="1">{ home: true }</LET>
+	<IF COND="![#VIEW_TAB]">
+		<LET VAR="view_tab">issues</LET>
+	</IF>
+	<LET VAR="checklist_context" GLOBAL="1">{ "home": true, "tab": "[#VIEW_TAB]" }</LET>
 
 	<div class="ckl-main ckl-home">
 		<div id="ckl-pane" class="ckl-pane"></div>
@@ -28,10 +31,7 @@
  */
 <DEFMACRO NAME="CKL_H_TABS">
 	<nav class="ckl-tabs">
-		<IF COND="![#VIEW_TAB]">
-			<LET VAR="activate_first">1</LET>
-		</IF>
-		<FUNC NAME="CKL_H_TAB" TITLE="[#CKL_TRANSLATIONS.ISSUES]" TARGET="issues" ACTIVE="[#ACTIVATE_FIRST]" />
+		<FUNC NAME="CKL_H_TAB" TITLE="[#CKL_TRANSLATIONS.ISSUES]" TARGET="issues" />
 
 		<LET VAR="indexes_title"><FUNC NAME="CKL_GET_CLASS_TITLE" CLASS="indexes" /></LET>
 		<FUNC NAME="CKL_H_TAB" TITLE="[#INDEXES_TITLE]" TARGET="indexes" />
@@ -45,10 +45,9 @@
  * Onglet.
  * @param {string} title - Titre de l'onglet.
  * @param {string} target - Target id.
- * @param {string} active - Force la class "active".
  */
-<DEFFUNC NAME="CKL_H_TAB" REQUIRED="title, target" OPTIONAL="active">
-	<IF COND="[#ACTIVE] OR [#VIEW_TAB] EQ [#TARGET]">
+<DEFFUNC NAME="CKL_H_TAB" REQUIRED="title, target">
+	<IF COND="[#VIEW_TAB] EQ [#TARGET]">
 		<LET VAR="active_class">active</LET>
 	</IF>
 	<LET VAR="href"><FUNC NAME="CKL_URL" DOCUMENT="0" PARAMETER="view_tab=[#TARGET]" /></LET>

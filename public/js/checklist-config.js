@@ -62,8 +62,8 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
   var thisDocumentFr = isIndex ? "Cet index" : "Ce document";
   var thisDocumentEn = isIndex ? "This index" : "This document";
 
-  // Intialisation de checklist
-  window.checklist.init({
+  // Configuration de checklist
+  var checklistConfig = {
     parent: "#ckl-pane",
 
     docId: docId,
@@ -1429,7 +1429,23 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         }
       },
     ]
-  })
+  };
+
+  // Traductions spécifiques selon le template.
+  if (context.home) {
+    checklistConfig.translations = {
+      fr: {
+        "toc-control-done": "Félicitations&nbsp;! Les " + (context.tab === "auteurs" ? "auteurs" : "index") + " ont été intégralement contrôlés.",
+        "toc-control-info": "Cette page vous aide à vérifier la qualité des " + (context.tab === "auteurs" ? "auteurs" : "index") + " du site."
+      },
+      en: {
+        "toc-control-done": "Congratulations! " + (context.tab === "auteurs" ? "Authors" : "Indexes") + " have been fully checked.",
+        "toc-control-info": "This page helps you to check the quality of the website " + (context.tab === "auteurs" ? "authors" : "indexes") + "."
+      }
+    };
+  }
+
+  window.checklist.init(checklistConfig)
     .then(function () {
       if (context.textes || context.indexes || context.auteurs) {
         return checklist.run();
