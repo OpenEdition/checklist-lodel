@@ -1446,6 +1446,13 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         "toc-control-info": "This page helps you to check the quality of the website " + (context.tab === "auteurs" ? "authors" : "indexes") + "."
       }
     };
+
+    if (context.tab === "issues") {
+      checklistConfig.paneMessage = {
+        fr: "Checklist est un outil de contrôle de la qualité des contenus de votre site. Utilisez cette page pour démarrer la vérification.",
+        en: "Checklist is a quality control tool for your site. Use this page to start checking contents."
+      }
+    }
   }
 
   window.checklist.init(checklistConfig)
