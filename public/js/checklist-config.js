@@ -74,6 +74,9 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
     // Langues de l'interface. On utilise le sélecteur de langue de Lodel.
     langs: [{code: lang}],
 
+    // Lien vers la home de Checklist
+    homeHref: "?do=_checklist_view",
+
     // Boutons
     buttonsCreator: function (docId, context) {
       if (context.home) return;
