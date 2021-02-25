@@ -76,7 +76,7 @@
                 </LET>
                 ,{
                   title: "[#ENTRY_FULL_TITLE|removenotes|replacequotationmark|reg_replace("/(\r\n|\r|\n)+/", " ")|trim]",
-                  href: "./?do=_checklist_view&document=[#ID]",
+                  href: "<FUNC NAME="CKL_URL" DOCUMENT="[#ID]" />",
                   docId: "[#ID]",
                   type: "[#TYPE|majuscule]",
                   context: <MACRO NAME="CKL_CREATE_CONTEXT_JSON" />

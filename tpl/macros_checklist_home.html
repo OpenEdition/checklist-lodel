@@ -1,0 +1,180 @@
+<CONTENT VERSION="1.0" LANG="fr" CHARSET="utf-8"/>
+
+/**
+ * Main home.
+ */
+<DEFMACRO NAME="CKL_H_MAIN">
+	<IF COND="![#VIEW_TAB]">
+		<LET VAR="view_tab">issues</LET>
+	</IF>
+	<LET VAR="checklist_context" GLOBAL="1">{ "home": true, "tab": "[#VIEW_TAB]" }</LET>
+
+	<div class="ckl-main ckl-home">
+		<div id="ckl-pane" class="ckl-pane"></div>
+		<div class="ckl-content">
+			<MACRO NAME="CKL_H_CONTENT"/>
+		</div>
+	</div>
+</DEFMACRO>
+
+/**
+ * Contenu home.
+ */
+<DEFMACRO NAME="CKL_H_CONTENT">
+	<h1 class="main-title">[#OPTIONS.METADONNEESSITE.TITRESITE]</h1>
+	<MACRO NAME="CKL_H_TABS" />
+	<MACRO NAME="CKL_H_TABCONTENTS" />
+</DEFMACRO>
+
+/**
+ * Onglets de la home.
+ */
+<DEFMACRO NAME="CKL_H_TABS">
+	<nav class="ckl-tabs">
+		<FUNC NAME="CKL_H_TAB" TITLE="[#CKL_TRANSLATIONS.ISSUES]" TARGET="issues" />
+
+		<LET VAR="indexes_title"><FUNC NAME="CKL_GET_CLASS_TITLE" CLASS="indexes" /></LET>
+		<FUNC NAME="CKL_H_TAB" TITLE="[#INDEXES_TITLE]" TARGET="indexes" />
+
+		<LET VAR="auteurs_title"><FUNC NAME="CKL_GET_CLASS_TITLE" CLASS="auteurs" /></LET>
+		<FUNC NAME="CKL_H_TAB" TITLE="[#AUTEURS_TITLE]" TARGET="auteurs" />
+	</nav>
+</DEFMACRO>
+
+/**
+ * Onglet.
+ * @param {string} title - Titre de l'onglet.
+ * @param {string} target - Target id.
+ */
+<DEFFUNC NAME="CKL_H_TAB" REQUIRED="title, target">
+	<IF COND="[#VIEW_TAB] EQ [#TARGET]">
+		<LET VAR="active_class">active</LET>
+	</IF>
+	<LET VAR="href"><FUNC NAME="CKL_URL" DOCUMENT="0" PARAMETER="view_tab=[#TARGET]" /></LET>
+	<a class="ckl-tab [#ACTIVE_CLASS]" href="[#HREF]">[#TITLE]</a>
+</DEFFUNC>
+
+/**
+ * Contenus des onglets.
+ */
+<DEFMACRO NAME="CKL_H_TABCONTENTS">
+	<IF COND="[#VIEW_TAB] EQ 'indexes' OR [#VIEW_TAB] EQ 'auteurs'">
+		<MACRO NAME="CKL_H_CREATE_PUBLI" />
+		<!--[ Checklist va injecter la table des matières ici ]-->
+		<div id="ckl-toc" class="ckl-toc"></div>
+	<ELSE />
+		<MACRO NAME="CKL_H_ISSUES" />
+	</IF>
+</DEFMACRO>
+
+/**
+ * Création du paramètre 'publi' passé à Checklist.
+ */
+<DEFMACRO NAME="CKL_H_CREATE_PUBLI"/>
+	<LET VAR="typename"><FUNC NAME="CKL_GET_CLASS_TITLE" CLASS="[#VIEW_TAB]" /></LET>
+
+	<IF COND="[#VIEW_TAB] EQ 'indexes'">
+		<LET VAR="tableindex">#_TP_entries</LET>
+		<LET VAR="tabletypes">#_TP_entrytypes</LET>
+		<LET VAR="tablefilter">AND class = 'indexes'</LET>
+		<LET VAR="icon">tag</LET>
+	<ELSE />
+		<LET VAR="tableindex">#_TP_persons</LET>
+		<LET VAR="tabletypes">#_TP_persontypes</LET>
+		<LET VAR="tablefilter"></LET>
+		<LET VAR="icon">user</LET>
+	</IF>
+
+  <LET VAR="checklist_publi" GLOBAL="1">
+    {
+      parent: ".ckl-toc",
+      toc: [
+				<LOOP NAME="ckl_h_indexes" TABLE="[#TABLEINDEX], [#TABLETYPES]" SELECT="DISTINCT(idtype), title, altertitle, type, class" WHERE="[#TABLEINDEX].idtype = [#TABLETYPES].id AND [#TABLEINDEX].status GT 0 [#TABLEFILTER]" ORDER="CASE WHEN type LIKE 'motscles%' THEN 0 ELSE 1 END, [#TABLETYPES].rank">
+					{
+						title: "<IF COND="[#ALTERTITLE:#SITELANG]">[#ALTERTITLE:#SITELANG]<ELSE/>[#TITLE]</IF>",
+						href: "<FUNC NAME="CKL_URL" DOCUMENT="[#IDTYPE]" />",
+						docId: "[#IDTYPE]",
+						type: "[#TYPENAME|majuscule]",
+						icon: "fas fa-[#ICON]",
+						context: {
+							"url": "[#IDTYPE|makeurlwithid]",
+							"[#CLASS]": true,
+							"[#TYPE]": true
+						}
+					},
+				</LOOP>
+      ]
+    }
+  </LET>
+</DEFMACRO>
+
+/**
+ * Tous les numéros.
+ */
+<DEFMACRO NAME="CKL_H_ISSUES">
+	<LET VAR="NUMEROS_PAR_PAGE">10</LET>
+	<LOOP NAME="ckl_h_numeros" TABLE="publications" WHERE="type = 'numero' AND paraitre != 1" ORDER="rank DESC" SPLIT="[#NUMEROS_PAR_PAGE]">
+		<BEFORE>
+			<div class="ckl-issues">
+		</BEFORE>
+		<DO>
+			<MACRO NAME="CKL_H_ISSUE" />
+		</DO>
+		<AFTER>
+			<!--[ Flexbox workaround ]-->
+			<div class="ckl-issue-placeholder"></div>
+			</div>
+			<IF COND="[#NBRESULTS] GT [#NUMEROS_PAR_PAGE]">
+				<MACRO NAME="CKL_PAGE_SCALE" />
+			</IF>
+		</AFTER>
+	</LOOP>
+</DEFMACRO>
+
+/**
+ * Afficher un numéro.
+ */
+<DEFMACRO NAME="CKL_H_ISSUE">
+	<LET VAR="href"><FUNC NAME="CKL_URL" DOCUMENT="[#ID]" /></LET>
+	<div class="ckl-issue">
+		<!--[ Titre et numéro ]-->
+		<h2 class="ckl-issue-title"><a href="[#HREF]"><IF COND="[#NUMERO]"><span class="ckl-issue-number">[#NUMERO] | </span></IF>[#TITRE|removenotes|replacequotationmark|reg_replace("/(\r\n|\r|\n)+/", " ")]</a></h2>
+
+		<div class="ckl-issue-row">
+			<!--[ Progression Checklist ]-->
+			<div class="ckl-issue-stackedbar-container" data-children-ids='<MACRO NAME="CKL_H_ISSUE_CONTENTS" />'></div>
+
+			<!--[ Bouton "Vérifier" ]-->
+			<a href="[#HREF]" class="ckl-issue-link"><i class="far fa-play-circle"></i> [#CKL_TRANSLATIONS.CHECK]</a>
+		</div>
+	</div>
+</DEFMACRO>
+
+/**
+ * Récupérer les identifiants d'une publication (récursif).
+ */
+<DEFMACRO NAME="CKL_H_ISSUE_CONTENTS">
+	[#ID]
+	<LOOP NAME="ckl_h_issue_contents"
+		TABLE="entities, types"
+		SELECT="id, class, type"
+		WHERE="idparent = '[#ID]'
+			AND type NOT IN ('fluxdesyndication','imageaccroche','rubriqueannuelle', 'imageaccrochelibrairie') AND type NOT LIKE '%annexe%'
+			AND entities.idtype = types.id"
+		ORDER="entities.rank">
+
+		<LOOP NAME="ckl_h_issue_contents_item" TABLE="#_TP_[#CLASS]" WHERE="identity = '[#ID]'">
+			<SWITCH TEST="[#CLASS]">
+				<!--[ Publication : recursion ]-->
+				<DO CASE="publications">
+					<LOOP NAME="ckl_h_issue_contents"></LOOP>
+				</DO>
+
+				<!--[ Textes ]-->
+				<DO CASE="textes">
+					, [#ID]
+				</DO>
+			</SWITCH>
+		</LOOP>
+	</LOOP>
+</DEFMACRO>

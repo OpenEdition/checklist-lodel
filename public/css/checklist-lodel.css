@@ -92,6 +92,139 @@ a:hover, a:active, a:focus {
   padding: 4px 6px;
 }
 
+/* Home */
+
+.ckl-home .ckl-content {
+  padding-bottom: 40px;
+}
+
+.ckl-tabs {
+  border-bottom: 1px solid #dde1e4;
+  height: 40px;
+  display: flex;
+  justify-items: flex-start;
+  flex-direction: row;
+  align-items: stretch;
+  align-content: center;
+  margin: 30px 0;
+}
+
+.ckl-tab, .ckl-tab:visited {
+  padding: 10px 20px;
+  border: 1px solid transparent;
+  border-bottom: 0;
+  text-decoration: none;
+  background-color: #fff;
+  border-radius: 5px 5px 0 0;
+}
+
+.ckl-tab.active {
+  color: #000;
+  font-weight: bold;
+  margin-bottom: -1px;
+  cursor: default;
+}
+
+.ckl-tab.active, .ckl-tab:hover {
+  border-color: #dde1e4;
+}
+
+.main-title {
+  font-family: Georgia, "DejaVu Serif", Norasi, serif;
+  font-size: 36px;
+  font-weight: normal;
+}
+
+.ckl-issues {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: stretch;
+  justify-content: space-between;
+  margin-left: -16px;
+  margin-right: -16px;
+}
+
+.ckl-issue, .ckl-issue-placeholder {
+  background: #f6f8fa;
+  flex-grow: 1;
+  flex-basis: 400px;
+  width: 400px;
+  margin: 16px;
+  padding: 16px;
+  border: #dde1e4 1px solid;
+  border-radius: 5px;
+}
+
+.ckl-issue-placeholder {
+  visibility: hidden;
+  height: 1px;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.ckl-issue-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 0;
+}
+
+.ckl-issue-title a {
+  color: #4c535b;
+  text-decoration: none;
+}
+
+.ckl-issue-row {
+  display: flex;
+  align-items: flex-start;
+}
+
+.ckl-issue-stackedbar-container {
+  flex: 1;
+}
+
+.ckl-issue-stackedbar-container .checklist-stackedbar {
+  margin-top: 50px;
+  margin-bottom: 10px;
+}
+
+.ckl-issue-link {
+  width: auto;
+  margin-left: 10px;
+  margin-top: 55px;
+  text-decoration: none;
+}
+
+.ckl-issue-title a:hover, .ckl-issue-link:hover {
+  text-decoration: underline;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  margin: 30px 0;
+}
+
+.page-link {
+  padding: 10px;
+  margin: 0 5px;
+  border: 1px solid #dde1e4;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.page-link:hover {
+  background-color: #dde1e4;
+}
+
+.active .page-link, .active .page-link:hover {
+  color: #fff;
+  background-color: #1565c0;
+  border-color: #1565c0;
+}
+
 /* Article et champs basiques */
 
 .ckl-section {

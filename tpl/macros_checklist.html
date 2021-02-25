@@ -7,8 +7,13 @@
   <!--[ Dependances ]-->
   <USE TEMPLATEFILE="checklist_translations">
   <USE MACROFILE="macros_checklist_article.html"/>
+  <USE MACROFILE="macros_checklist_home.html"/>
   <USE MACROFILE="macros_checklist_index.html"/>
   <USE MACROFILE="macros_checklist_publication.html"/>
+
+  <IF COND="![#DOCUMENT]">
+    <LET VAR="document">0</LET>
+  </IF>
 
   <MACRO NAME="CKL_INIT_TYPE"/>
   <MACRO NAME="CKL_INIT_TITLE"/>
@@ -58,6 +63,8 @@
     <LOOP NAME="ckl_init_title_index" TABLE="#_TP_[%TPL_TYPE]" SELECT="title" WHERE="id = '[#DOCUMENT]'">
       <LET VAR="page_title" GLOBAL="1">[#TITLE]</LET>
     </LOOP>
+  <ELSE />
+    <LET VAR="page_title" GLOBAL="1">[#OPTIONS.METADONNEESSITE.TITRESITE]</LET>
   </IF>
 </DEFMACRO>
 
@@ -84,7 +91,7 @@
       <MACRO NAME="CKL_I_MAIN_PERSONS"/>
     </DO>
     <DO CASE="default">
-      <p>Document [#DOCUMENT] not found.</p>
+      <MACRO NAME="CKL_H_MAIN"/>
     </DO>
   </SWITCH>
 
@@ -100,7 +107,7 @@
   <head>
     <meta charset="utf-8">
     <!--[ Bug lodel : pour une raison obscure le body ne peut pas être déclaré dans une FUNC ou dans une LOOP. On passe donc par une variable globale pour déclarer le title ici. ]-->
-    <title>[%PAGE_TITLE|textebrut] – [#OPTIONS.METADONNEESSITE.TITRESITE] (OpenEdition Checklist)</title>
+    <title><IF COND="[%PAGE_TITLE]">[%PAGE_TITLE|textebrut] – </IF>OpenEdition Checklist</title>
     <MACRO NAME="CKL_HTML_STYLES"/>
   </head>
   <body>
@@ -185,6 +192,15 @@
 </DEFMACRO>
 
 /**
+ * Obtenir l'URL vers une page Checklist.
+ * @param {string} [document] - Identifiant du document demandé.
+ * @param {string} [parameter] - Paramètre ajouté en fin d'URL.
+ */
+<DEFFUNC NAME="CKL_URL" OPTIONAL="document, parameter">
+  ./?do=_checklist_view<IF COND="[#DOCUMENT]">&document=[#DOCUMENT]</IF><IF COND="[#PARAMETER]">&[#PARAMETER]</IF>
+</DEFFUNC>
+
+/**
  * Affiche une <section> (n'affiche rien si [#CONTENTS] est vide).
  * @param {string} contents - Contenu HTML de la section.
  * @param {string} [title] - Titre de la section.
@@ -225,7 +241,17 @@
 </DEFFUNC>
 
 /**
- * Récupérer le titre d'un type.
+ * Récupérer le titre d'une classe dans la langue du site.
+ * @param {string} class - Classe.
+ */
+<DEFFUNC NAME="CKL_GET_CLASS_TITLE" REQUIRED="class">
+  <LOOP NAME="ckl_get_class_title" TABLE="classes" SELECT="title, altertitle" WHERE="class='[#CLASS]'" LIMIT="0,1">
+    <IF COND="[#ALTERTITLE:#SITELANG]"/>[#ALTERTITLE:#SITELANG]<ELSE/>[#TITLE]</IF>
+  </LOOP>
+</DEFFUNC>
+
+/**
+ * Récupérer le titre d'un type dans la langue du site.
  * @param {string} type - Type.
  */
 <DEFFUNC NAME="CKL_GET_TYPE_TITLE" REQUIRED="type">
@@ -478,7 +504,8 @@
     <DO>
       <li class="ckl-traduction" lang="[#LANGUE]">
         <span class="ckl-field-ml-lang">[#LANGUE]</span>
-        <span class="ckl-field-ml-value"><a href="./?do=_checklist_view&document=[#ID]">[#TITRE]</a></span>
+        <LET VAR="href" ><FUNC NAME="CKL_URL" DOCUMENT="[#ID]" /></LET>
+        <span class="ckl-field-ml-value"><a href="[#HREF]">[#TITRE]</a></span>
         <span class="ckl-field-ml-id">([#ID])</span>
         <IF COND="[#ORIGINAL]">
           <span class="ckl-traduction-original">[original]</span>
@@ -646,10 +673,18 @@
 
   <span class="ckl-breadcrumbs-item" data-type="[#TYPE]" data-degree="[#DEGREE]">
     <IF COND="[#TYPE] EQ 'numero'">
-      <a href="./?do=_checklist_view&document=[#ID]">[#A_CONTENTS|trim]</a>
+      <LET VAR="href"><FUNC NAME="CKL_URL" DOCUMENT="[#ID]" /></LET>
+
+    <!--[ TODO: add breadcrumb to indexes and authors ]-->
+    <ELSEIF COND="[#CLASS] EQ 'indexes'">
+      <LET VAR="href"><FUNC NAME="CKL_URL" PARAMETER="view_tab=indexes" /></LET>
+    <ELSEIF COND="[#CLASS] EQ 'auteurs'">
+      <LET VAR="href"><FUNC NAME="CKL_URL" PARAMETER="view_tab=auteurs" /></LET>
+      
     <ELSE/>
-      [#A_CONTENTS|trim]
+      <LET VAR="href"><FUNC NAME="CKL_URL" /></LET>
     </IF>
+    <a href="[#HREF]">[#A_CONTENTS|trim]</a>
   </span>
 </DEFMACRO>
 
@@ -749,5 +784,57 @@
     <LET VAR="btn_icon">chevron-circle-right</LET>
   </IF>
 
-  <a href="./?do=_checklist_view&document=[#ENTITY_ID]" class="btn"><i class="fas fa-[#BTN_ICON]"></i></a>
+  <LET VAR="href"><FUNC NAME="CKL_URL" DOCUMENT="[#ENTITY_ID]" /></LET>
+  <a href="[#HREF]" class="btn"><i class="fas fa-[#BTN_ICON]"></i></a>
  </DEFFUNC>
+
+ /**
+ * Pagination des résultats d'une boucle sur plusieurs pages.
+ * Doit être appelée dans la balise <BEFORE> ou <AFTER>.
+ * D'après PRINT_PAGE_SCALE : https://github.com/OpenEdition/lodel/blob/6604180dade14bf0b63fc395d3718f3dc1dd027e/share/macros/macros.html#L66
+ */
+<DEFMACRO NAME="CKL_PAGE_SCALE">
+	<LOOP NAME="page_scale">
+		<BEFORE>
+			<nav class="pagination-container" aria-label="pagination">
+				<ul class="pagination">
+					<IF COND="[#PREVIOUSURL]">
+						<li class="page-item">
+							<a class="page-link" href="[#PREVIOUSURL]" aria-label="previous">
+								<span aria-hidden="true">&laquo;</span>
+							</a>
+						</li>
+					</IF>
+		</BEFORE>
+
+		<DO>
+			<IF COND="[#HOLE] EQ 1">
+				<li class="page-item disabled">
+					<span class="page-link">…</span>
+				</li>
+			</IF>
+
+			<IF COND="[#URLPAGE] EQ ''">
+				<li class="page-item active">
+					<a class="page-link" href="#">[#PAGENUMBER] <span class="sr-only">(current)</span></a>
+				</li>
+			<ELSE />
+				<li class="page-item">
+					<a class="page-link" href="[#URLPAGE]">[#PAGENUMBER]</a>
+				</li>
+			</IF>
+		</DO>
+
+		<AFTER>
+					<IF COND="[#NEXTURL]">
+						<li class="page-item">
+							<a class="page-link" href="[#NEXTURL]" aria-label="next">
+								<span aria-hidden="true">&raquo;</span>
+							</a>
+						</li>
+					</IF>
+				</ul>
+			</nav>
+		</AFTER>
+	</LOOP>
+</DEFMACRO>
