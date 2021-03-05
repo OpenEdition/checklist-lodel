@@ -50,9 +50,13 @@
   <div class="ckl-main ckl-index ckl-index-alphabetique">
     <div id="ckl-pane" class="ckl-pane"></div>
     <div class="ckl-content">
-      <h1 class="ckl-index-title">[#TITLE]</h1>
-      <FUNC NAME="CKL_I_SHORTCUTS" TABLE="#_TP_entries" FIELD="[#SORT]" IDTYPE="[#ID]"/>
-      <FUNC NAME="CKL_I_ALPHABETIQUE_LIST" TABLE="#_TP_entries" FIELD="[#SORT]" IDTYPE="[#ID]"/>
+      <FUNC NAME="CKL_NAV_ENTITIES" POSITION="top"/>
+      <section class="ckl-section">
+        <h1 class="ckl-index-title">[#TITLE]</h1>
+        <FUNC NAME="CKL_I_SHORTCUTS" TABLE="#_TP_entries" FIELD="[#SORT]" IDTYPE="[#ID]"/>
+        <FUNC NAME="CKL_I_ALPHABETIQUE_LIST" TABLE="#_TP_entries" FIELD="[#SORT]" IDTYPE="[#ID]"/>
+      </section>
+      <FUNC NAME="CKL_NAV_ENTITIES" POSITION="bottom"/>
     </div>
   </div>
 </DEFMACRO>
@@ -98,32 +102,36 @@
   <div class="ckl-main ckl-index ckl-index-hierarchique">
     <div id="ckl-pane" class="ckl-pane"></div>
     <div class="ckl-content">
-      <LET VAR="idrec">0</LET>
-      <LOOP NAME="ckl_entries"
-            SELECT="id, g_name"
-            TABLE="entries"
-            WHERE="type = '[#TYPE]' AND idparent = '[#IDREC]'"
-            ORDER="entries.[#SORT]">
+      <FUNC NAME="CKL_NAV_ENTITIES" POSITION="top"/>
+      <section class="ckl-section">
+        <LET VAR="idrec">0</LET>
+        <LOOP NAME="ckl_entries"
+              SELECT="id, g_name"
+              TABLE="entries"
+              WHERE="type = '[#TYPE]' AND idparent = '[#IDREC]'"
+              ORDER="entries.[#SORT]">
 
-        <BEFORE>
-          <LET VAR="ul_classname">ckl-index-list-nested</LET>
-          <IF COND="[#IDREC] EQ '0'">
-            <h1 class="ckl-index-title">[#TITLE]</h1>
-            <LET VAR="ul_classname">ckl-index-list-root</LET>
-          </IF>
-          <ul class="ckl-index-list [#UL_CLASSNAME]">
-        </BEFORE>
-        <DO>
-          <li>
-            <MACRO NAME="CKL_I_ENTRY"/>
-            <LET VAR="idrec">[#ID]</LET>
-            <LOOP NAME="ckl_entries"></LOOP>
-          </li>
-        </DO>
-        <AFTER>
-            </ul>
-        </AFTER>
-      </LOOP>
+          <BEFORE>
+            <LET VAR="ul_classname">ckl-index-list-nested</LET>
+            <IF COND="[#IDREC] EQ '0'">
+              <h1 class="ckl-index-title">[#TITLE]</h1>
+              <LET VAR="ul_classname">ckl-index-list-root</LET>
+            </IF>
+            <ul class="ckl-index-list [#UL_CLASSNAME]">
+          </BEFORE>
+          <DO>
+            <li>
+              <MACRO NAME="CKL_I_ENTRY"/>
+              <LET VAR="idrec">[#ID]</LET>
+              <LOOP NAME="ckl_entries"></LOOP>
+            </li>
+          </DO>
+          <AFTER>
+              </ul>
+          </AFTER>
+        </LOOP>
+      </section>
+      <FUNC NAME="CKL_NAV_ENTITIES" POSITION="bottom"/>
     </div>
   </div>
 </DEFMACRO>
@@ -135,9 +143,13 @@
   <div class="ckl-main ckl-index ckl-index-personnes">
     <div id="ckl-pane" class="ckl-pane"></div>
     <div class="ckl-content">
-      <h1 class="ckl-index-title">[#TITLE]</h1>
-      <FUNC NAME="CKL_I_SHORTCUTS" TABLE="#_TP_persons" FIELD="sortkey" IDTYPE="[#ID]"/>
-      <FUNC NAME="CKL_I_PERSONNES_LIST" TABLE="#_TP_persons" FIELD="sortkey" IDTYPE="[#ID]"/>
+      <FUNC NAME="CKL_NAV_ENTITIES" POSITION="top"/>
+      <section class="ckl-section">
+        <h1 class="ckl-index-title">[#TITLE]</h1>
+        <FUNC NAME="CKL_I_SHORTCUTS" TABLE="#_TP_persons" FIELD="sortkey" IDTYPE="[#ID]"/>
+        <FUNC NAME="CKL_I_PERSONNES_LIST" TABLE="#_TP_persons" FIELD="sortkey" IDTYPE="[#ID]"/>
+      </section>
+      <FUNC NAME="CKL_NAV_ENTITIES" POSITION="bottom"/>
     </div>
   </div>
 </DEFMACRO>

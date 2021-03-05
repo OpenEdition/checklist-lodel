@@ -627,26 +627,45 @@
  * Affiche les publications parentes (fil d'arianne)
  */
 <DEFMACRO NAME="CKL_BREADCRUMBS">
-  <LET VAR="doc_id">[#ID]</LET>
-	<LOOP NAME="ckl_breadcrumbs"
-        SELECT="id, titre, numero, datepubli, datepublipapier, degree, periode, altertitre"
-        TABLE="publications, relations"
-        WHERE="id2 = '[#DOC_ID]' AND id1 = publications.identity"
-        ORDER="degree DESC">
-    <BEFORE>
-      <div class="ckl-breadcrumbs">
-        <i class="fas fa-map-marker-alt"></i>
-    </BEFORE>
-    <DOFIRST>
-      <MACRO NAME="CKL_BREADCRUMBS_ITEM" />
-    </DOFIRST>
-    <DO>
-      &gt; <MACRO NAME="CKL_BREADCRUMBS_ITEM" />
-    </DO>
-    <AFTER>
-      </div>
-    </AFTER>
-	</LOOP>
+  <!--[ Indexes et auteurs ]-->
+  <IF COND="[%TPL_TYPE] EQ 'entrytypes' OR [%TPL_TYPE] EQ 'persontypes'">
+    <IF COND="[%TPL_TYPE] EQ 'entrytypes'">
+      <LET VAR="classname">indexes</LET>
+    <ELSE />
+      <LET VAR="classname">auteurs</LET>
+    </IF>
+
+    <div class="ckl-breadcrumbs">
+      <i class="fas fa-map-marker-alt"></i>
+      <LET VAR="href"><FUNC NAME="CKL_URL" PARAMETER="view_tab=[#CLASSNAME]" /></LET>
+      <LET VAR="link_title"><FUNC NAME="CKL_GET_CLASS_TITLE" CLASS="[#CLASSNAME]" /></LET>
+      <a href="[#HREF]">[#LINK_TITLE]</a>
+    </div>
+
+  <!--[ Textes et publications ]-->
+  <ELSE />
+    <LET VAR="doc_id">[#ID]</LET>
+    <LOOP NAME="ckl_breadcrumbs"
+          SELECT="id, titre, numero, datepubli, datepublipapier, degree, periode, altertitre"
+          TABLE="publications, relations"
+          WHERE="id2 = '[#DOC_ID]' AND id1 = publications.identity"
+          ORDER="degree DESC">
+      <BEFORE>
+        <div class="ckl-breadcrumbs">
+          <i class="fas fa-map-marker-alt"></i>
+      </BEFORE>
+      <DOFIRST>
+        <MACRO NAME="CKL_BREADCRUMBS_ITEM" />
+      </DOFIRST>
+      <DO>
+        &gt; <MACRO NAME="CKL_BREADCRUMBS_ITEM" />
+      </DO>
+      <AFTER>
+        </div>
+      </AFTER>
+    </LOOP>
+  </IF>
+
 </DEFMACRO>
 
 /**
@@ -673,14 +692,7 @@
 
   <span class="ckl-breadcrumbs-item" data-type="[#TYPE]" data-degree="[#DEGREE]">
     <IF COND="[#TYPE] EQ 'numero'">
-      <LET VAR="href"><FUNC NAME="CKL_URL" DOCUMENT="[#ID]" /></LET>
-
-    <!--[ TODO: add breadcrumb to indexes and authors ]-->
-    <ELSEIF COND="[#CLASS] EQ 'indexes'">
-      <LET VAR="href"><FUNC NAME="CKL_URL" PARAMETER="view_tab=indexes" /></LET>
-    <ELSEIF COND="[#CLASS] EQ 'auteurs'">
-      <LET VAR="href"><FUNC NAME="CKL_URL" PARAMETER="view_tab=auteurs" /></LET>
-      
+      <LET VAR="href"><FUNC NAME="CKL_URL" DOCUMENT="[#ID]" /></LET>      
     <ELSE/>
       <LET VAR="href"><FUNC NAME="CKL_URL" /></LET>
     </IF>
@@ -692,43 +704,53 @@
  * Récupérer la vraie TOC du parent pour créer des liens précédent/suivant corrects.
  */
 <DEFMACRO NAME="CKL_SIBLINGS_FIX">
-  <!--[ ID des parents de l'entité courante ]-->
-  <LOOP NAME="ckl_lister_parents" SELECT="id" TABLE="publications, relations" WHERE="id2 = '[#ID]' AND id1 = publications.identity" ORDER="degree">
-    <IF COND="[#NBRESULTS] EQ 1">
-      <LET VAR="idrealparent" GLOBAL="1">[#ID]</LET>
-    <ELSE/>
-      <IF COND="[#COUNT] EQ [#NBRESULTS|lmath('-',1)]">
-        <LET VAR="idrealparent" GLOBAL="1">[#ID]</LET>
-      </IF>
-      <SWITCH TEST="[#TYPE]">
-        <DO CASE="numero"><LET VAR="idnumero" GLOBAL="1">[#ID]</LET></DO>
-        <DO CASE="rubrique"><LET VAR="idrubrique" GLOBAL="1">[#ID]</LET></DO>
-        <DO CASE="souspartie"><LET VAR="idsouspartie" GLOBAL="1">[#ID]</LET></DO>
-        <DO CASE="rubriqueannuelle"><LET VAR="idrubriqueannuelle" GLOBAL="1">[#ID]</LET></DO>
-      </SWITCH>
-    </IF>
-  </LOOP>
-
-  <!--[ Reconstitution de la toc a plat dans un array ]-->
-  <LET VAR="current_parent_id">[%IDREALPARENT]</LET>
-  <LOOP NAME="ckl_siblings_fix"
-        TABLE="entities, types"
-        SELECT="id, class, type"
-        WHERE="idparent = '[#CURRENT_PARENT_ID]'
-          AND class IN ('publications', 'textes') AND type NOT LIKE '%annexe%'
-          AND entities.idtype = types.id"
-        ORDER="entities.rank">
-    <IF COND="[#CLASS] EQ 'publications' AND [#TYPE] EQ 'souspartie'">
-      <LET VAR="current_parent_id">[#ID]</LET>
-      <LOOP NAME="ckl_siblings_fix"></LOOP>
+  <!--[ Indexes et auteurs ]-->
+  <IF COND="[%TPL_TYPE] EQ 'entrytypes' OR [%TPL_TYPE] EQ 'persontypes'">
+    <!--[ Cf LOOP ckl_h_indexes ]-->
+    <IF COND="[%TPL_TYPE] EQ 'entrytypes'">
+      <LET VAR="tableindex">#_TP_entries</LET>
+      <LET VAR="tabletypes">#_TP_entrytypes</LET>
+      <LET VAR="tablefilter">AND class = 'indexes'</LET>
     <ELSE />
-      <LET ARRAY="parent_real_toc[]" GLOBAL="1">[#ID]</LET>
+      <LET VAR="tableindex">#_TP_persons</LET>
+      <LET VAR="tabletypes">#_TP_persontypes</LET>
+      <LET VAR="tablefilter"></LET>
     </IF>
-  </LOOP>
+    <LOOP NAME="ckl_siblings_fix_indexes" TABLE="[#TABLEINDEX], [#TABLETYPES]" SELECT="DISTINCT(idtype)" WHERE="[#TABLEINDEX].idtype = [#TABLETYPES].id AND [#TABLEINDEX].status GT 0 [#TABLEFILTER]" ORDER="CASE WHEN type LIKE 'motscles%' THEN 0 ELSE 1 END, [#TABLETYPES].rank">
+      <LET ARRAY="parent_real_toc[]" GLOBAL="1">[#IDTYPE]</LET>
+    </LOOP>
+  
+  <!--[ Textes et publications ]-->
+  <ELSE />
+    <!--[ ID du numero ou rubrique annuelle ]-->
+    <LET VAR="idrealparent">[#ID|getParentByType('numero')]</LET>
+    <IF COND="![#IDREALPARENT]">
+      <LET VAR="idrealparent">[#ID|getParentByType('rubriqueannuelle')]</LET>
+    </IF>
+
+    <IF COND="[#IDREALPARENT]">
+      <!--[ Reconstitution de la toc a plat dans un array ]-->
+      <LET VAR="current_parent_id">[#IDREALPARENT]</LET>
+      <LOOP NAME="ckl_siblings_fix_textes"
+            TABLE="entities, types"
+            SELECT="id, class, type"
+            WHERE="idparent = '[#CURRENT_PARENT_ID]'
+              AND class IN ('publications', 'textes') AND type NOT LIKE '%annexe%'
+              AND entities.idtype = types.id"
+            ORDER="entities.rank">
+        <IF COND="[#CLASS] EQ 'publications' AND [#TYPE] EQ 'souspartie'">
+          <LET VAR="current_parent_id">[#ID]</LET>
+          <LOOP NAME="ckl_siblings_fix_textes"></LOOP>
+        <ELSE />
+          <LET ARRAY="parent_real_toc[]" GLOBAL="1">[#ID]</LET>
+        </IF>
+      </LOOP>
+    </IF>
+  </IF>
 
   <!--[ %ID_ARTICLE_PRECEDENT ]-->
   <LOOP NAME="foreach" ARRAY="[%PARENT_REAL_TOC]">
-    <IF COND="[#VALUE] EQ [#ID]">
+    <IF COND="[#VALUE] EQ [#DOCUMENT]">
       <LET VAR="id_article_precedent" GLOBAL="1">[%PREV_ID]</LET>
     </IF>
     <LET VAR="prev_id" GLOBAL="1">[#VALUE]</LET>
@@ -740,7 +762,7 @@
       <LET VAR="id_article_suivant" GLOBAL="1">[#VALUE]</LET>
       <LET VAR="ID_IS_NEXT" GLOBAL="1">0</LET>
     </IF>
-    <IF COND="[#VALUE] EQ [#ID]">
+    <IF COND="[#VALUE] EQ [#DOCUMENT]">
       <LET VAR="ID_IS_NEXT" GLOBAL="1">1</LET>
     </IF>
   </LOOP>
@@ -751,14 +773,14 @@
  * @param {string} direction - "previous" ou "next".
  */
 <DEFFUNC NAME="CKL_SIBLING" REQUIRED="direction">
-  <!--[ Fix pour les éléments d'un numéro (car problème des sousparties) ]-->
-  <IF COND="[#CLASS] EQ 'textes' OR [#CLASS] EQ 'liens' OR [#CLASS] EQ 'fichiers' OR [#CLASS] EQ 'textessimples'">
+  <!--[ Fix pour les éléments d'un numéro (car problème des sousparties) ou pour les indexes et auteurs, pour lesquels on simule une arborescence ]-->
+  <IF COND="[#CLASS] EQ 'textes' OR [#CLASS] EQ 'liens' OR [#CLASS] EQ 'fichiers' OR [#CLASS] EQ 'textessimples' OR [%TPL_TYPE] EQ 'entrytypes' OR [%TPL_TYPE] EQ 'persontypes'">
     <IF COND="[#DIRECTION] EQ 'previous' AND [%ID_ARTICLE_PRECEDENT]">
       <FUNC NAME="CKL_SIBLING_BUTTON" ENTITY_ID="[%ID_ARTICLE_PRECEDENT]" DIRECTION="[#DIRECTION]" />
       <ELSEIF COND="[#DIRECTION] EQ 'next' AND [%ID_ARTICLE_SUIVANT]" />
       <FUNC NAME="CKL_SIBLING_BUTTON" ENTITY_ID="[%ID_ARTICLE_SUIVANT]" DIRECTION="[#DIRECTION]" />
     </IF>
-    <ELSE />
+  <ELSE />
     <!--[ Fonctionnement standard pour tout le reste ]-->
     <IF COND="[#DIRECTION] EQ 'previous'">
       <LOOP NAME="previous" ID="[#ID]">
