@@ -627,26 +627,45 @@
  * Affiche les publications parentes (fil d'arianne)
  */
 <DEFMACRO NAME="CKL_BREADCRUMBS">
-  <LET VAR="doc_id">[#ID]</LET>
-	<LOOP NAME="ckl_breadcrumbs"
-        SELECT="id, titre, numero, datepubli, datepublipapier, degree, periode, altertitre"
-        TABLE="publications, relations"
-        WHERE="id2 = '[#DOC_ID]' AND id1 = publications.identity"
-        ORDER="degree DESC">
-    <BEFORE>
-      <div class="ckl-breadcrumbs">
-        <i class="fas fa-map-marker-alt"></i>
-    </BEFORE>
-    <DOFIRST>
-      <MACRO NAME="CKL_BREADCRUMBS_ITEM" />
-    </DOFIRST>
-    <DO>
-      &gt; <MACRO NAME="CKL_BREADCRUMBS_ITEM" />
-    </DO>
-    <AFTER>
-      </div>
-    </AFTER>
-	</LOOP>
+  <!--[ Indexes et auteurs ]-->
+  <IF COND="[%TPL_TYPE] EQ 'entrytypes' OR [%TPL_TYPE] EQ 'persontypes'">
+    <IF COND="[%TPL_TYPE] EQ 'entrytypes'">
+      <LET VAR="classname">indexes</LET>
+    <ELSE />
+      <LET VAR="classname">auteurs</LET>
+    </IF>
+
+    <div class="ckl-breadcrumbs">
+      <i class="fas fa-map-marker-alt"></i>
+      <LET VAR="href"><FUNC NAME="CKL_URL" PARAMETER="view_tab=[#CLASSNAME]" /></LET>
+      <LET VAR="link_title"><FUNC NAME="CKL_GET_CLASS_TITLE" CLASS="[#CLASSNAME]" /></LET>
+      <a href="[#HREF]">[#LINK_TITLE]</a>
+    </div>
+
+  <!--[ Textes et publications ]-->
+  <ELSE />
+    <LET VAR="doc_id">[#ID]</LET>
+    <LOOP NAME="ckl_breadcrumbs"
+          SELECT="id, titre, numero, datepubli, datepublipapier, degree, periode, altertitre"
+          TABLE="publications, relations"
+          WHERE="id2 = '[#DOC_ID]' AND id1 = publications.identity"
+          ORDER="degree DESC">
+      <BEFORE>
+        <div class="ckl-breadcrumbs">
+          <i class="fas fa-map-marker-alt"></i>
+      </BEFORE>
+      <DOFIRST>
+        <MACRO NAME="CKL_BREADCRUMBS_ITEM" />
+      </DOFIRST>
+      <DO>
+        &gt; <MACRO NAME="CKL_BREADCRUMBS_ITEM" />
+      </DO>
+      <AFTER>
+        </div>
+      </AFTER>
+    </LOOP>
+  </IF>
+
 </DEFMACRO>
 
 /**
@@ -673,14 +692,7 @@
 
   <span class="ckl-breadcrumbs-item" data-type="[#TYPE]" data-degree="[#DEGREE]">
     <IF COND="[#TYPE] EQ 'numero'">
-      <LET VAR="href"><FUNC NAME="CKL_URL" DOCUMENT="[#ID]" /></LET>
-
-    <!--[ TODO: add breadcrumb to indexes and authors ]-->
-    <ELSEIF COND="[#CLASS] EQ 'indexes'">
-      <LET VAR="href"><FUNC NAME="CKL_URL" PARAMETER="view_tab=indexes" /></LET>
-    <ELSEIF COND="[#CLASS] EQ 'auteurs'">
-      <LET VAR="href"><FUNC NAME="CKL_URL" PARAMETER="view_tab=auteurs" /></LET>
-      
+      <LET VAR="href"><FUNC NAME="CKL_URL" DOCUMENT="[#ID]" /></LET>      
     <ELSE/>
       <LET VAR="href"><FUNC NAME="CKL_URL" /></LET>
     </IF>
