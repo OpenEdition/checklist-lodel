@@ -692,58 +692,49 @@
  * Récupérer la vraie TOC du parent pour créer des liens précédent/suivant corrects.
  */
 <DEFMACRO NAME="CKL_SIBLINGS_FIX">
-  <!--[ ID des parents de l'entité courante ]-->
-  <LOOP NAME="ckl_lister_parents" SELECT="id" TABLE="publications, relations" WHERE="id2 = '[#ID]' AND id1 = publications.identity" ORDER="degree">
-    <IF COND="[#NBRESULTS] EQ 1">
-      <LET VAR="idrealparent" GLOBAL="1">[#ID]</LET>
-    <ELSE/>
-      <IF COND="[#COUNT] EQ [#NBRESULTS|lmath('-',1)]">
-        <LET VAR="idrealparent" GLOBAL="1">[#ID]</LET>
+  <!--[ ID du numero ou rubrique annuelle ]-->
+  <LET VAR="idrealparent">[#ID|getParentByType('numero')]</LET>
+  <IF COND="![#IDREALPARENT]">
+    <LET VAR="idrealparent">[#ID|getParentByType('rubriqueannuelle')]</LET>
+  </IF>
+
+  <IF COND="[#IDREALPARENT]">
+    <!--[ Reconstitution de la toc a plat dans un array ]-->
+    <LET VAR="current_parent_id">[#IDREALPARENT]</LET>
+    <LOOP NAME="ckl_siblings_fix"
+          TABLE="entities, types"
+          SELECT="id, class, type"
+          WHERE="idparent = '[#CURRENT_PARENT_ID]'
+            AND class IN ('publications', 'textes') AND type NOT LIKE '%annexe%'
+            AND entities.idtype = types.id"
+          ORDER="entities.rank">
+      <IF COND="[#CLASS] EQ 'publications' AND [#TYPE] EQ 'souspartie'">
+        <LET VAR="current_parent_id">[#ID]</LET>
+        <LOOP NAME="ckl_siblings_fix"></LOOP>
+      <ELSE />
+        <LET ARRAY="parent_real_toc[]" GLOBAL="1">[#ID]</LET>
       </IF>
-      <SWITCH TEST="[#TYPE]">
-        <DO CASE="numero"><LET VAR="idnumero" GLOBAL="1">[#ID]</LET></DO>
-        <DO CASE="rubrique"><LET VAR="idrubrique" GLOBAL="1">[#ID]</LET></DO>
-        <DO CASE="souspartie"><LET VAR="idsouspartie" GLOBAL="1">[#ID]</LET></DO>
-        <DO CASE="rubriqueannuelle"><LET VAR="idrubriqueannuelle" GLOBAL="1">[#ID]</LET></DO>
-      </SWITCH>
-    </IF>
-  </LOOP>
+    </LOOP>
 
-  <!--[ Reconstitution de la toc a plat dans un array ]-->
-  <LET VAR="current_parent_id">[%IDREALPARENT]</LET>
-  <LOOP NAME="ckl_siblings_fix"
-        TABLE="entities, types"
-        SELECT="id, class, type"
-        WHERE="idparent = '[#CURRENT_PARENT_ID]'
-          AND class IN ('publications', 'textes') AND type NOT LIKE '%annexe%'
-          AND entities.idtype = types.id"
-        ORDER="entities.rank">
-    <IF COND="[#CLASS] EQ 'publications' AND [#TYPE] EQ 'souspartie'">
-      <LET VAR="current_parent_id">[#ID]</LET>
-      <LOOP NAME="ckl_siblings_fix"></LOOP>
-    <ELSE />
-      <LET ARRAY="parent_real_toc[]" GLOBAL="1">[#ID]</LET>
-    </IF>
-  </LOOP>
+    <!--[ %ID_ARTICLE_PRECEDENT ]-->
+    <LOOP NAME="foreach" ARRAY="[%PARENT_REAL_TOC]">
+      <IF COND="[#VALUE] EQ [#ID]">
+        <LET VAR="id_article_precedent" GLOBAL="1">[%PREV_ID]</LET>
+      </IF>
+      <LET VAR="prev_id" GLOBAL="1">[#VALUE]</LET>
+    </LOOP>
 
-  <!--[ %ID_ARTICLE_PRECEDENT ]-->
-  <LOOP NAME="foreach" ARRAY="[%PARENT_REAL_TOC]">
-    <IF COND="[#VALUE] EQ [#ID]">
-      <LET VAR="id_article_precedent" GLOBAL="1">[%PREV_ID]</LET>
-    </IF>
-    <LET VAR="prev_id" GLOBAL="1">[#VALUE]</LET>
-  </LOOP>
-
-  <!--[ %ID_ARTICLE_SUIVANT ]-->
-  <LOOP NAME="foreach" ARRAY="[%PARENT_REAL_TOC]">
-    <IF COND="[%ID_IS_NEXT] EQ 1">
-      <LET VAR="id_article_suivant" GLOBAL="1">[#VALUE]</LET>
-      <LET VAR="ID_IS_NEXT" GLOBAL="1">0</LET>
-    </IF>
-    <IF COND="[#VALUE] EQ [#ID]">
-      <LET VAR="ID_IS_NEXT" GLOBAL="1">1</LET>
-    </IF>
-  </LOOP>
+    <!--[ %ID_ARTICLE_SUIVANT ]-->
+    <LOOP NAME="foreach" ARRAY="[%PARENT_REAL_TOC]">
+      <IF COND="[%ID_IS_NEXT] EQ 1">
+        <LET VAR="id_article_suivant" GLOBAL="1">[#VALUE]</LET>
+        <LET VAR="ID_IS_NEXT" GLOBAL="1">0</LET>
+      </IF>
+      <IF COND="[#VALUE] EQ [#ID]">
+        <LET VAR="ID_IS_NEXT" GLOBAL="1">1</LET>
+      </IF>
+    </LOOP>
+  </IF>
 </DEFMACRO>
 
 /**
