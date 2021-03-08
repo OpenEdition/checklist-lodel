@@ -225,6 +225,60 @@ a:hover, a:active, a:focus {
   border-color: #1565c0;
 }
 
+/* Publication */
+
+.ckl-toc-title {
+  color: #41474d;
+  font-size: 20px;
+  border-top: 1px solid #dde1e4;
+  padding-top: 16px;
+  margin-bottom: 0;
+}
+
+.checklist-toc {
+  margin-top: 0;
+}
+
+.checklist-entry-title span.authors,
+.checklist-entry-title span.title {
+  display: block;
+}
+
+.checklist-entry-title .title {
+  font-family: Georgia, "DejaVu Serif", Norasi, serif;
+  font-size: 24px;
+}
+
+.checklist-entry-title .authors {
+  font-size: 16px;
+}
+
+.checklist-toc-entry.checklist-report-context-publications {
+  background-color: #fff;
+  margin-top: 0;
+}
+
+.checklist-toc-entry.checklist-report-context-publications,
+.checklist-report-context-publications .checklist-toc-entry-footer a,
+.checklist-report-context-publications .checklist-toc-entry-header {
+  border: none;
+}
+
+.checklist-toc-entry.checklist-report-context-publications .checklist-toc-entry-contents {
+  padding: 0;
+}
+
+.checklist-toc-entry.checklist-report-context-publications .checklist-report-run {
+  margin: 20px 0 0 -10px;
+}
+
+.checklist-toc-entry.checklist-report-context-publications .checklist-toc-entry-header,
+.checklist-toc-entry.checklist-report-context-publications .checklist-report-metadatas,
+.checklist-toc-entry.checklist-report-context-publications .checklist-toc-entry-footer {
+  display: none;
+}
+
+
 /* Article et champs basiques */
 
 .ckl-section {
@@ -652,41 +706,6 @@ a:hover, a:active, a:focus {
   .ckl-summary-publi-header [data-field=titre] .ckl-field-title {
     padding-top: 12px;
   }
-}
-
-/* Personnalisation des styles du script */
-.checklist-entry-title span.authors,
-.checklist-entry-title span.title {
-  display: block;
-}
-
-.checklist-entry-title .title {
-  font-family: Georgia, "DejaVu Serif", Norasi, serif;
-  font-size: 24px;
-}
-
-.checklist-entry-title .authors {
-  font-size: 16px;
-}
-
-.checklist-toc-entry.checklist-report-context-publications {
-  background-color: #FFF3CD;
-}
-
-.checklist-toc-entry.checklist-report-context-publications,
-.checklist-report-context-publications .checklist-toc-entry-footer a,
-.checklist-report-context-publications .checklist-toc-entry-header {
-  border-color: #FFE69C;
-}
-
-.checklist-report-context-publications .checklist-statements-group ul {
-  border-top-color: #FFE69C;
-  border-right-color: #FFE69C;
-  border-bottom-color: #FFE69C;
-}
-
-.checklist-report-context-publications .checklist-statement + .checklist-statement {
-  border-color: #FFF3CD;
 }
 
 /* Masquer le fil d'arianne de Lodel */
