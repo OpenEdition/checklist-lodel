@@ -393,7 +393,7 @@
 <DEFFUNC NAME="CKL_PERSONNES" REQUIRED="type">
   <LOOP NAME="ckl_personnes" SELECT="g_firstname, g_familyname" TABLE="relations, persons" WHERE="id1 = '[#ID]' AND id2 = persons.id AND nature = 'G' AND type = '[#TYPE]'" ORDER="degree">
     <BEFORE>
-      <div class="ckl-field ckl-personnes" data-type="[#TYPE]">
+      <div class="ckl-field ckl-personnes" data-field="[#TYPE]" data-type="[#TYPE]">
         <div class="ckl-field-title"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="[#TYPE]"/></div>
         <div class="ckl-field-value">
     </BEFORE>

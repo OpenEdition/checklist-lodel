@@ -1431,6 +1431,25 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
           this.resolve(flag);
         }
       },
+
+      {
+        id: "compterendu:quality(metadata)",
+        name: {
+          fr: "Métadonnées de l’œuvre commentée incomplètes",
+          en: "Incomplete metadata about commented work"
+        },
+        description: {
+          fr: "<p>Pour les compte-rendus, il est recommandé de renseigner le titre, l’auteur, la notice bibliographique et la date de publication de l’œuvre commentée. Une ou plusieurs de ces métadonnées sont manquantes.</p><p>Voir sur la <em>Maison des Revues et des Livres</em>&nbsp;: <a href=\"http://www.maisondesrevues.org/942\" target=\"_blank\">Stylage des recensions</a>.",
+          en: "<p>For reviews, it is recommended to provide the title, author, bibliographic record and publication date of the commented work. One or more of these metadata are currently missing.</p>"
+        },
+        condition: "textes && compterendu",
+        type: "warning",
+        action: function ($) {
+          var $fields = getField($, "noticebibliooeuvre", "titreoeuvre", "datepublicationoeuvre", "auteuroeuvre");
+          var flag = $fields.length !== 4;
+          this.resolve(flag);
+        }
+      }
     ]
   };
 
