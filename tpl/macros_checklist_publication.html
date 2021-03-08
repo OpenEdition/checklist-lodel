@@ -41,50 +41,56 @@
           context: {
             <IF COND="[#NUMEROOUVERT]">"numeroouvert": true,</IF>
             "publications": true
-          }
+          },
+        },
+        {
+          title: "[#CKL_TRANSLATIONS.CONTENTS_QUALITY]",
+          section: [
+            <LOOP NAME="create_publi_summary"
+                  TABLE="entities, types"
+                  SELECT="id, class, type"
+                  WHERE="idparent = '[#ID]'
+                    AND type NOT IN ('fluxdesyndication','imageaccroche','rubriqueannuelle', 'imageaccrochelibrairie') AND type NOT LIKE '%annexe%'
+                    AND entities.idtype = types.id"
+                  ORDER="entities.rank">
+
+              <LOOP NAME="create_publi_summary_item" TABLE="#_TP_[#CLASS]" WHERE="identity = '[#ID]'">
+                <IF COND="[#COUNT] GT 0">,</IF>
+
+                <SWITCH TEST="[#CLASS]">
+                  <!--[ Publications : sommaire récursif ]-->
+                  <DO CASE="publications">
+                    {
+                      title: "[#TITRE|removenotes|replacequotationmark|reg_replace("/(\r\n|\r|\n)+/", " ")]",
+                      section: [
+                        <LOOP NAME="create_publi_summary"></LOOP>
+                      ]
+                    }
+                  </DO>
+
+                  <!--[ Textes ]-->
+                  <DO CASE="textes">
+                    <LET VAR="entry_authors">
+                      <FUNC NAME="CKL_PERSONNES_RAW" TYPE="auteur"/>
+                    </LET>
+                    <LET VAR="entry_full_title">
+                      <!--[ Can't use <p> elements here because of whitespaces injected by HTMLPurifier ]-->
+                      <span class='authors'>[#ENTRY_AUTHORS|textebrut|trim|reg_replace('/ +,/', ',')]</span>
+                      <span class='title'>[#TITRE]</span>
+                    </LET>
+                    ,{
+                      title: "[#ENTRY_FULL_TITLE|removenotes|replacequotationmark|reg_replace("/(\r\n|\r|\n)+/", " ")|trim]",
+                      href: "<FUNC NAME="CKL_URL" DOCUMENT="[#ID]" />",
+                      docId: "[#ID]",
+                      type: "[#TYPE|majuscule]",
+                      context: <MACRO NAME="CKL_CREATE_CONTEXT_JSON" />
+                    }
+                  </DO>
+                </SWITCH>
+              </LOOP>
+            </LOOP>
+          ]
         }
-
-        <LOOP NAME="create_publi_summary"
-              TABLE="entities, types"
-              SELECT="id, class, type"
-              WHERE="idparent = '[#ID]'
-                 AND type NOT IN ('fluxdesyndication','imageaccroche','rubriqueannuelle', 'imageaccrochelibrairie') AND type NOT LIKE '%annexe%'
-                 AND entities.idtype = types.id"
-              ORDER="entities.rank">
-
-          <LOOP NAME="create_publi_summary_item" TABLE="#_TP_[#CLASS]" WHERE="identity = '[#ID]'">
-            <SWITCH TEST="[#CLASS]">
-              <!--[ Publications : sommaire récursif ]-->
-              <DO CASE="publications">
-                ,{
-                  title: "[#TITRE|removenotes|replacequotationmark|reg_replace("/(\r\n|\r|\n)+/", " ")]",
-                  section: [
-                    <LOOP NAME="create_publi_summary"></LOOP>
-                  ]
-                }
-              </DO>
-
-              <!--[ Textes ]-->
-              <DO CASE="textes">
-                <LET VAR="entry_authors">
-                  <FUNC NAME="CKL_PERSONNES_RAW" TYPE="auteur"/>
-                </LET>
-                <LET VAR="entry_full_title">
-                  <!--[ Can't use <p> elements here because of whitespaces injected by HTMLPurifier ]-->
-                  <span class='authors'>[#ENTRY_AUTHORS|textebrut|trim|reg_replace('/ +,/', ',')]</span>
-                  <span class='title'>[#TITRE]</span>
-                </LET>
-                ,{
-                  title: "[#ENTRY_FULL_TITLE|removenotes|replacequotationmark|reg_replace("/(\r\n|\r|\n)+/", " ")|trim]",
-                  href: "<FUNC NAME="CKL_URL" DOCUMENT="[#ID]" />",
-                  docId: "[#ID]",
-                  type: "[#TYPE|majuscule]",
-                  context: <MACRO NAME="CKL_CREATE_CONTEXT_JSON" />
-                }
-              </DO>
-            </SWITCH>
-          </LOOP>
-        </LOOP>
       ]
     }
   </LET>
@@ -185,7 +191,10 @@
   <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
 
   <!--[ Checklist va injecter la table des matières ici ]-->
-  <h2 class="ckl-toc-title">[#CKL_TRANSLATIONS.PUBLICATION_QUALITY]</h2>
+  <div class="ckl-toc-header">
+    <img class="ckl-check-img" src="[#SHAREDIR]/plugins/custom/checklist/public/img/check.png">
+    <h2 class="ckl-toc-title">[#CKL_TRANSLATIONS.PUBLICATION_QUALITY]</h2>
+  </div>
   <div id="ckl-toc" class="ckl-toc"></div>
   
   <!--[ Nav entities ]-->

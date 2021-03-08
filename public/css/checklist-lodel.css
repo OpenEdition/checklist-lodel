@@ -227,16 +227,49 @@ a:hover, a:active, a:focus {
 
 /* Publication */
 
-.ckl-toc-title {
-  color: #41474d;
-  font-size: 20px;
+.ckl-toc-header {
   border-top: 1px solid #dde1e4;
-  padding-top: 16px;
-  margin-bottom: 0;
+  padding-top: 10px;
+  margin: 40px -40px 0;
+  background: rgb(255,255,255);
+  background: -moz-linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(246,248,250,1) 100%);
+  background: -webkit-linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(246,248,250,1) 100%);
+  background: linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(246,248,250,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ffffff",endColorstr="#f6f8fa",GradientType=1); 
+}
+
+.ckl-check-img {
+  max-height: 50px;
+  margin: 40px auto;
+  display: block;
+}
+
+.ckl-toc-title, .checklist-report-context-publications + .checklist-toc-section > .checklist-toc-section-heading {
+  color: #79848E;
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 60px;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border: none;
+  text-align: center;
+}
+
+.ckl-publication .ckl-toc-title, .ckl-publication .ckl-toc {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .checklist-toc {
   margin-top: 0;
+}
+
+.checklist-toc-section .checklist-toc-section-contents {
+  padding-left: 0;
+}
+
+.checklist-toc-section .checklist-toc-section-contents .checklist-toc-section-contents {
+  padding-left: 40px;
 }
 
 .checklist-entry-title span.authors,
@@ -268,8 +301,12 @@ a:hover, a:active, a:focus {
   padding: 0;
 }
 
+.checklist-toc-entry.checklist-report-context-publications .checklist-report {
+  padding: 10px 0 5px 0;
+}
+
 .checklist-toc-entry.checklist-report-context-publications .checklist-report-run {
-  margin: 20px 0 0 -10px;
+  margin: 20px auto 0 auto;
 }
 
 .checklist-toc-entry.checklist-report-context-publications .checklist-toc-entry-header,
