@@ -4,7 +4,7 @@
  * Main index (alphabetiques et hierarchiques).
  */
 <DEFMACRO NAME="CKL_I_MAIN_INDEXES">
-  <LOOP NAME="ckl_i_main_indexes" TABLE="entrytypes" WHERE="id ='[#DOCUMENT]'">
+  <LOOP NAME="ckl_i_main_indexes" TABLE="entrytypes" WHERE="id ='[%DOCID]'">
     <MACRO NAME="CKL_CREATE_CONTEXT"/>
 
     <IF COND="[#FLAT] AND [#SORT] EQ 'sortkey'">
@@ -19,7 +19,7 @@
  * Main index de personnes.
  */
 <DEFMACRO NAME="CKL_I_MAIN_PERSONS">
-  <LOOP NAME="ckl_i_main_persons" TABLE="persontypes" WHERE="id ='[#DOCUMENT]'">
+  <LOOP NAME="ckl_i_main_persons" TABLE="persontypes" WHERE="id ='[%DOCID]'">
     <MACRO NAME="CKL_CREATE_CONTEXT"/>
     <MACRO NAME="CKL_I_PERSONNES" />
   </LOOP>

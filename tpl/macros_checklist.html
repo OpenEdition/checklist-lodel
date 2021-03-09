@@ -15,52 +15,79 @@
     <LET VAR="document">0</LET>
   </IF>
 
-  <MACRO NAME="CKL_INIT_TYPE"/>
+  <MACRO NAME="CKL_INIT_ROUTE"/>
   <MACRO NAME="CKL_INIT_TITLE"/>
 </DEFMACRO>
 
 /**
- * Déterminer le type de template (globale [%TPL_TYPE]).
+ * Détermine l'id du document réellement affiché (globale [%DOCID]) et le type de template (globale [%TPL_TYPE]).
  */
-<DEFMACRO NAME="CKL_INIT_TYPE">
-  <LOOP NAME="ckl_init_type"
-        TABLE="entities, types"
-        SELECT="id, class, type"
-        WHERE="id = '[#DOCUMENT]' AND class IN ('publications', 'textes') AND entities.idtype = types.id">
-    <DO>
-      <IF COND="[#CLASS] EQ 'textes'">
-        <LET VAR="tpl_type" GLOBAL="1">textes</LET>
-      <ELSE/>
-        <LET VAR="tpl_type" GLOBAL="1">publications</LET>
-      </IF>
-    </DO>
-    <ALTERNATIVE>
-      <!--[ Indexes ]-->
-      <LOOP NAME="ckl_main_indexes" TABLE="entrytypes" WHERE="id = '[#DOCUMENT]'" >
-        <DO>
-          <LET VAR="tpl_type" GLOBAL="1">entrytypes</LET>
-        </DO>
-        <ALTERNATIVE>
-          <!--[ Personnes ]-->
-          <LOOP NAME="ckl_main_persons" TABLE="persontypes" WHERE="id = '[#DOCUMENT]'" >
-            <LET VAR="tpl_type" GLOBAL="1">persontypes</LET>
-          </LOOP>
-        </ALTERNATIVE>
-      </LOOP>
-    </ALTERNATIVE>
-  </LOOP>
+<DEFMACRO NAME="CKL_INIT_ROUTE">
+  <LET VAR="docid" GLOBAL="1">0</LET>
+  <LET VAR="tpl_type" GLOBAL="1"></LET>
+
+  <!--[ On teste l'existence de [#DOCUMENT] dans les tables suportées par Checklist pour router vers le bon template ]-->
+  <FUNC NAME="CKL_INIT_ROUTE_TABLE" TABLE="publications" DOCUMENT="[#DOCUMENT]" />
+  <FUNC NAME="CKL_INIT_ROUTE_TABLE" TABLE="textes" DOCUMENT="[#DOCUMENT]" />
+  <FUNC NAME="CKL_INIT_ROUTE_TABLE" TABLE="entrytypes" DOCUMENT="[#DOCUMENT]" />
+  <FUNC NAME="CKL_INIT_ROUTE_TABLE" TABLE="persontypes" DOCUMENT="[#DOCUMENT]" />
+  <FUNC NAME="CKL_INIT_ROUTE_TABLE" TABLE="entries" DOCUMENT="[#DOCUMENT]" />
+  <FUNC NAME="CKL_INIT_ROUTE_TABLE" TABLE="persons" DOCUMENT="[#DOCUMENT]" />
 </DEFMACRO>
+
+/**
+ * Définir [%DOCID] et [%TPL_TYPE] si [#DOCUMENT] existe bien dans [#TABLE].
+ * @param {string} table - Table à interroger.
+ * @param {string} document - ID du document.
+ */
+<DEFFUNC NAME="CKL_INIT_ROUTE_TABLE" REQUIRED="table, document">
+  <IF COND="[#TABLE] EQ 'textes' OR [#TABLE] EQ 'publications'">
+    <LET VAR="where_clause">identity = '[#DOCUMENT]'</LET>
+  <ELSE />
+    <LET VAR="where_clause">id = '[#DOCUMENT]'</LET>
+  </IF>
+  
+  <LOOP NAME="ckl_init_route_table" TABLE="#_TP_[#TABLE]" WHERE="[#WHERE_CLAUSE]" >
+    <SWITCH TEST="[#TABLE]"> 
+      <!--[ Documents pour lesquels un template existe ]-->
+      <DO CASES="textes, publications, entrytypes, persontypes">
+        <!--[ TODO: filtrer les publications ]-->
+        <LET VAR="docid" GLOBAL="1">[#DOCUMENT]</LET>
+        <LET VAR="tpl_type" GLOBAL="1">[#TABLE]</LET>
+      </DO>
+
+      <!--[ Renvoyer les enfants qui n'ont pas de templates vers leur parents ]-->
+      <DO CASE="entries">
+        <LET VAR="docid" GLOBAL="1">[#IDTYPE]</LET>
+        <LET VAR="tpl_type" GLOBAL="1">entrytypes</LET>
+      </DO>
+
+      <DO CASE="persons">
+        <LET VAR="docid" GLOBAL="1">[#IDTYPE]</LET>
+        <LET VAR="tpl_type" GLOBAL="1">persontypes</LET>
+      </DO>
+
+      <DO CASE="default">
+        <LET VAR="valid_parent">[#DOCUMENT|getParentByType('numero')]</LET>
+        <IF COND="[#VALID_PARENT]">
+          <LET VAR="docid" GLOBAL="1">[#VALID_PARENT]</LET>
+          <LET VAR="tpl_type" GLOBAL="1">publications</LET>
+        </IF>
+      </DO>
+    </SWITCH>
+  </LOOP>
+</DEFFUNC>
 
 /**
  * Calcul de la balise title de la page.
  */
 <DEFMACRO NAME="CKL_INIT_TITLE">
   <IF COND="[%TPL_TYPE] EQ 'textes' OR [%TPL_TYPE] EQ 'publications'">
-    <LOOP NAME="ckl_init_title_textes_publications" TABLE="#_TP_[%TPL_TYPE]" SELECT="titre" WHERE="identity = '[#DOCUMENT]'">
+    <LOOP NAME="ckl_init_title_textes_publications" TABLE="#_TP_[%TPL_TYPE]" SELECT="titre" WHERE="identity = '[%DOCID]'">
       <LET VAR="page_title" GLOBAL="1">[#TITRE]</LET>
     </LOOP>
   <ELSEIF COND="[%TPL_TYPE] EQ 'entrytypes' OR [%TPL_TYPE] EQ 'persontypes'"/>
-    <LOOP NAME="ckl_init_title_index" TABLE="#_TP_[%TPL_TYPE]" SELECT="title" WHERE="id = '[#DOCUMENT]'">
+    <LOOP NAME="ckl_init_title_index" TABLE="#_TP_[%TPL_TYPE]" SELECT="title" WHERE="id = '[%DOCID]'">
       <LET VAR="page_title" GLOBAL="1">[#TITLE]</LET>
     </LOOP>
   <ELSE />
@@ -154,7 +181,7 @@
   <script src="[#SHAREDIR]/plugins/custom/checklist/public/js/checklist-config.js"></script>
   <script>
     $(function () {
-      window.initChecklist("[#SITE]", [#DOCUMENT], "[#SITELANG]", [%CHECKLIST_CONTEXT], [%CHECKLIST_PUBLI]);
+      window.initChecklist("[#SITE]", [%DOCID], "[#SITELANG]", [%CHECKLIST_CONTEXT], [%CHECKLIST_PUBLI]);
     });
   </script>
 </DEFMACRO>
@@ -750,7 +777,7 @@
 
   <!--[ %ID_ARTICLE_PRECEDENT ]-->
   <LOOP NAME="foreach" ARRAY="[%PARENT_REAL_TOC]">
-    <IF COND="[#VALUE] EQ [#DOCUMENT]">
+    <IF COND="[#VALUE] EQ [%DOCID]">
       <LET VAR="id_article_precedent" GLOBAL="1">[%PREV_ID]</LET>
     </IF>
     <LET VAR="prev_id" GLOBAL="1">[#VALUE]</LET>
@@ -762,7 +789,7 @@
       <LET VAR="id_article_suivant" GLOBAL="1">[#VALUE]</LET>
       <LET VAR="ID_IS_NEXT" GLOBAL="1">0</LET>
     </IF>
-    <IF COND="[#VALUE] EQ [#DOCUMENT]">
+    <IF COND="[#VALUE] EQ [%DOCID]">
       <LET VAR="ID_IS_NEXT" GLOBAL="1">1</LET>
     </IF>
   </LOOP>

@@ -6,7 +6,7 @@
 <DEFMACRO NAME="CKL_P_MAIN">
   <LOOP NAME="ckl_p_main"
         TABLE="publications"
-        WHERE="id=[#DOCUMENT]">
+        WHERE="id=[%DOCID]">
     <MACRO NAME="CKL_CREATE_CONTEXT"/>
     <MACRO NAME="CKL_P_CREATE_PUBLI"/>
 
@@ -35,7 +35,7 @@
         {
           title: "<span class='title'>[#TITRE|removenotes|replacequotationmark|reg_replace("/(\r\n|\r|\n)+/", " ")]</span>",
           href: window.location.href,
-          docId: "[#DOCUMENT]",
+          docId: "[%DOCID]",
           type: "[#TYPENAME|trim|majuscule]",
           icon: "fas fa-book",
           context: {
