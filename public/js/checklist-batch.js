@@ -43,7 +43,7 @@ $(function() {
 			var docs = data.map(function(doc) {
 				return {
 					docId: doc.id,
-					href: doc.context.url,
+					href: doc.href,
 					context: doc.context
 				}
 			});
