@@ -233,8 +233,6 @@
 <DEFMACRO NAME="CKL_CREATE_CONTEXT_JSON">
   {
     "url": "[#ID|makeurlwithid]",
-    "[#CLASS]": true,
-    "[#TYPE]": true,
 
     <LOOP NAME="ckl_create_context_json_get_creationmethod" TABLE="entities" WHERE="id='[#ID]' AND creationmethod != ''" SELECT="creationmethod, creationinfo" />
       "extension-[#CREATIONINFO|reg_replace("/^.*\./", "")]": true,
@@ -243,10 +241,12 @@
     <LET VAR="numero_id">[#ID|getParentByType('numero')]</LET>
     <IF COND="[#NUMERO_ID]">
       <LOOP NAME="ckl_create_context_json_numeroouvert" TABLE="publications" WHERE="id='[#NUMERO_ID]' AND numeroouvert" LIMIT="0,1" />
-        "numeroouvert": true
+        "numeroouvert": true,
       </LOOP>
     </IF>
 
+    "[#CLASS]": true,
+    "[#TYPE]": true
   }
 </DEFMACRO>
 
@@ -970,13 +970,12 @@
 	<IF COND="[#JSON]">
 		{
 			"id": "[#ID]",
-			"href": "[#ID|makeurlwithid]",
 			<IF COND="[#CLASS] NE 'publications'">
 				"idparent": "[%ID_CURRENT_PUBLI]",
 			</IF>
-			"class": "[#CLASS]",
 			"type": "[#TYPE]",
-			"title": "[#TITRE|textebrut]"
+			"title": "[#TITRE|textebrut|replacequotationmark]",
+      "context": <MACRO NAME="CKL_CREATE_CONTEXT_JSON" />
 		}
 	<ELSE />
 		[#ID]
