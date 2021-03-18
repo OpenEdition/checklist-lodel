@@ -40,6 +40,11 @@ $(function() {
 			dataType : 'json'
 		})
 		.done(function(data, textStatus) {
+			if (data.length === 0) {
+				alert("Cette publication est introuvable.");
+				return;
+			}
+
 			var docs = data.map(function(doc) {
 				return {
 					docId: doc.id,
@@ -64,6 +69,11 @@ $(function() {
 					return res.concat(checkerStatements);
 				}, []);
 
+				if (statements.length === 0) {
+					alert("Cette requête a produit un fichier CSV vide.");
+					return;
+				}
+
 				var colHeaders = '"Publication", "Document", "Type", "État", "Message", "Tag", "Total" \r\n';
 
 				var table = statements.reduce(function(res, s) {
@@ -87,7 +97,6 @@ $(function() {
 					return res + '"' + doc.idpubli + '","' + id + '","' + doc.type + '","' + s.type + '","' + tk(s.name) + '","' + tags + '","' + s.count + '"' + eol;
 				}, colHeaders);
 
-				// TODO: ne pas exporter si vide
 				var filename = "checklist-" + input.replace(/\D+/g, "-") + ".csv";
 				downloadCSV(filename, table);
 			});
