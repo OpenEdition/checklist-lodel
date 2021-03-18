@@ -64,22 +64,27 @@ $(function() {
 					return res.concat(checkerStatements);
 				}, []);
 
-				var colHeaders = '"Publication", "Document", "Type", "État", "Message", "Total" \r\n';
+				var colHeaders = '"Publication", "Document", "Type", "État", "Message", "Tag", "Total" \r\n';
 
 				var table = statements.reduce(function(res, s) {
 					var id = s.docId;
 					var doc = getDocById(data, id);
+					var eol = "\r\n";
 
+					// Error
 					if (s.error) {
 						var errMsg = s.error.message;
-						return res + '"' + doc.idpubli + '","' + id + '","' + doc.type + '","error","' + errMsg + '",\r\n'
+						return res + '"' + doc.idpubli + '","' + id + '","' + doc.type + '","error","' + errMsg + '",,' + eol;
 					}
 
+					// Success = checker with no statement
 					if (s.ok) {
-						return res + '"' + doc.idpubli + '","' + id + '","' + doc.type + '","ok",,\r\n'
+						return res + '"' + doc.idpubli + '","' + id + '","' + doc.type + '","ok",,,' + eol;
 					}
 					
-					return res + '"' + doc.idpubli + '","' + id + '","' + doc.type + '","' + s.type + '","' + tk(s.name) + '","' + s.count + '"\r\n';
+					// Statement
+					var tags = s.tags.join(", ");
+					return res + '"' + doc.idpubli + '","' + id + '","' + doc.type + '","' + s.type + '","' + tk(s.name) + '","' + tags + '","' + s.count + '"' + eol;
 				}, colHeaders);
 
 				// TODO: ne pas exporter si vide
