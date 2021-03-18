@@ -4,6 +4,25 @@ function getDocById(docs, id) {
 	})
 }
 
+function downloadCSV(filename, data) {
+	var blob = new Blob([data], { type: "text/csv;charset=utf-8;" });
+	
+	if (navigator.msSaveBlob) { // IE 10+
+		navigator.msSaveBlob(blob, filename);
+		return;
+	}
+	var link = document.createElement("a");
+	if (link.download !== undefined) { // Check for browser support
+		var url = URL.createObjectURL(blob);
+		link.setAttribute("href", url);
+		link.setAttribute("download", filename);
+		link.style.visibility = 'hidden';
+		document.body.appendChild(link);
+		link.click();
+		document.body.removeChild(link);
+	}
+}
+
 $(function() {
 	if (window.checklist == null) return;
 
@@ -44,9 +63,9 @@ $(function() {
 					return res + '"' + doc.idpubli + '","' + id + '","' + doc.type + '","' + s.id + '","' + tk(s.name) + '","' + s.type + '","' + s.count + '"\r\n';
 				}, colHeaders);
 
-				console.log(table);
+				var filename = "checklist-" + input.replace(/\D+/g, "-") + ".csv";
+				downloadCSV(filename, table);
 			});
-			// TODO: CSV file download
 		})
 		.fail(console.error);
 	});
