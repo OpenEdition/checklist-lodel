@@ -50,19 +50,30 @@ $(function() {
 			checklist.runBatch({ docs: docs }).then(function(checkers) {
 				// TODO: add option to display documents with no statement
 				var statements = checkers.reduce(function(res, checker) {
-					if (checker.error) return; // TODO: handle errors
+					if (checker.error) {
+						res.push(checker);
+						return res;
+					}
+
 					var checkerStatements = checker.getStatements();
 					return res.concat(checkerStatements);
 				}, []);
 
-				var colHeaders = '"Publication", "Document", "Type", "Message", "Niveau", "Total" \r\n';
+				var colHeaders = '"Publication", "Document", "Type", "État", "Message", "Total" \r\n';
 
 				var table = statements.reduce(function(res, s) {
 					var id = s.docId;
 					var doc = getDocById(data, id);
-					return res + '"' + doc.idpubli + '","' + id + '","' + doc.type + '","' + tk(s.name) + '","' + s.type + '","' + s.count + '"\r\n';
+
+					if (s.error) {
+						var errMsg = s.error.message;
+						return res + '"' + doc.idpubli + '","' + id + '","' + doc.type + '","error","' + errMsg + '",\r\n'
+					}
+					
+					return res + '"' + doc.idpubli + '","' + id + '","' + doc.type + '","' + s.type + '","' + tk(s.name) + '","' + s.count + '"\r\n';
 				}, colHeaders);
 
+				// TODO: ne pas exporter si vide
 				var filename = "checklist-" + input.replace(/\D+/g, "-") + ".csv";
 				downloadCSV(filename, table);
 			});
