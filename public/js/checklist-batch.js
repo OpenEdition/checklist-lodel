@@ -48,7 +48,6 @@ $(function() {
 				}
 			});
 			checklist.runBatch({ docs: docs }).then(function(checkers) {
-				// TODO: add option to display documents with no statement
 				var statements = checkers.reduce(function(res, checker) {
 					if (checker.error) {
 						res.push(checker);
@@ -56,6 +55,12 @@ $(function() {
 					}
 
 					var checkerStatements = checker.getStatements();
+
+					if (checkerStatements.length === 0) {
+						res.push({ docId: checker.docId, ok: true });
+						return res;
+					}
+
 					return res.concat(checkerStatements);
 				}, []);
 
@@ -68,6 +73,10 @@ $(function() {
 					if (s.error) {
 						var errMsg = s.error.message;
 						return res + '"' + doc.idpubli + '","' + id + '","' + doc.type + '","error","' + errMsg + '",\r\n'
+					}
+
+					if (s.ok) {
+						return res + '"' + doc.idpubli + '","' + id + '","' + doc.type + '","ok",,\r\n'
 					}
 					
 					return res + '"' + doc.idpubli + '","' + id + '","' + doc.type + '","' + s.type + '","' + tk(s.name) + '","' + s.count + '"\r\n';
