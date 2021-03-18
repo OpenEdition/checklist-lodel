@@ -2,4 +2,7 @@
 
 <USE MACROFILE="macros_checklist.html"/>
 <LET VAR="documents">[#DOCUMENTS|reg_replace('/[^\d,]/', '')]</LET>
+<IF COND="![#DOCUMENTS]">
+	<LET VAR="documents">0</LET>
+</IF>
 <FUNC NAME="CKL_ISSUE_CONTENTS" ID="[#DOCUMENTS]" JSON="1" />
