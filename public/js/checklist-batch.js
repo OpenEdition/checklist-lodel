@@ -55,12 +55,12 @@ $(function() {
 					return res.concat(checkerStatements);
 				}, []);
 
-				var colHeaders = '"Publication", "Document", "Type", "Règle", "Notification", "Niveau", "Total" \r\n';
+				var colHeaders = '"Publication", "Document", "Type", "Message", "Niveau", "Total" \r\n';
 
 				var table = statements.reduce(function(res, s) {
 					var id = s.docId;
 					var doc = getDocById(data, id);
-					return res + '"' + doc.idpubli + '","' + id + '","' + doc.type + '","' + s.id + '","' + tk(s.name) + '","' + s.type + '","' + s.count + '"\r\n';
+					return res + '"' + doc.idpubli + '","' + id + '","' + doc.type + '","' + tk(s.name) + '","' + s.type + '","' + s.count + '"\r\n';
 				}, colHeaders);
 
 				var filename = "checklist-" + input.replace(/\D+/g, "-") + ".csv";
