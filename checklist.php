@@ -9,7 +9,8 @@ class checklist extends Plugins {
 	}
 
 	public function preview (&$context)	{
-		if ($context['view']['tpl'] != 'checklist') return;
+		$tpl = $context['view']['tpl'];
+		if ($tpl != 'checklist' && $tpl != 'checklist_get') return;
 		if (!parent::_checkRights(LEVEL_REDACTOR)) {
 			header('HTTP/1.0 404 Not Found');
 			header('Status: 404 Not Found');
@@ -22,7 +23,7 @@ class checklist extends Plugins {
 			}
 			exit;
 		}
-		C::set('view.base_rep.checklist', 'checklist');
+		C::set('view.base_rep.' . $tpl, 'checklist');
 	}
 
 	public function postview (&$context) {
@@ -54,6 +55,11 @@ class checklist extends Plugins {
 
 	public function viewAction (&$context, &$error) {
 		View::getView()->renderCached('checklist') ;
+		return '_ajax' ;
+	}
+
+	public function getAction (&$context, &$error) {
+		View::getView()->renderCached('checklist_get') ;
 		return '_ajax' ;
 	}
 }

@@ -1,0 +1,5 @@
+<CONTENT VERSION="1.0" LANG="fr" CHARSET="utf-8"/>
+
+<USE MACROFILE="macros_checklist.html"/>
+<LET VAR="documents">[#DOCUMENTS|reg_replace('/[^\d,]/', '')]</LET>
+<FUNC NAME="CKL_ISSUE_CONTENTS" ID="[#DOCUMENTS]" JSON="1" />

@@ -6,6 +6,7 @@
 <DEFMACRO NAME="CKL_INIT">
   <!--[ Dependances ]-->
   <USE TEMPLATEFILE="checklist_translations">
+  <USE TEMPLATEFILE="checklist_options">
   <USE MACROFILE="macros_checklist_article.html"/>
   <USE MACROFILE="macros_checklist_home.html"/>
   <USE MACROFILE="macros_checklist_index.html"/>
@@ -210,6 +211,11 @@
       window.initChecklist("[#SITE]", [%DOCID], "[#SITELANG]", [%CHECKLIST_CONTEXT], [%CHECKLIST_PUBLI]);
     });
   </script>
+
+	<!-- Batch -->
+	<IF COND="[#CKL_OPTIONS.ALLOW_RUN_BATCH] AND [%INCLUDE_BATCH_JS]">
+		<script src="[#SHAREDIR]/plugins/custom/checklist/public/js/checklist-batch.js"></script>
+	</IF>
 </DEFMACRO>
 
 /**
@@ -849,7 +855,7 @@
 
 /**
  * Bouton précédent/suivant.
- * @param {integer} [entity_id] - Identifiant de la cible.
+ * @param {integer} entity_id - Identifiant de la cible.
  * @param {string} direction - "previous" ou "next".
  */
  <DEFFUNC NAME="CKL_SIBLING_BUTTON" REQUIRED="entity_id, direction">
@@ -912,4 +918,67 @@
 			</nav>
 		</AFTER>
 	</LOOP>
+</DEFMACRO>
+
+/**
+ * Récupérer les identifiants d'une publication (récursif).
+ * @param {integer} id - Identifiant de la publication (ou plusieurs identifiants séparés par des virgules).
+ * @param {boolean} json - Retourner un objet JSON avec les métadonnées des documents. Sinon ne retourner qu'une liste d'identifiants.
+ */
+<DEFFUNC NAME="CKL_ISSUE_CONTENTS" REQUIRED="id" OPTIONAL="json">
+	<LET VAR="is_first_id" GLOBAL="1">1</LET>
+	<LET VAR="id_current_publi" GLOBAL="1"></LET>
+
+	<IF COND="[#JSON]">[</IF>
+
+	<!--[ Inclure la publication [#ID] seulement si son type est accepté ]-->
+	<LOOP NAME="ckl_issue_contents_include_publi" TABLE="publications" WHERE="id = '[#ID]' AND type = 'numero'" />
+		<LET VAR="id_current_publi" GLOBAL="1">[#ID]</LET>
+		<MACRO NAME="CKL_ISSUE_CONTENTS_DOC" />
+	</LOOP>
+
+	<LOOP NAME="ckl_issue_contents"
+		TABLE="entities, types"
+		SELECT="id, class, type"
+		WHERE="idparent IN ([#ID])
+			AND type NOT IN ('fluxdesyndication','imageaccroche','rubriqueannuelle', 'imageaccrochelibrairie') AND type NOT LIKE '%annexe%'
+			AND entities.idtype = types.id"
+		ORDER="entities.rank">
+
+		<LOOP NAME="ckl_issue_contents_item" TABLE="#_TP_[#CLASS]" WHERE="identity = '[#ID]'">
+			<SWITCH TEST="[#CLASS]">
+				<!--[ Publication : recursion ]-->
+				<DO CASE="publications">
+					<LOOP NAME="ckl_issue_contents_include_publi"></LOOP>
+					<LOOP NAME="ckl_issue_contents"></LOOP>
+				</DO>
+
+				<!--[ Textes ]-->
+				<DO CASE="textes">
+					<MACRO NAME="CKL_ISSUE_CONTENTS_DOC" />
+				</DO>
+			</SWITCH>
+		</LOOP>
+	</LOOP>
+
+	<IF COND="[#JSON]">]</IF>
+</DEFFUNC>
+
+<DEFMACRO NAME="CKL_ISSUE_CONTENTS_DOC" >
+	<IF COND="[%IS_FIRST_ID] EQ '0'">,</IF>
+	<LET VAR="is_first_id" GLOBAL="1">0</LET>
+	<IF COND="[#JSON]">
+		{
+			"id": "[#ID]",
+			"href": "[#ID|makeurlwithid]",
+			<IF COND="[#CLASS] NE 'publications'">
+				"idparent": "[%ID_CURRENT_PUBLI]",
+			</IF>
+			"class": "[#CLASS]",
+			"type": "[#TYPE]",
+			"title": "[#TITRE|textebrut]"
+		}
+	<ELSE />
+		[#ID]
+	</IF>
 </DEFMACRO>
