@@ -7,6 +7,8 @@ function getDocById(docs, id) {
 $(function() {
 	if (window.checklist == null) return;
 
+	var tk = checklist.ui.tk;
+
 	$("#ckl-batch-btn").on("click", function() {
 		var input = $("#ckl-batch-input").val();
 		if (input == null || input.trim() === "") {
@@ -27,18 +29,19 @@ $(function() {
 				}
 			});
 			checklist.runBatch({ docs: docs }).then(function(checkers) {
+				// TODO: add option to display documents with no statement
 				var statements = checkers.reduce(function(res, checker) {
 					if (checker.error) return; // TODO: handle errors
-					const checkerStatements = checker.getStatements();
+					var checkerStatements = checker.getStatements();
 					return res.concat(checkerStatements);
 				}, []);
 
-				var colHeaders = "id publi; type; id document; test; message; type message; count \r\n";
+				var colHeaders = '"Publication", "Document", "Type", "Règle", "Notification", "Niveau", "Total" \r\n';
 
 				var table = statements.reduce(function(res, s) {
 					var id = s.docId;
 					var doc = getDocById(data, id);
-					return res + '"' + doc.idparent + '","' + doc.type + '","' + id + '","' + id + '","' + "TODO: description" + '","' + s.type + '","' + s.count + '"\r\n';
+					return res + '"' + doc.idpubli + '","' + id + '","' + doc.type + '","' + s.id + '","' + tk(s.name) + '","' + s.type + '","' + s.count + '"\r\n';
 				}, colHeaders);
 
 				console.log(table);

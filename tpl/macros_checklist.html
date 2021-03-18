@@ -970,9 +970,7 @@
 	<IF COND="[#JSON]">
 		{
 			"id": "[#ID]",
-			<IF COND="[#CLASS] NE 'publications'">
-				"idparent": "[%ID_CURRENT_PUBLI]",
-			</IF>
+      "idpubli": "[%ID_CURRENT_PUBLI]",
 			"type": "[#TYPE]",
 			"title": "[#TITRE|textebrut|replacequotationmark]",
       "context": <MACRO NAME="CKL_CREATE_CONTEXT_JSON" />
