@@ -148,7 +148,8 @@ function runBatch(ids, options) {
 				return res + '"' + doc.idpubli + '","' + id + '","' + doc.type + '","' + s.type + '","' + tk(s.name) + '","' + tags + '","' + s.count + '"' + eol;
 			}, colHeaders);
 
-			var filename = "checklist-" + ids.replace(/\D+/g, "-") + ".csv";
+			var sitename = checklist.getConfig("namespace");
+			var filename = sitename + "-" + ids.replace(/\D+/g, "-") + ".csv";
 			downloadCSV(filename, table);
 		});
 	})
