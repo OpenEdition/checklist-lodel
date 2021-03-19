@@ -710,6 +710,23 @@ a:hover, a:active, a:focus {
   border-left: 1px solid #000;
 }
 
+/* Batch Export */
+
+.ckl-batch-progress {
+  width: 100%;
+  background-color: #ddd;
+}
+
+.ckl-batch-progress-bar {
+  width: 0;
+  height: 10px;
+  background-color: rgb(140, 180, 66);
+  -webkit-transition: width .5s ease-in-out;
+  -moz-transition: width .5s ease-in-out;
+  -o-transition: width .5s ease-in-out;
+  transition: width .5s ease-in-out;
+}
+
 /* Styles media desktop */
 
 @media screen and (min-width: 1150px) {

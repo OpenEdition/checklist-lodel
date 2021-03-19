@@ -77,6 +77,19 @@ function downloadCSV(filename, data) {
 }
 
 function runBatch(ids, options) {
+	// Progress bar init
+	var $bar = $(".ckl-batch-progress-bar");
+	var setProgress = function(rate, uncap) {
+		var width = rate ? rate * 100 : 0;
+		if (!uncap && width > 95) {
+			width = 95;
+		}
+		console.log(rate, width, uncap);
+		$bar.width(String(width) + "%");
+	};
+	setProgress(0);
+
+	// Get documents data
 	$.ajax({
 		url : "?do=_checklist_get",
 		type : "GET",
@@ -96,7 +109,22 @@ function runBatch(ids, options) {
 				context: doc.context
 			}
 		});
+
+		// Init progress bar listener
+		var total = docs.length;
+		var count = 0;
+		var updateProgress = function() {
+			count++;
+			setProgress(count / total);
+		};
+		checklist.on("checker.done", updateProgress);
+
+		// Run Checklist
 		checklist.runBatch({ docs: docs }).then(function(checkers) {
+			checklist.removeListener("checker.done", updateProgress);
+			setProgress(1, true);
+
+			// Get statements from returned checkers
 			var statements = checkers.reduce(function(res, checker) {
 				if (options.displayError && checker.error) {
 					res.push(checker);
@@ -124,6 +152,7 @@ function runBatch(ids, options) {
 				return;
 			}
 
+			// Create table
 			var colHeaders = '"Publication", "Document", "Type", "État", "Message", "Tag", "Total" \r\n';
 
 			var table = statements.reduce(function(res, s) {
