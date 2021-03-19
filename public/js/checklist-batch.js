@@ -1,3 +1,21 @@
+function initTagify($input) {
+	if (Tagify == null) {
+		console.error("Tagify not found");
+		return;
+	}
+
+	var input = $input.get(0);
+	new Tagify(input, {
+		pattern: /^[0-9]+$/,
+		keepInvalidTags: false,
+		originalInputValueFormat: function(values) {
+			return values.map(function(item) {
+				return item.value;
+			}).join(",");
+		}
+	});
+}
+
 function getDocById(docs, id) {
 	return docs.find(function(doc) {
 		return doc.id === id;
@@ -24,19 +42,25 @@ function downloadCSV(filename, data) {
 }
 
 $(function() {
-	if (window.checklist == null) return;
+	if (window.checklist == null) {
+		console.error("checklist not found");
+		return;
+	};
+
+	var $input = $("#ckl-batch-input");
+	initTagify($input);
 
 	var tk = checklist.ui.tk;
 
 	$("#ckl-batch-btn").on("click", function() {
-		var input = $("#ckl-batch-input").val();
-		if (input == null || input.trim() === "") {
-			input = "0";
+		var inputVal = $input.val();
+		if (inputVal == null || inputVal.trim() === "") {
+			inputVal = "0";
 		}
 		$.ajax({
 			url : "?do=_checklist_get",
 			type : "GET",
-			data: "documents=" + input,
+			data: "documents=" + inputVal,
 			dataType : 'json'
 		})
 		.done(function(data, textStatus) {
@@ -97,7 +121,7 @@ $(function() {
 					return res + '"' + doc.idpubli + '","' + id + '","' + doc.type + '","' + s.type + '","' + tk(s.name) + '","' + tags + '","' + s.count + '"' + eol;
 				}, colHeaders);
 
-				var filename = "checklist-" + input.replace(/\D+/g, "-") + ".csv";
+				var filename = "checklist-" + inputVal.replace(/\D+/g, "-") + ".csv";
 				downloadCSV(filename, table);
 			});
 		})

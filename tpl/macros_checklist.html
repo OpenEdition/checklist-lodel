@@ -186,6 +186,11 @@
   <!-- Largetable -->
   <link rel="stylesheet" href="[#SHAREDIR]/plugins/custom/checklist/node_modules/largetable/largetable.css">
 
+  <!-- Batch -->
+	<IF COND="[#CKL_OPTIONS.ALLOW_RUN_BATCH] AND [#VIEW_TAB] EQ 'batch'" />
+		<link rel="stylesheet" href="[#SHAREDIR]/plugins/custom/checklist/node_modules/@yaireo/tagify/dist/tagify.css">
+	</IF>
+
   <!-- Checklist -->
   <link rel="stylesheet" href="[#SHAREDIR]/plugins/custom/checklist/public/css/checklist-lodel.css">
 </DEFMACRO>
@@ -213,7 +218,9 @@
   </script>
 
 	<!-- Batch -->
-	<IF COND="[#CKL_OPTIONS.ALLOW_RUN_BATCH] AND [%INCLUDE_BATCH_JS]">
+	<IF COND="[#CKL_OPTIONS.ALLOW_RUN_BATCH] AND [#VIEW_TAB] EQ 'batch'" />
+		<script src="[#SHAREDIR]/plugins/custom/checklist/node_modules/@yaireo/tagify/dist/tagify.min.js"></script>
+
 		<script src="[#SHAREDIR]/plugins/custom/checklist/public/js/checklist-batch.js"></script>
 	</IF>
 </DEFMACRO>
