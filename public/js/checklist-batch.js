@@ -7,16 +7,73 @@ function initTagify($input) {
 		return;
 	}
 
+	var tagZeroTitle = "Tout le site";
 	var input = $input.get(0);
-	new Tagify(input, {
-		pattern: /^[0-9]+$/,
+	var tagifyOptions = {
 		keepInvalidTags: false,
+		enforceWhitelist: true,
 		originalInputValueFormat: function(values) {
 			return values.map(function(item) {
 				return item.value;
 			}).join(",");
 		}
-	});
+	};
+	if (window.tagifyWhitelist) {
+		tagifyOptions.dropdown = {
+			closeOnSelect: false,
+			enabled: 0,
+			classname: "publi-list",
+			searchKeys: ["value", "title", "number"],
+			maxItems: 5,
+			highlightFirst: true
+		};
+		tagifyOptions.templates = {
+			tag(tagData){
+				var text = tagData.value === "0" ? tagZeroTitle : tagData.value;
+        return `
+					<tag title="${(tagData.title || tagData.value)}"
+						contenteditable='false'
+						spellcheck='false'
+						tabIndex="-1"
+						class="${this.settings.classNames.tag} ${tagData.class ? tagData.class : ""}"
+						${this.getAttributes(tagData)}>
+							<x title='' class="${this.settings.classNames.tagX}" role='button' aria-label='remove tag'></x>
+							<div>
+								<span class="${this.settings.classNames.tagText}">${text}</span>
+							</div>
+					</tag>`
+			},
+			dropdownItem: function(item) {
+				return `
+					<div ${this.getAttributes(item)}
+						class='${this.settings.classNames.dropdownItem} ${item.class ? item.class : ""}'
+						tabindex="0"
+						role="option">
+							${ item.number ? `<span class="tag-number">${item.number}</span>` : "" }
+							<span class="tag-title">${item.title}</span>
+							${ item.value !== "0" ? `<span class="tag-id">${item.value}</span>` : "" }
+					</div>
+				`
+			}
+		};
+		tagifyOptions.whitelist = window.tagifyWhitelist;
+		tagifyOptions.callbacks = {
+			"add": function(e) {
+				const {data, index, tag, tagify} = e.detail;
+				var id = data.value;
+				var tags = $input.val().split(",");
+				if (id === "0" && tags.length > 1) {
+					tagify.removeAllTags();
+					tagify.addTags("0");
+					return;
+				}
+				if (id !== "0" && tags.length > 1) {
+					tagify.removeTags(tagZeroTitle);
+				}
+			}
+		};
+	}
+	new Tagify(input, tagifyOptions);
 }
 
 function initOptions() {
@@ -84,7 +141,6 @@ function runBatch(ids, options) {
 		if (!uncap && width > 95) {
 			width = 95;
 		}
-		console.log(rate, width, uncap);
 		$bar.width(String(width) + "%");
 	};
 	setProgress(0);
@@ -178,7 +234,7 @@ function runBatch(ids, options) {
 			}, colHeaders);
 
 			var sitename = checklist.getConfig("namespace");
-			var filename = sitename + "-" + ids.replace(/\D+/g, "-") + ".csv";
+			var filename = sitename + "-" + ids.replace(/\D+/g, "-").replace(/^0$/, "site") + ".csv";
 			downloadCSV(filename, table);
 		});
 	})

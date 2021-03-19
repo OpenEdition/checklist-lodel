@@ -221,8 +221,43 @@
 	<IF COND="[#CKL_OPTIONS.ALLOW_RUN_BATCH] AND [#VIEW_TAB] EQ 'batch'" />
 		<script src="[#SHAREDIR]/plugins/custom/checklist/node_modules/@yaireo/tagify/dist/tagify.min.js"></script>
 
+    <MACRO NAME="CKL_HTML_SCRIPTS_ISSUES" />
+
 		<script src="[#SHAREDIR]/plugins/custom/checklist/public/js/checklist-batch.js"></script>
 	</IF>
+</DEFMACRO>
+
+/**
+ * Batch : creation de la whitelist pour Tagify.
+ */
+<DEFMACRO NAME="CKL_HTML_SCRIPTS_ISSUES">
+  <LET VAR="script_content">
+    <LOOP NAME="ckl_html_scripts_issues" TABLE="publications" WHERE="type = 'numero'" SELECT="id, numero, titre" ORDER="length(numero) DESC, numero DESC, datepubli DESC, rank" />
+      <BEFORE>
+        window.tagifyWhitelist = [
+          {
+            "value": "0",
+            "title": "Tout le site",
+            "number": ""
+          },
+      </BEFORE>
+      <DO>
+        {
+          "value": "[#ID]",
+          "title": "[#TITRE|removenotes|textebrut]",
+          "number": "[#NUMERO|textebrut]"
+        },
+      </DO>
+      <AFTER>
+        ];
+      </AFTER>
+    </LOOP>
+  </LET>
+  <IF COND="[#SCRIPT_CONTENT]">
+    <script>
+      [#SCRIPT_CONTENT]
+    </script>
+  </IF>
 </DEFMACRO>
 
 /**

@@ -712,6 +712,33 @@ a:hover, a:active, a:focus {
 
 /* Batch Export */
 
+.tagify__dropdown__item {
+  display: flex;
+  align-items: center;
+}
+
+.tag-number {
+  color: #79848E;
+  margin-right: 5px;
+}
+
+.tagify__dropdown__item--active .tag-number {
+  color: #fff
+}
+
+.tag-number::after {
+  content: " | ";
+}
+
+.tag-id {
+  background-color: #E5E5E5;
+  padding: 2px 4px;
+  font-size: 70%;
+  margin-left: 5px;
+  border-radius: 3px;
+  color: #000;
+}
+
 .ckl-batch-progress {
   width: 100%;
   background-color: #ddd;
