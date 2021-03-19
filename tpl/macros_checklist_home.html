@@ -162,6 +162,20 @@
 <DEFMACRO NAME="CKL_H_BATCH">
 	<IF COND="[#CKL_OPTIONS.ALLOW_RUN_BATCH]">
 		<input id="ckl-batch-input" type="text"/>
+		<p>Options :</p>
+		<div class="ckl-batch-option">
+			<input type="checkbox" id="display-paper" name="displayPaper">
+			<label for="display-paper">Activer le filtre "Publication papier".</label>
+		</div>
+		<div class="ckl-batch-option">
+			<input type="checkbox" id="display-ok" name="displayOk" checked>
+			<label for="display-ok">Afficher les documents sans notification avec l'état "ok".</label>
+		</div>
+		<div class="ckl-batch-option">
+			<input type="checkbox" id="display-error" name="displayError" checked>
+			<label for="display-error">Afficher les erreurs d'éxécution avec l'état "error".</label>
+		</div>
+		<hr>
 		<button id="ckl-batch-btn">Run!</button>
 	</IF>
 </DEFMACRO>
