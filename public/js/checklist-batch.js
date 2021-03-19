@@ -31,7 +31,7 @@ $(function() {
 	$("#ckl-batch-btn").on("click", function() {
 		var input = $("#ckl-batch-input").val();
 		if (input == null || input.trim() === "") {
-			input = 0;
+			input = "0";
 		}
 		$.ajax({
 			url : "?do=_checklist_get",
