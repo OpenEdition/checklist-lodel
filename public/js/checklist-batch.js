@@ -1,3 +1,5 @@
+var tagZeroTitle = "Tout le site";
+
 // Page init
 // =========
 
@@ -7,7 +9,6 @@ function initTagify($input) {
 		return;
 	}
 
-	var tagZeroTitle = "Tout le site";
 	var input = $input.get(0);
 	var tagifyOptions = {
 		keepInvalidTags: false,
@@ -73,7 +74,7 @@ function initTagify($input) {
 			}
 		};
 	}
-	new Tagify(input, tagifyOptions);
+	return new Tagify(input, tagifyOptions);
 }
 
 function initOptions() {
@@ -260,11 +261,14 @@ $(function() {
 	};
 
 	var $input = $("#ckl-batch-input");
-	initTagify($input);
+	var tagify = initTagify($input);
 	initOptions();
 
 	$("#ckl-batch-btn").on("click", function() {
 		var ids = getInputVal($input);
+		if (ids === "0") {
+			tagify.addTags(tagZeroTitle);
+		}
 		var options = getOptions();
 		runBatch(ids, options);
 	});
