@@ -176,7 +176,7 @@ function runBatch(ids, options) {
 		checklist.on("checker.done", updateProgress);
 
 		// Run Checklist
-		checklist.runBatch({ docs: docs })
+		checklist.runBatch({ docs: docs, reloadSources: true })
 		// Update UI and clear listeners
 		.then(function(checkers) {
 			var progressBarTransitionDuration = 500;
