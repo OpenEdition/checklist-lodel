@@ -176,11 +176,20 @@ function runBatch(ids, options) {
 		checklist.on("checker.done", updateProgress);
 
 		// Run Checklist
-		checklist.runBatch({ docs: docs }).then(function(checkers) {
+		checklist.runBatch({ docs: docs })
+		// Update UI and clear listeners
+		.then(function(checkers) {
+			var progressBarTransitionDuration = 500;
 			checklist.removeListener("checker.done", updateProgress);
 			setProgress(1, true);
-
-			// Get statements from returned checkers
+			return new Promise((resolve, reject) => {
+				setTimeout(function () {
+					return resolve(checkers);
+				}, progressBarTransitionDuration + 200);
+			});
+		})
+		// Get statements from returned checkers
+		.then(function(checkers) {
 			var statements = checkers.reduce(function(res, checker) {
 				if (options.displayError && checker.error) {
 					res.push(checker);
