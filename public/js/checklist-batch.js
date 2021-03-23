@@ -32,7 +32,8 @@
 			};
 			tagifyOptions.templates = {
 				tag(tagData){
-					var text = tagData.value === "0" ? tagZeroTitle : tagData.value + " <small>(" + tagData.description.trim().toLowerCase() + ")</small>";
+					var description = tagData.description ? " <small>(" + tagData.description.trim().toLowerCase() + ")</small>" : "";
+					var text = tagData.value === "0" ? tagZeroTitle : tagData.value + description;
 					return `
 						<tag title="${(tagData.title || tagData.value)}"
 							contenteditable='false'
@@ -89,14 +90,6 @@
 
 	// User input getters
 	// ==================
-
-	function getInputVal($input) {
-		var inputVal = $input.val();
-		if (inputVal == null || inputVal.trim() === "") {
-			inputVal = "0";
-		}
-		return inputVal;
-	}
 
 	function getOptions() {
 		var options = {};
@@ -267,8 +260,9 @@
 		initOptions();
 
 		$("#ckl-batch-btn").on("click", function() {
-			var ids = getInputVal($input);
-			if (ids === "0") {
+			var ids = $input.val();
+			if (ids == null || ids.trim() === "") {
+				ids = "0";
 				tagify.addTags(tagZeroTitle);
 			}
 			var options = getOptions();
