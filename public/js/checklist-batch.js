@@ -243,7 +243,13 @@
 				downloadCSV(filename, table);
 			});
 		})
-		.fail(console.error);
+		.fail(function(err) {
+			console.error(err);
+			// Lodel session is probably expired => reload page in order to show login form
+			setTimeout(function() {
+				document.location.reload();
+			}, 2000);
+		});
 	}
 
 	// Main
