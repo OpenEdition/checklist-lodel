@@ -13,6 +13,7 @@ function initTagify($input) {
 	var tagifyOptions = {
 		keepInvalidTags: false,
 		enforceWhitelist: true,
+		editTags: false,
 		originalInputValueFormat: function(values) {
 			return values.map(function(item) {
 				return item.value;
@@ -24,13 +25,13 @@ function initTagify($input) {
 			closeOnSelect: false,
 			enabled: 0,
 			classname: "publi-list",
-			searchKeys: ["value", "title", "number"],
+			searchKeys: ["value", "title", "description"],
 			maxItems: 5,
 			highlightFirst: true
 		};
 		tagifyOptions.templates = {
 			tag(tagData){
-				var text = tagData.value === "0" ? tagZeroTitle : tagData.value;
+				var text = tagData.value === "0" ? tagZeroTitle : tagData.value + " <small>(" + tagData.description.trim().toLowerCase() + ")</small>";
         return `
 					<tag title="${(tagData.title || tagData.value)}"
 						contenteditable='false'
@@ -50,7 +51,7 @@ function initTagify($input) {
 						class='${this.settings.classNames.dropdownItem} ${item.class ? item.class : ""}'
 						tabindex="0"
 						role="option">
-							${ item.number ? `<span class="tag-number">${item.number}</span>` : "" }
+							${ item.description ? `<span class="tag-description">${item.description}</span>` : "" }
 							<span class="tag-title">${item.title}</span>
 							${ item.value !== "0" ? `<span class="tag-id">${item.value}</span>` : "" }
 					</div>
@@ -155,7 +156,7 @@ function runBatch(ids, options) {
 	})
 	.done(function(data, textStatus) {
 		if (data.length === 0) {
-			alert("Cette publication est introuvable.");
+			alert("Cette publication ne contient pas de documents vérifiables.");
 			return;
 		}
 

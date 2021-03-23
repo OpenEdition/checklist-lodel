@@ -231,21 +231,22 @@
  * Batch : creation de la whitelist pour Tagify.
  */
 <DEFMACRO NAME="CKL_HTML_SCRIPTS_ISSUES">
+  <LET VAR="allowed_types">'numero', 'collection'</LET>
   <LET VAR="script_content">
-    <LOOP NAME="ckl_html_scripts_issues" TABLE="publications" WHERE="type = 'numero'" SELECT="id, numero, titre" ORDER="length(numero) DESC, numero DESC, datepubli DESC, rank" />
+    <LOOP NAME="ckl_html_scripts_issues" TABLE="publications" WHERE="type IN ([#ALLOWED_TYPES])" SELECT="id, numero, titre, type" ORDER="length(numero) DESC, numero DESC, datepubli DESC, rank" />
       <BEFORE>
         window.tagifyWhitelist = [
           {
             "value": "0",
             "title": "Tout le site",
-            "number": ""
+            "description": ""
           },
       </BEFORE>
       <DO>
         {
           "value": "[#ID]",
           "title": "[#TITRE|removenotes|textebrut]",
-          "number": "[#NUMERO|textebrut]"
+          "description": "[#TYPE|majuscule] [#NUMERO|textebrut]"
         },
       </DO>
       <AFTER>

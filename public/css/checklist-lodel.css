@@ -717,16 +717,16 @@ a:hover, a:active, a:focus {
   align-items: center;
 }
 
-.tag-number {
+.tag-description {
   color: #79848E;
   margin-right: 5px;
 }
 
-.tagify__dropdown__item--active .tag-number {
+.tagify__dropdown__item--active .tag-description {
   color: #fff
 }
 
-.tag-number::after {
+.tag-description::after {
   content: " | ";
 }
 
