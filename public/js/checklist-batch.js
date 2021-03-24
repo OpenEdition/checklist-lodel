@@ -126,6 +126,8 @@
 			document.body.appendChild(link);
 			link.click();
 			document.body.removeChild(link);
+		} else {
+			alert("L'export CSV n'est pas pris en charge par votre navigateur. Veuillez utiliser une version récente de Mozilla Firefox, Chromium ou Google Chrome.")
 		}
 	}
 
