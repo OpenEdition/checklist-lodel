@@ -91,8 +91,8 @@
 		}
 	}
 
-	// User input getters
-	// ==================
+	// Form
+	// ====
 
 	function getOptions() {
 		var options = {};
@@ -103,6 +103,11 @@
 		});
 		return options;
 	}
+
+	function toggleInputs(flag) {
+		$(".ckl-content input").prop("disabled", !flag);
+		window.tagify.setReadonly(!flag);
+	};
 
 	// CSV Export
 	// ==========
@@ -249,6 +254,7 @@
 				
 				// Update UI
 				$body.removeClass(runningClass).addClass(doneClass);
+				toggleInputs(true);
 				var refreshUI = function() {
 					$body.removeClass(doneClass);
 					setProgress(0);
@@ -275,12 +281,13 @@
 		};
 
 		var $input = $("#ckl-batch-input");
-		var tagify = initTagify($input);
+		window.tagify = initTagify($input);
 		initOptions();
 
 		$("#ckl-batch-btn").on("click", function() {
 			if ($body.hasClass(runningClass)) return;
 			$body.addClass(runningClass);
+			toggleInputs(false);
 			
 			var ids = $input.val();
 			if (ids == null || ids.trim() === "") {
