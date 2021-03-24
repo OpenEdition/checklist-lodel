@@ -1,5 +1,8 @@
 (function() {
 	var tagZeroTitle = "Tout le site";
+	var runningClass = "batch-running";
+	var doneClass = "batch-done";
+	var $body = $(document.body);
 
 	// Page init
 	// =========
@@ -243,6 +246,14 @@
 				var sitename = checklist.getConfig("namespace");
 				var filename = sitename + "-" + ids.replace(/\D+/g, "-").replace(/^0$/, "site") + ".csv";
 				downloadCSV(filename, table);
+				
+				// Update UI
+				$body.removeClass(runningClass).addClass(doneClass);
+				var refreshUI = function() {
+					$body.removeClass(doneClass);
+					setProgress(0);
+				};
+				$(".ckl-content input").one("change", refreshUI);
 			});
 		})
 		.fail(function(err) {
@@ -268,6 +279,9 @@
 		initOptions();
 
 		$("#ckl-batch-btn").on("click", function() {
+			if ($body.hasClass(runningClass)) return;
+			$body.addClass(runningClass);
+			
 			var ids = $input.val();
 			if (ids == null || ids.trim() === "") {
 				ids = "0";

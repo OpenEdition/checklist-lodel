@@ -9,7 +9,7 @@
 	</IF>
 	<LET VAR="checklist_context" GLOBAL="1">{ "home": true, "tab": "[#VIEW_TAB]" }</LET>
 
-	<div class="ckl-main ckl-home">
+	<div class="ckl-main ckl-home ckl-tab-[#VIEW_TAB]">
 		<div id="ckl-pane" class="ckl-pane"></div>
 		<div class="ckl-content">
 			<MACRO NAME="CKL_H_CONTENT"/>
@@ -164,24 +164,31 @@
 		<IF COND="![#INPUT]">
 			<LET VAR="input">0</LET>
 		</IF>
+		<h2 class="ckl-section-title">Identifiants des publications</h2>
+		<p>Renseigner l'identifiant d'une collection permet de vérifier récursivement tous ses descendants.</p>
 		<input id="ckl-batch-input" type="text" value="[#INPUT]"/>
-		<p>Options :</p>
-		<div class="ckl-batch-option">
-			<input type="checkbox" id="display-paper" name="displayPaper">
-			<label for="display-paper">Activer le filtre "Publication papier".</label>
+		<div class="ckl-batch-options">
+			<h2 class="ckl-section-title">Options de l'export</h2>
+			<div class="ckl-batch-option">
+				<input type="checkbox" id="display-paper" name="displayPaper">
+				<label for="display-paper">Activer le filtre "Publication papier".</label>
+			</div>
+			<div class="ckl-batch-option">
+				<input type="checkbox" id="display-ok" name="displayOk" checked>
+				<label for="display-ok">Afficher les documents sans notification avec l'état "ok".</label>
+			</div>
+			<div class="ckl-batch-option">
+				<input type="checkbox" id="display-error" name="displayError" checked>
+				<label for="display-error">Afficher les erreurs d'éxécution avec l'état "error".</label>
+			</div>
 		</div>
-		<div class="ckl-batch-option">
-			<input type="checkbox" id="display-ok" name="displayOk" checked>
-			<label for="display-ok">Afficher les documents sans notification avec l'état "ok".</label>
-		</div>
-		<div class="ckl-batch-option">
-			<input type="checkbox" id="display-error" name="displayError" checked>
-			<label for="display-error">Afficher les erreurs d'éxécution avec l'état "error".</label>
-		</div>
-		<hr>
 		<div class="ckl-batch-progress">
 			<div class="ckl-batch-progress-bar"></div>
 		</div>
-		<button id="ckl-batch-btn">Run!</button>
+		<button id="ckl-batch-btn" class="checklist-button checklist-button-primary">
+			<span class="ckl-msg-run">Run!</span>
+			<span class="ckl-msg-running">Please wait...</span>
+			<span class="ckl-msg-done">Terminé</span>
+		</button>
 	</IF>
 </DEFMACRO>

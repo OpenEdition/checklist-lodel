@@ -760,20 +760,43 @@ a.ckl-personne{
   color: #000;
 }
 
+.ckl-batch-options {
+  margin: 30px 0;
+}
+
 .ckl-batch-progress {
   width: 100%;
-  background-color: #ddd;
-  margin: 20px 0;
+  background-color: #dde1e4;
 }
 
 .ckl-batch-progress-bar {
   width: 0;
   height: 10px;
-  background-color: rgb(140, 180, 66);
+  background-color: #8cb442;
   -webkit-transition: width .5s ease-in-out;
   -moz-transition: width .5s ease-in-out;
   -o-transition: width .5s ease-in-out;
   transition: width .5s ease-in-out;
+}
+
+.batch-running #ckl-batch-btn {
+  background-color: #dde1e4;
+  border-color: #dde1e4;
+  color: #000;
+  cursor: not-allowed;
+}
+
+.batch-done #ckl-batch-btn {
+  background-color: #8cb442;
+  border-color: #8cb442;
+}
+
+.ckl-msg-running, .ckl-msg-done, .batch-running .ckl-msg-run, .batch-done .ckl-msg-run {
+  display: none;
+}
+
+.batch-running .ckl-msg-running, .batch-done .ckl-msg-done {
+  display: block;
 }
 
 /* Styles media desktop */
