@@ -419,7 +419,7 @@ a.ckl-personne{
 
 .ckl-personne-familyname {
   margin-left: 10px;
-  /* min-width: 65px; */
+  min-width: 80px;
   display: inline-block;
 }
 
@@ -688,6 +688,19 @@ a.ckl-personne{
 }
 
 /* Indexes */
+
+.ckl-index-shortcuts a {
+  text-decoration: none;
+  margin-right: 5px;
+}
+
+.ckl-index-section-header a {
+  text-decoration: none;
+}
+
+.ckl-entry {
+  text-decoration: none;
+}
 
 .ckl-index-list {
   list-style-type: none;
