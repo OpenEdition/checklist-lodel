@@ -183,8 +183,8 @@
 
       <DO>
         <li>
-          <LET VAR="label_prenom"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="prenom"/></LET>
-          <LET VAR="label_nom"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="nomfamille"/></LET>
+          <LET VAR="label_prenom"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="prenom" CLASSNAME="auteurs" /></LET>
+          <LET VAR="label_nom"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="nomfamille" CLASSNAME="auteurs" /></LET>
           <a href="[#ID|makeurlwithid]" class="ckl-personne">
             <span class="ckl-personne-firstname" data-label="[#LABEL_PRENOM|trim]">[#G_FIRSTNAME]</span>
             <span class="ckl-personne-familyname" data-label="[#LABEL_NOM|trim]">[#G_FAMILYNAME]</span>
