@@ -7,7 +7,7 @@
 /* Styles génériques */
 
 body {
-  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 16px;
   background-color: #f6f8fa;
   margin: 0;
@@ -63,6 +63,7 @@ a:hover, a:active, a:focus {
   justify-content: space-between;
   padding: 15px 0;
   color: #586069;
+  font-size: 15px;
 }
 
 .ckl-nav-entities.position-bottom {
@@ -133,6 +134,7 @@ a:hover, a:active, a:focus {
   font-family: Georgia, "DejaVu Serif", Norasi, serif;
   font-size: 36px;
   font-weight: normal;
+  color: #000;
 }
 
 .ckl-issues {
@@ -249,7 +251,7 @@ a:hover, a:active, a:focus {
   font-size: 20px;
   font-weight: bold;
   margin-top: 60px;
-  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   border: none;
   text-align: center;
 }
@@ -346,8 +348,8 @@ a:hover, a:active, a:focus {
 }
 
 .ckl-field {
-  margin-top: 16px;
-  margin-bottom: 16px;
+  margin-top: 12px;
+  margin-bottom: 12px;
   padding: 0 10px;
 }
 
@@ -370,6 +372,10 @@ a:hover, a:active, a:focus {
   color: #79848E;
 }
 
+.ckl-field-value {
+  font-size: 15px;
+}
+
 .ckl-field-ml-lang {
   color: #fff;
   background-color: #C6CDD2;
@@ -377,7 +383,7 @@ a:hover, a:active, a:focus {
   border-radius: 2px;
   margin-right: 6px;
   font-size: 12px;
-  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
 .ckl-traductions ul {
@@ -391,6 +397,10 @@ a:hover, a:active, a:focus {
 
 /* Personnes */
 
+a.ckl-personne{
+  text-decoration: none;
+}
+
 .ckl-personne + .ckl-personne {
   margin-top: 20px;
 }
@@ -402,9 +412,14 @@ a:hover, a:active, a:focus {
   margin-top: 6px;
 }
 
+.ckl-personne-firstname {
+  display: inline-block;
+  min-width: 40px;
+}
+
 .ckl-personne-familyname {
-  margin-left: 15px;
-  min-width: 100px;
+  margin-left: 10px;
+  /* min-width: 65px; */
   display: inline-block;
 }
 
@@ -434,7 +449,7 @@ a:hover, a:active, a:focus {
   content: "titre " attr(data-toc-level);
   display: inline;
   margin-right: 10px;
-  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 12px;
   color: #9CA4AB;
   font-weight: bold;
@@ -463,9 +478,10 @@ a:hover, a:active, a:focus {
   position: absolute;
   left: 0;
   top: 0;
-  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 12px;
   color: #9CA4AB;
+  white-space: nowrap;
 }
 
 /* Labels dans le texte */
@@ -475,7 +491,7 @@ a:hover, a:active, a:focus {
   display: block;
   font-weight: bold;
   overflow-wrap: break-word;
-  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 12px;
   line-height: 12px;
   color: #9CA4AB;
@@ -530,7 +546,7 @@ a:hover, a:active, a:focus {
     left: -30px;
     top: 16px;
     font-size: 12px;
-    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     color: #586069;
 }
 
@@ -540,6 +556,7 @@ a:hover, a:active, a:focus {
   font-family: Georgia, "DejaVu Serif", Norasi, serif;
   line-height: 150%;
   max-width: 600px;
+  font-size: 16px;
 }
 
 .ckl-field-text p {
@@ -606,7 +623,7 @@ a:hover, a:active, a:focus {
 .ckl-field-text .titreillustration,
 .ckl-field-text .legendeillustration,
 .ckl-field-text .creditillustration {
-  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 14px;
   line-height: 125%;
 }
@@ -654,7 +671,7 @@ a:hover, a:active, a:focus {
 }
 
 .footnotecall, .FootnoteSymbol {
-  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   font-size: 14px;
 }
 
@@ -712,6 +729,10 @@ a:hover, a:active, a:focus {
 
 /* Batch Export */
 
+.ckl-tab-batch {
+  color: #4c535b;
+}
+
 .tagify__dropdown__item {
   display: flex;
   align-items: center;
@@ -742,6 +763,7 @@ a:hover, a:active, a:focus {
 .ckl-batch-progress {
   width: 100%;
   background-color: #ddd;
+  margin: 20px 0;
 }
 
 .ckl-batch-progress-bar {
