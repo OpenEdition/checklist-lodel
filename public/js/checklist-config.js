@@ -120,6 +120,17 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         },
         {
           title: {
+            fr: "Exporter",
+            en: "Export"
+          },
+          condition: "publications",
+          icon: "<i class='fas fa-table'></i>",
+          attributes: {
+            href: "./?do=_checklist_view&view_tab=batch&input=" + docId
+          }
+        },
+        {
+          title: {
             fr: "Réimporter la source",
             en: "Upload Source"
           },
