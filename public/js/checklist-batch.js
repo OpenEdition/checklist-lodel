@@ -1,5 +1,5 @@
 (function() {
-	var tagZeroTitle = "Tout le site";
+	var tagZeroTitle = window.batchStrings.site;
 	var runningClass = "batch-running";
 	var doneClass = "batch-done";
 	var $body = $(document.body);
@@ -130,7 +130,7 @@
 			link.click();
 			document.body.removeChild(link);
 		} else {
-			alert("L'export CSV n'est pas pris en charge par votre navigateur. Veuillez utiliser une version récente de Mozilla Firefox, Chromium ou Google Chrome.")
+			alert(window.batchStrings.oldBrowser);
 		}
 	}
 
@@ -155,7 +155,7 @@
 		})
 		.done(function(data, textStatus) {
 			if (data.length === 0) {
-				alert("Cette publication ne contient pas de documents vérifiables.");
+				alert(window.batchStrings.noDocs);
 				return;
 			}
 
@@ -214,7 +214,7 @@
 				}, []);
 
 				if (statements.length === 0) {
-					alert("Cette requête a produit un fichier CSV vide.");
+					alert(window.batchStrings.emptyOutput);
 					return;
 				}
 
