@@ -987,7 +987,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
         displayCount: true,
         action: function ($) {
           var re = /( [-–—.-] |[;,] |[/\\]|\.$)/g;
-          var $bad = $(".ckl-entry").filter(function () {
+          var $bad = $(".ckl-entry[data-entry-class='indexes']").filter(function () {
             var text = $(this).text().trim();
             return text.match(re) != null;
           });
@@ -1056,7 +1056,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
 
           $parents.each(function() {
             var list = {};
-            $(this).find(".ckl-entry").each(function () {
+            $(this).find(".ckl-entry[data-entry-class='indexes']").each(function () {
               var id = latinize($(this).text()).replace(/\W/g, "").toLowerCase().replace(/s$/, "");
               list[id] = list[id] ? list[id].add($(this)) : $(this);
             });

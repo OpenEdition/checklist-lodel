@@ -726,6 +726,10 @@ a.ckl-personne{
   text-decoration: none;
 }
 
+.ckl-entries + .ckl-entries {
+  margin-top: 12px;
+}
+
 .ckl-entry {
   text-decoration: none;
 }

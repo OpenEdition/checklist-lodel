@@ -216,7 +216,7 @@
 		<IF COND="[#N] EQ '0'">
 			<span class="ckl-entry disabled">[#G_NAME]</span>
 		<ELSE/>
-			<a class="ckl-entry" href="[#ID|makeurlwithid]">[#G_NAME]</a> <span class="ckl-index-count">([#N])</span>
+			<a class="ckl-entry" href="[#ID|makeurlwithid]" data-entry-class="[#CLASS]" data-entry-type="[#TYPE]">[#G_NAME]</a> <span class="ckl-index-count">([#N])</span>
 		</IF>
 	</LOOP>
 </DEFMACRO>
