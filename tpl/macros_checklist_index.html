@@ -4,25 +4,25 @@
  * Main index (alphabetiques et hierarchiques).
  */
 <DEFMACRO NAME="CKL_I_MAIN_INDEXES">
-  <LOOP NAME="ckl_i_main_indexes" TABLE="entrytypes" WHERE="id ='[%DOCID]'">
-    <MACRO NAME="CKL_CREATE_CONTEXT"/>
+	<LOOP NAME="ckl_i_main_indexes" TABLE="entrytypes" WHERE="id ='[%DOCID]'">
+		<MACRO NAME="CKL_CREATE_CONTEXT"/>
 
-    <IF COND="[#FLAT] AND [#SORT] EQ 'sortkey'">
-      <MACRO NAME="CKL_I_ALPHABETIQUE" />
-    <ELSE />
-      <MACRO NAME="CKL_I_HIERARCHIQUE" />
-    </IF>
-  </LOOP>
+		<IF COND="[#FLAT] AND [#SORT] EQ 'sortkey'">
+			<MACRO NAME="CKL_I_ALPHABETIQUE" />
+		<ELSE />
+			<MACRO NAME="CKL_I_HIERARCHIQUE" />
+		</IF>
+	</LOOP>
 </DEFMACRO>
 
 /**
  * Main index de personnes.
  */
 <DEFMACRO NAME="CKL_I_MAIN_PERSONS">
-  <LOOP NAME="ckl_i_main_persons" TABLE="persontypes" WHERE="id ='[%DOCID]'">
-    <MACRO NAME="CKL_CREATE_CONTEXT"/>
-    <MACRO NAME="CKL_I_PERSONNES" />
-  </LOOP>
+	<LOOP NAME="ckl_i_main_persons" TABLE="persontypes" WHERE="id ='[%DOCID]'">
+		<MACRO NAME="CKL_CREATE_CONTEXT"/>
+		<MACRO NAME="CKL_I_PERSONNES" />
+	</LOOP>
 </DEFMACRO>
 
 /**
@@ -32,33 +32,33 @@
  * @param {string} idtype
  */
 <DEFFUNC NAME="CKL_I_SHORTCUTS" REQUIRED="table, field, idtype">
-  <div class="ckl-index-shortcuts">
-    <LOOP NAME="alphabetSpec">
-      <IF COND="[#NBRESULTS]">
-        <a href="#alpha-[#LETTRE|ord]">[#LETTRE]</a>
-        <ELSE/>
-        <span class="disabled">[#LETTRE]</span>
-      </IF>
-    </LOOP>
-  </div>
+	<div class="ckl-index-shortcuts">
+		<LOOP NAME="alphabetSpec">
+			<IF COND="[#NBRESULTS]">
+				<a href="#alpha-[#LETTRE|ord]">[#LETTRE]</a>
+				<ELSE/>
+				<span class="disabled">[#LETTRE]</span>
+			</IF>
+		</LOOP>
+	</div>
 </DEFFUNC>
 
 /**
  * Index alphabetique.
  */
 <DEFMACRO NAME="CKL_I_ALPHABETIQUE">
-  <div class="ckl-main ckl-index ckl-index-alphabetique">
-    <div id="ckl-pane" class="ckl-pane"></div>
-    <div class="ckl-content">
-      <FUNC NAME="CKL_NAV_ENTITIES" POSITION="top"/>
-      <section class="ckl-section">
-        <h1 class="ckl-index-title">[#TITLE]</h1>
-        <FUNC NAME="CKL_I_SHORTCUTS" TABLE="#_TP_entries" FIELD="[#SORT]" IDTYPE="[#ID]"/>
-        <FUNC NAME="CKL_I_ALPHABETIQUE_LIST" TABLE="#_TP_entries" FIELD="[#SORT]" IDTYPE="[#ID]"/>
-      </section>
-      <FUNC NAME="CKL_NAV_ENTITIES" POSITION="bottom"/>
-    </div>
-  </div>
+	<div class="ckl-main ckl-index ckl-index-alphabetique">
+		<div id="ckl-pane" class="ckl-pane"></div>
+		<div class="ckl-content">
+			<FUNC NAME="CKL_NAV_ENTITIES" POSITION="top"/>
+			<section class="ckl-section">
+				<h1 class="ckl-index-title">[#TITLE]</h1>
+				<FUNC NAME="CKL_I_SHORTCUTS" TABLE="#_TP_entries" FIELD="[#SORT]" IDTYPE="[#ID]"/>
+				<FUNC NAME="CKL_I_ALPHABETIQUE_LIST" TABLE="#_TP_entries" FIELD="[#SORT]" IDTYPE="[#ID]"/>
+			</section>
+			<FUNC NAME="CKL_NAV_ENTITIES" POSITION="bottom"/>
+		</div>
+	</div>
 </DEFMACRO>
 
 /**
@@ -68,90 +68,89 @@
  * @param {string} idtype
  */
 <DEFFUNC NAME="CKL_I_ALPHABETIQUE_LIST" REQUIRED="table, field, idtype">
-  <LOOP NAME="alphabetSpec">
-    <LET VAR="lettresql">[#LETTRE|replace("'", "\'")]</LET>
-    <LOOP NAME="ckl_i_alphabetique_list"
-          TABLE="entries"
-          SELECT="id, g_name"
-          WHERE="type = '[#TYPE]'
-             AND UPPER(SUBSTRING([#FIELD],1,1)) = '[#LETTRESQL]'"
-          ORDER="[#FIELD]">
+	<LOOP NAME="alphabetSpec">
+		<LET VAR="lettresql">[#LETTRE|replace("'", "\'")]</LET>
+		<LOOP NAME="ckl_i_alphabetique_list"
+					TABLE="entries"
+					SELECT="id, g_name"
+					WHERE="type = '[#TYPE]' AND UPPER(SUBSTRING([#FIELD],1,1)) = '[#LETTRESQL]'"
+					ORDER="[#FIELD]">
 
-      <BEFORE>
-        <section id="alpha-[#LETTRE|ord]">
-          <h2 class="ckl-index-section-header"><a href="#indexes-alphabet">[#LETTRE]</a></h2>
-          <ul class="ckl-index-list">
-      </BEFORE>
+			<BEFORE>
+				<section id="alpha-[#LETTRE|ord]">
+					<h2 class="ckl-index-section-header"><a href="#indexes-alphabet">[#LETTRE]</a></h2>
+					<ul class="ckl-index-list">
+			</BEFORE>
 
-      <DO>
-        <li><MACRO NAME="CKL_I_ENTRY"/></li>
-      </DO>
+			<DO>
+				<li><MACRO NAME="CKL_I_ENTRY"/></li>
+			</DO>
 
-      <AFTER>
-          </ul>
-        </section>
-      </AFTER>
-    </LOOP>
-  </LOOP>
+			<AFTER>
+					</ul>
+				</section>
+			</AFTER>
+		</LOOP>
+	</LOOP>
 </DEFFUNC>
 
 /**
  * Index hierarchique.
  */
 <DEFMACRO NAME="CKL_I_HIERARCHIQUE">
-  <div class="ckl-main ckl-index ckl-index-hierarchique">
-    <div id="ckl-pane" class="ckl-pane"></div>
-    <div class="ckl-content">
-      <FUNC NAME="CKL_NAV_ENTITIES" POSITION="top"/>
-      <section class="ckl-section">
-        <LET VAR="idrec">0</LET>
-        <LOOP NAME="ckl_entries"
-              SELECT="id, g_name"
-              TABLE="entries"
-              WHERE="type = '[#TYPE]' AND idparent = '[#IDREC]'"
-              ORDER="entries.[#SORT]">
+	<div class="ckl-main ckl-index ckl-index-hierarchique">
+		<div id="ckl-pane" class="ckl-pane"></div>
+		<div class="ckl-content">
+			<FUNC NAME="CKL_NAV_ENTITIES" POSITION="top"/>
+			<section class="ckl-section">
+				<LET VAR="idrec">0</LET>
+				<LOOP NAME="ckl_entries"
+							SELECT="id, g_name"
+							TABLE="entries"
+							WHERE="type = '[#TYPE]' AND idparent = '[#IDREC]'"
+							ORDER="entries.[#SORT]">
 
-          <BEFORE>
-            <LET VAR="ul_classname">ckl-index-list-nested</LET>
-            <IF COND="[#IDREC] EQ '0'">
-              <h1 class="ckl-index-title">[#TITLE]</h1>
-              <LET VAR="ul_classname">ckl-index-list-root</LET>
-            </IF>
-            <ul class="ckl-index-list [#UL_CLASSNAME]">
-          </BEFORE>
-          <DO>
-            <li>
-              <MACRO NAME="CKL_I_ENTRY"/>
-              <LET VAR="idrec">[#ID]</LET>
-              <LOOP NAME="ckl_entries"></LOOP>
-            </li>
-          </DO>
-          <AFTER>
-              </ul>
-          </AFTER>
-        </LOOP>
-      </section>
-      <FUNC NAME="CKL_NAV_ENTITIES" POSITION="bottom"/>
-    </div>
-  </div>
+					<BEFORE>
+						<LET VAR="ul_classname">ckl-index-list-nested</LET>
+						<IF COND="[#IDREC] EQ '0'">
+							<h1 class="ckl-index-title">[#TITLE]</h1>
+							<LET VAR="ul_classname">ckl-index-list-root</LET>
+						</IF>
+						<ul class="ckl-index-list [#UL_CLASSNAME]">
+					</BEFORE>
+					<DO>
+						<li>
+							<MACRO NAME="CKL_I_ENTRY"/>
+							<LET VAR="idrec">[#ID]</LET>
+							<LOOP NAME="ckl_entries"></LOOP>
+						</li>
+					</DO>
+					<AFTER>
+							</ul>
+					</AFTER>
+				</LOOP>
+			</section>
+			<FUNC NAME="CKL_NAV_ENTITIES" POSITION="bottom"/>
+		</div>
+	</div>
 </DEFMACRO>
 
 /**
  * Index personnes.
  */
 <DEFMACRO NAME="CKL_I_PERSONNES">
-  <div class="ckl-main ckl-index ckl-index-personnes">
-    <div id="ckl-pane" class="ckl-pane"></div>
-    <div class="ckl-content">
-      <FUNC NAME="CKL_NAV_ENTITIES" POSITION="top"/>
-      <section class="ckl-section">
-        <h1 class="ckl-index-title">[#TITLE]</h1>
-        <FUNC NAME="CKL_I_SHORTCUTS" TABLE="#_TP_persons" FIELD="sortkey" IDTYPE="[#ID]"/>
-        <FUNC NAME="CKL_I_PERSONNES_LIST" TABLE="#_TP_persons" FIELD="sortkey" IDTYPE="[#ID]"/>
-      </section>
-      <FUNC NAME="CKL_NAV_ENTITIES" POSITION="bottom"/>
-    </div>
-  </div>
+	<div class="ckl-main ckl-index ckl-index-personnes">
+		<div id="ckl-pane" class="ckl-pane"></div>
+		<div class="ckl-content">
+			<FUNC NAME="CKL_NAV_ENTITIES" POSITION="top"/>
+			<section class="ckl-section">
+				<h1 class="ckl-index-title">[#TITLE]</h1>
+				<FUNC NAME="CKL_I_SHORTCUTS" TABLE="#_TP_persons" FIELD="sortkey" IDTYPE="[#ID]"/>
+				<FUNC NAME="CKL_I_PERSONNES_LIST" TABLE="#_TP_persons" FIELD="sortkey" IDTYPE="[#ID]"/>
+			</section>
+			<FUNC NAME="CKL_NAV_ENTITIES" POSITION="bottom"/>
+		</div>
+	</div>
 </DEFMACRO>
 
 /**
@@ -161,63 +160,63 @@
  * @param {string} idtype
  */
 <DEFFUNC NAME="CKL_I_PERSONNES_LIST" REQUIRED="table, field, idtype">
-  <LOOP NAME="alphabetSpec">
-    <LET VAR="lettresql">[#LETTRE|replace("'", "\'")]</LET>
-    <LOOP NAME="ckl_i_personnes_list"
-          SELECT="persons.id, g_firstname, g_familyname"
-          TABLE="relations, entities, persons, types, persontypes"
-          WHERE="UPPER(SUBSTRING([#FIELD],1,1)) = '[#LETTRESQL]'
-                AND types.type NOT IN ('informations', 'actualite')
-                AND persontypes.type = '[#TYPE]'
-                AND persons.idtype = persontypes.id
-                AND relations.id1 = entities.id
-                AND relations.id2 = persons.id"
-          GROUPBY="persons.id"
-          ORDER="[#FIELD]">
+	<LOOP NAME="alphabetSpec">
+		<LET VAR="lettresql">[#LETTRE|replace("'", "\'")]</LET>
+		<LOOP NAME="ckl_i_personnes_list"
+					SELECT="persons.id, g_firstname, g_familyname"
+					TABLE="relations, entities, persons, types, persontypes"
+					WHERE="UPPER(SUBSTRING([#FIELD],1,1)) = '[#LETTRESQL]'
+								AND types.type NOT IN ('informations', 'actualite')
+								AND persontypes.type = '[#TYPE]'
+								AND persons.idtype = persontypes.id
+								AND relations.id1 = entities.id
+								AND relations.id2 = persons.id"
+					GROUPBY="persons.id"
+					ORDER="[#FIELD]">
 
-      <BEFORE>
-        <section id="alpha-[#LETTRE|ord]">
-          <h2 class="ckl-index-section-header"><a href="#indexes-alphabet">[#LETTRE]</a></h2>
-          <ul class="ckl-index-list">
-      </BEFORE>
+			<BEFORE>
+				<section id="alpha-[#LETTRE|ord]">
+					<h2 class="ckl-index-section-header"><a href="#indexes-alphabet">[#LETTRE]</a></h2>
+					<ul class="ckl-index-list">
+			</BEFORE>
 
-      <DO>
-        <li>
-          <LET VAR="label_prenom"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="prenom" CLASSNAME="auteurs" /></LET>
-          <LET VAR="label_nom"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="nomfamille" CLASSNAME="auteurs" /></LET>
-          <a href="[#ID|makeurlwithid]" class="ckl-personne">
-            <span class="ckl-personne-firstname" data-label="[#LABEL_PRENOM|trim]">[#G_FIRSTNAME]</span>
-            <span class="ckl-personne-familyname" data-label="[#LABEL_NOM|trim]">[#G_FAMILYNAME]</span>
-            <LOOP NAME="ckl_personne_index_count" SELECT="count(id) AS n" TABLE="relations, entities"
-          	      WHERE="id2 = '[#ID]'
-          	         AND type NOT IN ('informations', 'actualite')
-          	         AND id1 = entities.id">
-          		<span class="ckl-index-count">([#N])</span>
-          	</LOOP>
-          </a>
-        </li>
-      </DO>
+			<DO>
+				<li>
+					<LET VAR="label_prenom"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="prenom" CLASSNAME="auteurs" /></LET>
+					<LET VAR="label_nom"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="nomfamille" CLASSNAME="auteurs" /></LET>
+					<a href="[#ID|makeurlwithid]" class="ckl-personne">
+						<span class="ckl-personne-firstname" data-label="[#LABEL_PRENOM|trim]">[#G_FIRSTNAME]</span>
+						<span class="ckl-personne-familyname" data-label="[#LABEL_NOM|trim]">[#G_FAMILYNAME]</span>
+						<LOOP NAME="ckl_personne_index_count" SELECT="count(id) AS n" TABLE="relations, entities"
+									WHERE="id2 = '[#ID]'
+										 AND type NOT IN ('informations', 'actualite')
+										 AND id1 = entities.id">
+							<span class="ckl-index-count">([#N])</span>
+						</LOOP>
+					</a>
+				</li>
+			</DO>
 
-      <AFTER>
-          </ul>
-        </section>
-      </AFTER>
-    </LOOP>
-  </LOOP>
+			<AFTER>
+					</ul>
+				</section>
+			</AFTER>
+		</LOOP>
+	</LOOP>
 </DEFFUNC>
 
 /**
  * Entree d'index.
  */
 <DEFMACRO NAME="CKL_I_ENTRY">
-  <LOOP NAME="ckl_i_entry" SELECT="count(id) AS n" TABLE="relations, entities"
-        WHERE="id2 = '[#ID]'
-           AND type NOT IN ('informations', 'actualite')
-           AND id1 = entities.id">
-    <IF COND="[#N] EQ '0'">
-      <span class="ckl-entry disabled">[#G_NAME]</span>
-    <ELSE/>
-      <a class="ckl-entry" href="[#ID|makeurlwithid]">[#G_NAME]</a> <span class="ckl-index-count">([#N])</span>
-    </IF>
-  </LOOP>
+	<LOOP NAME="ckl_i_entry" SELECT="count(id) AS n" TABLE="relations, entities"
+				WHERE="id2 = '[#ID]'
+					 AND type NOT IN ('informations', 'actualite')
+					 AND id1 = entities.id">
+		<IF COND="[#N] EQ '0'">
+			<span class="ckl-entry disabled">[#G_NAME]</span>
+		<ELSE/>
+			<a class="ckl-entry" href="[#ID|makeurlwithid]">[#G_NAME]</a> <span class="ckl-index-count">([#N])</span>
+		</IF>
+	</LOOP>
 </DEFMACRO>

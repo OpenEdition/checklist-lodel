@@ -4,199 +4,199 @@
  * Main publication.
  */
 <DEFMACRO NAME="CKL_P_MAIN">
-  <LOOP NAME="ckl_p_main"
-        TABLE="publications"
-        WHERE="id=[%DOCID]">
-    <MACRO NAME="CKL_CREATE_CONTEXT"/>
-    <MACRO NAME="CKL_P_CREATE_PUBLI"/>
+	<LOOP NAME="ckl_p_main"
+				TABLE="publications"
+				WHERE="id=[%DOCID]">
+		<MACRO NAME="CKL_CREATE_CONTEXT"/>
+		<MACRO NAME="CKL_P_CREATE_PUBLI"/>
 
-    <div class="ckl-main ckl-publication">
-      <div id="ckl-pane" class="ckl-pane"></div>
-      <div class="ckl-content">
-        <MACRO NAME="CKL_P_CONTENT"/>
-      </div>
-    </div>
-  </LOOP>
+		<div class="ckl-main ckl-publication">
+			<div id="ckl-pane" class="ckl-pane"></div>
+			<div class="ckl-content">
+				<MACRO NAME="CKL_P_CONTENT"/>
+			</div>
+		</div>
+	</LOOP>
 </DEFMACRO>
 
 /**
  * Création du paramètre 'publi' passé à Checklist.
  */
 <DEFMACRO NAME="CKL_P_CREATE_PUBLI"/>
-  <LET VAR="typename">[#TYPE]</LET>
-  <IF COND="[#NUMEROOUVERT]">
-    <LET VAR="typename"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="numeroouvert" /></LET>
-  </IF>
+	<LET VAR="typename">[#TYPE]</LET>
+	<IF COND="[#NUMEROOUVERT]">
+		<LET VAR="typename"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="numeroouvert" /></LET>
+	</IF>
 
-  <LET VAR="checklist_publi" GLOBAL="1">
-    {
-      parent: ".ckl-toc",
-      toc: [
-        {
-          title: "<span class='title'>[#TITRE|removenotes|replacequotationmark|reg_replace("/(\r\n|\r|\n)+/", " ")]</span>",
-          href: window.location.href,
-          docId: "[%DOCID]",
-          type: "[#TYPENAME|trim|majuscule]",
-          icon: "fas fa-book",
-          context: {
-            <IF COND="[#NUMEROOUVERT]">"numeroouvert": true,</IF>
-            "publications": true
-          },
-        },
-        {
-          title: "[#CKL_TRANSLATIONS.CONTENTS_QUALITY]",
-          section: [
-            <LOOP NAME="create_publi_summary"
-                  TABLE="entities, types"
-                  SELECT="id, class, type"
-                  WHERE="idparent = '[#ID]'
-                    AND type NOT IN ('fluxdesyndication','imageaccroche','rubriqueannuelle', 'imageaccrochelibrairie') AND type NOT LIKE '%annexe%'
-                    AND entities.idtype = types.id"
-                  ORDER="entities.rank">
+	<LET VAR="checklist_publi" GLOBAL="1">
+		{
+			parent: ".ckl-toc",
+			toc: [
+				{
+					title: "<span class='title'>[#TITRE|removenotes|replacequotationmark|reg_replace("/(\r\n|\r|\n)+/", " ")]</span>",
+					href: window.location.href,
+					docId: "[%DOCID]",
+					type: "[#TYPENAME|trim|majuscule]",
+					icon: "fas fa-book",
+					context: {
+						<IF COND="[#NUMEROOUVERT]">"numeroouvert": true,</IF>
+						"publications": true
+					},
+				},
+				{
+					title: "[#CKL_TRANSLATIONS.CONTENTS_QUALITY]",
+					section: [
+						<LOOP NAME="create_publi_summary"
+									TABLE="entities, types"
+									SELECT="id, class, type"
+									WHERE="idparent = '[#ID]'
+										AND type NOT IN ('fluxdesyndication','imageaccroche','rubriqueannuelle', 'imageaccrochelibrairie') AND type NOT LIKE '%annexe%'
+										AND entities.idtype = types.id"
+									ORDER="entities.rank">
 
-              <LOOP NAME="create_publi_summary_item" TABLE="#_TP_[#CLASS]" WHERE="identity = '[#ID]'">
-                <IF COND="[#COUNT] GT 0">,</IF>
+							<LOOP NAME="create_publi_summary_item" TABLE="#_TP_[#CLASS]" WHERE="identity = '[#ID]'">
+								<IF COND="[#COUNT] GT 0">,</IF>
 
-                <SWITCH TEST="[#CLASS]">
-                  <!--[ Publications : sommaire récursif ]-->
-                  <DO CASE="publications">
-                    {
-                      title: "[#TITRE|removenotes|replacequotationmark|reg_replace("/(\r\n|\r|\n)+/", " ")]",
-                      section: [
-                        <LOOP NAME="create_publi_summary"></LOOP>
-                      ]
-                    }
-                  </DO>
+								<SWITCH TEST="[#CLASS]">
+									<!--[ Publications : sommaire récursif ]-->
+									<DO CASE="publications">
+										{
+											title: "[#TITRE|removenotes|replacequotationmark|reg_replace("/(\r\n|\r|\n)+/", " ")]",
+											section: [
+												<LOOP NAME="create_publi_summary"></LOOP>
+											]
+										}
+									</DO>
 
-                  <!--[ Textes ]-->
-                  <DO CASE="textes">
-                    <LET VAR="entry_authors">
-                      <FUNC NAME="CKL_PERSONNES_RAW" TYPE="auteur"/>
-                    </LET>
-                    <LET VAR="entry_full_title">
-                      <!--[ Can't use <p> elements here because of whitespaces injected by HTMLPurifier ]-->
-                      <span class='authors'>[#ENTRY_AUTHORS|textebrut|trim|reg_replace('/ +,/', ',')]</span>
-                      <span class='title'>[#TITRE]</span>
-                    </LET>
-                    ,{
-                      title: "[#ENTRY_FULL_TITLE|removenotes|replacequotationmark|reg_replace("/(\r\n|\r|\n)+/", " ")|trim]",
-                      href: "<FUNC NAME="CKL_URL" DOCUMENT="[#ID]" />",
-                      docId: "[#ID]",
-                      type: "[#TYPE|majuscule]",
-                      context: <MACRO NAME="CKL_CREATE_CONTEXT_JSON" />
-                    }
-                  </DO>
-                </SWITCH>
-              </LOOP>
-            </LOOP>
-          ]
-        }
-      ]
-    }
-  </LET>
+									<!--[ Textes ]-->
+									<DO CASE="textes">
+										<LET VAR="entry_authors">
+											<FUNC NAME="CKL_PERSONNES_RAW" TYPE="auteur"/>
+										</LET>
+										<LET VAR="entry_full_title">
+											<!--[ Can't use <p> elements here because of whitespaces injected by HTMLPurifier ]-->
+											<span class='authors'>[#ENTRY_AUTHORS|textebrut|trim|reg_replace('/ +,/', ',')]</span>
+											<span class='title'>[#TITRE]</span>
+										</LET>
+										,{
+											title: "[#ENTRY_FULL_TITLE|removenotes|replacequotationmark|reg_replace("/(\r\n|\r|\n)+/", " ")|trim]",
+											href: "<FUNC NAME="CKL_URL" DOCUMENT="[#ID]" />",
+											docId: "[#ID]",
+											type: "[#TYPE|majuscule]",
+											context: <MACRO NAME="CKL_CREATE_CONTEXT_JSON" />
+										}
+									</DO>
+								</SWITCH>
+							</LOOP>
+						</LOOP>
+					]
+				}
+			]
+		}
+	</LET>
 </DEFMACRO>
 
 /**
  * Contenu publication.
  */
 <DEFMACRO NAME="CKL_P_CONTENT">
-  <!--[ Nav entities ]-->
-  <FUNC NAME="CKL_NAV_ENTITIES" POSITION="top" />
+	<!--[ Nav entities ]-->
+	<FUNC NAME="CKL_NAV_ENTITIES" POSITION="top" />
 
-  <!--[ Section Titre ]-->
-  <LET VAR="section_contents">
-    <!--[ Titre du document ]-->
-    <FUNC NAME="CKL_FIELD_STRING" FIELD="titre" VALUE="[#TITRE]"/>
+	<!--[ Section Titre ]-->
+	<LET VAR="section_contents">
+		<!--[ Titre du document ]-->
+		<FUNC NAME="CKL_FIELD_STRING" FIELD="titre" VALUE="[#TITRE]"/>
 
-    <!--[ Sous-titre du document ]-->
-    <FUNC NAME="CKL_FIELD_STRING" FIELD="soustitre" VALUE="[#SOUSTITRE]"/>
+		<!--[ Sous-titre du document ]-->
+		<FUNC NAME="CKL_FIELD_STRING" FIELD="soustitre" VALUE="[#SOUSTITRE]"/>
 
-    <!--[ Langue ]-->
-    <FUNC NAME="CKL_FIELD_STRING" FIELD="langue" VALUE="[#LANGUE]"/>
-  </LET>
-  <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
+		<!--[ Langue ]-->
+		<FUNC NAME="CKL_FIELD_STRING" FIELD="langue" VALUE="[#LANGUE]"/>
+	</LET>
+	<FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
 
-  <!--[ Section Cartouche ]-->
-  <LET VAR="section_contents">
-    <!--[ Statut de publication ]-->
-    <MACRO NAME="CKL_STATUS" />
+	<!--[ Section Cartouche ]-->
+	<LET VAR="section_contents">
+		<!--[ Statut de publication ]-->
+		<MACRO NAME="CKL_STATUS" />
 
-    <!--[ Type de document ]-->
-    <IF COND="[#NUMEROOUVERT]">
-      <LET VAR="type_title"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="numeroouvert" /></LET>
-    <ELSE />
-      <LET VAR="type_title"><FUNC NAME="CKL_GET_TYPE_TITLE" TYPE="[#TYPE]" /></LET>
-    </IF>
-    <FUNC NAME="CKL_FIELD_STRING" FIELD="[#CKL_TRANSLATIONS.TYPE]" VALUE="[#TYPE_TITLE|trim]"/>
+		<!--[ Type de document ]-->
+		<IF COND="[#NUMEROOUVERT]">
+			<LET VAR="type_title"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="numeroouvert" /></LET>
+		<ELSE />
+			<LET VAR="type_title"><FUNC NAME="CKL_GET_TYPE_TITLE" TYPE="[#TYPE]" /></LET>
+		</IF>
+		<FUNC NAME="CKL_FIELD_STRING" FIELD="[#CKL_TRANSLATIONS.TYPE]" VALUE="[#TYPE_TITLE|trim]"/>
 
-    <!--[ Date de la publication électronique ]-->
-    <FUNC NAME="CKL_FIELD_STRING" FIELD="datepubli" VALUE="[#DATEPUBLI]"/>
+		<!--[ Date de la publication électronique ]-->
+		<FUNC NAME="CKL_FIELD_STRING" FIELD="datepubli" VALUE="[#DATEPUBLI]"/>
 
-    <!--[ Date de la publication papier ]-->
-    <FUNC NAME="CKL_FIELD_STRING" FIELD="datepublipapier" VALUE="[#DATEPUBLIPAPIER]"/>
+		<!--[ Date de la publication papier ]-->
+		<FUNC NAME="CKL_FIELD_STRING" FIELD="datepublipapier" VALUE="[#DATEPUBLIPAPIER]"/>
 
-    <!--[ Cette publication est-elle à paraître ? ]-->
-    <FUNC NAME="CKL_FIELD_BOOL" FIELD="paraitre" VALUE="[#PARAITRE]" OUI="[#CKL_TRANSLATIONS.YES]" NON="[#CKL_TRANSLATIONS.NO]"/>
+		<!--[ Cette publication est-elle à paraître ? ]-->
+		<FUNC NAME="CKL_FIELD_BOOL" FIELD="paraitre" VALUE="[#PARAITRE]" OUI="[#CKL_TRANSLATIONS.YES]" NON="[#CKL_TRANSLATIONS.NO]"/>
 
-    <!--[ Date de mise en ligne ]-->
-    <FUNC NAME="CKL_FIELD_STRING" FIELD="datemisenligne" VALUE="[#DATEMISENLIGNE]"/>
+		<!--[ Date de mise en ligne ]-->
+		<FUNC NAME="CKL_FIELD_STRING" FIELD="datemisenligne" VALUE="[#DATEMISENLIGNE]"/>
 
-    <!--[ Date de mise en accès libre ]-->
-    <FUNC NAME="CKL_FIELD_STRING" FIELD="dateacceslibre" VALUE="[#DATEACCESLIBRE]"/>
+		<!--[ Date de mise en accès libre ]-->
+		<FUNC NAME="CKL_FIELD_STRING" FIELD="dateacceslibre" VALUE="[#DATEACCESLIBRE]"/>
 
-    <!--[ Cette publication est-elle en libre accès ? ]-->
-    <FUNC NAME="CKL_FIELD_BOOL" FIELD="integralite" VALUE="[#INTEGRALITE]" OUI="[#CKL_TRANSLATIONS.YES]" NON="[#CKL_TRANSLATIONS.NO]"/>
-  </LET>
-  <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" CLASSNAME="ckl-cartouche" />
+		<!--[ Cette publication est-elle en libre accès ? ]-->
+		<FUNC NAME="CKL_FIELD_BOOL" FIELD="integralite" VALUE="[#INTEGRALITE]" OUI="[#CKL_TRANSLATIONS.YES]" NON="[#CKL_TRANSLATIONS.NO]"/>
+	</LET>
+	<FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" CLASSNAME="ckl-cartouche" />
 
-  <!--[ Section avec tout le reste ]-->
-  <LET VAR="section_contents">
-    <!--[ Titres alternatifs ]-->
-    <FUNC NAME="CKL_FIELD_ML" FIELD="altertitre" VALUE="[#ALTERTITRE]"/>
+	<!--[ Section avec tout le reste ]-->
+	<LET VAR="section_contents">
+		<!--[ Titres alternatifs ]-->
+		<FUNC NAME="CKL_FIELD_ML" FIELD="altertitre" VALUE="[#ALTERTITRE]"/>
 
-    <!--[ Introduction de la publication ]-->
-    <FUNC NAME="CKL_FIELD_ML" FIELD="introduction" VALUE="[#INTRODUCTION]"/>
+		<!--[ Introduction de la publication ]-->
+		<FUNC NAME="CKL_FIELD_ML" FIELD="introduction" VALUE="[#INTRODUCTION]"/>
 
-    <!--[ NDLR ]-->
-    <FUNC NAME="CKL_FIELD_STRING" FIELD="ndlr" VALUE="[#NDLR]"/>
+		<!--[ NDLR ]-->
+		<FUNC NAME="CKL_FIELD_STRING" FIELD="ndlr" VALUE="[#NDLR]"/>
 
-    <!--[ Période de publication ]-->
-    <FUNC NAME="CKL_FIELD_STRING" FIELD="periode" VALUE="[#PERIODE]"/>
+		<!--[ Période de publication ]-->
+		<FUNC NAME="CKL_FIELD_STRING" FIELD="periode" VALUE="[#PERIODE]"/>
 
-    <!--[ Numéro de publication ]-->
-    <FUNC NAME="CKL_FIELD_STRING" FIELD="numero" VALUE="[#NUMERO]"/>
+		<!--[ Numéro de publication ]-->
+		<FUNC NAME="CKL_FIELD_STRING" FIELD="numero" VALUE="[#NUMERO]"/>
 
-    <!--[ Licence ]-->
-    <FUNC NAME="CKL_ENTRIES" CLASSNAME="indexavances"/>
+		<!--[ Licence ]-->
+		<FUNC NAME="CKL_ENTRIES" CLASSNAME="indexavances"/>
 
-    <!--[ Directeur de la publication ]-->
-    <FUNC NAME="CKL_PERSONNES" TYPE="directeurdelapublication"/>
+		<!--[ Directeur de la publication ]-->
+		<FUNC NAME="CKL_PERSONNES" TYPE="directeurdelapublication"/>
 
-    <!--[ Entrées d'index ]-->
-    <FUNC NAME="CKL_ENTRIES" CLASSNAME="indexes"/>
+		<!--[ Entrées d'index ]-->
+		<FUNC NAME="CKL_ENTRIES" CLASSNAME="indexes"/>
 
-    <!--[ Historique ]-->
-    <FUNC NAME="CKL_FIELD_ML" FIELD="historique" VALUE="[#HISTORIQUE]"/>
-  </LET>
-  <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
+		<!--[ Historique ]-->
+		<FUNC NAME="CKL_FIELD_ML" FIELD="historique" VALUE="[#HISTORIQUE]"/>
+	</LET>
+	<FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
 
-  <!--[ Section Fichiers ]-->
-  <LET VAR="section_contents">
-    <!--[ Fichiers ]-->
-    <MACRO NAME="CKL_FICHIERS"/>
+	<!--[ Section Fichiers ]-->
+	<LET VAR="section_contents">
+		<!--[ Fichiers ]-->
+		<MACRO NAME="CKL_FICHIERS"/>
 
-    <!--[ Fichiers externes ]-->
-    <MACRO NAME="CKL_FICHIERSEXTERNES"/>
-  </LET>
-  <FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
+		<!--[ Fichiers externes ]-->
+		<MACRO NAME="CKL_FICHIERSEXTERNES"/>
+	</LET>
+	<FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
 
-  <!--[ Checklist va injecter la table des matières ici ]-->
-  <div class="ckl-toc-header">
-    <img class="ckl-check-img" src="[#SHAREDIR]/plugins/custom/checklist/public/img/tasks.svg">
-    <h2 class="ckl-toc-title">[#CKL_TRANSLATIONS.PUBLICATION_QUALITY]</h2>
-  </div>
-  <div id="ckl-toc" class="ckl-toc"></div>
-  
-  <!--[ Nav entities ]-->
-  <FUNC NAME="CKL_NAV_ENTITIES" POSITION="bottom" />
+	<!--[ Checklist va injecter la table des matières ici ]-->
+	<div class="ckl-toc-header">
+		<img class="ckl-check-img" src="[#SHAREDIR]/plugins/custom/checklist/public/img/tasks.svg">
+		<h2 class="ckl-toc-title">[#CKL_TRANSLATIONS.PUBLICATION_QUALITY]</h2>
+	</div>
+	<div id="ckl-toc" class="ckl-toc"></div>
+	
+	<!--[ Nav entities ]-->
+	<FUNC NAME="CKL_NAV_ENTITIES" POSITION="bottom" />
 </DEFMACRO>

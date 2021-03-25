@@ -1,0 +1,12 @@
+# EditorConfig https://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+[*]
+charset = utf-8
+indent_style = tab
+
+[*.{js,json,css,less}]
+indent_style = space
+indent_size = 2

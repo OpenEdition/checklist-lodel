@@ -91,10 +91,10 @@
 		<LET VAR="icon">user</LET>
 	</IF>
 
-  <LET VAR="checklist_publi" GLOBAL="1">
-    {
-      parent: ".ckl-toc",
-      toc: [
+	<LET VAR="checklist_publi" GLOBAL="1">
+		{
+			parent: ".ckl-toc",
+			toc: [
 				<LOOP NAME="ckl_h_indexes" TABLE="[#TABLEINDEX], [#TABLETYPES]" SELECT="DISTINCT(idtype), title, altertitle, type, class" WHERE="[#TABLEINDEX].idtype = [#TABLETYPES].id AND [#TABLEINDEX].status GT 0 [#TABLEFILTER]" ORDER="CASE WHEN type LIKE 'motscles%' THEN 0 ELSE 1 END, [#TABLETYPES].rank">
 					{
 						title: "<IF COND="[#ALTERTITLE:#SITELANG]">[#ALTERTITLE:#SITELANG]<ELSE/>[#TITLE]</IF>",
@@ -109,9 +109,9 @@
 						}
 					},
 				</LOOP>
-      ]
-    }
-  </LET>
+			]
+		}
+	</LET>
 </DEFMACRO>
 
 /**

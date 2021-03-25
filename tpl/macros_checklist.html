@@ -4,36 +4,36 @@
  * Initialisation des variables globales.
  */
 <DEFMACRO NAME="CKL_INIT">
-  <!--[ Dependances ]-->
-  <USE TEMPLATEFILE="checklist_translations">
-  <USE TEMPLATEFILE="checklist_options">
-  <USE MACROFILE="macros_checklist_article.html"/>
-  <USE MACROFILE="macros_checklist_home.html"/>
-  <USE MACROFILE="macros_checklist_index.html"/>
-  <USE MACROFILE="macros_checklist_publication.html"/>
+	<!--[ Dependances ]-->
+	<USE TEMPLATEFILE="checklist_translations">
+	<USE TEMPLATEFILE="checklist_options">
+	<USE MACROFILE="macros_checklist_article.html"/>
+	<USE MACROFILE="macros_checklist_home.html"/>
+	<USE MACROFILE="macros_checklist_index.html"/>
+	<USE MACROFILE="macros_checklist_publication.html"/>
 
-  <IF COND="![#DOCUMENT]">
-    <LET VAR="document">0</LET>
-  </IF>
+	<IF COND="![#DOCUMENT]">
+		<LET VAR="document">0</LET>
+	</IF>
 
-  <MACRO NAME="CKL_INIT_ROUTE"/>
-  <MACRO NAME="CKL_INIT_TITLE"/>
+	<MACRO NAME="CKL_INIT_ROUTE"/>
+	<MACRO NAME="CKL_INIT_TITLE"/>
 </DEFMACRO>
 
 /**
  * Détermine l'id du document réellement affiché (globale [%DOCID]) et le type de template (globale [%TPL_TYPE]).
  */
 <DEFMACRO NAME="CKL_INIT_ROUTE">
-  <LET VAR="docid" GLOBAL="1">0</LET>
-  <LET VAR="tpl_type" GLOBAL="1"></LET>
+	<LET VAR="docid" GLOBAL="1">0</LET>
+	<LET VAR="tpl_type" GLOBAL="1"></LET>
 
-  <!--[ On teste l'existence de [#DOCUMENT] dans les tables suportées par Checklist pour router vers le bon template ]-->
-  <FUNC NAME="CKL_INIT_ROUTE_TABLE" TABLE="publications" DOCUMENT="[#DOCUMENT]" />
-  <FUNC NAME="CKL_INIT_ROUTE_TABLE" TABLE="textes" DOCUMENT="[#DOCUMENT]" />
-  <FUNC NAME="CKL_INIT_ROUTE_TABLE" TABLE="entrytypes" DOCUMENT="[#DOCUMENT]" />
-  <FUNC NAME="CKL_INIT_ROUTE_TABLE" TABLE="persontypes" DOCUMENT="[#DOCUMENT]" />
-  <FUNC NAME="CKL_INIT_ROUTE_TABLE" TABLE="entries" DOCUMENT="[#DOCUMENT]" />
-  <FUNC NAME="CKL_INIT_ROUTE_TABLE" TABLE="persons" DOCUMENT="[#DOCUMENT]" />
+	<!--[ On teste l'existence de [#DOCUMENT] dans les tables suportées par Checklist pour router vers le bon template ]-->
+	<FUNC NAME="CKL_INIT_ROUTE_TABLE" TABLE="publications" DOCUMENT="[#DOCUMENT]" />
+	<FUNC NAME="CKL_INIT_ROUTE_TABLE" TABLE="textes" DOCUMENT="[#DOCUMENT]" />
+	<FUNC NAME="CKL_INIT_ROUTE_TABLE" TABLE="entrytypes" DOCUMENT="[#DOCUMENT]" />
+	<FUNC NAME="CKL_INIT_ROUTE_TABLE" TABLE="persontypes" DOCUMENT="[#DOCUMENT]" />
+	<FUNC NAME="CKL_INIT_ROUTE_TABLE" TABLE="entries" DOCUMENT="[#DOCUMENT]" />
+	<FUNC NAME="CKL_INIT_ROUTE_TABLE" TABLE="persons" DOCUMENT="[#DOCUMENT]" />
 </DEFMACRO>
 
 /**
@@ -42,55 +42,55 @@
  * @param {string} document - ID du document.
  */
 <DEFFUNC NAME="CKL_INIT_ROUTE_TABLE" REQUIRED="table, document">
-  <IF COND="[#TABLE] EQ 'textes' OR [#TABLE] EQ 'publications'">
-    <LET VAR="where_clause">identity = '[#DOCUMENT]'</LET>
-  <ELSE />
-    <LET VAR="where_clause">id = '[#DOCUMENT]'</LET>
-  </IF>
-  
-  <LOOP NAME="ckl_init_route_table" TABLE="#_TP_[#TABLE]" WHERE="[#WHERE_CLAUSE]">
-    <SWITCH TEST="[#TABLE]"> 
-      <!--[ Documents pour lesquels un template existe ]-->
-      <DO CASES="textes, persontypes">
-        <LET VAR="docid" GLOBAL="1">[#DOCUMENT]</LET>
-        <LET VAR="tpl_type" GLOBAL="1">[#TABLE]</LET>
-      </DO>
+	<IF COND="[#TABLE] EQ 'textes' OR [#TABLE] EQ 'publications'">
+		<LET VAR="where_clause">identity = '[#DOCUMENT]'</LET>
+	<ELSE />
+		<LET VAR="where_clause">id = '[#DOCUMENT]'</LET>
+	</IF>
+	
+	<LOOP NAME="ckl_init_route_table" TABLE="#_TP_[#TABLE]" WHERE="[#WHERE_CLAUSE]">
+		<SWITCH TEST="[#TABLE]"> 
+			<!--[ Documents pour lesquels un template existe ]-->
+			<DO CASES="textes, persontypes">
+				<LET VAR="docid" GLOBAL="1">[#DOCUMENT]</LET>
+				<LET VAR="tpl_type" GLOBAL="1">[#TABLE]</LET>
+			</DO>
 
-      <DO CASES="entrytypes">
-        <!--[ N'afficher que les index de la classe "indexes" ]-->
-        <IF COND="[#CLASS] EQ 'indexes'">
-          <LET VAR="docid" GLOBAL="1">[#DOCUMENT]</LET>
-          <LET VAR="tpl_type" GLOBAL="1">[#TABLE]</LET>
-        </IF>
-      </DO>
+			<DO CASES="entrytypes">
+				<!--[ N'afficher que les index de la classe "indexes" ]-->
+				<IF COND="[#CLASS] EQ 'indexes'">
+					<LET VAR="docid" GLOBAL="1">[#DOCUMENT]</LET>
+					<LET VAR="tpl_type" GLOBAL="1">[#TABLE]</LET>
+				</IF>
+			</DO>
 
-      <DO CASE="publications">
-        <!--[ Workaround : Lodelscript ne récupère pas correctement les champs de la table "publications" ici ]-->
-        <LOOP NAME="ckl_init_route_table_publications" TABLE="publications" WHERE="id = '[#DOCUMENT]' AND type = 'numero'">
-          <DO>
-            <LET VAR="docid" GLOBAL="1">[#DOCUMENT]</LET>
-            <LET VAR="tpl_type" GLOBAL="1">[#TABLE]</LET>
-          </DO>
-          <ALTERNATIVE>
-            <FUNC NAME="CKL_INIT_ROUTE_FIND_PARENT_PUBLICATION" DOCUMENT="[#DOCUMENT]" />
-          </ALTERNATIVE>
-        </LOOP>
-      </DO>
+			<DO CASE="publications">
+				<!--[ Workaround : Lodelscript ne récupère pas correctement les champs de la table "publications" ici ]-->
+				<LOOP NAME="ckl_init_route_table_publications" TABLE="publications" WHERE="id = '[#DOCUMENT]' AND type = 'numero'">
+					<DO>
+						<LET VAR="docid" GLOBAL="1">[#DOCUMENT]</LET>
+						<LET VAR="tpl_type" GLOBAL="1">[#TABLE]</LET>
+					</DO>
+					<ALTERNATIVE>
+						<FUNC NAME="CKL_INIT_ROUTE_FIND_PARENT_PUBLICATION" DOCUMENT="[#DOCUMENT]" />
+					</ALTERNATIVE>
+				</LOOP>
+			</DO>
 
-      <!--[ Renvoyer les enfants qui n'ont pas de templates vers leur parents ]-->
-      <DO CASE="entries">
-        <FUNC NAME="CKL_INIT_ROUTE_TABLE" TABLE="entrytypes" DOCUMENT="[#IDTYPE]" />
-      </DO>
+			<!--[ Renvoyer les enfants qui n'ont pas de templates vers leur parents ]-->
+			<DO CASE="entries">
+				<FUNC NAME="CKL_INIT_ROUTE_TABLE" TABLE="entrytypes" DOCUMENT="[#IDTYPE]" />
+			</DO>
 
-      <DO CASE="persons">
-        <FUNC NAME="CKL_INIT_ROUTE_TABLE" TABLE="persontypes" DOCUMENT="[#IDTYPE]" />
-      </DO>
+			<DO CASE="persons">
+				<FUNC NAME="CKL_INIT_ROUTE_TABLE" TABLE="persontypes" DOCUMENT="[#IDTYPE]" />
+			</DO>
 
-      <DO CASE="default">
-        <FUNC NAME="CKL_INIT_ROUTE_FIND_PARENT_PUBLICATION" DOCUMENT="[#DOCUMENT]" />
-      </DO>
-    </SWITCH>
-  </LOOP>
+			<DO CASE="default">
+				<FUNC NAME="CKL_INIT_ROUTE_FIND_PARENT_PUBLICATION" DOCUMENT="[#DOCUMENT]" />
+			</DO>
+		</SWITCH>
+	</LOOP>
 </DEFFUNC>
 
 /**
@@ -98,28 +98,28 @@
  * @param {string} document - ID du document de l'enfant.
  */
 <DEFFUNC NAME="CKL_INIT_ROUTE_FIND_PARENT_PUBLICATION" REQUIRED="DOCUMENT">
-  <LET VAR="valid_parent">[#DOCUMENT|getParentByType('numero')]</LET>
-  <IF COND="[#VALID_PARENT]">
-    <LET VAR="docid" GLOBAL="1">[#VALID_PARENT]</LET>
-    <LET VAR="tpl_type" GLOBAL="1">publications</LET>
-  </IF>
+	<LET VAR="valid_parent">[#DOCUMENT|getParentByType('numero')]</LET>
+	<IF COND="[#VALID_PARENT]">
+		<LET VAR="docid" GLOBAL="1">[#VALID_PARENT]</LET>
+		<LET VAR="tpl_type" GLOBAL="1">publications</LET>
+	</IF>
 </DEFFUNC>
 
 /**
  * Calcul de la balise title de la page.
  */
 <DEFMACRO NAME="CKL_INIT_TITLE">
-  <IF COND="[%TPL_TYPE] EQ 'textes' OR [%TPL_TYPE] EQ 'publications'">
-    <LOOP NAME="ckl_init_title_textes_publications" TABLE="#_TP_[%TPL_TYPE]" SELECT="titre" WHERE="identity = '[%DOCID]'">
-      <LET VAR="page_title" GLOBAL="1">[#TITRE]</LET>
-    </LOOP>
-  <ELSEIF COND="[%TPL_TYPE] EQ 'entrytypes' OR [%TPL_TYPE] EQ 'persontypes'"/>
-    <LOOP NAME="ckl_init_title_index" TABLE="#_TP_[%TPL_TYPE]" SELECT="title" WHERE="id = '[%DOCID]'">
-      <LET VAR="page_title" GLOBAL="1">[#TITLE]</LET>
-    </LOOP>
-  <ELSE />
-    <LET VAR="page_title" GLOBAL="1">[#OPTIONS.METADONNEESSITE.TITRESITE]</LET>
-  </IF>
+	<IF COND="[%TPL_TYPE] EQ 'textes' OR [%TPL_TYPE] EQ 'publications'">
+		<LOOP NAME="ckl_init_title_textes_publications" TABLE="#_TP_[%TPL_TYPE]" SELECT="titre" WHERE="identity = '[%DOCID]'">
+			<LET VAR="page_title" GLOBAL="1">[#TITRE]</LET>
+		</LOOP>
+	<ELSEIF COND="[%TPL_TYPE] EQ 'entrytypes' OR [%TPL_TYPE] EQ 'persontypes'"/>
+		<LOOP NAME="ckl_init_title_index" TABLE="#_TP_[%TPL_TYPE]" SELECT="title" WHERE="id = '[%DOCID]'">
+			<LET VAR="page_title" GLOBAL="1">[#TITLE]</LET>
+		</LOOP>
+	<ELSE />
+		<LET VAR="page_title" GLOBAL="1">[#OPTIONS.METADONNEESSITE.TITRESITE]</LET>
+	</IF>
 </DEFMACRO>
 
 /**
@@ -127,101 +127,101 @@
  * Initialisation puis routage vers le bon template.
  */
 <DEFMACRO NAME="CKL_MAIN">
-  <MACRO NAME="CKL_INIT"/>
+	<MACRO NAME="CKL_INIT"/>
 
-  <MACRO NAME="CKL_HTML_START"/>
+	<MACRO NAME="CKL_HTML_START"/>
 
-  <SWITCH TEST="[%TPL_TYPE]">
-    <DO CASE="textes">
-      <MACRO NAME="CKL_A_MAIN"/>
-    </DO>
-    <DO CASE="publications">
-      <MACRO NAME="CKL_P_MAIN"/>
-    </DO>
-    <DO CASE="entrytypes">
-      <MACRO NAME="CKL_I_MAIN_INDEXES"/>
-    </DO>
-    <DO CASE="persontypes">
-      <MACRO NAME="CKL_I_MAIN_PERSONS"/>
-    </DO>
-    <DO CASE="default">
-      <MACRO NAME="CKL_H_MAIN"/>
-    </DO>
-  </SWITCH>
+	<SWITCH TEST="[%TPL_TYPE]">
+		<DO CASE="textes">
+			<MACRO NAME="CKL_A_MAIN"/>
+		</DO>
+		<DO CASE="publications">
+			<MACRO NAME="CKL_P_MAIN"/>
+		</DO>
+		<DO CASE="entrytypes">
+			<MACRO NAME="CKL_I_MAIN_INDEXES"/>
+		</DO>
+		<DO CASE="persontypes">
+			<MACRO NAME="CKL_I_MAIN_PERSONS"/>
+		</DO>
+		<DO CASE="default">
+			<MACRO NAME="CKL_H_MAIN"/>
+		</DO>
+	</SWITCH>
 
-  <MACRO NAME="CKL_HTML_END"/>
+	<MACRO NAME="CKL_HTML_END"/>
 </DEFMACRO>
 
 /**
  * Ouverture de la page HTML.
  */
 <DEFMACRO NAME="CKL_HTML_START">
-  <!DOCTYPE html>
-  <html lang="[#SITELANG]">
-  <head>
-    <meta charset="utf-8">
-    <!--[ Bug lodel : pour une raison obscure le body ne peut pas être déclaré dans une FUNC ou dans une LOOP. On passe donc par une variable globale pour déclarer le title ici. ]-->
-    <title><IF COND="[%PAGE_TITLE]">[%PAGE_TITLE|textebrut] – </IF>OpenEdition Checklist</title>
-    <MACRO NAME="CKL_HTML_STYLES"/>
-  </head>
-  <body>
+	<!DOCTYPE html>
+	<html lang="[#SITELANG]">
+	<head>
+		<meta charset="utf-8">
+		<!--[ Bug lodel : pour une raison obscure le body ne peut pas être déclaré dans une FUNC ou dans une LOOP. On passe donc par une variable globale pour déclarer le title ici. ]-->
+		<title><IF COND="[%PAGE_TITLE]">[%PAGE_TITLE|textebrut] – </IF>OpenEdition Checklist</title>
+		<MACRO NAME="CKL_HTML_STYLES"/>
+	</head>
+	<body>
 </DEFMACRO>
 
 /**
  * Fermeture de la page HTML.
  */
 <DEFMACRO NAME="CKL_HTML_END">
-  <MACRO NAME="CKL_HTML_SCRIPTS"/>
-  </body>
-  </html>
+	<MACRO NAME="CKL_HTML_SCRIPTS"/>
+	</body>
+	</html>
 </DEFMACRO>
 
 /**
  * Styles CSS.
  */
 <DEFMACRO NAME="CKL_HTML_STYLES">
-  <!-- Font awesome -->
-  <link rel="stylesheet" href="[#SHAREDIR]/plugins/custom/checklist/node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+	<!-- Font awesome -->
+	<link rel="stylesheet" href="[#SHAREDIR]/plugins/custom/checklist/node_modules/@fortawesome/fontawesome-free/css/all.min.css">
 
-  <!-- Largetable -->
-  <link rel="stylesheet" href="[#SHAREDIR]/plugins/custom/checklist/node_modules/largetable/largetable.css">
+	<!-- Largetable -->
+	<link rel="stylesheet" href="[#SHAREDIR]/plugins/custom/checklist/node_modules/largetable/largetable.css">
 
-  <!-- Batch -->
+	<!-- Batch -->
 	<IF COND="[#CKL_OPTIONS.ALLOW_RUN_BATCH] AND [#VIEW_TAB] EQ 'batch'" />
 		<link rel="stylesheet" href="[#SHAREDIR]/plugins/custom/checklist/node_modules/@yaireo/tagify/dist/tagify.css">
 	</IF>
 
-  <!-- Checklist -->
-  <link rel="stylesheet" href="[#SHAREDIR]/plugins/custom/checklist/public/css/checklist-lodel.css">
+	<!-- Checklist -->
+	<link rel="stylesheet" href="[#SHAREDIR]/plugins/custom/checklist/public/css/checklist-lodel.css">
 </DEFMACRO>
 
 /**
  * Scripts JavaScript.
  */
 <DEFMACRO NAME="CKL_HTML_SCRIPTS">
-  <!-- JQuery -->
-  <script src="[#SHAREDIR]/plugins/custom/checklist/node_modules/jquery/dist/jquery.min.js"></script>
+	<!-- JQuery -->
+	<script src="[#SHAREDIR]/plugins/custom/checklist/node_modules/jquery/dist/jquery.min.js"></script>
 
-  <!-- Largetable -->
-  <script src="[#SHAREDIR]/plugins/custom/checklist/node_modules/largetable/largetable.js"></script>
+	<!-- Largetable -->
+	<script src="[#SHAREDIR]/plugins/custom/checklist/node_modules/largetable/largetable.js"></script>
 
-  <!-- Interface -->
-  <script src="[#SHAREDIR]/plugins/custom/checklist/public/js/checklist-site.js"></script>
+	<!-- Interface -->
+	<script src="[#SHAREDIR]/plugins/custom/checklist/public/js/checklist-site.js"></script>
 
-  <!-- Checklist -->
-  <script src="[#SHAREDIR]/plugins/custom/checklist/node_modules/@openedition/checklist/dist/checklist.js"></script>
-  <script src="[#SHAREDIR]/plugins/custom/checklist/public/js/checklist-config.js"></script>
-  <script>
-    $(function () {
-      window.initChecklist("[#SITE]", [%DOCID], "[#SITELANG]", [%CHECKLIST_CONTEXT], [%CHECKLIST_PUBLI]);
-    });
-  </script>
+	<!-- Checklist -->
+	<script src="[#SHAREDIR]/plugins/custom/checklist/node_modules/@openedition/checklist/dist/checklist.js"></script>
+	<script src="[#SHAREDIR]/plugins/custom/checklist/public/js/checklist-config.js"></script>
+	<script>
+		$(function () {
+			window.initChecklist("[#SITE]", [%DOCID], "[#SITELANG]", [%CHECKLIST_CONTEXT], [%CHECKLIST_PUBLI]);
+		});
+	</script>
 
 	<!-- Batch -->
 	<IF COND="[#CKL_OPTIONS.ALLOW_RUN_BATCH] AND [#VIEW_TAB] EQ 'batch'" />
 		<script src="[#SHAREDIR]/plugins/custom/checklist/node_modules/@yaireo/tagify/dist/tagify.min.js"></script>
 
-    <MACRO NAME="CKL_HTML_SCRIPTS_ISSUES" />
+		<MACRO NAME="CKL_HTML_SCRIPTS_ISSUES" />
 
 		<script src="[#SHAREDIR]/plugins/custom/checklist/public/js/checklist-batch.js"></script>
 	</IF>
@@ -231,72 +231,72 @@
  * Batch : creation de la whitelist pour Tagify.
  */
 <DEFMACRO NAME="CKL_HTML_SCRIPTS_ISSUES">
-  <LET VAR="allowed_types">'numero', 'collection'</LET>
-  <LET VAR="script_content">
-    <LOOP NAME="ckl_html_scripts_issues" TABLE="publications" WHERE="type IN ([#ALLOWED_TYPES])" SELECT="id, numero, titre, type" ORDER="length(numero) DESC, numero DESC, datepubli DESC, rank" />
-      <BEFORE>
-        window.tagifyWhitelist = [
-          {
-            "value": "0",
-            "title": "[#CKL_TRANSLATIONS.BATCH_SITE]",
-            "description": ""
-          },
-      </BEFORE>
-      <DO>
-        {
-          "value": "[#ID]",
-          "title": "[#TITRE|removenotes|textebrut]",
-          "description": "[#TYPE|majuscule] [#NUMERO|textebrut]"
-        },
-      </DO>
-      <AFTER>
-        ];
-      </AFTER>
-    </LOOP>
-  </LET>
-  
-  <script>
-    [#SCRIPT_CONTENT]
+	<LET VAR="allowed_types">'numero', 'collection'</LET>
+	<LET VAR="script_content">
+		<LOOP NAME="ckl_html_scripts_issues" TABLE="publications" WHERE="type IN ([#ALLOWED_TYPES])" SELECT="id, numero, titre, type" ORDER="length(numero) DESC, numero DESC, datepubli DESC, rank" />
+			<BEFORE>
+				window.tagifyWhitelist = [
+					{
+						"value": "0",
+						"title": "[#CKL_TRANSLATIONS.BATCH_SITE]",
+						"description": ""
+					},
+			</BEFORE>
+			<DO>
+				{
+					"value": "[#ID]",
+					"title": "[#TITRE|removenotes|textebrut]",
+					"description": "[#TYPE|majuscule] [#NUMERO|textebrut]"
+				},
+			</DO>
+			<AFTER>
+				];
+			</AFTER>
+		</LOOP>
+	</LET>
+	
+	<script>
+		[#SCRIPT_CONTENT]
 
-    window.batchStrings = {
-      "emptyOutput": "[#CKL_TRANSLATIONS.BATCH_EMPTY_OUTPUT]",
-      "noDocs": "[#CKL_TRANSLATIONS.BATCH_NO_DOCS]",
-      "oldBrowser": "[#CKL_TRANSLATIONS.BATCH_OLD_BROWSER]",
-      "site": "[#CKL_TRANSLATIONS.BATCH_SITE]"
-    }
-  </script>
+		window.batchStrings = {
+			"emptyOutput": "[#CKL_TRANSLATIONS.BATCH_EMPTY_OUTPUT]",
+			"noDocs": "[#CKL_TRANSLATIONS.BATCH_NO_DOCS]",
+			"oldBrowser": "[#CKL_TRANSLATIONS.BATCH_OLD_BROWSER]",
+			"site": "[#CKL_TRANSLATIONS.BATCH_SITE]"
+		}
+	</script>
 </DEFMACRO>
 
 /**
  * Création du contexte passé à Checklist.
  */
 <DEFMACRO NAME="CKL_CREATE_CONTEXT">
-  <LET VAR="checklist_context" GLOBAL="1">
-    <MACRO NAME="CKL_CREATE_CONTEXT_JSON" />
-  </LET>
+	<LET VAR="checklist_context" GLOBAL="1">
+		<MACRO NAME="CKL_CREATE_CONTEXT_JSON" />
+	</LET>
 </DEFMACRO>
 
 /**
  * Contenu JSON de CKL_CREATE_CONTEXT.
  */
 <DEFMACRO NAME="CKL_CREATE_CONTEXT_JSON">
-  {
-    "url": "[#ID|makeurlwithid]",
+	{
+		"url": "[#ID|makeurlwithid]",
 
-    <LOOP NAME="ckl_create_context_json_get_creationmethod" TABLE="entities" WHERE="id='[#ID]' AND creationmethod != ''" SELECT="creationmethod, creationinfo" />
-      "extension-[#CREATIONINFO|reg_replace("/^.*\./", "")]": true,
-    </LOOP>
+		<LOOP NAME="ckl_create_context_json_get_creationmethod" TABLE="entities" WHERE="id='[#ID]' AND creationmethod != ''" SELECT="creationmethod, creationinfo" />
+			"extension-[#CREATIONINFO|reg_replace("/^.*\./", "")]": true,
+		</LOOP>
 
-    <LET VAR="numero_id">[#ID|getParentByType('numero')]</LET>
-    <IF COND="[#NUMERO_ID]">
-      <LOOP NAME="ckl_create_context_json_numeroouvert" TABLE="publications" WHERE="id='[#NUMERO_ID]' AND numeroouvert" LIMIT="0,1" />
-        "numeroouvert": true,
-      </LOOP>
-    </IF>
+		<LET VAR="numero_id">[#ID|getParentByType('numero')]</LET>
+		<IF COND="[#NUMERO_ID]">
+			<LOOP NAME="ckl_create_context_json_numeroouvert" TABLE="publications" WHERE="id='[#NUMERO_ID]' AND numeroouvert" LIMIT="0,1" />
+				"numeroouvert": true,
+			</LOOP>
+		</IF>
 
-    "[#CLASS]": true,
-    "[#TYPE]": true
-  }
+		"[#CLASS]": true,
+		"[#TYPE]": true
+	}
 </DEFMACRO>
 
 /**
@@ -305,7 +305,7 @@
  * @param {string} [parameter] - Paramètre ajouté en fin d'URL.
  */
 <DEFFUNC NAME="CKL_URL" OPTIONAL="document, parameter">
-  ./?do=_checklist_view<IF COND="[#DOCUMENT]">&document=[#DOCUMENT]</IF><IF COND="[#PARAMETER]">&[#PARAMETER]</IF>
+	./?do=_checklist_view<IF COND="[#DOCUMENT]">&document=[#DOCUMENT]</IF><IF COND="[#PARAMETER]">&[#PARAMETER]</IF>
 </DEFFUNC>
 
 /**
@@ -315,14 +315,14 @@
  * @param {string} [classname] - Attribut class supplémentaire de l'élément section.
  */
 <DEFFUNC NAME="CKL_SECTION" REQUIRED="contents" OPTIONAL="title, classname">
-  <IF COND="[#CONTENTS|trim] NE ''">
-    <section class="ckl-section [#CLASSNAME]">
-      <IF COND="[#TITLE]">
-        <h2 class="ckl-section-title">[#TITLE]</h2>
-      </IF>
-      [#CONTENTS]
-    </section>
-  </IF>
+	<IF COND="[#CONTENTS|trim] NE ''">
+		<section class="ckl-section [#CLASSNAME]">
+			<IF COND="[#TITLE]">
+				<h2 class="ckl-section-title">[#TITLE]</h2>
+			</IF>
+			[#CONTENTS]
+		</section>
+	</IF>
 </DEFFUNC>
 
 /**
@@ -331,21 +331,21 @@
  * @param {string} [classname] - Classe (surcharge le [#CLASS] du contexte).
  */
 <DEFFUNC NAME="CKL_GET_FIELD_TITLE" REQUIRED="field" OPTIONAL="classname">
-  <IF COND="![#CLASSNAME]">
-    <LET VAR="classname">[#CLASS]</LET>
-  </IF>
-  <LOOP NAME="ckl_get_field"
-        TABLE="tablefields"
-        SELECT="title, altertitle"
-        WHERE="class='[#CLASSNAME]' AND name = '[#FIELD]'"
-        LIMIT="0,1">
-    <DO>
-      <IF COND="[#ALTERTITLE:#SITELANG]"/>[#ALTERTITLE:#SITELANG]<ELSE/>[#TITLE]</IF>
-    </DO>
-    <ALTERNATIVE>
-      [#FIELD]
-    </ALTERNATIVE>
-  </LOOP>
+	<IF COND="![#CLASSNAME]">
+		<LET VAR="classname">[#CLASS]</LET>
+	</IF>
+	<LOOP NAME="ckl_get_field"
+				TABLE="tablefields"
+				SELECT="title, altertitle"
+				WHERE="class='[#CLASSNAME]' AND name = '[#FIELD]'"
+				LIMIT="0,1">
+		<DO>
+			<IF COND="[#ALTERTITLE:#SITELANG]"/>[#ALTERTITLE:#SITELANG]<ELSE/>[#TITLE]</IF>
+		</DO>
+		<ALTERNATIVE>
+			[#FIELD]
+		</ALTERNATIVE>
+	</LOOP>
 </DEFFUNC>
 
 /**
@@ -353,9 +353,9 @@
  * @param {string} class - Classe.
  */
 <DEFFUNC NAME="CKL_GET_CLASS_TITLE" REQUIRED="class">
-  <LOOP NAME="ckl_get_class_title" TABLE="classes" SELECT="title, altertitle" WHERE="class='[#CLASS]'" LIMIT="0,1">
-    <IF COND="[#ALTERTITLE:#SITELANG]"/>[#ALTERTITLE:#SITELANG]<ELSE/>[#TITLE]</IF>
-  </LOOP>
+	<LOOP NAME="ckl_get_class_title" TABLE="classes" SELECT="title, altertitle" WHERE="class='[#CLASS]'" LIMIT="0,1">
+		<IF COND="[#ALTERTITLE:#SITELANG]"/>[#ALTERTITLE:#SITELANG]<ELSE/>[#TITLE]</IF>
+	</LOOP>
 </DEFFUNC>
 
 /**
@@ -363,9 +363,9 @@
  * @param {string} type - Type.
  */
 <DEFFUNC NAME="CKL_GET_TYPE_TITLE" REQUIRED="type">
-  <LOOP NAME="ckl_get_type_title" TABLE="types" SELECT="title, altertitle" WHERE="type='[#TYPE]'" LIMIT="0,1">
-    <IF COND="[#ALTERTITLE:#SITELANG]"/>[#ALTERTITLE:#SITELANG]<ELSE/>[#TITLE]</IF>
-  </LOOP>
+	<LOOP NAME="ckl_get_type_title" TABLE="types" SELECT="title, altertitle" WHERE="type='[#TYPE]'" LIMIT="0,1">
+		<IF COND="[#ALTERTITLE:#SITELANG]"/>[#ALTERTITLE:#SITELANG]<ELSE/>[#TITLE]</IF>
+	</LOOP>
 </DEFFUNC>
 
 /**
@@ -376,12 +376,12 @@
  * @param {boolean} [force] - Forcer l'affichage, même si [#VALUE] est vide.
  */
 <DEFFUNC NAME="CKL_FIELD_STRING" REQUIRED="field, value" OPTIONAL="classname, force">
-  <IF COND="[#FIELD] AND ([#VALUE] OR [#FORCE])">
-    <div class="ckl-field ckl-field-string [#CLASSNAME]" data-field="[#FIELD]">
-      <div class="ckl-field-title"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="[#FIELD]"/></div>
-      <div class="ckl-field-value">[#VALUE]</div>
-    </div>
-  </IF>
+	<IF COND="[#FIELD] AND ([#VALUE] OR [#FORCE])">
+		<div class="ckl-field ckl-field-string [#CLASSNAME]" data-field="[#FIELD]">
+			<div class="ckl-field-title"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="[#FIELD]"/></div>
+			<div class="ckl-field-value">[#VALUE]</div>
+		</div>
+	</IF>
 </DEFFUNC>
 
 /**
@@ -392,25 +392,25 @@
  * @param {string} [non] - Valeur affichée si non.
  */
 <DEFFUNC NAME="CKL_FIELD_BOOL" REQUIRED="field, value" OPTIONAL="oui, non">
-  <IF COND="[#VALUE] NE ''">
-    <IF COND="[#VALUE] EQ '1'">
-      <IF COND="[#OUI]">
-        <LET VAR="res">[#OUI]</LET>
-      </IF>
-    <ELSE/>
-      <LET VAR="value">0</LET>
-      <IF COND="[#NON]">
-        <LET VAR="res">[#NON]</LET>
-      </IF>
-    </IF>
-    <IF COND="![#RES]">
-      <LET VAR="hidden_class">hidden</LET>
-    </IF>
-    <div class="ckl-field ckl-field-bool [#HIDDEN_CLASS]" data-field="[#FIELD]" data-value="[#VALUE]">
-      <div class="ckl-field-title"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="[#FIELD]"/></div>
-      <div class="ckl-field-value">[#RES]</div>
-    </div>
-  </IF>
+	<IF COND="[#VALUE] NE ''">
+		<IF COND="[#VALUE] EQ '1'">
+			<IF COND="[#OUI]">
+				<LET VAR="res">[#OUI]</LET>
+			</IF>
+		<ELSE/>
+			<LET VAR="value">0</LET>
+			<IF COND="[#NON]">
+				<LET VAR="res">[#NON]</LET>
+			</IF>
+		</IF>
+		<IF COND="![#RES]">
+			<LET VAR="hidden_class">hidden</LET>
+		</IF>
+		<div class="ckl-field ckl-field-bool [#HIDDEN_CLASS]" data-field="[#FIELD]" data-value="[#VALUE]">
+			<div class="ckl-field-title"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="[#FIELD]"/></div>
+			<div class="ckl-field-value">[#RES]</div>
+		</div>
+	</IF>
 </DEFFUNC>
 
 /**
@@ -419,17 +419,17 @@
  * @param {string} value - Valeur du champ ml.
  */
 <DEFFUNC NAME="CKL_FIELD_ML" REQUIRED="field, value">
-  <IF COND="[#VALUE]">
-    <div class="ckl-field ckl-field-ml" data-field="[#FIELD]">
-      <div class="ckl-field-title"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="[#FIELD]"/></div>
-      <div class="ckl-field-value">
-        <!--[ La loop "mltext" utilise [#VALUE] du contexte ]-->
-        <LOOP NAME="mltext">
-          <FUNC NAME="CKL_FIELD_ML_ITEM" LANG="[#LANG]" VALUE="[#VALUE]"/>
-        </LOOP>
-      </div>
-    </div>
-  </IF>
+	<IF COND="[#VALUE]">
+		<div class="ckl-field ckl-field-ml" data-field="[#FIELD]">
+			<div class="ckl-field-title"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="[#FIELD]"/></div>
+			<div class="ckl-field-value">
+				<!--[ La loop "mltext" utilise [#VALUE] du contexte ]-->
+				<LOOP NAME="mltext">
+					<FUNC NAME="CKL_FIELD_ML_ITEM" LANG="[#LANG]" VALUE="[#VALUE]"/>
+				</LOOP>
+			</div>
+		</div>
+	</IF>
 </DEFFUNC>
 
 /**
@@ -439,50 +439,50 @@
  * @param {boolean} [force] - Forcer l'affichage, même si [#VALUE] est vide.
  */
 <DEFFUNC NAME="CKL_FIELD_ML_ITEM" REQUIRED="lang, value" OPTIONAL="force">
-  <IF COND="[#LANG] AND ([#VALUE] OR [#FORCE])">
-    <div class="ckl-field ckl-field-ml-item" lang="[#LANG]">
-      <span class="ckl-field-ml-lang">[#LANG]</span>
-      <span class="ckl-field-ml-value">[#VALUE]</span>
-    </div>
-  </IF>
+	<IF COND="[#LANG] AND ([#VALUE] OR [#FORCE])">
+		<div class="ckl-field ckl-field-ml-item" lang="[#LANG]">
+			<span class="ckl-field-ml-lang">[#LANG]</span>
+			<span class="ckl-field-ml-value">[#VALUE]</span>
+		</div>
+	</IF>
 </DEFFUNC>
 
 /**
  * Affiche un champ pour le statut de l'entité.
  */
 <DEFMACRO NAME="CKL_STATUS">
-  <div class="ckl-field ckl-field-status">
-    <div class="ckl-field-title">[#CKL_TRANSLATIONS.STATUS]</div>
-    <div class="ckl-field-value">
-      <IF COND="[#STATUS]==-32">
-        <FUNC NAME="CKL_STATUS_VALUE" ICON="draft" STATUS_NAME="[@EDITION.PERMANENT_UNPUBLISHED]" />
+	<div class="ckl-field ckl-field-status">
+		<div class="ckl-field-title">[#CKL_TRANSLATIONS.STATUS]</div>
+		<div class="ckl-field-value">
+			<IF COND="[#STATUS]==-32">
+				<FUNC NAME="CKL_STATUS_VALUE" ICON="draft" STATUS_NAME="[@EDITION.PERMANENT_UNPUBLISHED]" />
 
-      <ELSEIF COND="[#STATUS]==-8">
-        <FUNC NAME="CKL_STATUS_VALUE" ICON="draft" STATUS_NAME="[@EDITION.DRAFT]" />
+			<ELSEIF COND="[#STATUS]==-8">
+				<FUNC NAME="CKL_STATUS_VALUE" ICON="draft" STATUS_NAME="[@EDITION.DRAFT]" />
 
-      <ELSEIF COND="[#STATUS]==-1">
-        <FUNC NAME="CKL_STATUS_VALUE" ICON="unpublished" STATUS_NAME="[@EDITION.READY_TO_BE_PUBLISHED]" />
+			<ELSEIF COND="[#STATUS]==-1">
+				<FUNC NAME="CKL_STATUS_VALUE" ICON="unpublished" STATUS_NAME="[@EDITION.READY_TO_BE_PUBLISHED]" />
 
-      <ELSEIF COND="[#STATUS]==1">
-        <IF COND="[#CLASS]">
-          <LET VAR="status_value" GLOBAL="1" ><FUNC NAME="CKL_STATUS_VALUE" ICON="published" STATUS_NAME="[@EDITION.PUBLISHED]" /></LET>
-          <LET VAR="table">[#TP][#CLASS]</LET>
-          <LOOP NAME="CKL_STATUS_datepubli" TABLE="[#TABLE]" WHERE="identity = '[#ID]'">
-            <IF COND="[#DATEPUBLI|isadate] AND [#DATEPUBLI] GT today()">
-              <LET VAR="status_value" GLOBAL="1" ><FUNC NAME="CKL_STATUS_VALUE" ICON="later_published" STATUS_NAME="[@EDITION.LATER_PUBLISHED]" /></LET>
-            </IF>
-          </LOOP>
-        </IF>
-        [%STATUS_VALUE]
+			<ELSEIF COND="[#STATUS]==1">
+				<IF COND="[#CLASS]">
+					<LET VAR="status_value" GLOBAL="1" ><FUNC NAME="CKL_STATUS_VALUE" ICON="published" STATUS_NAME="[@EDITION.PUBLISHED]" /></LET>
+					<LET VAR="table">[#TP][#CLASS]</LET>
+					<LOOP NAME="CKL_STATUS_datepubli" TABLE="[#TABLE]" WHERE="identity = '[#ID]'">
+						<IF COND="[#DATEPUBLI|isadate] AND [#DATEPUBLI] GT today()">
+							<LET VAR="status_value" GLOBAL="1" ><FUNC NAME="CKL_STATUS_VALUE" ICON="later_published" STATUS_NAME="[@EDITION.LATER_PUBLISHED]" /></LET>
+						</IF>
+					</LOOP>
+				</IF>
+				[%STATUS_VALUE]
 
-      <ELSEIF COND="[#STATUS]==8">
-        <FUNC NAME="CKL_STATUS_VALUE" ICON="locked" STATUS_NAME="[@EDITION.PROTECTED]" />
+			<ELSEIF COND="[#STATUS]==8">
+				<FUNC NAME="CKL_STATUS_VALUE" ICON="locked" STATUS_NAME="[@EDITION.PROTECTED]" />
 
-      <ELSEIF COND="[#STATUS]==32">
-        <FUNC NAME="CKL_STATUS_VALUE" ICON="locked" STATUS_NAME="[@EDITION.PERMANENT_PUBLISHED]" />
-      </IF>
-    </div>
-  </div>
+			<ELSEIF COND="[#STATUS]==32">
+				<FUNC NAME="CKL_STATUS_VALUE" ICON="locked" STATUS_NAME="[@EDITION.PERMANENT_PUBLISHED]" />
+			</IF>
+		</div>
+	</div>
 </DEFMACRO>
 
 /**
@@ -491,7 +491,7 @@
  * @param {string} icon - Nom du fichier de l'icone.
  */
 <DEFFUNC NAME="CKL_STATUS_VALUE" REQUIRED="status_name, icon">
-  <img class="ckl-status-icon" src="[#SHAREURL]/images/[#ICON].gif" alt="" /> <span class="ckl-status-name">[#STATUS_NAME]</span>
+	<img class="ckl-status-icon" src="[#SHAREURL]/images/[#ICON].gif" alt="" /> <span class="ckl-status-name">[#STATUS_NAME]</span>
 </DEFFUNC>
 
 /**
@@ -499,28 +499,28 @@
  * @param {string} type - Nom du type des personnes.
  */
 <DEFFUNC NAME="CKL_PERSONNES" REQUIRED="type">
-  <LOOP NAME="ckl_personnes" SELECT="g_firstname, g_familyname" TABLE="relations, persons" WHERE="id1 = '[#ID]' AND id2 = persons.id AND nature = 'G' AND type = '[#TYPE]'" ORDER="degree">
-    <BEFORE>
-      <div class="ckl-field ckl-personnes" data-field="[#TYPE]" data-type="[#TYPE]">
-        <div class="ckl-field-title"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="[#TYPE]"/></div>
-        <div class="ckl-field-value">
-    </BEFORE>
-    <DO>
-      <IF COND="[#COUNT] GE 2">
-        <IF COND="[#COUNT] LT [#NBRESULTS]">, <ELSE/> et </IF>
-      </IF>
-      <span class="ckl-personne" data-type="[#TYPE]" data-id="[#ID]">
-        <LET VAR="label_prenom"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="prenom" CLASSNAME="auteurs"/></LET>
-        <LET VAR="label_nom"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="nomfamille" CLASSNAME="auteurs"/></LET>
-        <span class="ckl-personne-firstname" data-label="[#LABEL_PRENOM|trim]">[#G_FIRSTNAME]</span>
-        <span class="ckl-personne-familyname" data-label="[#LABEL_NOM|trim]">[#G_FAMILYNAME]</span>
-      </span>
-    </DO>
-    <AFTER>
-        </div>
-      </div>
-    </AFTER>
-  </LOOP>
+	<LOOP NAME="ckl_personnes" SELECT="g_firstname, g_familyname" TABLE="relations, persons" WHERE="id1 = '[#ID]' AND id2 = persons.id AND nature = 'G' AND type = '[#TYPE]'" ORDER="degree">
+		<BEFORE>
+			<div class="ckl-field ckl-personnes" data-field="[#TYPE]" data-type="[#TYPE]">
+				<div class="ckl-field-title"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="[#TYPE]"/></div>
+				<div class="ckl-field-value">
+		</BEFORE>
+		<DO>
+			<IF COND="[#COUNT] GE 2">
+				<IF COND="[#COUNT] LT [#NBRESULTS]">, <ELSE/> et </IF>
+			</IF>
+			<span class="ckl-personne" data-type="[#TYPE]" data-id="[#ID]">
+				<LET VAR="label_prenom"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="prenom" CLASSNAME="auteurs"/></LET>
+				<LET VAR="label_nom"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="nomfamille" CLASSNAME="auteurs"/></LET>
+				<span class="ckl-personne-firstname" data-label="[#LABEL_PRENOM|trim]">[#G_FIRSTNAME]</span>
+				<span class="ckl-personne-familyname" data-label="[#LABEL_NOM|trim]">[#G_FAMILYNAME]</span>
+			</span>
+		</DO>
+		<AFTER>
+				</div>
+			</div>
+		</AFTER>
+	</LOOP>
 </DEFFUNC>
 
 /**
@@ -528,12 +528,12 @@
  * @param {string} type - Nom du type des personnes.
  */
 <DEFFUNC NAME="CKL_PERSONNES_RAW" REQUIRED="type">
-  <LOOP NAME="ckl_personnes_raw" SELECT="g_firstname, g_familyname" TABLE="relations, persons" WHERE="id1 = '[#ID]' AND id2 = persons.id AND nature = 'G' AND type = '[#TYPE]'" ORDER="degree">
-    <IF COND="[#COUNT] GE 2">
-      <IF COND="[#COUNT] LT [#NBRESULTS]">, <ELSE/> et </IF>
-    </IF>
-    [#G_FIRSTNAME] [#G_FAMILYNAME]
-  </LOOP>
+	<LOOP NAME="ckl_personnes_raw" SELECT="g_firstname, g_familyname" TABLE="relations, persons" WHERE="id1 = '[#ID]' AND id2 = persons.id AND nature = 'G' AND type = '[#TYPE]'" ORDER="degree">
+		<IF COND="[#COUNT] GE 2">
+			<IF COND="[#COUNT] LT [#NBRESULTS]">, <ELSE/> et </IF>
+		</IF>
+		[#G_FIRSTNAME] [#G_FAMILYNAME]
+	</LOOP>
 </DEFFUNC>
 
 /**
@@ -541,174 +541,173 @@
  * @param {string} classname - Nom de la classe de l'index.
  */
 <DEFFUNC NAME="CKL_ENTRIES" REQUIRED="classname">
-  <LOOP NAME="ckl_a_entries_types" TABLE="relations, entries, entrytypes" SELECT="DISTINCT(idtype), title, altertitle, type AS entrytype" WHERE="id1 = '[#ID]' AND id2 = entries.id AND entries.idtype = entrytypes.id AND entrytypes.class = '[#CLASSNAME]'" ORDER="entrytypes.rank">
-    <BEFORE>
-      <div class="ckl-entries">
-    </BEFORE>
-    <DO>
-      <LOOP NAME="ckl_a_entries" TABLE="entries" SELECT="id, g_name" WHERE="idtype = '[#IDTYPE]' AND iddocument = '[#ID]'" ORDER="degree">
-        <BEFORE>
-          <div class="ckl-field ckl-entrytype doc-entrytype-[#ENTRYTYPE]" data-field="[#ENTRYTYPE]">
-            <div class="ckl-field-title">[#TITLE]</div>
-            <div class="ckl-field-value">
-        </BEFORE>
-        <DO><IF COND="[#COUNT] GE 2">, </IF><a href="[#ID|makeurlwithid]" class="ckl-entry">[#G_NAME]</a></DO>
-        <AFTER>
-            </div>
-          </div>
-        </AFTER>
-      </LOOP>
-    </DO>
-    <AFTER>
-      </div>
-    </AFTER>
-  </LOOP>
+	<LOOP NAME="ckl_a_entries_types" TABLE="relations, entries, entrytypes" SELECT="DISTINCT(idtype), title, altertitle, type AS entrytype" WHERE="id1 = '[#ID]' AND id2 = entries.id AND entries.idtype = entrytypes.id AND entrytypes.class = '[#CLASSNAME]'" ORDER="entrytypes.rank">
+		<BEFORE>
+			<div class="ckl-entries">
+		</BEFORE>
+		<DO>
+			<LOOP NAME="ckl_a_entries" TABLE="entries" SELECT="id, g_name" WHERE="idtype = '[#IDTYPE]' AND iddocument = '[#ID]'" ORDER="degree">
+				<BEFORE>
+					<div class="ckl-field ckl-entrytype doc-entrytype-[#ENTRYTYPE]" data-field="[#ENTRYTYPE]">
+						<div class="ckl-field-title">[#TITLE]</div>
+						<div class="ckl-field-value">
+				</BEFORE>
+				<DO><IF COND="[#COUNT] GE 2">, </IF><a href="[#ID|makeurlwithid]" class="ckl-entry">[#G_NAME]</a></DO>
+				<AFTER>
+						</div>
+					</div>
+				</AFTER>
+			</LOOP>
+		</DO>
+		<AFTER>
+			</div>
+		</AFTER>
+	</LOOP>
 </DEFFUNC>
 
 /**
  * Affichage des financements liés à l'entité.
  */
 <DEFMACRO NAME="CKL_FUNDER">
-  <LOOP NAME="ckl_funder_table_exists" SELECT="id AS funderclassid" TABLE="classes" WHERE="class='funder' AND classtype='entries'" LIMIT="1">
-    <LOOP NAME="ckl_funder" 
-      SELECT="f.fundername, ef.grantnumber" 
-      TABLE="funder f, entries e, relations r,entities_funder ef, entrytypes et"
-      WHERE="f.identry=e.id AND et.id=e.idtype AND r.id2=e.id AND r.idrelation=ef.idrelation AND r.id1=[#ID] AND et.type='funder' AND e.status > 0">
-      <BEFORE>
-        <div class="ckl-field ckl-funder">
-          <div class="ckl-field-title"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="funder"/></div>
-          <div class="ckl-field-value">
-      </BEFORE>
-      <DO>
-        [#FUNDERNAME]<IF COND="[#GRANTNUMBER]">, [#GRANTNUMBER]</IF>
-      </DO>
-      <AFTER>
-          </div>
-        </div>
-      </AFTER>
-    </LOOP>
-  </LOOP>
-  
+	<LOOP NAME="ckl_funder_table_exists" SELECT="id AS funderclassid" TABLE="classes" WHERE="class='funder' AND classtype='entries'" LIMIT="1">
+		<LOOP NAME="ckl_funder" 
+			SELECT="f.fundername, ef.grantnumber" 
+			TABLE="funder f, entries e, relations r,entities_funder ef, entrytypes et"
+			WHERE="f.identry=e.id AND et.id=e.idtype AND r.id2=e.id AND r.idrelation=ef.idrelation AND r.id1=[#ID] AND et.type='funder' AND e.status > 0">
+			<BEFORE>
+				<div class="ckl-field ckl-funder">
+					<div class="ckl-field-title"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="funder"/></div>
+					<div class="ckl-field-value">
+			</BEFORE>
+			<DO>
+				[#FUNDERNAME]<IF COND="[#GRANTNUMBER]">, [#GRANTNUMBER]</IF>
+			</DO>
+			<AFTER>
+					</div>
+				</div>
+			</AFTER>
+		</LOOP>
+	</LOOP>
 </DEFMACRO>
 
 /**
  * Affichage des alias de traduction du document.
  */
 <DEFMACRO NAME="CKL_TRADUCTIONS">
-  <LOOP NAME="ckl_traductions"
-        SELECT="id, titre, langue, IF(id IN (SELECT id2 FROM relations WHERE nature = 'traduction'), 1, 0) AS original"
-        TABLE="textes, relations"
-        WHERE="((id2 = [#ID] AND id1 = textes.identity)
-        OR (id1 = [#ID] AND id2 = textes.identity)
-        OR (id2 = (SELECT id2 FROM relations WHERE id1 = [#ID] AND nature = 'traduction' LIMIT 1)) AND id1 != [#ID] AND id1 = textes.identity)
-        AND (nature = 'traduction')"
-        ORDER="original DESC">
-    <BEFORE>
-      <div class="ckl-field ckl-traductions">
-        <div class="ckl-field-title"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="traduction"/></div>
-        <div class="ckl-field-value">
-          <ul>
-    </BEFORE>
-    <DO>
-      <li class="ckl-traduction" lang="[#LANGUE]">
-        <span class="ckl-field-ml-lang">[#LANGUE]</span>
-        <LET VAR="href" ><FUNC NAME="CKL_URL" DOCUMENT="[#ID]" /></LET>
-        <span class="ckl-field-ml-value"><a href="[#HREF]">[#TITRE]</a></span>
-        <span class="ckl-field-ml-id">([#ID])</span>
-        <IF COND="[#ORIGINAL]">
-          <span class="ckl-traduction-original">[original]</span>
-        </IF>
-      </li>
-    </DO>
-    <AFTER>
-          </ul>
-        </div>
-      </div>
-    </AFTER>
-  </LOOP>
+	<LOOP NAME="ckl_traductions"
+				SELECT="id, titre, langue, IF(id IN (SELECT id2 FROM relations WHERE nature = 'traduction'), 1, 0) AS original"
+				TABLE="textes, relations"
+				WHERE="((id2 = [#ID] AND id1 = textes.identity)
+				OR (id1 = [#ID] AND id2 = textes.identity)
+				OR (id2 = (SELECT id2 FROM relations WHERE id1 = [#ID] AND nature = 'traduction' LIMIT 1)) AND id1 != [#ID] AND id1 = textes.identity)
+				AND (nature = 'traduction')"
+				ORDER="original DESC">
+		<BEFORE>
+			<div class="ckl-field ckl-traductions">
+				<div class="ckl-field-title"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="traduction"/></div>
+				<div class="ckl-field-value">
+					<ul>
+		</BEFORE>
+		<DO>
+			<li class="ckl-traduction" lang="[#LANGUE]">
+				<span class="ckl-field-ml-lang">[#LANGUE]</span>
+				<LET VAR="href" ><FUNC NAME="CKL_URL" DOCUMENT="[#ID]" /></LET>
+				<span class="ckl-field-ml-value"><a href="[#HREF]">[#TITRE]</a></span>
+				<span class="ckl-field-ml-id">([#ID])</span>
+				<IF COND="[#ORIGINAL]">
+					<span class="ckl-traduction-original">[original]</span>
+				</IF>
+			</li>
+		</DO>
+		<AFTER>
+					</ul>
+				</div>
+			</div>
+		</AFTER>
+	</LOOP>
 </DEFMACRO>
 
 /**
  * Retourne 1 si le document est lié à un document source.
  */
 <DEFMACRO NAME="CKL_IS_TRADUCTION">
-  <LOOP NAME="ckl_is_traduction"
-        SELECT="id"
-        TABLE="textes, relations"
-        WHERE="(id1 = [#ID] AND id2 = textes.identity) AND (nature = 'traduction')"
-        LIMIT="0,1">
-    <DO>1</DO>
-  </LOOP>
+	<LOOP NAME="ckl_is_traduction"
+				SELECT="id"
+				TABLE="textes, relations"
+				WHERE="(id1 = [#ID] AND id2 = textes.identity) AND (nature = 'traduction')"
+				LIMIT="0,1">
+		<DO>1</DO>
+	</LOOP>
 </DEFMACRO>
 
 /**
  * Fichiers.
  */
 <DEFMACRO NAME="CKL_FICHIERS">
-  <LOOP NAME="ckl_fichiers"
-        TABLE="fichiers"
-        WHERE="idparent = [#ID]"
-        SELECT="id, titre, type, document"
-        ORDER="rank">
-    <BEFORE>
-      <div class="ckl-field ckl-fichiers">
-        <div class="ckl-field-title">[#CKL_TRANSLATIONS.FILES]</div>
-        <div class="ckl-field-value">
-    </BEFORE>
-    <DO>
-      <div class="ckl-fichier">
-        <LET VAR="label_titre"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="titre"/></LET>
-        <p class="ckl-fichier-titre" data-label="[#LABEL_TITRE|trim]"><IF COND="[#TITRE]">[#TITRE]<ELSE/>-</IF></p>
-        <p class="ckl-fichier-type" data-label="[#CKL_TRANSLATIONS.TYPE]">[#TYPE]</p>
-        <IF COND="[#DOCUMENT]">
-          <LET VAR="label_document"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="document"/></LET>
-          <p class="ckl-fichier-document" 
-            data-label="[#LABEL_DOCUMENT|trim]" 
-            data-document-mime="[#DOCUMENT|getFileMime]" 
-            data-document-filesize="[#DOCUMENT|nicefilesize]" 
-            data-document-imagewidth="[#DOCUMENT|imagewidth]">
-            <a href="[#DOCUMENT]">[#DOCUMENT]</a>
-          </p>
-        </IF>
-      </div>
-    </DO>
-    <AFTER>
-        </div>
-      </div>
-    </AFTER>
-  </LOOP>
+	<LOOP NAME="ckl_fichiers"
+				TABLE="fichiers"
+				WHERE="idparent = [#ID]"
+				SELECT="id, titre, type, document"
+				ORDER="rank">
+		<BEFORE>
+			<div class="ckl-field ckl-fichiers">
+				<div class="ckl-field-title">[#CKL_TRANSLATIONS.FILES]</div>
+				<div class="ckl-field-value">
+		</BEFORE>
+		<DO>
+			<div class="ckl-fichier">
+				<LET VAR="label_titre"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="titre"/></LET>
+				<p class="ckl-fichier-titre" data-label="[#LABEL_TITRE|trim]"><IF COND="[#TITRE]">[#TITRE]<ELSE/>-</IF></p>
+				<p class="ckl-fichier-type" data-label="[#CKL_TRANSLATIONS.TYPE]">[#TYPE]</p>
+				<IF COND="[#DOCUMENT]">
+					<LET VAR="label_document"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="document"/></LET>
+					<p class="ckl-fichier-document" 
+						data-label="[#LABEL_DOCUMENT|trim]" 
+						data-document-mime="[#DOCUMENT|getFileMime]" 
+						data-document-filesize="[#DOCUMENT|nicefilesize]" 
+						data-document-imagewidth="[#DOCUMENT|imagewidth]">
+						<a href="[#DOCUMENT]">[#DOCUMENT]</a>
+					</p>
+				</IF>
+			</div>
+		</DO>
+		<AFTER>
+				</div>
+			</div>
+		</AFTER>
+	</LOOP>
 </DEFMACRO>
 
 /**
  * Fichiers externes.
  */
 <DEFMACRO NAME="CKL_FICHIERSEXTERNES">
-  <LOOP NAME="ckl_fichiersexternes"
-        TABLE="fichiersexternes"
-        WHERE="idparent = [#ID]"
-        SELECT="id, titre, type, urlmedia"
-        ORDER="rank">
-    <BEFORE>
-      <div class="ckl-field ckl-fichiersexternes">
-        <div class="ckl-field-title">Fichiers externes</div>
-        <div class="ckl-field-value">
-    </BEFORE>
-    <DO>
-      <div class="ckl-fichierexterne">
-        <LET VAR="label_titre"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="titre"/></LET>
-        <p class="ckl-fichierexterne-titre" data-label="[#LABEL_TITRE|trim]"><IF COND="[#TITRE]">[#TITRE]<ELSE/>-</IF></p>
-        <p class="ckl-fichierexterne-type" data-label="[#CKL_TRANSLATIONS.TYPE]">[#TYPE]</p>
-        <IF COND="[#URLMEDIA]">
-          <LET VAR="label_urlmedia"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="urlmedia"/></LET>
-          <p class="ckl-fichierexterne-urlmedia" data-label="[#LABEL_URLMEDIA]"><a href="[#URLMEDIA]">[#URLMEDIA]</a></p>
-        </IF>
-      </div>
-    </DO>
-    <AFTER>
-        </div>
-      </div>
-    </AFTER>
-  </LOOP>
+	<LOOP NAME="ckl_fichiersexternes"
+				TABLE="fichiersexternes"
+				WHERE="idparent = [#ID]"
+				SELECT="id, titre, type, urlmedia"
+				ORDER="rank">
+		<BEFORE>
+			<div class="ckl-field ckl-fichiersexternes">
+				<div class="ckl-field-title">Fichiers externes</div>
+				<div class="ckl-field-value">
+		</BEFORE>
+		<DO>
+			<div class="ckl-fichierexterne">
+				<LET VAR="label_titre"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="titre"/></LET>
+				<p class="ckl-fichierexterne-titre" data-label="[#LABEL_TITRE|trim]"><IF COND="[#TITRE]">[#TITRE]<ELSE/>-</IF></p>
+				<p class="ckl-fichierexterne-type" data-label="[#CKL_TRANSLATIONS.TYPE]">[#TYPE]</p>
+				<IF COND="[#URLMEDIA]">
+					<LET VAR="label_urlmedia"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="urlmedia"/></LET>
+					<p class="ckl-fichierexterne-urlmedia" data-label="[#LABEL_URLMEDIA]"><a href="[#URLMEDIA]">[#URLMEDIA]</a></p>
+				</IF>
+			</div>
+		</DO>
+		<AFTER>
+				</div>
+			</div>
+		</AFTER>
+	</LOOP>
 </DEFMACRO>
 
 /**
@@ -716,63 +715,63 @@
  * @param {string} position - Indique la position dans la page.
  */
 <DEFFUNC NAME="CKL_NAV_ENTITIES" REQUIRED="position">
-  <div class="ckl-nav-entities position-[#POSITION]">
-    <!--[ Breadcrumbs ]-->
-    <MACRO NAME="CKL_BREADCRUMBS"/>
+	<div class="ckl-nav-entities position-[#POSITION]">
+		<!--[ Breadcrumbs ]-->
+		<MACRO NAME="CKL_BREADCRUMBS"/>
 
-    <div class="ckl-siblings">
-      <!--[ Siblings ]-->
-      <IF COND="[#POSITION] EQ 'top'">
-        <MACRO NAME="CKL_SIBLINGS_FIX"/>
-      </IF>
-      <FUNC NAME="CKL_SIBLING" DIRECTION="previous"/>
-      <FUNC NAME="CKL_SIBLING" DIRECTION="next"/>
-    </div>
-  </div>
+		<div class="ckl-siblings">
+			<!--[ Siblings ]-->
+			<IF COND="[#POSITION] EQ 'top'">
+				<MACRO NAME="CKL_SIBLINGS_FIX"/>
+			</IF>
+			<FUNC NAME="CKL_SIBLING" DIRECTION="previous"/>
+			<FUNC NAME="CKL_SIBLING" DIRECTION="next"/>
+		</div>
+	</div>
 </DEFFUNC>
 
 /**
  * Affiche les publications parentes (fil d'arianne)
  */
 <DEFMACRO NAME="CKL_BREADCRUMBS">
-  <!--[ Indexes et auteurs ]-->
-  <IF COND="[%TPL_TYPE] EQ 'entrytypes' OR [%TPL_TYPE] EQ 'persontypes'">
-    <IF COND="[%TPL_TYPE] EQ 'entrytypes'">
-      <LET VAR="classname">indexes</LET>
-    <ELSE />
-      <LET VAR="classname">auteurs</LET>
-    </IF>
+	<!--[ Indexes et auteurs ]-->
+	<IF COND="[%TPL_TYPE] EQ 'entrytypes' OR [%TPL_TYPE] EQ 'persontypes'">
+		<IF COND="[%TPL_TYPE] EQ 'entrytypes'">
+			<LET VAR="classname">indexes</LET>
+		<ELSE />
+			<LET VAR="classname">auteurs</LET>
+		</IF>
 
-    <div class="ckl-breadcrumbs">
-      <i class="fas fa-map-marker-alt"></i>
-      <LET VAR="href"><FUNC NAME="CKL_URL" PARAMETER="view_tab=[#CLASSNAME]" /></LET>
-      <LET VAR="link_title"><FUNC NAME="CKL_GET_CLASS_TITLE" CLASS="[#CLASSNAME]" /></LET>
-      <a href="[#HREF]">[#LINK_TITLE]</a>
-    </div>
+		<div class="ckl-breadcrumbs">
+			<i class="fas fa-map-marker-alt"></i>
+			<LET VAR="href"><FUNC NAME="CKL_URL" PARAMETER="view_tab=[#CLASSNAME]" /></LET>
+			<LET VAR="link_title"><FUNC NAME="CKL_GET_CLASS_TITLE" CLASS="[#CLASSNAME]" /></LET>
+			<a href="[#HREF]">[#LINK_TITLE]</a>
+		</div>
 
-  <!--[ Textes et publications ]-->
-  <ELSE />
-    <LET VAR="doc_id">[#ID]</LET>
-    <LOOP NAME="ckl_breadcrumbs"
-          SELECT="id, titre, numero, datepubli, datepublipapier, degree, periode, altertitre"
-          TABLE="publications, relations"
-          WHERE="id2 = '[#DOC_ID]' AND id1 = publications.identity"
-          ORDER="degree DESC">
-      <BEFORE>
-        <div class="ckl-breadcrumbs">
-          <i class="fas fa-map-marker-alt"></i>
-      </BEFORE>
-      <DOFIRST>
-        <MACRO NAME="CKL_BREADCRUMBS_ITEM" />
-      </DOFIRST>
-      <DO>
-        &gt; <MACRO NAME="CKL_BREADCRUMBS_ITEM" />
-      </DO>
-      <AFTER>
-        </div>
-      </AFTER>
-    </LOOP>
-  </IF>
+	<!--[ Textes et publications ]-->
+	<ELSE />
+		<LET VAR="doc_id">[#ID]</LET>
+		<LOOP NAME="ckl_breadcrumbs"
+					SELECT="id, titre, numero, datepubli, datepublipapier, degree, periode, altertitre"
+					TABLE="publications, relations"
+					WHERE="id2 = '[#DOC_ID]' AND id1 = publications.identity"
+					ORDER="degree DESC">
+			<BEFORE>
+				<div class="ckl-breadcrumbs">
+					<i class="fas fa-map-marker-alt"></i>
+			</BEFORE>
+			<DOFIRST>
+				<MACRO NAME="CKL_BREADCRUMBS_ITEM" />
+			</DOFIRST>
+			<DO>
+				&gt; <MACRO NAME="CKL_BREADCRUMBS_ITEM" />
+			</DO>
+			<AFTER>
+				</div>
+			</AFTER>
+		</LOOP>
+	</IF>
 
 </DEFMACRO>
 
@@ -780,100 +779,100 @@
  * Item du fil d'Arianne.
  */
 <DEFMACRO NAME="CKL_BREADCRUMBS_ITEM">
-  <LET VAR="a_contents">
-    <IF COND="[#TYPE] EQ 'numero'">
-      <IF COND="[#NUMERO]"><span class="ckl-breadcrumbs-item-numero">[#NUMERO]</span> | </IF>
+	<LET VAR="a_contents">
+		<IF COND="[#TYPE] EQ 'numero'">
+			<IF COND="[#NUMERO]"><span class="ckl-breadcrumbs-item-numero">[#NUMERO]</span> | </IF>
 
-      <IF COND="[#DATEPUBLIPAPIER|isadate]">
-        <LET VAR="annee">[#DATEPUBLIPAPIER|formateddate("%Y")]</LET>
-      <ELSEIF COND="[#DATEPUBLI|isadate]"/>
-        <LET VAR="annee">[#DATEPUBLI|formateddate("%Y")]</LET>
-      <ELSEIF COND="[#CREATIONDATE|isadate]"/>
-        <LET VAR="annee">[#CREATIONDATE|formateddate("%Y")]</LET>
-      </IF>
+			<IF COND="[#DATEPUBLIPAPIER|isadate]">
+				<LET VAR="annee">[#DATEPUBLIPAPIER|formateddate("%Y")]</LET>
+			<ELSEIF COND="[#DATEPUBLI|isadate]"/>
+				<LET VAR="annee">[#DATEPUBLI|formateddate("%Y")]</LET>
+			<ELSEIF COND="[#CREATIONDATE|isadate]"/>
+				<LET VAR="annee">[#CREATIONDATE|formateddate("%Y")]</LET>
+			</IF>
 
-      <IF COND="[#ANNEE]"><span class="ckl-breadcrumbs-item-annee">[#ANNEE]</span> : </IF>
-    </IF>
+			<IF COND="[#ANNEE]"><span class="ckl-breadcrumbs-item-annee">[#ANNEE]</span> : </IF>
+		</IF>
 
-    <IF COND="[#TITRE]"><span class="ckl-breadcrumbs-item-titre">[#TITRE]</span></IF>
-  </LET>
+		<IF COND="[#TITRE]"><span class="ckl-breadcrumbs-item-titre">[#TITRE]</span></IF>
+	</LET>
 
-  <span class="ckl-breadcrumbs-item" data-type="[#TYPE]" data-degree="[#DEGREE]">
-    <IF COND="[#TYPE] EQ 'numero'">
-      <LET VAR="href"><FUNC NAME="CKL_URL" DOCUMENT="[#ID]" /></LET>      
-    <ELSE/>
-      <LET VAR="href"><FUNC NAME="CKL_URL" /></LET>
-    </IF>
-    <a href="[#HREF]">[#A_CONTENTS|trim]</a>
-  </span>
+	<span class="ckl-breadcrumbs-item" data-type="[#TYPE]" data-degree="[#DEGREE]">
+		<IF COND="[#TYPE] EQ 'numero'">
+			<LET VAR="href"><FUNC NAME="CKL_URL" DOCUMENT="[#ID]" /></LET>      
+		<ELSE/>
+			<LET VAR="href"><FUNC NAME="CKL_URL" /></LET>
+		</IF>
+		<a href="[#HREF]">[#A_CONTENTS|trim]</a>
+	</span>
 </DEFMACRO>
 
 /**
  * Récupérer la vraie TOC du parent pour créer des liens précédent/suivant corrects.
  */
 <DEFMACRO NAME="CKL_SIBLINGS_FIX">
-  <!--[ Indexes et auteurs ]-->
-  <IF COND="[%TPL_TYPE] EQ 'entrytypes' OR [%TPL_TYPE] EQ 'persontypes'">
-    <!--[ Cf LOOP ckl_h_indexes ]-->
-    <IF COND="[%TPL_TYPE] EQ 'entrytypes'">
-      <LET VAR="tableindex">#_TP_entries</LET>
-      <LET VAR="tabletypes">#_TP_entrytypes</LET>
-      <LET VAR="tablefilter">AND class = 'indexes'</LET>
-    <ELSE />
-      <LET VAR="tableindex">#_TP_persons</LET>
-      <LET VAR="tabletypes">#_TP_persontypes</LET>
-      <LET VAR="tablefilter"></LET>
-    </IF>
-    <LOOP NAME="ckl_siblings_fix_indexes" TABLE="[#TABLEINDEX], [#TABLETYPES]" SELECT="DISTINCT(idtype)" WHERE="[#TABLEINDEX].idtype = [#TABLETYPES].id AND [#TABLEINDEX].status GT 0 [#TABLEFILTER]" ORDER="CASE WHEN type LIKE 'motscles%' THEN 0 ELSE 1 END, [#TABLETYPES].rank">
-      <LET ARRAY="parent_real_toc[]" GLOBAL="1">[#IDTYPE]</LET>
-    </LOOP>
-  
-  <!--[ Textes et publications ]-->
-  <ELSE />
-    <!--[ ID du numero ou rubrique annuelle ]-->
-    <LET VAR="idrealparent">[#ID|getParentByType('numero')]</LET>
-    <IF COND="![#IDREALPARENT]">
-      <LET VAR="idrealparent">[#ID|getParentByType('rubriqueannuelle')]</LET>
-    </IF>
+	<!--[ Indexes et auteurs ]-->
+	<IF COND="[%TPL_TYPE] EQ 'entrytypes' OR [%TPL_TYPE] EQ 'persontypes'">
+		<!--[ Cf LOOP ckl_h_indexes ]-->
+		<IF COND="[%TPL_TYPE] EQ 'entrytypes'">
+			<LET VAR="tableindex">#_TP_entries</LET>
+			<LET VAR="tabletypes">#_TP_entrytypes</LET>
+			<LET VAR="tablefilter">AND class = 'indexes'</LET>
+		<ELSE />
+			<LET VAR="tableindex">#_TP_persons</LET>
+			<LET VAR="tabletypes">#_TP_persontypes</LET>
+			<LET VAR="tablefilter"></LET>
+		</IF>
+		<LOOP NAME="ckl_siblings_fix_indexes" TABLE="[#TABLEINDEX], [#TABLETYPES]" SELECT="DISTINCT(idtype)" WHERE="[#TABLEINDEX].idtype = [#TABLETYPES].id AND [#TABLEINDEX].status GT 0 [#TABLEFILTER]" ORDER="CASE WHEN type LIKE 'motscles%' THEN 0 ELSE 1 END, [#TABLETYPES].rank">
+			<LET ARRAY="parent_real_toc[]" GLOBAL="1">[#IDTYPE]</LET>
+		</LOOP>
+	
+	<!--[ Textes et publications ]-->
+	<ELSE />
+		<!--[ ID du numero ou rubrique annuelle ]-->
+		<LET VAR="idrealparent">[#ID|getParentByType('numero')]</LET>
+		<IF COND="![#IDREALPARENT]">
+			<LET VAR="idrealparent">[#ID|getParentByType('rubriqueannuelle')]</LET>
+		</IF>
 
-    <IF COND="[#IDREALPARENT]">
-      <!--[ Reconstitution de la toc a plat dans un array ]-->
-      <LET VAR="current_parent_id">[#IDREALPARENT]</LET>
-      <LOOP NAME="ckl_siblings_fix_textes"
-            TABLE="entities, types"
-            SELECT="id, class, type"
-            WHERE="idparent = '[#CURRENT_PARENT_ID]'
-              AND class IN ('publications', 'textes') AND type NOT LIKE '%annexe%'
-              AND entities.idtype = types.id"
-            ORDER="entities.rank">
-        <IF COND="[#CLASS] EQ 'publications' AND [#TYPE] EQ 'souspartie'">
-          <LET VAR="current_parent_id">[#ID]</LET>
-          <LOOP NAME="ckl_siblings_fix_textes"></LOOP>
-        <ELSE />
-          <LET ARRAY="parent_real_toc[]" GLOBAL="1">[#ID]</LET>
-        </IF>
-      </LOOP>
-    </IF>
-  </IF>
+		<IF COND="[#IDREALPARENT]">
+			<!--[ Reconstitution de la toc a plat dans un array ]-->
+			<LET VAR="current_parent_id">[#IDREALPARENT]</LET>
+			<LOOP NAME="ckl_siblings_fix_textes"
+						TABLE="entities, types"
+						SELECT="id, class, type"
+						WHERE="idparent = '[#CURRENT_PARENT_ID]'
+							AND class IN ('publications', 'textes') AND type NOT LIKE '%annexe%'
+							AND entities.idtype = types.id"
+						ORDER="entities.rank">
+				<IF COND="[#CLASS] EQ 'publications' AND [#TYPE] EQ 'souspartie'">
+					<LET VAR="current_parent_id">[#ID]</LET>
+					<LOOP NAME="ckl_siblings_fix_textes"></LOOP>
+				<ELSE />
+					<LET ARRAY="parent_real_toc[]" GLOBAL="1">[#ID]</LET>
+				</IF>
+			</LOOP>
+		</IF>
+	</IF>
 
-  <!--[ %ID_ARTICLE_PRECEDENT ]-->
-  <LOOP NAME="foreach" ARRAY="[%PARENT_REAL_TOC]">
-    <IF COND="[#VALUE] EQ [%DOCID]">
-      <LET VAR="id_article_precedent" GLOBAL="1">[%PREV_ID]</LET>
-    </IF>
-    <LET VAR="prev_id" GLOBAL="1">[#VALUE]</LET>
-  </LOOP>
+	<!--[ %ID_ARTICLE_PRECEDENT ]-->
+	<LOOP NAME="foreach" ARRAY="[%PARENT_REAL_TOC]">
+		<IF COND="[#VALUE] EQ [%DOCID]">
+			<LET VAR="id_article_precedent" GLOBAL="1">[%PREV_ID]</LET>
+		</IF>
+		<LET VAR="prev_id" GLOBAL="1">[#VALUE]</LET>
+	</LOOP>
 
-  <!--[ %ID_ARTICLE_SUIVANT ]-->
-  <LOOP NAME="foreach" ARRAY="[%PARENT_REAL_TOC]">
-    <IF COND="[%ID_IS_NEXT] EQ 1">
-      <LET VAR="id_article_suivant" GLOBAL="1">[#VALUE]</LET>
-      <LET VAR="ID_IS_NEXT" GLOBAL="1">0</LET>
-    </IF>
-    <IF COND="[#VALUE] EQ [%DOCID]">
-      <LET VAR="ID_IS_NEXT" GLOBAL="1">1</LET>
-    </IF>
-  </LOOP>
+	<!--[ %ID_ARTICLE_SUIVANT ]-->
+	<LOOP NAME="foreach" ARRAY="[%PARENT_REAL_TOC]">
+		<IF COND="[%ID_IS_NEXT] EQ 1">
+			<LET VAR="id_article_suivant" GLOBAL="1">[#VALUE]</LET>
+			<LET VAR="ID_IS_NEXT" GLOBAL="1">0</LET>
+		</IF>
+		<IF COND="[#VALUE] EQ [%DOCID]">
+			<LET VAR="ID_IS_NEXT" GLOBAL="1">1</LET>
+		</IF>
+	</LOOP>
 </DEFMACRO>
 
 /**
@@ -881,25 +880,25 @@
  * @param {string} direction - "previous" ou "next".
  */
 <DEFFUNC NAME="CKL_SIBLING" REQUIRED="direction">
-  <!--[ Fix pour les éléments d'un numéro (car problème des sousparties) ou pour les indexes et auteurs, pour lesquels on simule une arborescence ]-->
-  <IF COND="[#CLASS] EQ 'textes' OR [#CLASS] EQ 'liens' OR [#CLASS] EQ 'fichiers' OR [#CLASS] EQ 'textessimples' OR [%TPL_TYPE] EQ 'entrytypes' OR [%TPL_TYPE] EQ 'persontypes'">
-    <IF COND="[#DIRECTION] EQ 'previous' AND [%ID_ARTICLE_PRECEDENT]">
-      <FUNC NAME="CKL_SIBLING_BUTTON" ENTITY_ID="[%ID_ARTICLE_PRECEDENT]" DIRECTION="[#DIRECTION]" />
-      <ELSEIF COND="[#DIRECTION] EQ 'next' AND [%ID_ARTICLE_SUIVANT]" />
-      <FUNC NAME="CKL_SIBLING_BUTTON" ENTITY_ID="[%ID_ARTICLE_SUIVANT]" DIRECTION="[#DIRECTION]" />
-    </IF>
-  <ELSE />
-    <!--[ Fonctionnement standard pour tout le reste ]-->
-    <IF COND="[#DIRECTION] EQ 'previous'">
-      <LOOP NAME="previous" ID="[#ID]">
-        <FUNC NAME="CKL_SIBLING_BUTTON" ENTITY_ID="[#ID]" DIRECTION="[#DIRECTION]" />
-      </LOOP>
-      <ELSEIF COND="[#DIRECTION] EQ 'next'" />
-      <LOOP NAME="next" ID="[#ID]">
-        <FUNC NAME="CKL_SIBLING_BUTTON" ENTITY_ID="[#ID]" DIRECTION="[#DIRECTION]" />
-      </LOOP>
-    </IF>
-  </IF>
+	<!--[ Fix pour les éléments d'un numéro (car problème des sousparties) ou pour les indexes et auteurs, pour lesquels on simule une arborescence ]-->
+	<IF COND="[#CLASS] EQ 'textes' OR [#CLASS] EQ 'liens' OR [#CLASS] EQ 'fichiers' OR [#CLASS] EQ 'textessimples' OR [%TPL_TYPE] EQ 'entrytypes' OR [%TPL_TYPE] EQ 'persontypes'">
+		<IF COND="[#DIRECTION] EQ 'previous' AND [%ID_ARTICLE_PRECEDENT]">
+			<FUNC NAME="CKL_SIBLING_BUTTON" ENTITY_ID="[%ID_ARTICLE_PRECEDENT]" DIRECTION="[#DIRECTION]" />
+			<ELSEIF COND="[#DIRECTION] EQ 'next' AND [%ID_ARTICLE_SUIVANT]" />
+			<FUNC NAME="CKL_SIBLING_BUTTON" ENTITY_ID="[%ID_ARTICLE_SUIVANT]" DIRECTION="[#DIRECTION]" />
+		</IF>
+	<ELSE />
+		<!--[ Fonctionnement standard pour tout le reste ]-->
+		<IF COND="[#DIRECTION] EQ 'previous'">
+			<LOOP NAME="previous" ID="[#ID]">
+				<FUNC NAME="CKL_SIBLING_BUTTON" ENTITY_ID="[#ID]" DIRECTION="[#DIRECTION]" />
+			</LOOP>
+			<ELSEIF COND="[#DIRECTION] EQ 'next'" />
+			<LOOP NAME="next" ID="[#ID]">
+				<FUNC NAME="CKL_SIBLING_BUTTON" ENTITY_ID="[#ID]" DIRECTION="[#DIRECTION]" />
+			</LOOP>
+		</IF>
+	</IF>
 </DEFFUNC>
 
 /**
@@ -908,14 +907,14 @@
  * @param {string} direction - "previous" ou "next".
  */
  <DEFFUNC NAME="CKL_SIBLING_BUTTON" REQUIRED="entity_id, direction">
-  <IF COND="[#DIRECTION] EQ 'previous'">
-    <LET VAR="btn_icon">chevron-circle-left</LET>
-  <ELSE />
-    <LET VAR="btn_icon">chevron-circle-right</LET>
-  </IF>
+	<IF COND="[#DIRECTION] EQ 'previous'">
+		<LET VAR="btn_icon">chevron-circle-left</LET>
+	<ELSE />
+		<LET VAR="btn_icon">chevron-circle-right</LET>
+	</IF>
 
-  <LET VAR="href"><FUNC NAME="CKL_URL" DOCUMENT="[#ENTITY_ID]" /></LET>
-  <a href="[#HREF]" class="btn"><i class="fas fa-[#BTN_ICON]"></i></a>
+	<LET VAR="href"><FUNC NAME="CKL_URL" DOCUMENT="[#ENTITY_ID]" /></LET>
+	<a href="[#HREF]" class="btn"><i class="fas fa-[#BTN_ICON]"></i></a>
  </DEFFUNC>
 
  /**
@@ -1019,11 +1018,11 @@
 	<IF COND="[#JSON]">
 		{
 			"id": "[#ID]",
-      "href": "<FUNC NAME="CKL_URL" DOCUMENT="[#ID]" />",
-      "idpubli": "[%ID_CURRENT_PUBLI]",
+			"href": "<FUNC NAME="CKL_URL" DOCUMENT="[#ID]" />",
+			"idpubli": "[%ID_CURRENT_PUBLI]",
 			"type": "[#TYPE]",
 			"title": "[#TITRE|textebrut|replacequotationmark]",
-      "context": <MACRO NAME="CKL_CREATE_CONTEXT_JSON" />
+			"context": <MACRO NAME="CKL_CREATE_CONTEXT_JSON" />
 		}
 	<ELSE />
 		[#ID]
