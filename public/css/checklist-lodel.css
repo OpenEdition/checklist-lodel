@@ -563,6 +563,30 @@ a.ckl-personne{
   margin: 16px 0;
 }
 
+.ckl-field-text h1.texte {
+  font-size: 1.8rem;
+}
+
+.ckl-field-text h2.texte {
+  font-size: 1.5rem;
+}
+
+.ckl-field-text h3.texte {
+  font-size: 1.3rem;
+}
+
+.ckl-field-text h4.texte {
+  font-size: 1.1rem;
+}
+
+.ckl-field-text h5.texte {
+  font-size: 1rem;
+}
+
+.ckl-field-text h6.texte {
+  font-size: .9rem;
+}
+
 .ckl-field-text blockquote {
   margin-left: 20px;
 }
