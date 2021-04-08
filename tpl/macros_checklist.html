@@ -16,8 +16,19 @@
 		<LET VAR="document">0</LET>
 	</IF>
 
+	<MACRO NAME="CKL_INIT_EM" />
 	<MACRO NAME="CKL_INIT_ROUTE"/>
 	<MACRO NAME="CKL_INIT_TITLE"/>
+</DEFMACRO>
+
+/**
+ * Détection du modèle éditorial.
+ */
+<DEFMACRO NAME="CKL_INIT_EM">
+	<LET VAR="site_em" GLOBAL="1">oej</LET>
+	<LOOP NAME="ckl_init_em" TABLE="types" WHERE="class='publications' AND type='livre'">
+		<LET VAR="site_em" GLOBAL="1">oeb</LET>
+	</LOOP>
 </DEFMACRO>
 
 /**
