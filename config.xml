@@ -7,5 +7,6 @@
 	<hook>class</hook>
 	 <triggers>preview,postview</triggers>
 	<parameters>
+		<param name="checklist_open_batch" title="Autoriser les rédacteurs à utiliser l'export CSV" type="boolean" defaultValue="" allowedValues="" required=""/>
 	</parameters>
 </LodelPlugin>
