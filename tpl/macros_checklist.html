@@ -26,10 +26,14 @@
  */
 <DEFMACRO NAME="CKL_INIT_VARS">
 	<!--[ Détection du modèle éditorial ]-->
-	<LET VAR="site_em" GLOBAL="1">oej</LET>
-	<LOOP NAME="ckl_init_em" TABLE="types" WHERE="class='publications' AND type='livre'">
-		<LET VAR="site_em" GLOBAL="1">oeb</LET>
-	</LOOP>
+	<IF COND="[#CHECKLIST_EM] EQ 'oej' OR [#CHECKLIST_EM] EQ 'oeb'">
+		<LET VAR="site_em" GLOBAL="1">[#CHECKLIST_EM]</LET>
+	<ELSE />	
+		<LET VAR="site_em" GLOBAL="1">oej</LET>
+		<LOOP NAME="ckl_init_em" TABLE="types" WHERE="class='publications' AND type='livre'">
+			<LET VAR="site_em" GLOBAL="1">oeb</LET>
+		</LOOP>
+	</IF>
 
 	<!--[ Affichage export CSV ]-->
 	<IF COND="[#CHECKLIST_OPEN_BATCH] OR [#CKL_OPTIONS.ALLOW_RUN_BATCH]">
