@@ -562,7 +562,7 @@
 						<div class="ckl-field-title">[#TITLE]</div>
 						<div class="ckl-field-value">
 				</BEFORE>
-				<DO><IF COND="[#COUNT] GE 2">, </IF><a href="[#ID|makeurlwithid]" class="ckl-entry" data-entry-class="[#CLASSNAME]" data-entry-type="[#ENTRYTYPE]">[#G_NAME]</a></DO>
+				<DO><IF COND="[#COUNT] GE 2">, </IF><a href="[#ID|makeurlwithid]" class="ckl-entry" data-entry-class="[#CLASSNAME]" data-entry-type="[#ENTRYTYPE]"><MACRO NAME="CKL_ENTRY_TITLE" /></a></DO>
 				<AFTER>
 						</div>
 					</div>
@@ -574,6 +574,23 @@
 		</AFTER>
 	</LOOP>
 </DEFFUNC>
+
+/**
+ * Affichage du titre d'une entrée d'index (support pactols).
+ */
+<DEFMACRO NAME="CKL_ENTRY_TITLE">
+	<IF COND="[#CLASSNAME] EQ 'pactols'">
+		<LOOP NAME="ckl_entry_title_pactol" TABLE="pactols" WHERE="id = '[#ID]'" SELECT="mlnom" />
+			<IF COND="[#MLNOM:#SITELANG]">
+				[#MLNOM:#SITELANG]
+			<ELSE />
+				[#G_NAME]
+			</IF>
+		</LOOP>
+	<ELSE />
+		[#G_NAME]
+	</IF>
+</DEFMACRO>
 
 /**
  * Affichage des financements liés à l'entité.
