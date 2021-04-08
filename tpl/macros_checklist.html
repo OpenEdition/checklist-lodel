@@ -98,7 +98,7 @@
 			</DO>
 
 			<DO CASE="publications">
-				<LOOP NAME="ckl_init_route_table_publications" TABLE="publications" WHERE="id = '[#DOCUMENT]' AND type = 'numero'">
+				<LOOP NAME="ckl_init_route_table_publications" TABLE="publications" WHERE="id = '[#DOCUMENT]' AND (type = 'numero' OR type = 'livre')">
 					<DO>
 						<LET VAR="docid" GLOBAL="1">[#DOCUMENT]</LET>
 						<LET VAR="tpl_type" GLOBAL="1">[#TABLE]</LET>
@@ -130,11 +130,23 @@
  * @param {string} document - ID du document de l'enfant.
  */
 <DEFFUNC NAME="CKL_INIT_ROUTE_FIND_PARENT_PUBLICATION" REQUIRED="DOCUMENT">
-	<LET VAR="valid_parent">[#DOCUMENT|getParentByType('numero')]</LET>
+	<LET VAR="valid_parent"><FUNC NAME="CKL_FIND_SUPPORTED_PARENT" ID="[#DOCUMENT]" /></LET>
 	<IF COND="[#VALID_PARENT]">
 		<LET VAR="docid" GLOBAL="1">[#VALID_PARENT]</LET>
 		<LET VAR="tpl_type" GLOBAL="1">publications</LET>
 	</IF>
+</DEFFUNC>
+
+/**
+ * Trouver le plus proche parent supporté par Checklist.
+ * @param {number} id - ID du document enfant.
+ */
+<DEFFUNC NAME="CKL_FIND_SUPPORTED_PARENT" REQUIRED="id">
+	<LET VAR="parent">[#ID|getParentByType('numero')]</LET>
+	<IF COND="![#PARENT]">
+		<LET VAR="parent">[#ID|getParentByType('livre')]</LET>
+	</IF>
+	[#PARENT]
 </DEFFUNC>
 
 /**
@@ -263,7 +275,7 @@
  * Batch : creation de la whitelist pour Tagify.
  */
 <DEFMACRO NAME="CKL_HTML_SCRIPTS_ISSUES">
-	<LET VAR="allowed_types">'numero', 'collection'</LET>
+	<LET VAR="allowed_types">'numero', 'livre', 'collection'</LET>
 	<LET VAR="script_content">
 		<LOOP NAME="ckl_html_scripts_issues" TABLE="publications" WHERE="type IN ([#ALLOWED_TYPES])" SELECT="id, numero, titre, type" ORDER="length(numero) DESC, numero DESC, datepubli DESC, rank" />
 			<BEFORE>
@@ -319,8 +331,8 @@
 			"extension-[#CREATIONINFO|reg_replace("/^.*\./", "")]": true,
 		</LOOP>
 
-		<LET VAR="numero_id">[#ID|getParentByType('numero')]</LET>
-		<IF COND="[#NUMERO_ID]">
+		<LET VAR="numero_id"><FUNC NAME="CKL_FIND_SUPPORTED_PARENT" ID="[#ID]" /></LET>
+		<IF COND="[%SITE_EM] EQ 'oej' AND [#NUMERO_ID]">
 			<LOOP NAME="ckl_create_context_json_numeroouvert" TABLE="publications" WHERE="id='[#NUMERO_ID]' AND numeroouvert" LIMIT="0,1" />
 				"numeroouvert": true,
 			</LOOP>
@@ -846,7 +858,7 @@
 	</LET>
 
 	<span class="ckl-breadcrumbs-item" data-type="[#TYPE]" data-degree="[#DEGREE]">
-		<IF COND="[#TYPE] EQ 'numero'">
+		<IF COND="[#TYPE] EQ 'numero' OR [#TYPE] EQ 'livre'">
 			<LET VAR="href"><FUNC NAME="CKL_URL" DOCUMENT="[#ID]" /></LET>      
 		<ELSE/>
 			<LET VAR="href"><FUNC NAME="CKL_URL" /></LET>
@@ -878,7 +890,7 @@
 	<!--[ Textes et publications ]-->
 	<ELSE />
 		<!--[ ID du numero ou rubrique annuelle ]-->
-		<LET VAR="idrealparent">[#ID|getParentByType('numero')]</LET>
+		<LET VAR="idrealparent"><FUNC NAME="CKL_FIND_SUPPORTED_PARENT" ID="[#ID]" /></LET>
 		<IF COND="![#IDREALPARENT]">
 			<LET VAR="idrealparent">[#ID|getParentByType('rubriqueannuelle')]</LET>
 		</IF>
@@ -1028,7 +1040,7 @@
 	<IF COND="[#JSON]">[</IF>
 
 	<!--[ Inclure la publication [#ID] seulement si son type est accepté ]-->
-	<LOOP NAME="ckl_issue_contents_include_publi" TABLE="publications" WHERE="id = '[#ID]' AND type = 'numero'" />
+	<LOOP NAME="ckl_issue_contents_include_publi" TABLE="publications" WHERE="id = '[#ID]' AND (type = 'numero' OR type = 'livre')" />
 		<LET VAR="id_current_publi" GLOBAL="1">[#ID]</LET>
 		<MACRO NAME="CKL_ISSUE_CONTENTS_DOC" />
 	</LOOP>
