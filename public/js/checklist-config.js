@@ -1,4 +1,4 @@
-window.initChecklist = function (sitename, docId, lang, context, publi) {
+window.initChecklist = function (sitename, docId, lang, context, publi, showBatch) {
   if (window.checklist == null) return;
 
   // NOTE: ES2016 here
@@ -118,6 +118,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
             href: "./lodel/edition/index.php?id=" + docId
           }
         },
+        showBatch ? 
         {
           title: {
             fr: "Exporter",
@@ -128,7 +129,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi) {
           attributes: {
             href: "./?do=_checklist_view&view_tab=batch&input=" + docId
           }
-        },
+        } : null,
         {
           title: {
             fr: "Réimporter la source",

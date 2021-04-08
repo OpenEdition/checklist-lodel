@@ -223,7 +223,7 @@
 	<script src="[#SHAREDIR]/plugins/custom/checklist/public/js/checklist-config.js"></script>
 	<script>
 		$(function () {
-			window.initChecklist("[#SITE]", [%DOCID], "[#SITELANG]", [%CHECKLIST_CONTEXT], [%CHECKLIST_PUBLI]);
+			window.initChecklist("[#SITE]", [%DOCID], "[#SITELANG]", [%CHECKLIST_CONTEXT], [%CHECKLIST_PUBLI|defaultvalue("''")], [#SHOW_BATCH|defaultvalue("false")]);
 		});
 	</script>
 
