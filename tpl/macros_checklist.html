@@ -60,13 +60,25 @@
 	
 	<LOOP NAME="ckl_init_route_table" TABLE="#_TP_[#TABLE]" WHERE="[#WHERE_CLAUSE]">
 		<SWITCH TEST="[#TABLE]"> 
-			<!--[ Documents pour lesquels un template existe ]-->
-			<DO CASES="textes, persontypes">
+			<!--[ 1. Documents pour lesquels un template existe ]-->
+			<DO CASE="textes">
+				<LOOP NAME="ckl_init_route_table_textes" TABLE="textes" WHERE="id = '[#DOCUMENT]' AND type != 'informations'">
+					<DO>
+						<LET VAR="docid" GLOBAL="1">[#DOCUMENT]</LET>
+						<LET VAR="tpl_type" GLOBAL="1">[#TABLE]</LET>
+					</DO>
+					<ALTERNATIVE>
+						<FUNC NAME="CKL_INIT_ROUTE_FIND_PARENT_PUBLICATION" DOCUMENT="[#DOCUMENT]" />
+					</ALTERNATIVE>
+				</LOOP>
+			</DO>
+
+			<DO CASE="persontypes">
 				<LET VAR="docid" GLOBAL="1">[#DOCUMENT]</LET>
 				<LET VAR="tpl_type" GLOBAL="1">[#TABLE]</LET>
 			</DO>
 
-			<DO CASES="entrytypes">
+			<DO CASE="entrytypes">
 				<!--[ N'afficher que les index de la classe "indexes" ]-->
 				<IF COND="[#CLASS] EQ 'indexes'">
 					<LET VAR="docid" GLOBAL="1">[#DOCUMENT]</LET>
@@ -75,7 +87,6 @@
 			</DO>
 
 			<DO CASE="publications">
-				<!--[ Workaround : Lodelscript ne récupère pas correctement les champs de la table "publications" ici ]-->
 				<LOOP NAME="ckl_init_route_table_publications" TABLE="publications" WHERE="id = '[#DOCUMENT]' AND type = 'numero'">
 					<DO>
 						<LET VAR="docid" GLOBAL="1">[#DOCUMENT]</LET>
@@ -87,7 +98,7 @@
 				</LOOP>
 			</DO>
 
-			<!--[ Renvoyer les enfants qui n'ont pas de templates vers leur parents ]-->
+			<!--[ 2. Renvoyer les enfants qui n'ont pas de templates vers leur parents ]-->
 			<DO CASE="entries">
 				<FUNC NAME="CKL_INIT_ROUTE_TABLE" TABLE="entrytypes" DOCUMENT="[#IDTYPE]" />
 			</DO>
