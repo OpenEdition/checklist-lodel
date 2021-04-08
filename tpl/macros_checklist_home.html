@@ -39,7 +39,7 @@
 		<LET VAR="auteurs_title"><FUNC NAME="CKL_GET_CLASS_TITLE" CLASS="auteurs" /></LET>
 		<FUNC NAME="CKL_H_TAB" TITLE="[#AUTEURS_TITLE]" TARGET="auteurs" />
 
-		<IF COND="[#CKL_OPTIONS.ALLOW_RUN_BATCH]">
+		<IF COND="[#SHOW_BATCH]">
 			<FUNC NAME="CKL_H_TAB" TITLE="<i class='fas fa-table'></i>&nbsp;[#CKL_TRANSLATIONS.BATCH_TITLE]" TARGET="batch" />
 		</IF>
 	</nav>
@@ -66,7 +66,7 @@
 		<MACRO NAME="CKL_H_CREATE_PUBLI" />
 		<!--[ Checklist va injecter la table des matières ici ]-->
 		<div id="ckl-toc" class="ckl-toc"></div>
-	<ELSEIF COND="[#CKL_OPTIONS.ALLOW_RUN_BATCH] AND [#VIEW_TAB] EQ 'batch'" />
+	<ELSEIF COND="[#SHOW_BATCH] AND [#VIEW_TAB] EQ 'batch'" />
 		<MACRO NAME="CKL_H_BATCH" />
 	<ELSE />
 		<MACRO NAME="CKL_H_ISSUES" />
@@ -160,7 +160,7 @@
  * Afficher l'export CSV (batch).
  */
 <DEFMACRO NAME="CKL_H_BATCH">
-	<IF COND="[#CKL_OPTIONS.ALLOW_RUN_BATCH]">
+	<IF COND="[#SHOW_BATCH]">
 		<IF COND="![#INPUT]">
 			<LET VAR="input">0</LET>
 		</IF>

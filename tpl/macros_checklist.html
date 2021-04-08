@@ -16,8 +16,18 @@
 		<LET VAR="document">0</LET>
 	</IF>
 
+	<MACRO NAME="CKL_INIT_VARS" />
 	<MACRO NAME="CKL_INIT_ROUTE"/>
 	<MACRO NAME="CKL_INIT_TITLE"/>
+</DEFMACRO>
+
+/**
+ * Initialisation des variables.
+ */
+<DEFMACRO NAME="CKL_INIT_VARS">
+	<IF COND="[#CHECKLIST_OPEN_BATCH] OR [#CKL_OPTIONS.ALLOW_RUN_BATCH]">
+		<LET VAR="show_batch">1</LET>
+	</IF>
 </DEFMACRO>
 
 /**
@@ -187,7 +197,7 @@
 	<link rel="stylesheet" href="[#SHAREDIR]/plugins/custom/checklist/node_modules/largetable/largetable.css">
 
 	<!-- Batch -->
-	<IF COND="[#CKL_OPTIONS.ALLOW_RUN_BATCH] AND [#VIEW_TAB] EQ 'batch'" />
+	<IF COND="[#SHOW_BATCH] AND [#VIEW_TAB] EQ 'batch'" />
 		<link rel="stylesheet" href="[#SHAREDIR]/plugins/custom/checklist/node_modules/@yaireo/tagify/dist/tagify.css">
 	</IF>
 
@@ -218,7 +228,7 @@
 	</script>
 
 	<!-- Batch -->
-	<IF COND="[#CKL_OPTIONS.ALLOW_RUN_BATCH] AND [#VIEW_TAB] EQ 'batch'" />
+	<IF COND="[#SHOW_BATCH] AND [#VIEW_TAB] EQ 'batch'" />
 		<script src="[#SHAREDIR]/plugins/custom/checklist/node_modules/@yaireo/tagify/dist/tagify.min.js"></script>
 
 		<MACRO NAME="CKL_HTML_SCRIPTS_ISSUES" />

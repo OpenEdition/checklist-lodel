@@ -24,6 +24,10 @@ class checklist extends Plugins {
 			exit;
 		}
 		C::set('view.base_rep.' . $tpl, 'checklist');
+
+		// Plugin options
+		$checklist_open_batch = $this->_config['checklist_open_batch']['value'];
+		C::set('checklist_open_batch', $checklist_open_batch);
 	}
 
 	public function postview (&$context) {
