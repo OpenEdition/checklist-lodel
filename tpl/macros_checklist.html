@@ -16,19 +16,25 @@
 		<LET VAR="document">0</LET>
 	</IF>
 
-	<MACRO NAME="CKL_INIT_EM" />
+	<MACRO NAME="CKL_INIT_VARS" />
 	<MACRO NAME="CKL_INIT_ROUTE"/>
 	<MACRO NAME="CKL_INIT_TITLE"/>
 </DEFMACRO>
 
 /**
- * Détection du modèle éditorial.
+ * Initialisation des variables.
  */
-<DEFMACRO NAME="CKL_INIT_EM">
+<DEFMACRO NAME="CKL_INIT_VARS">
+	<!--[ Détection du modèle éditorial ]-->
 	<LET VAR="site_em" GLOBAL="1">oej</LET>
 	<LOOP NAME="ckl_init_em" TABLE="types" WHERE="class='publications' AND type='livre'">
 		<LET VAR="site_em" GLOBAL="1">oeb</LET>
 	</LOOP>
+
+	<!--[ Affichage export CSV ]-->
+	<IF COND="[#CHECKLIST_OPEN_BATCH] OR [#CKL_OPTIONS.ALLOW_RUN_BATCH]">
+		<LET VAR="show_batch">1</LET>
+	</IF>
 </DEFMACRO>
 
 /**
@@ -61,13 +67,25 @@
 	
 	<LOOP NAME="ckl_init_route_table" TABLE="#_TP_[#TABLE]" WHERE="[#WHERE_CLAUSE]">
 		<SWITCH TEST="[#TABLE]"> 
-			<!--[ Documents pour lesquels un template existe ]-->
-			<DO CASES="textes, persontypes">
+			<!--[ 1. Documents pour lesquels un template existe ]-->
+			<DO CASE="textes">
+				<LOOP NAME="ckl_init_route_table_textes" TABLE="textes" WHERE="id = '[#DOCUMENT]' AND type != 'informations'">
+					<DO>
+						<LET VAR="docid" GLOBAL="1">[#DOCUMENT]</LET>
+						<LET VAR="tpl_type" GLOBAL="1">[#TABLE]</LET>
+					</DO>
+					<ALTERNATIVE>
+						<FUNC NAME="CKL_INIT_ROUTE_FIND_PARENT_PUBLICATION" DOCUMENT="[#DOCUMENT]" />
+					</ALTERNATIVE>
+				</LOOP>
+			</DO>
+
+			<DO CASE="persontypes">
 				<LET VAR="docid" GLOBAL="1">[#DOCUMENT]</LET>
 				<LET VAR="tpl_type" GLOBAL="1">[#TABLE]</LET>
 			</DO>
 
-			<DO CASES="entrytypes">
+			<DO CASE="entrytypes">
 				<!--[ N'afficher que les index de la classe "indexes" ]-->
 				<IF COND="[#CLASS] EQ 'indexes'">
 					<LET VAR="docid" GLOBAL="1">[#DOCUMENT]</LET>
@@ -76,7 +94,6 @@
 			</DO>
 
 			<DO CASE="publications">
-				<!--[ Workaround : Lodelscript ne récupère pas correctement les champs de la table "publications" ici ]-->
 				<LOOP NAME="ckl_init_route_table_publications" TABLE="publications" WHERE="id = '[#DOCUMENT]' AND type = 'numero'">
 					<DO>
 						<LET VAR="docid" GLOBAL="1">[#DOCUMENT]</LET>
@@ -88,7 +105,7 @@
 				</LOOP>
 			</DO>
 
-			<!--[ Renvoyer les enfants qui n'ont pas de templates vers leur parents ]-->
+			<!--[ 2. Renvoyer les enfants qui n'ont pas de templates vers leur parents ]-->
 			<DO CASE="entries">
 				<FUNC NAME="CKL_INIT_ROUTE_TABLE" TABLE="entrytypes" DOCUMENT="[#IDTYPE]" />
 			</DO>
@@ -198,7 +215,7 @@
 	<link rel="stylesheet" href="[#SHAREDIR]/plugins/custom/checklist/node_modules/largetable/largetable.css">
 
 	<!-- Batch -->
-	<IF COND="[#CKL_OPTIONS.ALLOW_RUN_BATCH] AND [#VIEW_TAB] EQ 'batch'" />
+	<IF COND="[#SHOW_BATCH] AND [#VIEW_TAB] EQ 'batch'" />
 		<link rel="stylesheet" href="[#SHAREDIR]/plugins/custom/checklist/node_modules/@yaireo/tagify/dist/tagify.css">
 	</IF>
 
@@ -224,12 +241,12 @@
 	<script src="[#SHAREDIR]/plugins/custom/checklist/public/js/checklist-config.js"></script>
 	<script>
 		$(function () {
-			window.initChecklist("[#SITE]", [%DOCID], "[#SITELANG]", [%CHECKLIST_CONTEXT], [%CHECKLIST_PUBLI]);
+			window.initChecklist("[#SITE]", [%DOCID], "[#SITELANG]", [%CHECKLIST_CONTEXT], [%CHECKLIST_PUBLI|defaultvalue("''")], [#SHOW_BATCH|defaultvalue("false")]);
 		});
 	</script>
 
 	<!-- Batch -->
-	<IF COND="[#CKL_OPTIONS.ALLOW_RUN_BATCH] AND [#VIEW_TAB] EQ 'batch'" />
+	<IF COND="[#SHOW_BATCH] AND [#VIEW_TAB] EQ 'batch'" />
 		<script src="[#SHAREDIR]/plugins/custom/checklist/node_modules/@yaireo/tagify/dist/tagify.min.js"></script>
 
 		<MACRO NAME="CKL_HTML_SCRIPTS_ISSUES" />
@@ -563,7 +580,7 @@
 						<div class="ckl-field-title">[#TITLE]</div>
 						<div class="ckl-field-value">
 				</BEFORE>
-				<DO><IF COND="[#COUNT] GE 2">, </IF><a href="[#ID|makeurlwithid]" class="ckl-entry" data-entry-class="[#CLASSNAME]" data-entry-type="[#ENTRYTYPE]">[#G_NAME]</a></DO>
+				<DO><IF COND="[#COUNT] GE 2">, </IF><a href="[#ID|makeurlwithid]" class="ckl-entry" data-entry-class="[#CLASSNAME]" data-entry-type="[#ENTRYTYPE]"><MACRO NAME="CKL_ENTRY_TITLE" /></a></DO>
 				<AFTER>
 						</div>
 					</div>
@@ -575,6 +592,23 @@
 		</AFTER>
 	</LOOP>
 </DEFFUNC>
+
+/**
+ * Affichage du titre d'une entrée d'index (support pactols).
+ */
+<DEFMACRO NAME="CKL_ENTRY_TITLE">
+	<IF COND="[#CLASSNAME] EQ 'pactols'">
+		<LOOP NAME="ckl_entry_title_pactol" TABLE="pactols" WHERE="id = '[#ID]'" SELECT="mlnom" />
+			<IF COND="[#MLNOM:#SITELANG]">
+				[#MLNOM:#SITELANG]
+			<ELSE />
+				[#G_NAME]
+			</IF>
+		</LOOP>
+	<ELSE />
+		[#G_NAME]
+	</IF>
+</DEFMACRO>
 
 /**
  * Affichage des financements liés à l'entité.
