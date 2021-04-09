@@ -1367,7 +1367,7 @@ window.initChecklist = function (sitename, docId, lang, context, publi, showBatc
         type: "danger",
         displayCount: true,
         action: function ($) {
-          var $bad = $(".checklist-toc-section-contents:empty");
+          var $bad = $(".checklist-toc-section-contents .checklist-toc-section-contents:empty");
           this.resolve($bad.length);
         }
       },
