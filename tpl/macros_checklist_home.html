@@ -115,11 +115,11 @@
 </DEFMACRO>
 
 /**
- * Tous les numéros.
+ * Toutes les publications.
  */
 <DEFMACRO NAME="CKL_H_ISSUES">
 	<LET VAR="NUMEROS_PAR_PAGE">10</LET>
-	<LOOP NAME="ckl_h_numeros" TABLE="publications" WHERE="type = 'numero' AND paraitre != 1" ORDER="rank DESC" SPLIT="[#NUMEROS_PAR_PAGE]">
+	<LOOP NAME="ckl_h_numeros" TABLE="publications" WHERE="type IN ('numero', 'livre') AND paraitre != 1" ORDER="rank DESC" SPLIT="[#NUMEROS_PAR_PAGE]">
 		<BEFORE>
 			<div class="ckl-issues">
 		</BEFORE>
@@ -138,7 +138,7 @@
 </DEFMACRO>
 
 /**
- * Afficher un numéro.
+ * Afficher une publication.
  */
 <DEFMACRO NAME="CKL_H_ISSUE">
 	<LET VAR="href"><FUNC NAME="CKL_URL" DOCUMENT="[#ID]" /></LET>
