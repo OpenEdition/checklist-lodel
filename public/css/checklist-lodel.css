@@ -536,22 +536,22 @@ a.ckl-personne{
 /* Numerotation des paragraphes */
 
 .ckl-field-text {
-    counter-reset: p; /* Set the p counter to 0 */
+  counter-reset: p; /* Set the p counter to 0 */
 }
 
 .ckl-field-text .ckl-field-value > p.texte {
   position: relative;
 }
 
-.ckl-field-text .ckl-field-value > p.texte:not([data-numbering="false"]):after {
-    counter-increment: p; /* Increment the p counter */
-    content: counter(p); /* Display the counter */
-    position: absolute;
-    left: -30px;
-    top: 16px;
-    font-size: 12px;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    color: #586069;
+body:not(.type-index):not(.type-bibliographie) .ckl-field-text .ckl-field-value > p.texte:not([data-numbering="false"]):after {
+  counter-increment: p; /* Increment the p counter */
+  content: counter(p); /* Display the counter */
+  position: absolute;
+  left: -30px;
+  top: 16px;
+  font-size: 12px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  color: #586069;
 }
 
 /* Styles du texte de l'article */
