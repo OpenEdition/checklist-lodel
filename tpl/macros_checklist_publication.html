@@ -110,9 +110,6 @@
 
 		<!--[ Sous-titre du document ]-->
 		<FUNC NAME="CKL_FIELD_STRING" FIELD="soustitre" VALUE="[#SOUSTITRE]"/>
-
-		<!--[ Langue ]-->
-		<FUNC NAME="CKL_FIELD_STRING" FIELD="langue" VALUE="[#LANGUE]"/>
 	</LET>
 	<FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
 
@@ -128,6 +125,11 @@
 			<LET VAR="type_title"><FUNC NAME="CKL_GET_TYPE_TITLE" TYPE="[#TYPE]" /></LET>
 		</IF>
 		<FUNC NAME="CKL_FIELD_STRING" FIELD="[#CKL_TRANSLATIONS.TYPE]" VALUE="[#TYPE_TITLE|trim]"/>
+
+		<!--[ Langues ]-->
+		<FUNC NAME="CKL_FIELD_STRING" FIELD="langue" VALUE="[#LANGUE]"/>
+		<FUNC NAME="CKL_FIELD_STRING" FIELD="languesecondaire" VALUE="[#LANGUESECONDAIRE]"/>
+		<FUNC NAME="CKL_FIELD_STRING" FIELD="langueoriginale" VALUE="[#LANGUEORIGINALE]"/>
 
 		<!--[ Date de la publication électronique ]-->
 		<FUNC NAME="CKL_FIELD_STRING" FIELD="datepubli" VALUE="[#DATEPUBLI]"/>
@@ -146,6 +148,9 @@
 
 		<!--[ Cette publication est-elle en libre accès ? ]-->
 		<FUNC NAME="CKL_FIELD_BOOL" FIELD="integralite" VALUE="[#INTEGRALITE]" OUI="[#CKL_TRANSLATIONS.YES]" NON="[#CKL_TRANSLATIONS.NO]"/>
+		
+		<!--[ OCR ]-->
+		<FUNC NAME="CKL_FIELD_BOOL" FIELD="ocr" VALUE="[#OCR]" OUI="[#CKL_TRANSLATIONS.YES]" NON=""/>
 	</LET>
 	<FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" CLASSNAME="ckl-cartouche" />
 
@@ -166,14 +171,50 @@
 		<!--[ Numéro de publication ]-->
 		<FUNC NAME="CKL_FIELD_STRING" FIELD="numero" VALUE="[#NUMERO]"/>
 
+		<!--[ Année d’édition ]-->
+		<FUNC NAME="CKL_FIELD_STRING" FIELD="anneeedition" VALUE="[#ANNEEEDITION]"/>
+		
+		<!--[ Lieu d’édition ]-->
+		<FUNC NAME="CKL_FIELD_STRING" FIELD="lieuedition" VALUE="[#LIEUEDITION]"/>
+
+		<!--[ Nombre de pages ]-->
+		<FUNC NAME="CKL_FIELD_STRING" FIELD="nombrepages" VALUE="[#NOMBREPAGES]"/>
+
+		<!--[ Co-éditeur ]-->
+		<FUNC NAME="CKL_FIELD_STRING" FIELD="coediteur" VALUE="[#COEDITEUR]"/>
+
 		<!--[ Licence ]-->
 		<FUNC NAME="CKL_ENTRIES" CLASSNAME="indexavances"/>
 
 		<!--[ Directeur de la publication ]-->
 		<FUNC NAME="CKL_PERSONNES" TYPE="directeurdelapublication"/>
 
+		<!--[ Auteurs ]-->
+		<FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="auteur" IDDOC="[#ID]"/>
+
+		<!--[ Traducteurs ]-->
+		<FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="traducteur" IDDOC="[#ID]"/>
+
+		<!--[ Editeurs scientifiques ]-->
+		<FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="editeurscientifique" IDDOC="[#ID]"/>
+
+		<!--[ Financement ]-->
+		<MACRO NAME="CKL_FUNDER" />
+
+		<!--[ Résumés ]-->
+		<FUNC NAME="CKL_FIELD_ML" FIELD="resume" VALUE="[#RESUME]"/>
+
+		<!--[ Extrait ]-->
+		<FUNC NAME="CKL_FIELD_STRING" FIELD="extrait" VALUE="[#EXTRAIT]"/>
+		
+		<!--[ ISBN HTML ]-->
+		<FUNC NAME="CKL_FIELD_STRING" FIELD="isbnhtml" VALUE="[#ISBNHTML]"/>
+
 		<!--[ Entrées d'index ]-->
 		<FUNC NAME="CKL_ENTRIES" CLASSNAME="indexes"/>
+
+		<!--[ Personnes citées ]-->
+		<FUNC NAME="CKL_PERSONNES" TYPE="personnecitee"/>
 
 		<!--[ Historique ]-->
 		<FUNC NAME="CKL_FIELD_ML" FIELD="historique" VALUE="[#HISTORIQUE]"/>
