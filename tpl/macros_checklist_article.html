@@ -27,6 +27,9 @@
 
 	<!--[ Section Titre ]-->
 	<LET VAR="section_contents">
+		<!--[ Surtitre du document ]-->
+		<FUNC NAME="CKL_FIELD_STRING" FIELD="surtitre" VALUE="[#SURTITRE]"/>
+
 		<!--[ Titre du document ]-->
 		<FUNC NAME="CKL_FIELD_STRING" FIELD="titre" VALUE="[#TITRE]"/>
 
@@ -56,21 +59,29 @@
 			<FUNC NAME="CKL_FIELD_STRING" FIELD="datepublipapier-parent" VALUE="[#DATEPUBLIPAPIER]" CLASSNAME="hidden"/>
 		</LOOP>
 
-		<!--[ Barrière mobile ]-->
+		<!--[ Barrière mobile (OEJ uniquement) ]-->
 		<LET VAR="BM">0</LET>
-		<IF COND="[#DATEPUBLI] GT today()">
-			<LET VAR="BM">1</LET>
+		<IF COND="[%SITE_EM] EQ 'oej'">
+			<IF COND="[#DATEPUBLI] GT today()">
+				<LET VAR="BM">1</LET>
+			</IF>
+			<FUNC NAME="CKL_FIELD_BOOL" FIELD="Barrière mobile" VALUE="[#BM]" OUI="Ce document est sous barrière mobile." NON="Ce document est en libre accès."/>
 		</IF>
-		<FUNC NAME="CKL_FIELD_BOOL" FIELD="Barrière mobile" VALUE="[#BM]" OUI="Ce document est sous barrière mobile." NON="Ce document est en libre accès."/>
 
 		<!--[ Langue ]-->
 		<FUNC NAME="CKL_FIELD_STRING" FIELD="langue" VALUE="[#LANGUE]"/>
+		
+		<!--[ Langue originale ]-->
+		<FUNC NAME="CKL_FIELD_STRING" FIELD="langueoriginale" VALUE="[#LANGUEORIGINALE]"/>
 
 		<!--[ Vignettisation simple ]-->
 		<FUNC NAME="CKL_FIELD_BOOL" FIELD="vignettesimple" VALUE="[#VIGNETTESIMPLE]" OUI="Zoom illustration désactivé" NON=""/>
 
 		<!--[ Format du fichier importé ]-->
 		<MACRO NAME="CKL_A_GET_FORMAT" />
+
+		<!--[ Fichier facsimilé ]-->
+		<MACRO NAME="CKL_A_FACSIMILE"/>
 	</LET>
 	<FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" CLASSNAME="ckl-cartouche" />
 
@@ -90,6 +101,9 @@
 
 		<!--[ Responsables d’opération ]-->
 		<FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="directeurfouilles" IDDOC="[#ID]"/>
+
+		<!--[ Personnes citées ]-->
+		<FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="personnecitee" IDDOC="[#ID]"/>
 	</LET>
 	<FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
 
@@ -141,9 +155,6 @@
 
 	<!--[ Section Fichiers ]-->
 	<LET VAR="section_contents">
-		<!--[ Fichier facsimilé ]-->
-		<MACRO NAME="CKL_A_FACSIMILE"/>
-
 		<!--[ Fichiers ]-->
 		<MACRO NAME="CKL_FICHIERS"/>
 
