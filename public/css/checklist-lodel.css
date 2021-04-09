@@ -717,7 +717,7 @@ body:not(.type-index):not(.type-bibliographie) .ckl-field-text .ckl-field-value 
 
 /* Indexes */
 
-.ckl-index-shortcuts a {
+.ckl-index-shortcuts > * {
   text-decoration: none;
   margin-right: 5px;
 }
