@@ -65,7 +65,7 @@
 			<IF COND="[#DATEPUBLI] GT today()">
 				<LET VAR="BM">1</LET>
 			</IF>
-			<FUNC NAME="CKL_FIELD_BOOL" FIELD="Barrière mobile" VALUE="[#BM]" OUI="Ce document est sous barrière mobile." NON="Ce document est en libre accès."/>
+			<FUNC NAME="CKL_FIELD_BOOL" FIELD="[#CKL_TRANSLATIONS.BM]" VALUE="[#BM]" OUI="[#CKL_TRANSLATIONS.BM_YES]" NON="[#CKL_TRANSLATIONS.BM_NO]"/>
 		</IF>
 
 		<!--[ Langue ]-->
@@ -75,7 +75,7 @@
 		<FUNC NAME="CKL_FIELD_STRING" FIELD="langueoriginale" VALUE="[#LANGUEORIGINALE]"/>
 
 		<!--[ Vignettisation simple ]-->
-		<FUNC NAME="CKL_FIELD_BOOL" FIELD="vignettesimple" VALUE="[#VIGNETTESIMPLE]" OUI="Zoom illustration désactivé" NON=""/>
+		<FUNC NAME="CKL_FIELD_BOOL" FIELD="vignettesimple" VALUE="[#VIGNETTESIMPLE]" OUI="[#CKL_TRANSLATIONS.ZOOM_OFF]" NON=""/>
 
 		<!--[ Format du fichier importé ]-->
 		<MACRO NAME="CKL_A_GET_FORMAT" />
