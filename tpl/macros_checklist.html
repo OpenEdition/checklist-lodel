@@ -73,7 +73,7 @@
 		<SWITCH TEST="[#TABLE]"> 
 			<!--[ 1. Documents pour lesquels un template existe ]-->
 			<DO CASE="textes">
-				<LOOP NAME="ckl_init_route_table_textes" TABLE="textes" WHERE="id = '[#DOCUMENT]' AND type != 'informations'">
+				<LOOP NAME="ckl_init_route_table_textes" TABLE="textes" WHERE="id = '[#DOCUMENT]' AND type NOT IN ('informations', 'actualite', 'adressebibliographique')">
 					<DO>
 						<LET VAR="docid" GLOBAL="1">[#DOCUMENT]</LET>
 						<LET VAR="tpl_type" GLOBAL="1">[#TABLE]</LET>

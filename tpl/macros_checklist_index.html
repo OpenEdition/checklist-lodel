@@ -166,7 +166,7 @@
 					SELECT="persons.id, g_firstname, g_familyname"
 					TABLE="relations, entities, persons, types, persontypes"
 					WHERE="UPPER(SUBSTRING([#FIELD],1,1)) = '[#LETTRESQL]'
-								AND types.type NOT IN ('informations', 'actualite')
+								AND types.type NOT IN ('informations', 'actualite', 'adressebibliographique')
 								AND persontypes.type = '[#TYPE]'
 								AND persons.idtype = persontypes.id
 								AND relations.id1 = entities.id
@@ -189,7 +189,7 @@
 						<span class="ckl-personne-familyname" data-label="[#LABEL_NOM|trim]">[#G_FAMILYNAME]</span>
 						<LOOP NAME="ckl_personne_index_count" SELECT="count(id) AS n" TABLE="relations, entities"
 									WHERE="id2 = '[#ID]'
-										 AND type NOT IN ('informations', 'actualite')
+										 AND type NOT IN ('informations', 'actualite', 'adressebibliographique')
 										 AND id1 = entities.id">
 							<span class="ckl-index-count">([#N])</span>
 						</LOOP>
@@ -211,7 +211,7 @@
 <DEFMACRO NAME="CKL_I_ENTRY">
 	<LOOP NAME="ckl_i_entry" SELECT="count(id) AS n" TABLE="relations, entities"
 				WHERE="id2 = '[#ID]'
-					 AND type NOT IN ('informations', 'actualite')
+					 AND type NOT IN ('informations', 'actualite', 'adressebibliographique')
 					 AND id1 = entities.id">
 		<IF COND="[#N] EQ '0'">
 			<span class="ckl-entry disabled">[#G_NAME]</span>

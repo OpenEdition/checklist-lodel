@@ -50,7 +50,7 @@
 									TABLE="entities, types"
 									SELECT="id, class, type"
 									WHERE="idparent = '[#ID]'
-										AND type NOT IN ('fluxdesyndication','imageaccroche','rubriqueannuelle', 'imageaccrochelibrairie') AND type NOT LIKE '%annexe%'
+										AND type NOT IN ('fluxdesyndication','imageaccroche','rubriqueannuelle', 'imageaccrochelibrairie', 'informations', 'actualite', 'adressebibliographique')
 										AND entities.idtype = types.id"
 									ORDER="entities.rank">
 
