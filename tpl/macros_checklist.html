@@ -18,7 +18,7 @@
 
 	<MACRO NAME="CKL_INIT_VARS" />
 	<MACRO NAME="CKL_INIT_ROUTE"/>
-	<MACRO NAME="CKL_INIT_TITLE"/>
+	<MACRO NAME="CKL_INIT_CONTEXT"/>
 </DEFMACRO>
 
 /**
@@ -150,16 +150,25 @@
 </DEFFUNC>
 
 /**
- * Calcul de la balise title de la page.
+ * Calcul des variables contextuelles (balise title, attribut class du body)
  */
-<DEFMACRO NAME="CKL_INIT_TITLE">
-	<IF COND="[%TPL_TYPE] EQ 'textes' OR [%TPL_TYPE] EQ 'publications'">
-		<LOOP NAME="ckl_init_title_textes_publications" TABLE="#_TP_[%TPL_TYPE]" SELECT="titre" WHERE="identity = '[%DOCID]'">
+<DEFMACRO NAME="CKL_INIT_CONTEXT">
+	<IF COND="[%TPL_TYPE] EQ 'textes'">
+		<LOOP NAME="ckl_init_context_textes" TABLE="textes" SELECT="titre, type" WHERE="id = '[%DOCID]'">
 			<LET VAR="page_title" GLOBAL="1">[#TITRE]</LET>
+			<LET VAR="body_class" GLOBAL="1">class-textes type-[#TYPE]</LET>
 		</LOOP>
+
+	<ELSEIF COND="[%TPL_TYPE] EQ 'publications'">
+		<LOOP NAME="ckl_init_context_publications" TABLE="publications" SELECT="titre, type" WHERE="id = '[%DOCID]'">
+			<LET VAR="page_title" GLOBAL="1">[#TITRE]</LET>
+			<LET VAR="body_class" GLOBAL="1">class-publications type-[#TYPE]</LET>
+		</LOOP>
+		
 	<ELSEIF COND="[%TPL_TYPE] EQ 'entrytypes' OR [%TPL_TYPE] EQ 'persontypes'"/>
-		<LOOP NAME="ckl_init_title_index" TABLE="#_TP_[%TPL_TYPE]" SELECT="title" WHERE="id = '[%DOCID]'">
+		<LOOP NAME="ckl_init_context_index" TABLE="#_TP_[%TPL_TYPE]" WHERE="id = '[%DOCID]'">
 			<LET VAR="page_title" GLOBAL="1">[#TITLE]</LET>
+			<LET VAR="body_class" GLOBAL="1">class-[%TPL_TYPE] type-[#TYPE]</LET>
 		</LOOP>
 	<ELSE />
 		<LET VAR="page_title" GLOBAL="1">[#OPTIONS.METADONNEESSITE.TITRESITE]</LET>
@@ -208,7 +217,7 @@
 		<title><IF COND="[%PAGE_TITLE]">[%PAGE_TITLE|textebrut] – </IF>OpenEdition Checklist</title>
 		<MACRO NAME="CKL_HTML_STYLES"/>
 	</head>
-	<body>
+	<body class="[%BODY_CLASS]">
 </DEFMACRO>
 
 /**
