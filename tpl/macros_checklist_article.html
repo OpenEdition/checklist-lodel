@@ -101,9 +101,6 @@
 
 		<!--[ Responsables d’opération ]-->
 		<FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="directeurfouilles" IDDOC="[#ID]"/>
-
-		<!--[ Personnes citées ]-->
-		<FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="personnecitee" IDDOC="[#ID]"/>
 	</LET>
 	<FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
 
@@ -125,6 +122,9 @@
 
 		<!--[ Entrées d'index ]-->
 		<FUNC NAME="CKL_ENTRIES" CLASSNAME="indexes"/>
+
+		<!--[ Personnes citées ]-->
+		<FUNC NAME="CKL_PERSONNES" TYPE="personnecitee"/>
 
 		<!--[ Entrées d'index Pactols ]-->
 		<FUNC NAME="CKL_ENTRIES" CLASSNAME="pactols"/>
