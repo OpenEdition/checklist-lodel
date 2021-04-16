@@ -106,6 +106,9 @@
 
 	<!--[ Section Métadonnées ]-->
 	<LET VAR="section_contents">
+		<!--[ Pagination ]-->
+		<FUNC NAME="CKL_FIELD_STRING" FIELD="pagination" VALUE="[#PAGINATION]"/>
+		
 		<!--[ Numéro de document ]-->
 		<IF COND="[#NUMERODOCUMENT] AND [#NUMERODOCUMENT] NE '0'">
 			<FUNC NAME="CKL_FIELD_STRING" FIELD="numerodocument" VALUE="[#NUMERODOCUMENT]"/>
@@ -128,9 +131,6 @@
 
 		<!--[ Entrées d'index Pactols ]-->
 		<FUNC NAME="CKL_ENTRIES" CLASSNAME="pactols"/>
-
-		<!--[ Pagination ]-->
-		<FUNC NAME="CKL_FIELD_STRING" FIELD="pagination" VALUE="[#PAGINATION]"/>
 
 		<!--[ Financement ]-->
 		<MACRO NAME="CKL_FUNDER" />
