@@ -5,6 +5,7 @@
 
 <!--[ English ]-->
 <IF COND="[#SITELANG] EQ 'en'">
+	<LET ARRAY="ckl_translations.and">and</LET>
 	<LET ARRAY="ckl_translations.batch_title">CSV Export</LET>
 	<LET ARRAY="ckl_translations.batch_input">Publications identifiers</LET>
 	<LET ARRAY="ckl_translations.batch_input_description">Specify a parent identifier to recursively check all its children.</LET>
@@ -40,6 +41,7 @@
 
 <!--[ Français (par défaut) ]-->
 <ELSE>
+	<LET ARRAY="ckl_translations.and">et</LET>
 	<LET ARRAY="ckl_translations.batch_title">Export CSV</LET>
 	<LET ARRAY="ckl_translations.batch_input">Identifiants des publications</LET>
 	<LET ARRAY="ckl_translations.batch_input_description">Renseigner l’identifiant d’une collection permet de vérifier récursivement tous ses descendants.</LET>

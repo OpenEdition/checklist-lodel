@@ -560,7 +560,7 @@
 		</BEFORE>
 		<DO>
 			<IF COND="[#COUNT] GE 2">
-				<IF COND="[#COUNT] LT [#NBRESULTS]">, <ELSE/> et </IF>
+				<IF COND="[#COUNT] LT [#NBRESULTS]">, <ELSE/> [#CKL_TRANSLATIONS.AND] </IF>
 			</IF>
 			<span class="ckl-personne" data-type="[#TYPE]" data-id="[#ID]">
 				<LET VAR="label_prenom"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="prenom" CLASSNAME="auteurs"/></LET>
