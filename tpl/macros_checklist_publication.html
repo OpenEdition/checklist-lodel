@@ -183,8 +183,13 @@
 		<!--[ Co-éditeur ]-->
 		<FUNC NAME="CKL_FIELD_STRING" FIELD="coediteur" VALUE="[#COEDITEUR]"/>
 
-		<!--[ Licence ]-->
+		<!--[ Index avances (licence revues) ]-->
 		<FUNC NAME="CKL_ENTRIES" CLASSNAME="indexavances"/>
+
+		<!--[ Licence livre ]-->
+		<IF COND="[%SITE_EM] EQ 'oeb'">
+			<FUNC NAME="CKL_P_BOOK_LICENCE" IDBOOK="[#ID]" />
+		</IF>
 
 		<!--[ Directeur de la publication ]-->
 		<FUNC NAME="CKL_PERSONNES" TYPE="directeurdelapublication"/>
@@ -240,4 +245,55 @@
 	
 	<!--[ Nav entities ]-->
 	<FUNC NAME="CKL_NAV_ENTITIES" POSITION="bottom" />
+</DEFMACRO>
+
+/**
+ * Récupérer la licence d'un livre.
+ * @param {number} idbook - ID du livre.
+ */
+<DEFFUNC NAME="CKL_P_BOOK_LICENCE" REQUIRED="idbook"">
+	<LET VAR="dbindex">`<?php echo DATABASE.'_index';?>`</LET>
+
+	<!--[ Licence définie au niveau du livre ]-->
+	<LOOP NAME="ckl_p_book_licence"
+		TABLE="[#DBINDEX].entries,[#DBINDEX].entrytypes,relations_ext,[#DBINDEX].licences"
+		SELECT="[#DBINDEX].licences.nom,[#DBINDEX].licences.mlnom,[#DBINDEX].licences.url"
+		WHERE="id1=[#IDBOOK] AND id2=[#DBINDEX].entries.id AND site='index'
+			AND [#DBINDEX].licences.identry=[#DBINDEX].entries.id
+			AND [#DBINDEX].entrytypes.id=[#DBINDEX].entries.idtype
+			AND [#DBINDEX].entrytypes.type ='licence'"
+		LIMIT="1">
+		<DO>
+			<MACRO NAME="CKL_P_BOOK_LICENCE_FIELD" />
+		</DO>
+		<ALTERNATIVE>
+
+			<!--[ Licence définie au niveau de l'éditeur ou licence par défaut ]-->
+			<LOOP NAME="ckl_p_book_licence_publisher"
+				TABLE="[#DBINDEX].entries,[#DBINDEX].entrytypes,[#DBINDEX].licences"
+				SELECT="[#DBINDEX].licences.nom,[#DBINDEX].licences.mlnom,[#DBINDEX].licences.url"
+				WHERE="[#DBINDEX].entries.g_name='[%SITE_LICENCE]'
+					AND [#DBINDEX].licences.identry=[#DBINDEX].entries.id
+					AND [#DBINDEX].entrytypes.id=[#DBINDEX].entries.idtype
+					AND [#DBINDEX].entrytypes.type ='licence'"
+				LIMIT="1">
+					<MACRO NAME="CKL_P_BOOK_LICENCE_FIELD" />
+			</LOOP>
+		</ALTERNATIVE>
+	</LOOP>
+</DEFFUNC>
+
+/**
+ * Affichage du champ licence.
+ */
+<DEFMACRO NAME="CKL_P_BOOK_LICENCE_FIELD">
+	<LET VAR="licence_name">
+		<IF COND="[#MLNOM:#SITELANG]">[#MLNOM:#SITELANG]
+		<ELSEIF COND="[#MLNOM:#PAGELANG]" />[#MLNOM:#PAGELANG]
+		<ELSEIF COND="[#MLNOM:EN]" />[#MLNOM:EN]
+		<ELSE/>[#NOM]
+		</IF>
+	</LET>
+	<LET VAR="field_title"><FUNC NAME="CKL_GET_CLASS_TITLE" CLASS="licence" /></LET>
+	<FUNC NAME="CKL_FIELD_STRING" FIELD="[#FIELD_TITLE]" VALUE="[#LICENCE_NAME]" />
 </DEFMACRO>
