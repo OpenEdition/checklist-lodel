@@ -209,8 +209,10 @@
 		<!--[ Résumés ]-->
 		<FUNC NAME="CKL_FIELD_ML" FIELD="resume" VALUE="[#RESUME]"/>
 
-		<!--[ Extrait ]-->
-		<FUNC NAME="CKL_FIELD_STRING" FIELD="extrait" VALUE="[#EXTRAIT]"/>
+		<!--[ Extrait (uniquement si pas de résumé) ]-->
+		<IF COND="![#RESUME]">
+			<FUNC NAME="CKL_FIELD_STRING" FIELD="extrait" VALUE="[#EXTRAIT]"/>
+		</IF>
 		
 		<!--[ ISBN HTML ]-->
 		<FUNC NAME="CKL_FIELD_STRING" FIELD="isbnhtml" VALUE="[#ISBNHTML]"/>
