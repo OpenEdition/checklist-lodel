@@ -42,7 +42,7 @@ window.checklistRules = [
       en: "<p>Some images of the document are not displayed by Lodel. This may be an issue with image format or structure of the source file.</p>"
     },
     condition: "textes",
-    type: "warning",
+    type: "danger",
     displayCount: true,
     action: function ($) {
       // See https://github.com/OpenEdition/checklist-lodel/issues/36
@@ -91,14 +91,13 @@ window.checklistRules = [
       en: "Missing cover"
     },
     description: {
-      fr: "<p>La couverture est manquante. Il est conseillé d’ajouter une couverture aux numéros quand c’est possible.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/792\" target=\"_blank\">Ajouter une couverture de numéro de revue</a></p>",
-      en: "<p>Cover is missing. It is recommended to attach covers to issues when possible.</p>"
+      fr: "<p>La couverture est manquante. Elle est obligatoire, doit avoir une largeur minimale de 1&nbsp;400&nbsp;pixels et une définition de 300&nbsp;dpi.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/621\" target=\"_blank\">Attacher une couverture de livre</a></p>",
+      en: "<p>The cover is missing. It is mandatory, must be at least 1400&nbsp;pixels wide and 300&nbsp;dpi.</p>"
     },
-    condition: "publications && !numeroouvert",
-    type: "info",
-    tags: ["paper"],
+    condition: "publications",
+    type: "danger",
     action: function ($) {
-      var $coverType = $(".ckl-fichier-type:contains(imageaccroche), .ckl-fichier-type:contains(couverture1)");
+      var $coverType = $(".ckl-fichier-type:contains(couverture1)");
       this.resolve($coverType.length === 0);
     }
   },
@@ -145,11 +144,10 @@ window.checklistRules = [
       fr: "<p>Les couvertures doivent être aux formats JPG ou PNG.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/792\" target=\"_blank\">Ajouter une couverture de numéro de revue</a></p>",
       en: "<p>Covers must be in JPG or PNG formats.</p>"
     },
-    condition: "publications && !numeroouvert",
-    type: "info",
-    tags: ["paper"],
+    condition: "publications",
+    type: "danger",
     action: function ($) {
-      var $cover = getFile($, "imageaccroche", "couverture1");
+      var $cover = getFile($, "couverture1");
       if ($cover.length === 0) return this.resolve();
       var mime = $cover.attr("data-document-mime");
       var flag = mime !== "image/jpeg" && mime !== "image/png";
@@ -303,11 +301,11 @@ window.checklistRules = [
       en: "Small cover"
     },
     description: {
-      fr: "<p>La couverture est de taille insuffisante. Elle doit mesurer au moins 1400 pixels de large.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/792\" target=\"_blank\">Ajouter une couverture de numéro de revue</a></p>",
-      en: "<p>Cover is too small. It must be at least 1400 pixels wide.</p>"
+      fr: "<p>La couverture est de taille insuffisante. Elle doit mesurer au moins 1400&nbsp;pixels de large.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/792\" target=\"_blank\">Ajouter une couverture de numéro de revue</a></p>",
+      en: "<p>Cover is too small. It must be at least 1400&nbsp;pixels wide.</p>"
     },
     condition: "publications",
-    type: "info",
+    type: "danger",
     action: function ($) {
       var $cover = getFile($, "couverture1");
       if ($cover.length === 0) return this.resolve();
@@ -327,7 +325,7 @@ window.checklistRules = [
       en: "<p>Line breaks must be removed from headings or translated titles.</p>"
     },
     condition: "textes",
-    type: "warning",
+    type: "danger",
     displayCount: true,
     action: function ($) {
       var $intertitres = getField($, "texte").find(":header");
@@ -458,7 +456,7 @@ window.checklistRules = [
       en: "<p>Document contains unexpected styles. Some elements may not have been interpreted correctly by Lodel. Please fix the related source file by applying correct styles.</p>"
     },
     condition: "textes",
-    type: "warning",
+    type: "danger",
     action: function ($) {
       var allowed = {
         texte: "p.remerciements, p.texte, p.paragraphesansretrait, p.creditillustration, p.crditsillustration, p.epigraphe, p.citation, p.citationbis, p.citationter, p.titreillustration, p.legendeillustration, p.question, p.reponse, p.separateur, p.encadre, p.code, p.mathml, p.latex, p.mathlatex",
@@ -838,7 +836,7 @@ window.checklistRules = [
       en: "<p>The size of the facsimile attached to this issue is not suitable for proper distribution. We recommend uploading PDFs of up to 30 MB.</p>"
     },
     condition: "publications",
-    type: "warning",
+    type: "danger",
     action: function ($) {
       var flag = fileIsTooBig($, "facsimile", 30);
       this.resolve(flag);
@@ -873,9 +871,8 @@ window.checklistRules = [
       fr: "<p>Aucun fac-similé PDF n’est associé à cette publication. Un PDF sera automatiquement généré. Si vous souhaitez qu'un PDF composé par vos soins soit diffusé, vous devez l'attacher à cette publication. Il doit s'agir du PDF final, sans traits de coupe ni hirondelles.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/612\" target=\"_blank\">Comment importer le fac-similé de son numéro</a></p>",
       en: "<p>This issue has no attached facsimile. A PDF will be automatically generated. If you want your own PDF file to be distributed instead, please attach it to this issue. This should be the final version with no crop marks.</p>"
     },
-    condition: "publications && !numeroouvert",
+    condition: "publications",
     type: "info",
-    tags: ["paper"],
     action: function ($) {
       var $file = getFile($, "facsimile");
       if ($file.length === 0) return this.resolve(true);
@@ -894,9 +891,8 @@ window.checklistRules = [
       fr: "<p>Aucun fac-similé PDF n’est associé à ce document. Un PDF sera automatiquement généré. Si vous souhaitez qu'un PDF composé par vos soins soit diffusé, vous devez l'attacher à ce document. Il doit s'agir du PDF final, sans traits de coupe ni hirondelles.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/793\" target=\"_blank\">Comment importer le fac-similé d’un article</a></p>",
       en: "<p>This document has no attached facsimile. A PDF will be automatically generated. If you want your own PDF file to be distributed instead, please attach it to this issue. This should be the final version with no crop marks.</p>"
     },
-    condition: "textes && !numeroouvert",
+    condition: "textes",
     type: "info",
-    tags: ["paper"],
     action: function ($) {
       var $facsimile = getField($, "alterfichier");
       if ($facsimile.length === 0) return this.resolve(true);
@@ -912,14 +908,14 @@ window.checklistRules = [
       en: "Missing pagination"
     },
     description: {
-      fr: "<p>Si le document existe en version imprimée il est fortement recommandé d’en préciser la pagination au format attendu. Cette métadonnée génère la citation bibliographique papier.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/1295\" target=\"_blank\">Styler les métadonnées de l’article</a></p>",
-      en: "<p>If the document exists in a printed version, it is strongly recommended to specify the pagination in the expected format. This will generate the bibliographic reference of the printed version.</p>"
+      fr: "<p>Si le document existe en version imprimée il est fortement recommandé d’en préciser la pagination au format attendu. Cette métadonnée est récupérée dans la citation bibliographique.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/617#tocto3n9\" target=\"_blank\">Créer un Livre dans Lodel</a></p>",
+      en: "<p>If the document exists in printed form, it is strongly recommended to specify the pagination in the expected format. This metadata is retrieved in the bibliographic citation.</p>"
     },
-    condition: "textes && !numeroouvert",
+    condition: "publications || textes",
     type: "info",
-    tags: ["paper"],
-    action: function ($) {
-      var $pagination = getField($, "pagination");
+    action: function ($, context) {
+      var fieldName = context.publications ? "nombrepages" : "pagination";
+      var $pagination = getField($, fieldName);
       var flag = $pagination.length === 0 || $pagination.text().length === 0;
       this.resolve(flag);
     }
@@ -935,14 +931,13 @@ window.checklistRules = [
       fr: "<p>La pagination de la version papier n’est pas correctement renseignée, le format attendu est <code>page de début-page de fin</code>, exemple <code>12-72</code>. Le séparateur doit être un tiret quart de cadratin.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/1295\" target=\"_blank\">Styler les métadonnées de l’article</a></p>",
       en: "<p>Pagination is not correct, the expected format is <code>start page-end page</code>, example <code>12-72</code>. Separator must be a hyphen-minus.</p>"
     },
-    condition: "textes && !numeroouvert",
+    condition: "textes",
     type: "warning",
-    tags: ["paper"],
     action: function ($) {
       var $pagination = getField($, "pagination");
       if ($pagination.length === 0) return this.resolve();
       var text = $pagination.text().trim();
-      var flag = (!/^[a-z0-9]+(-[a-z0-9]+)?$/.test(text));
+      var flag = (!/^[A-z0-9]+(-[A-z0-9]+)?$/.test(text));
       var marker = {
         name: {
           fr: "Pagination invalide",
