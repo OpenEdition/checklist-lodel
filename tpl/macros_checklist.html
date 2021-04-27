@@ -351,11 +351,17 @@
 			"extension-[#CREATIONINFO|reg_replace("/^.*\./", "")]": true,
 		</LOOP>
 
-		<LET VAR="numero_id"><FUNC NAME="CKL_FIND_SUPPORTED_PARENT" ID="[#ID]" /></LET>
-		<IF COND="[%SITE_EM] EQ 'oej' AND [#NUMERO_ID]">
-			<LOOP NAME="ckl_create_context_json_numeroouvert" TABLE="publications" WHERE="id='[#NUMERO_ID]' AND numeroouvert" LIMIT="0,1" />
-				"numeroouvert": true,
-			</LOOP>
+		<LET VAR="publi_id"><FUNC NAME="CKL_FIND_SUPPORTED_PARENT" ID="[#ID]" /></LET>
+		<IF COND="[#PUBLI_ID]">
+			<IF COND="[%SITE_EM] EQ 'oej'">
+				<LOOP NAME="ckl_create_context_json_numeroouvert" TABLE="publications" WHERE="id='[#PUBLI_ID]' AND numeroouvert" LIMIT="0,1" />
+					"numeroouvert": true,
+				</LOOP>
+			<ELSEIF COND="[%SITE_EM] EQ 'oeb'">
+				<LOOP NAME="ckl_create_context_json_ocr" TABLE="publications" WHERE="id='[#PUBLI_ID]' AND ocr" LIMIT="0,1" />
+					"ocr": true,
+				</LOOP>
+			</IF>
 		</IF>
 
 		"[#CLASS]": true,

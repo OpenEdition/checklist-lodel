@@ -835,7 +835,7 @@ window.checklistRules = [
       fr: "<p>Le poids du fac-similé PDF de la publication n'est pas adapté pour une bonne diffusion. Nous recommandons de charger des PDF de 30 Mo maximum.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/612\" target=\"_blank\">Comment importer le fac-similé de son numéro</a></p>",
       en: "<p>The size of the facsimile attached to this issue is not suitable for proper distribution. We recommend uploading PDFs of up to 30 MB.</p>"
     },
-    condition: "publications",
+    condition: "publications && ocr",
     type: "danger",
     action: function ($) {
       var flag = fileIsTooBig($, "facsimile", 30);
@@ -853,7 +853,7 @@ window.checklistRules = [
       fr: "<p>Le poids du fac-similé PDF du document n'est pas adapté pour une bonne diffusion. Nous recommandons de charger des PDF de 10 Mo maximum.</p>",
       en: "<p>The size of the facsimile attached to this document is not suitable for proper distribution. We recommend uploading PDFs of up to 10 MB.</p>"
     },
-    condition: "textes",
+    condition: "textes && ocr",
     type: "warning",
     action: function ($) {
       var flag = fileIsTooBig($, "alterfichier", 10);
