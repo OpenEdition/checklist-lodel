@@ -22,6 +22,35 @@ window.checklistRules = [
   },
 
   {
+    id: "title:quality(uppercase)",
+    name: {
+      fr: "Titre en majuscules",
+      en: "Title in capitals"
+    },
+    description: {
+      fr: "<p>Les titres tout en majuscules sont une mauvaise pratique et posent des problèmes d’accessibilité, il est conseillé d’utiliser les majuscules seulement en début de phrase et sur les noms propres.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/1792\" target=\"_blank\">Coller sans mise en forme et balises indésirables dans les formulaires Lodel</a></p>",
+      en: "<p>Headings in all capitals are bad practice and cause accessibility problems, it is advisable to use capitals only at the beginning of sentences and on proper names.</p>"
+    }, 
+    condition: "textes",
+    type: "warning",
+    action: function ($) {
+      var $titre = getField($, "titre");
+      var titre = $titre.text().trim();
+      var flag = titre === titre.toUpperCase();
+      var marker = {
+        name: {
+          fr: "Majuscules",
+          en: "Capitals"
+        },
+        target: $titre,
+        position: "append",
+        highlight: true
+      };
+      this.resolve(flag, marker);
+    }
+  },
+
+  {
     id: "title:quality(br)",
     name: {
       fr: "Saut de ligne dans le titre ou le sous titre",
