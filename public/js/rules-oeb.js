@@ -90,6 +90,25 @@ window.checklistRules = [
   },
 
   {
+    id: "isbnhtml:existence",
+    name: {
+      fr: "ISBN HTML manquant",
+      en: "Missing HTML ISBN"
+    },
+    description: {
+      fr: "<p>L’ISBN HTML est indispensable pour la diffusion du livre. </p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/1472\" target=\"_blank\">Les métadonnées d’un livre</a></p>",
+      en: "<p>The HTML ISBN is essential for the distribution of the book.</p>"
+    },
+    condition: "publications",
+    type: "danger",
+    action: function ($) {
+      var $field = getField($, "isbnhtml");
+      var flag = $field.length === 0;
+      this.resolve(flag);
+    }
+  },
+
+  {
     id: "title:quality(br)",
     name: {
       fr: "Saut de ligne dans le titre ou le sous titre",
