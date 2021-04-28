@@ -51,6 +51,26 @@ window.checklistRules = [
   },
 
   {
+    id: "anneeedition:existence",
+    name: {
+      fr: "Année d’édition manquante",
+      en: "Missing Year of Publication"
+    },
+    description: {
+      fr: "<p>L’année d’édition du livre n’est pas indiquée. Elle est indispensable.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/1472\" target=\"_blank\">Les métadonnées d’un livre</a></p>",
+      en: "<p>The year of publication of the book is not indicated. It is essential.</p>"
+    },
+    condition: "publications",
+    type: "danger",
+    action: function ($) {
+      var field = getField($, "anneeedition").text().trim();
+      var re = /^[12]\d{3}$/;
+      var flag = !re.test(field);
+      this.resolve(flag);
+    }
+  },
+
+  {
     id: "title:quality(br)",
     name: {
       fr: "Saut de ligne dans le titre ou le sous titre",
