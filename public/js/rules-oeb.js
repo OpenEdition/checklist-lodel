@@ -71,6 +71,25 @@ window.checklistRules = [
   },
 
   {
+    id: "person:existence",
+    name: {
+      fr: "Pas d’auteur, directeur ou éditeur scientifique",
+      en: "No author, director or scientific editor"
+    },
+    description: {
+      fr: "<p>Un auteur, directeur de publication ou éditeur scientifique doit être identifié pour toute publication.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/1472\" target=\"_blank\">Les métadonnées d’un livre</a></p>",
+      en: "<p>An author, editor or scientific publisher must be identified for each publication.</p>"
+    },
+    condition: "publications",
+    type: "warning",
+    action: function ($) {
+      var $fields = getField($, "directeurdelapublication", "auteur", "editeurscientifique");
+      var flag = $fields.length === 0;
+      this.resolve(flag);
+    }
+  },
+
+  {
     id: "title:quality(br)",
     name: {
       fr: "Saut de ligne dans le titre ou le sous titre",
