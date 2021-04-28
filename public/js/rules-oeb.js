@@ -109,6 +109,25 @@ window.checklistRules = [
   },
 
   {
+    id: "resume:existence",
+    name: {
+      fr: "Absence de résumé ou extrait",
+      en: "No summary or extract"
+    },
+    description: {
+      fr: "<p>Un résumé dans la langue du livre ou un extrait est indispensable pour la bonne diffusion de l’ouvrage.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/617#tocto3n12\" target=\"_blank\">Créer un Livre dans Lodel</a></p>",
+      en: "<p>A summary in the language of the book or an extract is essential for the proper dissemination of the book.</p>"
+    },
+    condition: "publications",
+    type: "danger",
+    action: function ($) {
+      var $fields = getField($, "resume", "extrait");
+      var flag = $fields.length === 0;
+      this.resolve(flag);
+    }
+  },
+
+  {
     id: "title:quality(br)",
     name: {
       fr: "Saut de ligne dans le titre ou le sous titre",
