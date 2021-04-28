@@ -3,6 +3,25 @@
 
 window.checklistRules = [
   {
+    id: "texte:quality(unexpected-tags)",
+    name: {
+      fr: "Balises indésirables",
+      en: "Unwanted tags"
+    },
+    description: {
+      fr: "<p>Il existe des balises HTML indésirables dans les métadonnées du volume (comme <code>&lt;div&gt;</code> ou <code>&lt;iframe&gt;</code>). Elles peuvent bloquer la génération du PDF et de l’ePub mais aussi nuire à l’affichage web.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/1792\" target=\"_blank\">Coller sans mise en forme et balises indésirables dans les formulaires Lodel</a></p>",
+      en: "<p>There are unwanted HTML tags in the volume metadata (such as <code>&lt;div&gt;</code> or <code>&lt;iframe&gt;</code>). They can block the generation of the PDF and ePub but also interfere with the web display.</p>"
+    },
+    condition: "publications",
+    type: "danger",
+    action: function ($) {
+      var $fields = getField($, "introduction", "description", "ndlr", "resume", "extrait");
+      var $bad = $fields.find("iframe, div:not([class^='ckl-'])");
+      this.resolve($bad.length);
+    }
+  },
+
+  {
     id: "title:quality(br)",
     name: {
       fr: "Saut de ligne dans le titre ou le sous titre",
@@ -1000,5 +1019,5 @@ window.checklistRules = [
       };
       this.resolve($bad.length, marker);
     }
-  },
+  }
 ];
