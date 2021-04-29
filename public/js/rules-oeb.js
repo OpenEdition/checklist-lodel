@@ -173,6 +173,25 @@ window.checklistRules = [
   },
 
   {
+    id: "persons:quality(duplicates)",
+    name: {
+      fr: "Vérifier les directeurs et auteurs",
+      en: "Need to check directors and authors"
+    },
+    description: {
+      fr: "<p>Si un directeur de publication est renseigné au niveau de l’ouvrage, il est inutile de renseigner les auteurs et autrices des chapitres, qui seront récupérés automatiquement dans les références. Il ne peut y avoir à la fois des directeurs de publication et des auteurs au niveau du livre.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/617#tocto3n2\" target=\"_blank\">Créer un Livre dans Lodel</a></p>",
+      en: "<p>If a publication director is entered at book level, there is no need to enter the authors of the chapters, which will be automatically retrieved in the references. There cannot be both editors and authors at book level.</p>"
+    },
+    condition: "publications",
+    type: "danger",
+    action: function ($) {
+      var $fields = getField($, "directeurdelapublication", "auteur");
+      var flag = $fields.length > 1;
+      this.resolve(flag);
+    }
+  },
+
+  {
     id: "title:quality(br)",
     name: {
       fr: "Saut de ligne dans le titre ou le sous titre",
