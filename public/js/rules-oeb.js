@@ -150,6 +150,29 @@ window.checklistRules = [
   },
 
   {
+    id: "resume:existence",
+    name: {
+      fr: "Absence de résumé dans la langue du livre",
+      en: "No summary in the book’s language"
+    },
+    description: {
+      fr: "<p>Il est obligatoire qu’un résumé soit renseigné dans la langue du livre. Autrement, il est possible d’ajouter un extrait.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/617#tocto3n12\" target=\"_blank\">Créer un Livre dans Lodel</a></p>",
+      en: "<p>A summary in the book’s language is mandatory. Otherwise, it is possible to add an extract.</p>"
+    },
+    condition: "publications",
+    type: "danger",
+    action: function ($) {
+      var lang = getField($, "langue").text().trim();
+      var $resume = getField($, "resume");
+      if (lang.length === 0 || $resume.length === 0) return this.resolve();
+      var selector = ".ckl-field-ml-item[lang='" + lang + "']";
+      var $resumeLang = $resume.find(selector);      
+      var flag = $resumeLang.length === 0;
+      this.resolve(flag);
+    }
+  },
+
+  {
     id: "title:quality(br)",
     name: {
       fr: "Saut de ligne dans le titre ou le sous titre",
