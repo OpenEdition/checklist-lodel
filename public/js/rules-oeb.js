@@ -131,7 +131,7 @@ window.checklistRules = [
     id: "motscles-lang:existence",
     name: {
       fr: "Absence de mots-clés dans la langue du livre",
-      en: "Lack of keywords in the book’s language"
+      en: "No keywords in the book’s language"
     },
     description: {
       fr: "<p>La présence de mots-clés pertinents dans la langue du livre est obligatoire pour le référencement et la diffusion des ouvrages dans les bases bibliographiques ou les librairies numériques.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/617#tocto3n15\" target=\"_blank\">Créer un Livre dans Lodel</a></p>",
