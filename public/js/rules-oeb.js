@@ -128,6 +128,28 @@ window.checklistRules = [
   },
 
   {
+    id: "motscles:existence",
+    name: {
+      fr: "Absence de mots-clés dans la langue du livre",
+      en: "Lack of keywords in the book’s language"
+    },
+    description: {
+      fr: "<p>La présence de mots-clés pertinents dans la langue du livre est obligatoire pour le référencement et la diffusion des ouvrages dans les bases bibliographiques ou les librairies numériques.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/617#tocto3n15\" target=\"_blank\">Créer un Livre dans Lodel</a></p>",
+      en: "<p>The presence of relevant keywords in the language of the book is mandatory for the referencing and distribution of works in bibliographic databases or digital bookstores.</p>"
+    },
+    condition: "publications",
+    type: "danger",
+    action: function ($) {
+      var lang = getField($, "langue").text().trim();
+      if (lang.length === 0) return this.resolve();
+      var fieldName = "motscles" + lang;
+      var $motscles = getField($, fieldName);
+      var flag = $motscles.length === 0;
+      this.resolve(flag);
+    }
+  },
+
+  {
     id: "title:quality(br)",
     name: {
       fr: "Saut de ligne dans le titre ou le sous titre",
