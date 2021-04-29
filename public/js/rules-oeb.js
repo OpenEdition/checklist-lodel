@@ -71,7 +71,7 @@ window.checklistRules = [
   },
 
   {
-    id: "person:existence",
+    id: "persons:existence",
     name: {
       fr: "Pas d’auteur, directeur ou éditeur scientifique",
       en: "No author, director or scientific editor"
@@ -128,7 +128,7 @@ window.checklistRules = [
   },
 
   {
-    id: "motscles:existence",
+    id: "motscles-lang:existence",
     name: {
       fr: "Absence de mots-clés dans la langue du livre",
       en: "Lack of keywords in the book’s language"
@@ -150,7 +150,7 @@ window.checklistRules = [
   },
 
   {
-    id: "resume:existence",
+    id: "resume-lang:existence",
     name: {
       fr: "Absence de résumé dans la langue du livre",
       en: "No summary in the book’s language"
