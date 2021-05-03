@@ -52,6 +52,45 @@ window.checklistRules = [
   },
 
   {
+    id: "titreillustration:quality(position)",
+    name: {
+      fr: "Titre illustration après l’illustration",
+      en: "Illustration title following the illustration"
+    },
+    description: {
+      fr: "<p>L’ordre recommandé pour les métadonnées portant sur les illustrations est le suivant&nbsp;: titre, illustration, légende, crédits. Il est important de respecter cet ordre pour la bonne génération de la table des illustrations et pour des raisons d’accessibilité.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/98\" target=\"_blank\">Titres, légendes et crédits des illustrations et des tableaux</a></p>",
+      en: "<p>The recommended order for illustration metadata is: title, illustration, caption, credits. It is important to respect this order for the proper generation of the table of illustrations and for accessibility reasons.</p>"
+    },
+    condition: "textes",
+    type: "warning",
+    action: function ($) {
+      var $bad = $(".titreillustration").filter(function() {
+        var $next = $(this).next();
+        var $imgAfter = $next.find("img");
+        if ($imgAfter.length > 0) return false;
+
+        var $prev = $(this).prev();
+        var $imgBefore = $prev.find("img");
+        if ($imgBefore.length === 0) return false;
+
+        return true;
+      });
+
+      var marker = {
+        name: {
+          fr: "Position",
+          en: "Position"
+        },
+        target: $bad,
+        position: "prepend",
+        highlight: true
+      };
+
+      this.resolve($bad.length, marker);
+    }
+  },
+
+  {
     id: "anneeedition:existence",
     name: {
       fr: "Année d’édition manquante",
