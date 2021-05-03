@@ -14,6 +14,7 @@ window.checklistRules = [
     },
     condition: "publications",
     type: "danger",
+    displayCount: true,
     action: function ($) {
       var $fields = getField($, "introduction", "description", "ndlr", "resume", "extrait");
       var $bad = $fields.find("iframe, div:not([class^='ckl-'])");
