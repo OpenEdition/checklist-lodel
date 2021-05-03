@@ -26,11 +26,11 @@ window.checklistRules = [
     id: "title:quality(uppercase)",
     name: {
       fr: "Titre en majuscules",
-      en: "Title in capitals"
+      en: "Title in uppercase"
     },
     description: {
       fr: "<p>Les titres tout en majuscules sont une mauvaise pratique et posent des problèmes d’accessibilité, il est conseillé d’utiliser les majuscules seulement en début de phrase et sur les noms propres.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/1792\" target=\"_blank\">Coller sans mise en forme et balises indésirables dans les formulaires Lodel</a></p>",
-      en: "<p>Headings in all capitals are bad practice and cause accessibility problems, it is advisable to use capitals only at the beginning of sentences and on proper names.</p>"
+      en: "<p>Headings in all uppercase are bad practice and cause accessibility problems, it is advisable to use uppercase only at the beginning of sentences and on proper names.</p>"
     }, 
     condition: "textes",
     type: "warning",
@@ -41,7 +41,7 @@ window.checklistRules = [
       var marker = {
         name: {
           fr: "Majuscules",
-          en: "Capitals"
+          en: "Uppercase"
         },
         target: $titre,
         position: "append",
