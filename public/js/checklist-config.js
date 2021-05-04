@@ -18,14 +18,9 @@ window.getFile = function($, ...types) {
 }
 
 // Return true if filesize from field is greater than maxSizeMo
-window.fileIsTooBig = function($, fieldname, maxSizeMo) {
-  var $field = getField($, fieldname);
-  if ($field.length === 0) return false;
-
-  var fileinfo = $field.attr("data-document-filesize");
+window.fileIsTooBig = function(fileinfo, maxSizeMo) {
   var unit = fileinfo.charAt(fileinfo.length - 1);
   if (unit === "k") return false;
-
   var filesize = parseInt(fileinfo);
   return filesize > maxSizeMo;
 }

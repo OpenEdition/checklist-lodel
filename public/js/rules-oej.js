@@ -977,7 +977,14 @@ window.checklistRules = [
     condition: "publications",
     type: "warning",
     action: function ($) {
-      var flag = fileIsTooBig($, "facsimile", 30);
+      var $bad = $(".ckl-fichiers .ckl-fichier").filter(function() {
+        var type = $(this).find(".ckl-fichier-type").text().trim();
+        if (type !== "facsimile" && type !== "couverture1") return false;
+
+        var fileinfo = $(this).find(".ckl-fichier-document").attr("data-document-filesize");
+        return fileIsTooBig(fileinfo, 30)
+      });
+      var flag = $bad.length > 0;
       this.resolve(flag);
     }
   },
@@ -995,7 +1002,11 @@ window.checklistRules = [
     condition: "textes",
     type: "warning",
     action: function ($) {
-      var flag = fileIsTooBig($, "alterfichier", 10);
+      var $field = getField($, "alterfichier");
+      if ($field.length === 0) return false;
+    
+      var fileinfo = $field.attr("data-document-filesize");
+      var flag = fileIsTooBig(fileinfo, 10);
       this.resolve(flag);
     }
   },
