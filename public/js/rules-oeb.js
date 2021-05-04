@@ -97,15 +97,14 @@ window.checklistRules = [
       en: "Missing Year of Publication"
     },
     description: {
-      fr: "<p>L’année d’édition du livre n’est pas indiquée. Elle est indispensable.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/1472\" target=\"_blank\">Les métadonnées d’un livre</a></p>",
-      en: "<p>The year of publication of the book is not indicated. It is essential.</p>"
+      fr: "<p>L’année d’édition du livre n’est pas indiquée. Elle est indispensable et doit être indiquée sous la forme \"AAAA\", par exemple \"2021\".</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/617#tocto3n8\" target=\"_blank\">Créer un Livre dans Lodel</a></p>",
+      en: "<p>The book’s year of publication is not indicated. It is essential and should be presented as \"YYYY\", for example \"2021\".</p>"
     },
     condition: "publications",
     type: "danger",
     action: function ($) {
-      var field = getField($, "anneeedition").text().trim();
-      var re = /^[12]\d{3}$/;
-      var flag = !re.test(field);
+      var $field = getField($, "anneeedition");
+      var flag = $field.length === 0;
       this.resolve(flag);
     }
   },
