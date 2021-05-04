@@ -94,10 +94,18 @@ window.checklistRules = [
     type: "warning",
     displayCount: true,
     action: function ($) {
-      // See https://github.com/OpenEdition/checklist-lodel/issues/36
-      var $phpFileExistsIndicators = $(".ckl-image-not-found");
+      var $phpFileExistsIndicators = $("[data-image-exists='0']");
       var $imagesNonConverties = $(".image_error");
-      var count = $imagesNonConverties.length + $phpFileExistsIndicators.length;
+
+      var $textes = getField($, "texte", "annexe", "bibliographie", "notesbaspage", "notefin");
+      var $img = $textes.find("img");
+      var $imagesUnsupportedExt = $img.filter(function() {
+        var src = $(this).attr("src");
+        var re = /\.(jpg|jpeg|png|gif|svg)$/;
+        return !re.test(src);
+      });
+
+      var count = $imagesNonConverties.length + $phpFileExistsIndicators.length + $imagesUnsupportedExt.length;
       
       var contextIsArticle = $($.root).is("body");
       if (!contextIsArticle) {
@@ -106,19 +114,17 @@ window.checklistRules = [
 
       var badSrc = [];
       $phpFileExistsIndicators.each(function() {
-        var src = $(this).text();
+        var src = $(this).attr("data-image-src");
         if (badSrc.indexOf(src) > -1) return;
         badSrc.push(src);
       });
 
-      var $textes = getField($, "texte", "annexe", "bibliographie", "notesbaspage", "notefin");
-
-      var $bad = $textes.find("img")
-        .filter(function() {
-          var src = $(this).attr("src");
-          return badSrc.indexOf(src) > -1;
-        })
-        .add($imagesNonConverties);
+      var $bad = $img.filter(function() {
+        var src = $(this).attr("src");
+        return badSrc.indexOf(src) > -1;
+      })
+      .add($imagesNonConverties)
+      .add($imagesUnsupportedExt);
 
       var marker = {
         name: {

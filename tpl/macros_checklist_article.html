@@ -190,9 +190,6 @@
 
 			<!--[ Texte intégral ]-->
 			<FUNC NAME="CKL_FIELD_STRING" FIELD="texte" VALUE="[#TEXTE|cleanCallNotes|tocable|tocss('heading')|vignettiser(300, 300)|embedMedia]" CLASSNAME="ckl-field-text" />
-
-			<!--[ Test sur l'existence des images ]-->
-			<FUNC NAME="CKL_A_CHECK_IMAGES_EXISTENCE" TEXT="[#TEXTE]" />
 		</LET>
 		<FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
 	</IF>
@@ -202,9 +199,6 @@
 		<LET VAR="section_contents">
 			<!--[ Bibliographie ]-->
 			<FUNC NAME="CKL_FIELD_STRING" FIELD="bibliographie" VALUE="[(#BIBLIOGRAPHIE|cleanCallNotes|tocss('heading')|vignettiser(300, 300)|embedMedia)]" CLASSNAME="ckl-field-text" />
-
-			<!--[ Test sur l'existence des images ]-->
-			<FUNC NAME="CKL_A_CHECK_IMAGES_EXISTENCE" TEXT="[#BIBLIOGRAPHIE]" />
 		</LET>
 		<FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
 	</IF>
@@ -214,9 +208,6 @@
 		<LET VAR="section_contents">
 			<!--[ Annexes (texte) ]-->
 			<FUNC NAME="CKL_FIELD_STRING" FIELD="annexe" VALUE="[#ANNEXE|cleanCallNotes|tocss('heading')|vignettiser(300, 300)|embedMedia]" CLASSNAME="ckl-field-text" />
-
-			<!--[ Test sur l'existence des images ]-->
-			<FUNC NAME="CKL_A_CHECK_IMAGES_EXISTENCE" TEXT="[#ANNEXE]" />
 		</LET>
 		<FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
 	</IF>
@@ -230,6 +221,9 @@
 		<FUNC NAME="CKL_FIELD_STRING" FIELD="notefin" VALUE="[#NOTEFIN]" CLASSNAME="ckl-field-text"/>
 	</LET>
 	<FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
+
+	<!--[ Vérification des images ]-->
+	<FUNC NAME="CKL_A_CHECK_IMAGES" TEXT="[#TEXTE] [#BIBLIOGRAPHIE] [#ANNEXE] [#NOTESBASPAGE][#NOTEFIN]" />
 
 	<!--[ Nav entities ]-->
 	<FUNC NAME="CKL_NAV_ENTITIES" POSITION="bottom" />
@@ -333,13 +327,18 @@
  * Vérifier l'existence des images appelées dans un texte.
  * @param {string} text - Texte à tester.
  */
-<DEFFUNC NAME="CKL_A_CHECK_IMAGES_EXISTENCE" REQUIRED="text">
-	<IF COND="[#TEXT] LIKE /<img src=\"(docannexe\/image\/[0-9]+\/img-[0-9]+\.jpg)\"/">
-		<LOOP NAME="foreach" ARRAY="[#MATCHES.1]">
-			<IF COND="![#VALUE|file_exists]">
-				<div class="ckl-image-not-found hidden">[#VALUE]</div>
-			</IF>
-		</LOOP>
+<DEFFUNC NAME="CKL_A_CHECK_IMAGES" REQUIRED="text">
+	<IF COND="[#TEXT] LIKE /<img src=\"(docannexe\/image\/[0-9]+\/img-[0-9]+\.(jpg|jpeg|png|gif|svg))\"/">
+		<div class="ckl-check-images hidden">
+			<LOOP NAME="foreach" ARRAY="[#MATCHES.1]">
+				<div class="ckl-image" 
+					data-image-src="[#VALUE]" 
+					data-image-exists="[#VALUE|file_exists|defaultvalue(0)]"
+					data-image-width="[#VALUE|imagewidth]"
+					data-image-height="[#VALUE|imageheight]"
+				></div>
+			</LOOP>
+		</div>
 	</IF>
 </DEFFUNC>
 
