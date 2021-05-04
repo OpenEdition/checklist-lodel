@@ -1119,7 +1119,7 @@ window.checklistRules = [
     type: "warning",
     action: function ($) {
       var $field = getField($, "alterfichier");
-      if ($field.length === 0) return false;
+      if ($field.length === 0) return this.resolve();
     
       var fileinfo = $field.attr("data-document-filesize");
       var flag = fileIsTooBig(fileinfo, 10);
