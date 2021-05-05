@@ -50,7 +50,7 @@ window.isLowerCase = function(str) {
   return str === str.toLowerCase();
 }
 
-window.initChecklist = function ({ sitename, docId, lang, context, publi, showBatch }) {
+window.initChecklist = function ({ sitename, docId, lang, context, publi, showBatch, em }) {
   if (window.checklist == null || window.checklistRules == null) throw Error("checklist and rules are required");
 
   // Distinction index/document (cf #53)
@@ -190,17 +190,6 @@ window.initChecklist = function ({ sitename, docId, lang, context, publi, showBa
       }
     ],
 
-    // Liste des filtres utilisés dans l'interface
-    filters: [
-      {
-        id: "tag-paper",
-        name: {
-          fr: "Publication papier",
-          en: "Print"
-        }
-      }
-    ],
-
     // Liste des notes attribuées aux documents et configuration de leur affichage dans l'interface
     ratings: [
       {
@@ -259,6 +248,19 @@ window.initChecklist = function ({ sitename, docId, lang, context, publi, showBa
     // <nom du champ>:<objet du test>(<detail optionnel>)[<type optionnel>]
     rules: window.checklistRules
   };
+
+  // Liste des filtres utilisés dans l'interface (OEJ seulement)
+  if (em === "oej") {
+    checklistConfig.filters = [
+      {
+        id: "tag-paper",
+        name: {
+          fr: "Publication papier",
+          en: "Print"
+        }
+      }
+    ];
+  }
 
   // Traductions spécifiques selon le template.
   if (context.home) {
