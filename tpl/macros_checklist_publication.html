@@ -135,9 +135,17 @@
 		<!--[ ISBN HTML ]-->
 		<FUNC NAME="CKL_FIELD_STRING" FIELD="isbnhtml" VALUE="[#ISBNHTML]"/>
 
+		<!--[ Indexes partagés (OEB) ]-->
+		<IF COND="[%SITE_EM] EQ 'oeb'">
+			<FUNC NAME="CKL_P_BOOK_SHARED_INDEX" TYPE="openedition" />
+			<FUNC NAME="CKL_P_BOOK_SHARED_INDEX" TYPE="isi" />
+			<FUNC NAME="CKL_P_BOOK_SHARED_INDEX" TYPE="bisac" />
+		</IF>
+
 		<!--[ OCR ]-->
 		<FUNC NAME="CKL_FIELD_BOOL" FIELD="ocr" VALUE="[#OCR]" OUI="[#CKL_TRANSLATIONS.YES]" NON=""/>
 
+		<!--[ OEJ uniquement ]-->
 		<IF COND="[%SITE_EM] NE 'oeb'">
 			<!--[ Date de la publication électronique ]-->
 			<FUNC NAME="CKL_FIELD_STRING" FIELD="datepubli" VALUE="[#DATEPUBLI]"/>
@@ -165,8 +173,8 @@
 		<!--[ Titres alternatifs ]-->
 		<FUNC NAME="CKL_FIELD_ML" FIELD="altertitre" VALUE="[#ALTERTITRE]"/>
 
+		<!--[ Introduction de la publication (OEJ) ]-->
 		<IF COND="[%SITE_EM] NE 'oeb'">
-			<!--[ Introduction de la publication ]-->
 			<FUNC NAME="CKL_FIELD_ML" FIELD="introduction" VALUE="[#INTRODUCTION]"/>
 		</IF>
 
@@ -288,3 +296,42 @@
 	<LET VAR="field_title"><FUNC NAME="CKL_GET_CLASS_TITLE" CLASS="licence" /></LET>
 	<FUNC NAME="CKL_FIELD_STRING" FIELD="[#FIELD_TITLE]" VALUE="[#LICENCE_NAME]" />
 </DEFMACRO>
+
+/**
+ * Affichage des index mutualisés (books).
+ * @param {string} type - Type de l'index mutualisé.
+ */
+<DEFFUNC NAME="CKL_P_BOOK_SHARED_INDEX" REQUIRED="type">
+	<LET VAR="portalurl"><?php echo (string) C::get('portalurl', 'cfg'); ?></LET>
+	<LET VAR="dbindex">`<?php echo DATABASE.'_index';?>`</LET>
+	<LET VAR="portaldb">`<?php echo DATABASE.'_books';?>`</LET>
+
+	<LOOP NAME="ckl_p_book_shared_index"
+		TABLE="[#DBINDEX].entries,[#DBINDEX].entrytypes,relations_ext,[#DBINDEX].indexes"
+		SELECT="[#DBINDEX].entrytypes.title, id2, g_name,mlnom"
+		WHERE="id1=[#ID] AND id2=[#DBINDEX].entries.id AND site='index'
+			AND [#DBINDEX].indexes.identry=[#DBINDEX].entries.id
+			AND [#DBINDEX].entrytypes.id=[#DBINDEX].entries.idtype
+			AND [#DBINDEX].entrytypes.type ='[#TYPE]'"
+		ORDER="[#DBINDEX].entrytypes.type,relations_ext.degree">
+		<BEFORE>
+			<div class="ckl-field ckl-entrytype doc-entrytype-[#TYPE]" data-field="[#TYPE]">
+				<div class="ckl-field-title"><FUNC NAME="CKL_GET_CLASS_TITLE" CLASS="[#TYPE]"/></div>
+				<div class="ckl-field-value">
+		</BEFORE>
+		<DO>
+			<IF COND="[#COUNT] GT 1">, </IF>
+			<IF COND="[#MLNOM:#SITELANG]">
+				[#MLNOM:#SITELANG]
+			<ELSEIF COND="[#MLNOM:#PAGELANG]">
+				[#MLNOM:#PAGELANG]
+			<ELSE/>
+				[#G_NAME]
+			</IF>
+		</DO>
+		<AFTER>
+				</div>
+			</div>
+		</AFTER>
+	</LOOP>
+</DEFFUNC>
