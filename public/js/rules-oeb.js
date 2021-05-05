@@ -252,6 +252,68 @@ window.checklistRules = [
   },
 
   {
+    id: "images:quality(size)",
+    name: {
+      fr: "Taille ou poids d'images trop important",
+      en: "Image size or weight too large"
+    },
+    description: {
+      fr: "<p>L’unité éditoriale comporte des illustrations dont la résolution est trop grande (nous recommandons de ne pas dépasser 7&nbsp;millions de pixels) ou le poids est trop important (dépasse 5&nbsp;Mo).</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/618#tocfrom2n13\">Précis de stylage</a></p>",
+      en: "<p>In this document, there are some illustrations which are either too large in resolution (we recommend not exceeding 7&nbsp;million pixels) or too large in size (exceeding 5&nbsp;MB).</p>"
+    },
+    condition: "textes",
+    type: "warning",
+    action: function ($) {
+      var maxSize = 5;
+      var maxResolution = 7000000;
+
+      var badFiles = [];
+      
+      $(".ckl-image").each(function() {
+        var src = this.dataset.imageSrc;
+
+        var size = this.dataset.imageSize;
+        if (fileIsTooBig(size, maxSize)) {
+          return badFiles.push(src);
+        };
+
+        var width = Number(this.dataset.imageWidth);
+        var height = Number(this.dataset.imageWidth);
+        var resolution = width * height;
+        if (resolution > maxResolution) {
+          return badFiles.push(src);
+        };
+      });
+
+      var contextIsArticle = $($.root).is("body");
+      if (!contextIsArticle) {
+        return this.resolve(badFiles.length);
+      }
+
+      var $textes = getField($, "texte", "annexe", "bibliographie", "notesbaspage", "notefin");
+      var $img = $textes.find("img");
+      var $bad = $img.filter(function() {
+        var smallSrc = this.src;
+        return badFiles.some(function(badSrc) {
+          var sourceSrc = smallSrc.replace(/^.*(docannexe\/.*)(-small\d*)(\.[A-z0-9]+$)/, "$1$3");
+          return sourceSrc === badSrc;
+        });
+      });
+
+      var marker = {
+        name: {
+          fr: "Image trop grande",
+          en: "Image too big"
+        },
+        target: $bad,
+        position: "after",
+        highlight: true
+      };
+      this.resolve($bad.length, marker);
+    }
+  },
+
+  {
     id: "title:quality(br)",
     name: {
       fr: "Saut de ligne dans le titre ou le sous titre",
