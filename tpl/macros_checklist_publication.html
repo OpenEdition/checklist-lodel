@@ -132,6 +132,9 @@
 		<FUNC NAME="CKL_FIELD_STRING" FIELD="languesecondaire" VALUE="[#LANGUESECONDAIRE]"/>
 		<FUNC NAME="CKL_FIELD_STRING" FIELD="langueoriginale" VALUE="[#LANGUEORIGINALE]"/>
 
+		<!--[ ISBN HTML ]-->
+		<FUNC NAME="CKL_FIELD_STRING" FIELD="isbnhtml" VALUE="[#ISBNHTML]"/>
+
 		<!--[ Date de la publication électronique ]-->
 		<FUNC NAME="CKL_FIELD_STRING" FIELD="datepubli" VALUE="[#DATEPUBLI]"/>
 
@@ -214,9 +217,6 @@
 		<IF COND="![#RESUME]">
 			<FUNC NAME="CKL_FIELD_STRING" FIELD="extrait" VALUE="[#EXTRAIT]"/>
 		</IF>
-		
-		<!--[ ISBN HTML ]-->
-		<FUNC NAME="CKL_FIELD_STRING" FIELD="isbnhtml" VALUE="[#ISBNHTML]"/>
 
 		<!--[ Entrées d'index ]-->
 		<FUNC NAME="CKL_ENTRIES" CLASSNAME="indexes"/>
