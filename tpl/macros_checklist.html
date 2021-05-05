@@ -35,16 +35,6 @@
 		</LOOP>
 	</IF>
 
-	<!--[ Trouver la licence du site si loop_solr() existe ]-->
-	<LET VAR="loop_solr">loop_solr</LET>
-	<IF COND="[%SITE_EM] EQ 'oeb' AND [#LOOP_SOLR|function_exists]">
-		<LET VAR="solrplateform">OB</LET>
-		<LET VAR="solr_query">platformID:"[#SOLRPLATEFORM]" AND pubentry_publication:"[#SITE]"</LET>
-		<LOOP NAME="SOLR" QUERY="[#SOLR_QUERY]" ROWS="1" CORE="publishers" FIELDS="pub_titre,pubentry_licence">
-			<LET VAR="site_licence" GLOBAL="1">[#PUBENTRY_LICENCE.0]</LET>
-		</LOOP>
-	</IF>
-
 	<!--[ Affichage export CSV ]-->
 	<IF COND="[#CHECKLIST_OPEN_BATCH] OR [#CKL_OPTIONS.ALLOW_RUN_BATCH]">
 		<LET VAR="show_batch">1</LET>

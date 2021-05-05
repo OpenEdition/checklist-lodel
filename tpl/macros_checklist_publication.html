@@ -266,23 +266,7 @@
 			AND [#DBINDEX].entrytypes.id=[#DBINDEX].entries.idtype
 			AND [#DBINDEX].entrytypes.type ='licence'"
 		LIMIT="1">
-		<DO>
-			<MACRO NAME="CKL_P_BOOK_LICENCE_FIELD" />
-		</DO>
-		<ALTERNATIVE>
-
-			<!--[ Licence définie au niveau de l'éditeur ou licence par défaut ]-->
-			<LOOP NAME="ckl_p_book_licence_publisher"
-				TABLE="[#DBINDEX].entries,[#DBINDEX].entrytypes,[#DBINDEX].licences"
-				SELECT="[#DBINDEX].licences.nom,[#DBINDEX].licences.mlnom,[#DBINDEX].licences.url"
-				WHERE="[#DBINDEX].entries.g_name='[%SITE_LICENCE]'
-					AND [#DBINDEX].licences.identry=[#DBINDEX].entries.id
-					AND [#DBINDEX].entrytypes.id=[#DBINDEX].entries.idtype
-					AND [#DBINDEX].entrytypes.type ='licence'"
-				LIMIT="1">
-					<MACRO NAME="CKL_P_BOOK_LICENCE_FIELD" />
-			</LOOP>
-		</ALTERNATIVE>
+		<MACRO NAME="CKL_P_BOOK_LICENCE_FIELD" />
 	</LOOP>
 </DEFFUNC>
 
