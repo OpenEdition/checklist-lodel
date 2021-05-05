@@ -135,26 +135,28 @@
 		<!--[ ISBN HTML ]-->
 		<FUNC NAME="CKL_FIELD_STRING" FIELD="isbnhtml" VALUE="[#ISBNHTML]"/>
 
-		<!--[ Date de la publication électronique ]-->
-		<FUNC NAME="CKL_FIELD_STRING" FIELD="datepubli" VALUE="[#DATEPUBLI]"/>
-
-		<!--[ Date de la publication papier ]-->
-		<FUNC NAME="CKL_FIELD_STRING" FIELD="datepublipapier" VALUE="[#DATEPUBLIPAPIER]"/>
-
-		<!--[ Cette publication est-elle à paraître ? ]-->
-		<FUNC NAME="CKL_FIELD_BOOL" FIELD="paraitre" VALUE="[#PARAITRE]" OUI="[#CKL_TRANSLATIONS.YES]" NON="[#CKL_TRANSLATIONS.NO]"/>
-
-		<!--[ Date de mise en ligne ]-->
-		<FUNC NAME="CKL_FIELD_STRING" FIELD="datemisenligne" VALUE="[#DATEMISENLIGNE]"/>
-
-		<!--[ Date de mise en accès libre ]-->
-		<FUNC NAME="CKL_FIELD_STRING" FIELD="dateacceslibre" VALUE="[#DATEACCESLIBRE]"/>
-
-		<!--[ Cette publication est-elle en libre accès ? ]-->
-		<FUNC NAME="CKL_FIELD_BOOL" FIELD="integralite" VALUE="[#INTEGRALITE]" OUI="[#CKL_TRANSLATIONS.YES]" NON="[#CKL_TRANSLATIONS.NO]"/>
-		
 		<!--[ OCR ]-->
 		<FUNC NAME="CKL_FIELD_BOOL" FIELD="ocr" VALUE="[#OCR]" OUI="[#CKL_TRANSLATIONS.YES]" NON=""/>
+
+		<IF COND="[%SITE_EM] NE 'oeb'">
+			<!--[ Date de la publication électronique ]-->
+			<FUNC NAME="CKL_FIELD_STRING" FIELD="datepubli" VALUE="[#DATEPUBLI]"/>
+
+			<!--[ Date de la publication papier ]-->
+			<FUNC NAME="CKL_FIELD_STRING" FIELD="datepublipapier" VALUE="[#DATEPUBLIPAPIER]"/>
+
+			<!--[ Cette publication est-elle à paraître ? ]-->
+			<FUNC NAME="CKL_FIELD_BOOL" FIELD="paraitre" VALUE="[#PARAITRE]" OUI="[#CKL_TRANSLATIONS.YES]" NON="[#CKL_TRANSLATIONS.NO]"/>
+
+			<!--[ Date de mise en ligne ]-->
+			<FUNC NAME="CKL_FIELD_STRING" FIELD="datemisenligne" VALUE="[#DATEMISENLIGNE]"/>
+
+			<!--[ Date de mise en accès libre ]-->
+			<FUNC NAME="CKL_FIELD_STRING" FIELD="dateacceslibre" VALUE="[#DATEACCESLIBRE]"/>
+
+			<!--[ Cette publication est-elle en libre accès ? ]-->
+			<FUNC NAME="CKL_FIELD_BOOL" FIELD="integralite" VALUE="[#INTEGRALITE]" OUI="[#CKL_TRANSLATIONS.YES]" NON="[#CKL_TRANSLATIONS.NO]"/>
+		</IF>
 	</LET>
 	<FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" CLASSNAME="ckl-cartouche" />
 
@@ -163,8 +165,10 @@
 		<!--[ Titres alternatifs ]-->
 		<FUNC NAME="CKL_FIELD_ML" FIELD="altertitre" VALUE="[#ALTERTITRE]"/>
 
-		<!--[ Introduction de la publication ]-->
-		<FUNC NAME="CKL_FIELD_ML" FIELD="introduction" VALUE="[#INTRODUCTION]"/>
+		<IF COND="[%SITE_EM] NE 'oeb'">
+			<!--[ Introduction de la publication ]-->
+			<FUNC NAME="CKL_FIELD_ML" FIELD="introduction" VALUE="[#INTRODUCTION]"/>
+		</IF>
 
 		<!--[ NDLR ]-->
 		<FUNC NAME="CKL_FIELD_STRING" FIELD="ndlr" VALUE="[#NDLR]"/>
