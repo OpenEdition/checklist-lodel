@@ -50,7 +50,7 @@ window.isLowerCase = function(str) {
   return str === str.toLowerCase();
 }
 
-window.initChecklist = function (sitename, docId, lang, context, publi, showBatch) {
+window.initChecklist = function ({ sitename, docId, lang, context, publi, showBatch }) {
   if (window.checklist == null || window.checklistRules == null) throw Error("checklist and rules are required");
 
   // Distinction index/document (cf #53)
