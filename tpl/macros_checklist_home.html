@@ -172,16 +172,22 @@
 		<!--[ Filtre parent ]-->
 		<LOOP NAME="ckl_h_issues_filters_collections" TABLE="publications" WHERE="id IN ([#COLLECTIONS])" SELECT="id, titre, altertitre, (CASE WHEN id = '[#FILTER_PARENT]' THEN 'selected' ELSE '' END) AS selected" ORDER="titre" />
 			<BEFORE>
-				<select class="ckl-issues-filter" data-filter="parent">
-					<option value="">[#CKL_TRANSLATIONS.FILTER_COLLECTIONS_ALL]</option>
+				<IF COND="[#NBRESULTATS] GT 1">
+					<select class="ckl-issues-filter" data-filter="parent">
+						<option value="">[#CKL_TRANSLATIONS.FILTER_COLLECTIONS_ALL]</option>
+				</IF>
 			</BEFORE>
 			<DO>
-				<option value="[#ID]" [#SELECTED]>
-					<IF COND="[#ALTERTITLE:#SITELANG]"/>[#ALTERTITRE:#SITELANG]<ELSE/>[#TITRE]</IF>
-				</option>
+				<IF COND="[#NBRESULTATS] GT 1">
+					<option value="[#ID]" [#SELECTED]>
+						<IF COND="[#ALTERTITLE:#SITELANG]"/>[#ALTERTITRE:#SITELANG]<ELSE/>[#TITRE]</IF>
+					</option>
+				</IF>
 			</DO>
 			<AFTER>
-				</select>
+				<IF COND="[#NBRESULTATS] GT 1">
+					</select>
+				</IF>
 			</AFTER>
 		</LOOP>
 
