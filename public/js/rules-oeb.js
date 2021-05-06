@@ -148,6 +148,71 @@ window.checklistRules = [
   },
 
   {
+    id: "isbnhtml:quality",
+    name: {
+      fr: "ISBN HTML invalide",
+      en: "Invalid HTML ISBN"
+    },
+    description: {
+      fr: "<p>L’ISBN HTML ne correspond pas au segment défini pour OpenEdition et n'est pas valide. Pour rappel, l’ISBN HTML correspond au code qui fait la liaison entre Lodel et l’espace Freemium.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/1472\" target=\"_blank\">Les métadonnées d’un livre</a></p>",
+      en: "<p>The HTML ISBN does not match the segment defined for OpenEdition and is invalid. As a reminder, the HTML ISBN is the code that links Lodel to the Freemium website.</p>"
+    },
+    condition: "publications",
+    type: "danger",
+    action: function ($) {
+      var isbn = getField($, "isbnhtml").text();
+      if (!isbn) return resolve();
+
+      var re = /^(97828218|97910365)/;
+      var isOE = re.test(isbn);
+      if (!isOE) return resolve(true);
+
+      // https://stackoverflow.com/a/23161438
+      var isValidISBN = function (str) {
+        var sum, weight, digit, check, i;
+        str = String(str);
+        str = str.replace(/[^0-9X]/gi, '');
+
+        if (str.length != 10 && str.length != 13) {
+          return false;
+        }
+
+        if (str.length == 13) {
+          sum = 0;
+          for (i = 0; i < 12; i++) {
+            digit = parseInt(str[i]);
+            if (i % 2 == 1) {
+              sum += 3 * digit;
+            } else {
+              sum += digit;
+            }
+          }
+          check = (10 - (sum % 10)) % 10;
+          return (check == str[str.length - 1]);
+        }
+
+        if (str.length == 10) {
+          weight = 10;
+          sum = 0;
+          for (i = 0; i < 9; i++) {
+            digit = parseInt(str[i]);
+            sum += weight * digit;
+            weight--;
+          }
+          check = (11 - (sum % 11)) % 11
+          if (check == 10) {
+            check = 'X';
+          }
+          return (check == str[str.length - 1].toUpperCase());
+        }
+      };
+
+      var isValid = isValidISBN(isbn);
+      this.resolve(!isValid);
+    }
+  },
+
+  {
     id: "resume:existence",
     name: {
       fr: "Absence de résumé ou extrait",
