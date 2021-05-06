@@ -150,6 +150,39 @@ a:hover, a:active, a:focus {
   margin-right: -16px;
 }
 
+.ckl-issues-filters {
+  display: flex;
+  align-items: baseline;
+  padding: 0 20px 20px 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #C6CDD2;
+}
+
+.ckl-issues-filters > * {
+  margin-right: 20px;
+} 
+
+.ckl-issues-filters-title {
+  font-weight: normal;
+  color: #9CA4AB;
+  font-size: 16px;
+}
+
+.ckl-issues-filters-title .fas {
+  font-size: 80%;
+  margin-right: 5px;
+}
+
+.ckl-issues-filter {
+  padding: 5px;
+}
+
+.ckl-issues-none {
+  text-align: center;
+  margin-top: 50px;
+  color: #9CA4AB;
+}
+
 .ckl-issue, .ckl-issue-placeholder {
   background: #f6f8fa;
   flex-grow: 1;

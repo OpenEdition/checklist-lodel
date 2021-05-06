@@ -119,7 +119,20 @@
  */
 <DEFMACRO NAME="CKL_H_ISSUES">
 	<LET VAR="NUMEROS_PAR_PAGE">10</LET>
-	<LOOP NAME="ckl_h_numeros" TABLE="publications" WHERE="type IN ('numero', 'livre') AND paraitre != 1" ORDER="rank DESC" SPLIT="[#NUMEROS_PAR_PAGE]">
+
+	<LET VAR="where_clause"></LET>
+	<IF COND="[#FILTER_PARENT]">
+		<LET VAR="where_clause">[#WHERE_CLAUSE] AND idparent = '[#FILTER_PARENT]'</LET>
+	</IF>
+	<IF COND="[#FILTER_STATUS] EQ 'published'">
+		<LET VAR="where_clause">[#WHERE_CLAUSE] AND alias_entities_publications.status > 0</LET>
+	<ELSEIF COND="[#FILTER_STATUS] EQ 'unpublished'">
+		<LET VAR="where_clause">[#WHERE_CLAUSE] AND alias_entities_publications.status < 0</LET>
+	</IF>
+
+	<MACRO NAME="CKL_H_ISSUES_FILTERS" />
+
+	<LOOP NAME="ckl_h_numeros" TABLE="publications" WHERE="type IN ('numero', 'livre') AND paraitre != 1 [#WHERE_CLAUSE]" ORDER="rank DESC" SPLIT="[#NUMEROS_PAR_PAGE]">
 		<BEFORE>
 			<div class="ckl-issues">
 		</BEFORE>
@@ -134,7 +147,57 @@
 				<MACRO NAME="CKL_PAGE_SCALE" />
 			</IF>
 		</AFTER>
+		<ALTERNATIVE>
+			<p class="ckl-issues-none">[#CKL_TRANSLATIONS.ISSUES_NONE]</p>
+		</ALTERNATIVE>
 	</LOOP>
+</DEFMACRO>
+
+/**
+ * Filtres des publications sur la home.
+ */
+<DEFMACRO NAME="CKL_H_ISSUES_FILTERS">
+	<div class="ckl-issues-filters">
+		<h2 class="ckl-issues-filters-title"><i class='fas fa-filter'></i>[#CKL_TRANSLATIONS.FILTER]</h2>
+		
+		<!--[ ID des collections contenant des numéros ou des livres ]-->
+		<LET VAR="collections">
+			<LOOP NAME="ckl_h_issues_filters_get_collections" TABLE="publications" SELECT="distinct idparent as idcollection" WHERE="type IN ('numero', 'livre')">
+				<DO>[#IDCOLLECTION],</DO>
+				<DOLAST>[#IDCOLLECTION]</DOLAST>
+				<ALTERNATIVE>-1</ALTERNATIVE><!--[ éviter les erreurs avec "IN ([#COLLECTIONS])" ]-->
+			</LOOP>
+		</LET>
+
+		<!--[ Filtre parent ]-->
+		<LOOP NAME="ckl_h_issues_filters_collections" TABLE="publications" WHERE="id IN ([#COLLECTIONS])" SELECT="id, titre, altertitre, (CASE WHEN id = '[#FILTER_PARENT]' THEN 'selected' ELSE '' END) AS selected" ORDER="titre" />
+			<BEFORE>
+				<select class="ckl-issues-filter" data-filter="parent">
+					<option value="">[#CKL_TRANSLATIONS.FILTER_COLLECTIONS_ALL]</option>
+			</BEFORE>
+			<DO>
+				<option value="[#ID]" [#SELECTED]>
+					<IF COND="[#ALTERTITLE:#SITELANG]"/>[#ALTERTITRE:#SITELANG]<ELSE/>[#TITRE]</IF>
+				</option>
+			</DO>
+			<AFTER>
+				</select>
+			</AFTER>
+		</LOOP>
+
+		<!--[ Filtre statut ]-->
+		<IF COND="[#FILTER_STATUS] EQ 'published'">
+			<LET VAR="published_selected">selected</LET>
+		<ELSEIF COND="[#FILTER_STATUS] EQ 'unpublished'">
+			<LET VAR="unpublished_selected">selected</LET>
+		</IF>
+
+		<select class="ckl-issues-filter" data-filter="status">
+			<option value="">[#CKL_TRANSLATIONS.FILTER_STATUS_ALL]</option>
+			<option value="published" [#PUBLISHED_SELECTED]>[#CKL_TRANSLATIONS.FILTER_STATUS_PUBLISHED]</option>
+			<option value="unpublished" [#UNPUBLISHED_SELECTED]>[#CKL_TRANSLATIONS.FILTER_STATUS_UNPUBLISHED]</option>
+		</select>
+	</div>
 </DEFMACRO>
 
 /**
