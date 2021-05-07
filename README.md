@@ -1,6 +1,6 @@
 # Plugin Checklist pour Lodel
 
-Ce plugin Lodel est une implémentation du script [OpenEdition Checklist](https://github.com/OpenEdition/checklist) adaptée au **modèle éditorial des Revues**.
+Ce plugin Lodel est une implémentation du script [OpenEdition Checklist](https://github.com/OpenEdition/checklist) adaptée au modèle éditorial des revues et des livres.
 
 Il comprend les éléments suivants :
 
