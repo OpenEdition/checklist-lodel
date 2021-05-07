@@ -99,7 +99,7 @@ window.checklistRules = [
       en: "Missing author description"
     },
     description: {
-      fr: "<p>Il est recommandé d’ajouter une description d’auteur si elle existe. Attention à bien utiliser la fonction \"Coller sans mise en forme\" afin de ne pas importer de mise en forme ou balise problématiques.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/617#tocto3n2\" target=\"_blank\">Créer un Livre dans Lodel</a></p>",
+      fr: "<p>Il est recommandé d’ajouter une description d’auteur si elle existe. Attention à bien utiliser la fonction \"Coller sans mise en forme\" afin de ne pas importer de mise en forme ou balise problématiques.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/1792\" target=\"_blank\">Coller sans mise en forme et balises indésirables dans les formulaires Lodel</a></p>",
       en: "<p>It is recommended to add an author description if it exists. Be careful to use the \"Paste without formatting\" function so as not to import problematic formatting or tags.</p>"
     },
     condition: "publications",
