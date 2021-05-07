@@ -3,6 +3,96 @@
 
 window.checklistRules = [
   {
+    id: "texte:quality(unexpected-tags)",
+    name: {
+      fr: "Balises indésirables",
+      en: "Unwanted tags"
+    },
+    description: {
+      fr: "<p>Il existe des balises HTML indésirables dans les métadonnées du volume (comme <code>&lt;div&gt;</code> ou <code>&lt;iframe&gt;</code>). Elles peuvent bloquer la génération du PDF et de l’ePub mais aussi nuire à l’affichage web.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/1792\" target=\"_blank\">Coller sans mise en forme et balises indésirables dans les formulaires Lodel</a></p>",
+      en: "<p>There are unwanted HTML tags in the volume metadata (such as <code>&lt;div&gt;</code> or <code>&lt;iframe&gt;</code>). They can block the generation of the PDF and ePub but also interfere with the web display.</p>"
+    },
+    condition: "publications",
+    type: "danger",
+    displayCount: true,
+    action: function ($) {
+      var $fields = getField($, "introduction", "description", "ndlr", "resume", "extrait");
+      var $bad = $fields.find("iframe, div:not([class^='ckl-'])");
+      this.resolve($bad.length);
+    }
+  },
+
+  {
+    id: "title:quality(uppercase)",
+    name: {
+      fr: "Titre en majuscules",
+      en: "Title in uppercase"
+    },
+    description: {
+      fr: "<p>Les titres tout en majuscules sont une mauvaise pratique et posent des problèmes d’accessibilité, il est conseillé d’utiliser les majuscules seulement en début de phrase et sur les noms propres.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/1792\" target=\"_blank\">Coller sans mise en forme et balises indésirables dans les formulaires Lodel</a></p>",
+      en: "<p>Headings in all uppercase are bad practice and cause accessibility problems, it is advisable to use uppercase only at the beginning of sentences and on proper names.</p>"
+    }, 
+    condition: "textes",
+    type: "warning",
+    action: function ($) {
+      var $titre = getField($, "titre");
+      var titre = $titre.text().trim();
+      var flag = titre === titre.toUpperCase();
+      var marker = {
+        name: {
+          fr: "Majuscules",
+          en: "Uppercase"
+        },
+        target: $titre,
+        position: "append",
+        highlight: true
+      };
+      this.resolve(flag, marker);
+    }
+  },
+
+  {
+    id: "titreillustration:quality(position)",
+    name: {
+      fr: "Titre illustration sans illustration",
+      en: "Illustration title without any illustration"
+    },
+    description: {
+      fr: "<p>Un ou plusieurs titres d’illustrations ne sont pas suivis, comme attendu, par une illustration, un tableau ou un média embarqué. L’ordre recommandé pour les métadonnées portant sur les illustrations, tableau et média embarqué est le suivant&nbsp;: titre, illustration, légende, crédits. Il est important de respecter cet ordre pour la bonne génération de la table des illustrations et pour des raisons d’accessibilité.</p><p>Voir sur la Maison des Revues et des Livres&nbsp;: <a href=\"http://www.maisondesrevues.org/98\" target=\"_blank\">Titres, légendes et crédits des illustrations et des tableaux</a></p>",
+      en: "<p>One or several illustration titles aren’t followed by an illustration, table or embedded media, as should be expected. The recommended order for illustration metadata is: title, illustration, caption, credits. It is important to respect this order for the proper generation of the table of illustrations and for accessibility reasons.</p>"
+    },
+    condition: "textes",
+    type: "warning",
+    displayCount: true,
+    action: function ($) {
+      var hasTags = function($el, tags) {
+        return tags.some(function(tag) {
+          return $el.is(tag) || ($el.find(tag).length > 0);
+        });
+      };
+
+      var $bad = $(".titreillustration").filter(function() {
+        if ($(this).is("div")) return true;
+        var $next = $(this).next();
+        var isValid = hasTags($next, ["img", "table", "iframe", "object", "embed"]);
+        return !isValid;
+      });
+
+      var marker = {
+        name: {
+          fr: "Position",
+          en: "Position"
+        },
+        target: $bad,
+        position: "prepend",
+        highlight: true
+      };
+
+      this.resolve($bad.length, marker);
+    }
+  },
+
+  {
     id: "datepubli:existence",
     name: {
       fr: "Absence de la date de publication électronique",
