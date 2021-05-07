@@ -225,7 +225,7 @@
         }
 
         // Create table
-        var colHeaders = '"Publication", "Document", "Type", "État", "Message", "Tag", "Total" \r\n';
+        var colHeaders = '"Publication", "Document", "URL", "Statut", "Type", "État", "Message", "Tag", "Total" \r\n';
 
         var table = statements.reduce(function(res, s) {
           var id = s.docId;
@@ -235,18 +235,18 @@
           // Error
           if (s.error) {
             var errMsg = s.error.message;
-            return res + '"' + doc.idpubli + '","' + id + '","' + doc.type + '","error","' + errMsg + '",,' + eol;
+            return res + '"' + doc.idpubli + '","' + id + '","' + doc.publicHref + '","' + doc.status + '","' + doc.type + '","error","' + errMsg + '",,' + eol;
           }
 
           // OK = checker with no statement
           if (s.ok) {
-            return res + '"' + doc.idpubli + '","' + id + '","' + doc.type + '","ok",,,' + eol;
+            return res + '"' + doc.idpubli + '","' + id + '","' + doc.publicHref + '","' + doc.status + '","' + doc.type + '","ok",,,' + eol;
           }
           
           // Statement
           var tk = checklist.ui.tk;
           var tags = s.tags.join(", ");
-          return res + '"' + doc.idpubli + '","' + id + '","' + doc.type + '","' + s.type + '","' + tk(s.name) + '","' + tags + '","' + s.count + '"' + eol;
+          return res + '"' + doc.idpubli + '","' + id + '","' + doc.publicHref + '","' + doc.status + '","' + doc.type + '","' + s.type + '","' + tk(s.name) + '","' + tags + '","' + s.count + '"' + eol;
         }, colHeaders);
 
         var sitename = checklist.getConfig("namespace");

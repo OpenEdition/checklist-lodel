@@ -530,58 +530,61 @@
 /**
  * Affiche le statut d'une entité.
  * @param {number} status - Statut.
- * @param {boolean} [name] - Afficher le nom du statut.
+ * @param {boolean} [text] - Afficher le nom du statut.
+ * @param {boolean} [rawtext] - Afficher le nom du statut en texte brut.
  * @param {boolean} [icon] - Afficher l'icone statut.
  */
-<DEFFUNC NAME="CKL_STATUS" REQUIRED="status" OPTIONAL="name, icon">
-	<IF COND="![#NAME] AND ![#ICON]">
-		<LET VAR="name">1</LET>
+<DEFFUNC NAME="CKL_STATUS" REQUIRED="status" OPTIONAL="text, rawtext, icon">
+	<IF COND="![#TEXT] AND ![#RAWTEXT] AND ![#ICON]">
+		<LET VAR="text">1</LET>
 		<LET VAR="icon">1</LET>
 	</IF>
 
-	<LET VAR="status_name" GLOBAL="1"></LET>
+	<LET VAR="status_text" GLOBAL="1"></LET>
 	<LET VAR="status_icon" GLOBAL="1"></LET>
 
 	<IF COND="[#STATUS]==-32">
-		<LET VAR="status_name" GLOBAL="1">[@EDITION.PERMANENT_UNPUBLISHED]</LET>
+		<LET VAR="status_text" GLOBAL="1">[@EDITION.PERMANENT_UNPUBLISHED]</LET>
 		<LET VAR="status_icon" GLOBAL="1">draft</LET>
 
 	<ELSEIF COND="[#STATUS]==-8">
-		<LET VAR="status_name" GLOBAL="1">[@EDITION.DRAFT]</LET>
+		<LET VAR="status_text" GLOBAL="1">[@EDITION.DRAFT]</LET>
 		<LET VAR="status_icon" GLOBAL="1">draft</LET>
 
 	<ELSEIF COND="[#STATUS]==-1">
-		<LET VAR="status_name" GLOBAL="1">[@EDITION.READY_TO_BE_PUBLISHED]</LET>
+		<LET VAR="status_text" GLOBAL="1">[@EDITION.READY_TO_BE_PUBLISHED]</LET>
 		<LET VAR="status_icon" GLOBAL="1">unpublished</LET>
 
 	<ELSEIF COND="[#STATUS]==1">
-		<LET VAR="status_name" GLOBAL="1">[@EDITION.PUBLISHED]</LET>
+		<LET VAR="status_text" GLOBAL="1">[@EDITION.PUBLISHED]</LET>
 		<LET VAR="status_icon" GLOBAL="1">published</LET>
 		
 		<IF COND="[#CLASS] AND [#ID]">
 			<LET VAR="table">[#TP][#CLASS]</LET>
 			<LOOP NAME="ckl_status_datepubli" TABLE="[#TABLE]" WHERE="identity = '[#ID]'">
 				<IF COND="[#DATEPUBLI|isadate] AND [#DATEPUBLI] GT today()">
-					<LET VAR="status_name" GLOBAL="1">[@EDITION.LATER_PUBLISHED]</LET>
+					<LET VAR="status_text" GLOBAL="1">[@EDITION.LATER_PUBLISHED]</LET>
 					<LET VAR="status_icon" GLOBAL="1">later_published</LET>
 				</IF>
 			</LOOP>
 		</IF>
 
 	<ELSEIF COND="[#STATUS]==8">
-		<LET VAR="status_name" GLOBAL="1">[@EDITION.PROTECTED]</LET>
+		<LET VAR="status_text" GLOBAL="1">[@EDITION.PROTECTED]</LET>
 		<LET VAR="status_icon" GLOBAL="1">locked</LET>
 
 	<ELSEIF COND="[#STATUS]==32">
-		<LET VAR="status_name" GLOBAL="1">[@EDITION.PERMANENT_PUBLISHED]</LET>
+		<LET VAR="status_text" GLOBAL="1">[@EDITION.PERMANENT_PUBLISHED]</LET>
 		<LET VAR="status_icon" GLOBAL="1">locked</LET>
 	</IF>
 
 	<IF COND="[#ICON] AND [#ICON] NE '0'">
 		<img class="ckl-status-icon" src="[#SHAREURL]/images/[%STATUS_ICON].gif" alt="" />
 	</IF>
-	<IF COND="[#NAME] AND [#NAME] NE '0'">
-		<span class="ckl-status-name">[%STATUS_NAME]</span>
+	<IF COND="[#RAWTEXT] AND [#RAWTEXT] NE '0'">
+		[%STATUS_TEXT]
+	<ELSEIF COND="[#TEXT] AND [#TEXT] NE '0'">
+		<span class="ckl-status-name">[%STATUS_TEXT]</span>
 	</IF>
 </DEFFUNC>
 
@@ -1094,32 +1097,35 @@
 
 	<IF COND="[#JSON]">[</IF>
 
-	<!--[ Inclure la publication [#ID] seulement si son type est accepté ]-->
-	<LOOP NAME="ckl_issue_contents_include_publi" TABLE="publications" WHERE="id IN ([#ID]) AND (type = 'numero' OR type = 'livre') [#WHERE_CLAUSE]" />
-		<LET VAR="id_current_publi" GLOBAL="1">[#ID]</LET>
-		<MACRO NAME="CKL_ISSUE_CONTENTS_DOC" />
+	<LOOP NAME="ckl_issue_contents_publication" TABLE="publications" WHERE="id IN ([#ID]) [#WHERE_CLAUSE]" />
+
+		<!--[ Inclure l'[#ID] de la publication seulement si son type est accepté ]-->
+		<IF COND="[#TYPE] EQ 'numero' OR [#TYPE] EQ 'livre'">
+			<LET VAR="id_current_publi" GLOBAL="1">[#ID]</LET>
+			<MACRO NAME="CKL_ISSUE_CONTENTS_DOC" />
+		</IF>
 
 		<LOOP NAME="ckl_issue_contents"
 			TABLE="entities, types"
 			SELECT="id, class, type"
-			WHERE="idparent IN ([#ID])
+			WHERE="idparent = [#ID]
 				AND type NOT IN ('fluxdesyndication','imageaccroche','rubriqueannuelle', 'imageaccrochelibrairie', 'informations', 'actualite', 'adressebibliographique') AND type NOT LIKE '%annexe%'
 				AND entities.idtype = types.id"
 			ORDER="entities.rank">
+			
+			<!--[ Publication : recursion ]-->
+			<IF COND="[#CLASS] EQ 'publications'">
+				<LOOP NAME="ckl_issue_contents_item_publication" TABLE="publications" WHERE="id = '[#ID]'">
+					<LET VAR="where_clause"></LET>
+					<LOOP NAME="ckl_issue_contents_publication"></LOOP>
+				</LOOP>
 
-			<LOOP NAME="ckl_issue_contents_item" TABLE="#_TP_[#CLASS]" WHERE="identity = '[#ID]'">
-				<SWITCH TEST="[#CLASS]">
-					<!--[ Publication : recursion ]-->
-					<DO CASE="publications">
-						<LOOP NAME="ckl_issue_contents_include_publi"></LOOP>
-					</DO>
-
-					<!--[ Textes ]-->
-					<DO CASE="textes">
-						<MACRO NAME="CKL_ISSUE_CONTENTS_DOC" />
-					</DO>
-				</SWITCH>
-			</LOOP>
+			<!--[ Textes ]-->
+			<ELSEIF COND="[#CLASS] EQ 'textes'">
+				<LOOP NAME="ckl_issue_contents_item_texte" TABLE="textes" WHERE="id = '[#ID]'">
+					<MACRO NAME="CKL_ISSUE_CONTENTS_DOC" />
+				</LOOP>
+			</IF>
 		</LOOP>
 	</LOOP>
 
@@ -1130,12 +1136,15 @@
 	<IF COND="[%IS_FIRST_ID] EQ '0'">,</IF>
 	<LET VAR="is_first_id" GLOBAL="1">0</LET>
 	<IF COND="[#JSON]">
+		<LET VAR="doc_status"><FUNC NAME="CKL_STATUS" STATUS="[#STATUS]" RAWTEXT="1" /></LET>
 		{
 			"id": "[#ID]",
 			"href": "<FUNC NAME="CKL_URL" DOCUMENT="[#ID]" />",
+			"publicHref": "[#SITEURL]/[#ID|makeurlwithid]",
 			"idpubli": "[%ID_CURRENT_PUBLI]",
 			"type": "[#TYPE]",
 			"title": "[#TITRE|textebrut|replacequotationmark]",
+			"status": "[#DOC_STATUS|strtolower]",
 			"context": <MACRO NAME="CKL_CREATE_CONTEXT_JSON" />
 		}
 	<ELSE />
