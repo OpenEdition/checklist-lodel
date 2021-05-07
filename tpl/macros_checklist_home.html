@@ -132,7 +132,7 @@
 
 	<MACRO NAME="CKL_H_ISSUES_FILTERS" />
 
-	<LOOP NAME="ckl_h_issues" TABLE="publications" WHERE="type IN ('numero', 'livre') AND paraitre != 1 [#WHERE_CLAUSE]" ORDER="datemisenligne DESC" SPLIT="[#NUMEROS_PAR_PAGE]">
+	<LOOP NAME="ckl_h_issues" TABLE="publications" WHERE="type IN ('numero', 'livre') AND paraitre != 1 [#WHERE_CLAUSE]" ORDER="creationdate DESC, modificationdate DESC" SPLIT="[#NUMEROS_PAR_PAGE]">
 		<BEFORE>
 			<div class="ckl-issues">
 		</BEFORE>
