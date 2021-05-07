@@ -5,6 +5,7 @@
 
 <!--[ English ]-->
 <IF COND="[#SITELANG] EQ 'en'">
+	<LET ARRAY="ckl_translations.and">and</LET>
 	<LET ARRAY="ckl_translations.batch_title">CSV Export</LET>
 	<LET ARRAY="ckl_translations.batch_input">Publications identifiers</LET>
 	<LET ARRAY="ckl_translations.batch_input_description">Specify a parent identifier to recursively check all its children.</LET>
@@ -18,47 +19,74 @@
 	<LET ARRAY="ckl_translations.batch_empty_output">This request returned an empty CSV file.</LET>
 	<LET ARRAY="ckl_translations.batch_no_docs">Could not find any document.</LET>
 	<LET ARRAY="ckl_translations.batch_old_browser">CSV export feature is not supported by your browser. Please try again with an up-to-date version of Mozilla Firefox, Chromium or Google Chrome.</LET>
+	<LET ARRAY="ckl_translations.batch_select_unpublished">Ignore published publications.</LET>
 	<LET ARRAY="ckl_translations.batch_site">Site</LET>
+	<LET ARRAY="ckl_translations.bm">Embargo period</LET>
+	<LET ARRAY="ckl_translations.bm_no">This document is available in open access.</LET>
+	<LET ARRAY="ckl_translations.bm_yes">This document is embargoed.</LET>
 	<LET ARRAY="ckl_translations.check">Check</LET>
 	<LET ARRAY="ckl_translations.contents_quality">Documents quality</LET>
 	<LET ARRAY="ckl_translations.description">Description</LET>
-	<LET ARRAY="ckl_translations.issues">Issues</LET>
+	<LET ARRAY="ckl_translations.issues">Publications</LET>
+	<LET ARRAY="ckl_translations.issues_none">No publication matches these criteria.</LET>
+	<LET ARRAY="ckl_translations.external_files">External files</LET>
 	<LET ARRAY="ckl_translations.files">Files</LET>
+	<LET ARRAY="ckl_translations.filter">Filter</LET>
+	<LET ARRAY="ckl_translations.filter_collections_all">All collections</LET>
+	<LET ARRAY="ckl_translations.filter_status_all">All status</LET>
+	<LET ARRAY="ckl_translations.filter_status_published">Published</LET>
+	<LET ARRAY="ckl_translations.filter_status_unpublished">Unpublished</LET>
 	<LET ARRAY="ckl_translations.format">Format</LET>
 	<LET ARRAY="ckl_translations.no">No</LET>
+	<LET ARRAY="ckl_translations.original">original</LET>
 	<LET ARRAY="ckl_translations.outline">Outline</LET>
 	<LET ARRAY="ckl_translations.publication_quality">Publication quality</LET>
 	<LET ARRAY="ckl_translations.status">Publication status</LET>
 	<LET ARRAY="ckl_translations.type">Type</LET>
 	<LET ARRAY="ckl_translations.yes">Yes</LET>
+	<LET ARRAY="ckl_translations.zoom_off">Zoom on images is disabled.</LET>
 
 <!--[ Français (par défaut) ]-->
 <ELSE>
+	<LET ARRAY="ckl_translations.and">et</LET>
 	<LET ARRAY="ckl_translations.batch_title">Export CSV</LET>
 	<LET ARRAY="ckl_translations.batch_input">Identifiants des publications</LET>
 	<LET ARRAY="ckl_translations.batch_input_description">Renseigner l’identifiant d’une collection permet de vérifier récursivement tous ses descendants.</LET>
 	<LET ARRAY="ckl_translations.batch_options">Options de l’export</LET>
 	<LET ARRAY="ckl_translations.batch_display_paper">Activer le filtre "Publication papier".</LET>
 	<LET ARRAY="ckl_translations.batch_display_ok">Afficher les documents sans notification avec l’état "ok".</LET>
-	<LET ARRAY="ckl_translations.batch_display_error">Afficher les erreurs d’éxécution avec l’état "error".</LET>
+	<LET ARRAY="ckl_translations.batch_display_error">Afficher les erreurs d’exécution avec l’état "error".</LET>
 	<LET ARRAY="ckl_translations.batch_btn_run">Exporter</LET>
 	<LET ARRAY="ckl_translations.batch_btn_running">Export en cours…</LET>
 	<LET ARRAY="ckl_translations.batch_btn_done">Terminé !</LET>
 	<LET ARRAY="ckl_translations.batch_empty_output">Cette requête a produit un fichier CSV vide.</LET>
 	<LET ARRAY="ckl_translations.batch_no_docs">Cette publication ne contient pas de documents vérifiables.</LET>
 	<LET ARRAY="ckl_translations.batch_old_browser">L’export CSV n’est pas pris en charge par votre navigateur. Veuillez utiliser une version récente de Mozilla Firefox, Chromium ou Google Chrome.</LET>
+	<LET ARRAY="ckl_translations.batch_select_unpublished">Ignorer les publications publiées.</LET>
 	<LET ARRAY="ckl_translations.batch_site">Tout le site</LET>
+	<LET ARRAY="ckl_translations.bm">Barrière mobile</LET>
+	<LET ARRAY="ckl_translations.bm_no">Ce document est en libre accès.</LET>
+	<LET ARRAY="ckl_translations.bm_yes">Ce document est sous barrière mobile.</LET>
 	<LET ARRAY="ckl_translations.check">Vérifier</LET>
 	<LET ARRAY="ckl_translations.contents_quality">Qualité des documents</LET>
 	<LET ARRAY="ckl_translations.description">Description</LET>
-	<LET ARRAY="ckl_translations.issues">Numéros</LET>
+	<LET ARRAY="ckl_translations.issues">Publications</LET>
+	<LET ARRAY="ckl_translations.issues_none">Aucune publication ne correspond à ces critères.</LET>
+	<LET ARRAY="ckl_translations.external_files">Fichiers externes</LET>
 	<LET ARRAY="ckl_translations.files">Fichiers</LET>
+	<LET ARRAY="ckl_translations.filter">Filtrer</LET>
+	<LET ARRAY="ckl_translations.filter_collections_all">Toutes les collections</LET>
+	<LET ARRAY="ckl_translations.filter_status_all">Publiés et non publiés</LET>
+	<LET ARRAY="ckl_translations.filter_status_published">Publiés</LET>
+	<LET ARRAY="ckl_translations.filter_status_unpublished">Non publiés</LET>
 	<LET ARRAY="ckl_translations.format">Format</LET>
 	<LET ARRAY="ckl_translations.no">Non</LET>
+	<LET ARRAY="ckl_translations.original">original</LET>
 	<LET ARRAY="ckl_translations.outline">Plan</LET>
 	<LET ARRAY="ckl_translations.publication_quality">Qualité de la publication</LET>
 	<LET ARRAY="ckl_translations.status">Statut de publication</LET>
 	<LET ARRAY="ckl_translations.type">Type</LET>
 	<LET ARRAY="ckl_translations.yes">Oui</LET>
+	<LET ARRAY="ckl_translations.zoom_off">Le zoom illustration est désactivé.</LET>
 
 </IF>

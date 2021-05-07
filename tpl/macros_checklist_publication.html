@@ -40,6 +40,7 @@
 					icon: "fas fa-book",
 					context: {
 						<IF COND="[#NUMEROOUVERT]">"numeroouvert": true,</IF>
+						<IF COND="[#OCR]">"ocr": true,</IF>
 						"publications": true
 					},
 				},
@@ -50,7 +51,7 @@
 									TABLE="entities, types"
 									SELECT="id, class, type"
 									WHERE="idparent = '[#ID]'
-										AND type NOT IN ('fluxdesyndication','imageaccroche','rubriqueannuelle', 'imageaccrochelibrairie') AND type NOT LIKE '%annexe%'
+										AND type NOT IN ('fluxdesyndication','imageaccroche','rubriqueannuelle', 'imageaccrochelibrairie', 'informations', 'actualite', 'adressebibliographique')
 										AND entities.idtype = types.id"
 									ORDER="entities.rank">
 
@@ -110,16 +111,13 @@
 
 		<!--[ Sous-titre du document ]-->
 		<FUNC NAME="CKL_FIELD_STRING" FIELD="soustitre" VALUE="[#SOUSTITRE]"/>
-
-		<!--[ Langue ]-->
-		<FUNC NAME="CKL_FIELD_STRING" FIELD="langue" VALUE="[#LANGUE]"/>
 	</LET>
 	<FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
 
 	<!--[ Section Cartouche ]-->
 	<LET VAR="section_contents">
 		<!--[ Statut de publication ]-->
-		<MACRO NAME="CKL_STATUS" />
+		<MACRO NAME="CKL_FIELD_STATUS" />
 
 		<!--[ Type de document ]-->
 		<IF COND="[#NUMEROOUVERT]">
@@ -129,23 +127,44 @@
 		</IF>
 		<FUNC NAME="CKL_FIELD_STRING" FIELD="[#CKL_TRANSLATIONS.TYPE]" VALUE="[#TYPE_TITLE|trim]"/>
 
-		<!--[ Date de la publication électronique ]-->
-		<FUNC NAME="CKL_FIELD_STRING" FIELD="datepubli" VALUE="[#DATEPUBLI]"/>
+		<!--[ Langues ]-->
+		<FUNC NAME="CKL_FIELD_STRING" FIELD="langue" VALUE="[#LANGUE]"/>
+		<FUNC NAME="CKL_FIELD_STRING" FIELD="languesecondaire" VALUE="[#LANGUESECONDAIRE]"/>
+		<FUNC NAME="CKL_FIELD_STRING" FIELD="langueoriginale" VALUE="[#LANGUEORIGINALE]"/>
 
-		<!--[ Date de la publication papier ]-->
-		<FUNC NAME="CKL_FIELD_STRING" FIELD="datepublipapier" VALUE="[#DATEPUBLIPAPIER]"/>
+		<!--[ ISBN HTML ]-->
+		<FUNC NAME="CKL_FIELD_STRING" FIELD="isbnhtml" VALUE="[#ISBNHTML]"/>
 
-		<!--[ Cette publication est-elle à paraître ? ]-->
-		<FUNC NAME="CKL_FIELD_BOOL" FIELD="paraitre" VALUE="[#PARAITRE]" OUI="[#CKL_TRANSLATIONS.YES]" NON="[#CKL_TRANSLATIONS.NO]"/>
+		<!--[ Indexes partagés (OEB) ]-->
+		<IF COND="[%SITE_EM] EQ 'oeb'">
+			<FUNC NAME="CKL_P_BOOK_SHARED_INDEX" TYPE="openedition" />
+			<FUNC NAME="CKL_P_BOOK_SHARED_INDEX" TYPE="isi" />
+			<FUNC NAME="CKL_P_BOOK_SHARED_INDEX" TYPE="bisac" />
+		</IF>
 
-		<!--[ Date de mise en ligne ]-->
-		<FUNC NAME="CKL_FIELD_STRING" FIELD="datemisenligne" VALUE="[#DATEMISENLIGNE]"/>
+		<!--[ OCR ]-->
+		<FUNC NAME="CKL_FIELD_BOOL" FIELD="ocr" VALUE="[#OCR]" OUI="[#CKL_TRANSLATIONS.YES]" NON=""/>
 
-		<!--[ Date de mise en accès libre ]-->
-		<FUNC NAME="CKL_FIELD_STRING" FIELD="dateacceslibre" VALUE="[#DATEACCESLIBRE]"/>
+		<!--[ OEJ uniquement ]-->
+		<IF COND="[%SITE_EM] NE 'oeb'">
+			<!--[ Date de la publication électronique ]-->
+			<FUNC NAME="CKL_FIELD_STRING" FIELD="datepubli" VALUE="[#DATEPUBLI]"/>
 
-		<!--[ Cette publication est-elle en libre accès ? ]-->
-		<FUNC NAME="CKL_FIELD_BOOL" FIELD="integralite" VALUE="[#INTEGRALITE]" OUI="[#CKL_TRANSLATIONS.YES]" NON="[#CKL_TRANSLATIONS.NO]"/>
+			<!--[ Date de la publication papier ]-->
+			<FUNC NAME="CKL_FIELD_STRING" FIELD="datepublipapier" VALUE="[#DATEPUBLIPAPIER]"/>
+
+			<!--[ Cette publication est-elle à paraître ? ]-->
+			<FUNC NAME="CKL_FIELD_BOOL" FIELD="paraitre" VALUE="[#PARAITRE]" OUI="[#CKL_TRANSLATIONS.YES]" NON="[#CKL_TRANSLATIONS.NO]"/>
+
+			<!--[ Date de mise en ligne ]-->
+			<FUNC NAME="CKL_FIELD_STRING" FIELD="datemisenligne" VALUE="[#DATEMISENLIGNE]"/>
+
+			<!--[ Date de mise en accès libre ]-->
+			<FUNC NAME="CKL_FIELD_STRING" FIELD="dateacceslibre" VALUE="[#DATEACCESLIBRE]"/>
+
+			<!--[ Cette publication est-elle en libre accès ? ]-->
+			<FUNC NAME="CKL_FIELD_BOOL" FIELD="integralite" VALUE="[#INTEGRALITE]" OUI="[#CKL_TRANSLATIONS.YES]" NON="[#CKL_TRANSLATIONS.NO]"/>
+		</IF>
 	</LET>
 	<FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" CLASSNAME="ckl-cartouche" />
 
@@ -154,8 +173,10 @@
 		<!--[ Titres alternatifs ]-->
 		<FUNC NAME="CKL_FIELD_ML" FIELD="altertitre" VALUE="[#ALTERTITRE]"/>
 
-		<!--[ Introduction de la publication ]-->
-		<FUNC NAME="CKL_FIELD_ML" FIELD="introduction" VALUE="[#INTRODUCTION]"/>
+		<!--[ Introduction de la publication (OEJ) ]-->
+		<IF COND="[%SITE_EM] NE 'oeb'">
+			<FUNC NAME="CKL_FIELD_ML" FIELD="introduction" VALUE="[#INTRODUCTION]"/>
+		</IF>
 
 		<!--[ NDLR ]-->
 		<FUNC NAME="CKL_FIELD_STRING" FIELD="ndlr" VALUE="[#NDLR]"/>
@@ -166,14 +187,54 @@
 		<!--[ Numéro de publication ]-->
 		<FUNC NAME="CKL_FIELD_STRING" FIELD="numero" VALUE="[#NUMERO]"/>
 
-		<!--[ Licence ]-->
+		<!--[ Année d’édition ]-->
+		<FUNC NAME="CKL_FIELD_STRING" FIELD="anneeedition" VALUE="[#ANNEEEDITION]"/>
+		
+		<!--[ Lieu d’édition ]-->
+		<FUNC NAME="CKL_FIELD_STRING" FIELD="lieuedition" VALUE="[#LIEUEDITION]"/>
+
+		<!--[ Nombre de pages ]-->
+		<FUNC NAME="CKL_FIELD_STRING" FIELD="nombrepages" VALUE="[#NOMBREPAGES]"/>
+
+		<!--[ Co-éditeur ]-->
+		<FUNC NAME="CKL_FIELD_STRING" FIELD="coediteur" VALUE="[#COEDITEUR]"/>
+
+		<!--[ Index avances (licence revues) ]-->
 		<FUNC NAME="CKL_ENTRIES" CLASSNAME="indexavances"/>
 
+		<!--[ Licence livre ]-->
+		<IF COND="[%SITE_EM] EQ 'oeb'">
+			<FUNC NAME="CKL_P_BOOK_LICENCE" IDBOOK="[#ID]" />
+		</IF>
+
 		<!--[ Directeur de la publication ]-->
-		<FUNC NAME="CKL_PERSONNES" TYPE="directeurdelapublication"/>
+		<FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="directeurdelapublication" IDDOC="[#ID]"/>
+
+		<!--[ Auteurs ]-->
+		<FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="auteur" IDDOC="[#ID]"/>
+
+		<!--[ Traducteurs ]-->
+		<FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="traducteur" IDDOC="[#ID]"/>
+
+		<!--[ Editeurs scientifiques ]-->
+		<FUNC NAME="CKL_A_DESCRIPTION_PERSONNES" TYPE="editeurscientifique" IDDOC="[#ID]"/>
+
+		<!--[ Financement ]-->
+		<MACRO NAME="CKL_FUNDER" />
+
+		<!--[ Résumés ]-->
+		<FUNC NAME="CKL_FIELD_ML" FIELD="resume" VALUE="[#RESUME]"/>
+
+		<!--[ Extrait (uniquement si pas de résumé) ]-->
+		<IF COND="![#RESUME]">
+			<FUNC NAME="CKL_FIELD_STRING" FIELD="extrait" VALUE="[#EXTRAIT]"/>
+		</IF>
 
 		<!--[ Entrées d'index ]-->
 		<FUNC NAME="CKL_ENTRIES" CLASSNAME="indexes"/>
+
+		<!--[ Personnes citées ]-->
+		<FUNC NAME="CKL_PERSONNES" TYPE="personnecitee"/>
 
 		<!--[ Historique ]-->
 		<FUNC NAME="CKL_FIELD_ML" FIELD="historique" VALUE="[#HISTORIQUE]"/>
@@ -200,3 +261,77 @@
 	<!--[ Nav entities ]-->
 	<FUNC NAME="CKL_NAV_ENTITIES" POSITION="bottom" />
 </DEFMACRO>
+
+/**
+ * Récupérer la licence d'un livre.
+ * @param {number} idbook - ID du livre.
+ */
+<DEFFUNC NAME="CKL_P_BOOK_LICENCE" REQUIRED="idbook"">
+	<LET VAR="dbindex">`<?php echo DATABASE.'_index';?>`</LET>
+
+	<!--[ Licence définie au niveau du livre ]-->
+	<LOOP NAME="ckl_p_book_licence"
+		TABLE="[#DBINDEX].entries,[#DBINDEX].entrytypes,relations_ext,[#DBINDEX].licences"
+		SELECT="[#DBINDEX].licences.nom,[#DBINDEX].licences.mlnom,[#DBINDEX].licences.url"
+		WHERE="id1=[#IDBOOK] AND id2=[#DBINDEX].entries.id AND site='index'
+			AND [#DBINDEX].licences.identry=[#DBINDEX].entries.id
+			AND [#DBINDEX].entrytypes.id=[#DBINDEX].entries.idtype
+			AND [#DBINDEX].entrytypes.type ='licence'"
+		LIMIT="1">
+		<MACRO NAME="CKL_P_BOOK_LICENCE_FIELD" />
+	</LOOP>
+</DEFFUNC>
+
+/**
+ * Affichage du champ licence.
+ */
+<DEFMACRO NAME="CKL_P_BOOK_LICENCE_FIELD">
+	<LET VAR="licence_name">
+		<IF COND="[#MLNOM:#SITELANG]">[#MLNOM:#SITELANG]
+		<ELSEIF COND="[#MLNOM:#PAGELANG]" />[#MLNOM:#PAGELANG]
+		<ELSEIF COND="[#MLNOM:EN]" />[#MLNOM:EN]
+		<ELSE/>[#NOM]
+		</IF>
+	</LET>
+	<LET VAR="field_title"><FUNC NAME="CKL_GET_CLASS_TITLE" CLASS="licence" /></LET>
+	<FUNC NAME="CKL_FIELD_STRING" FIELD="[#FIELD_TITLE]" VALUE="[#LICENCE_NAME]" />
+</DEFMACRO>
+
+/**
+ * Affichage des index mutualisés (books).
+ * @param {string} type - Type de l'index mutualisé.
+ */
+<DEFFUNC NAME="CKL_P_BOOK_SHARED_INDEX" REQUIRED="type">
+	<LET VAR="portalurl"><?php echo (string) C::get('portalurl', 'cfg'); ?></LET>
+	<LET VAR="dbindex">`<?php echo DATABASE.'_index';?>`</LET>
+	<LET VAR="portaldb">`<?php echo DATABASE.'_books';?>`</LET>
+
+	<LOOP NAME="ckl_p_book_shared_index"
+		TABLE="[#DBINDEX].entries,[#DBINDEX].entrytypes,relations_ext,[#DBINDEX].indexes"
+		SELECT="[#DBINDEX].entrytypes.title, id2, g_name,mlnom"
+		WHERE="id1=[#ID] AND id2=[#DBINDEX].entries.id AND site='index'
+			AND [#DBINDEX].indexes.identry=[#DBINDEX].entries.id
+			AND [#DBINDEX].entrytypes.id=[#DBINDEX].entries.idtype
+			AND [#DBINDEX].entrytypes.type ='[#TYPE]'"
+		ORDER="[#DBINDEX].entrytypes.type,relations_ext.degree">
+		<BEFORE>
+			<div class="ckl-field ckl-entrytype doc-entrytype-[#TYPE]" data-field="[#TYPE]">
+				<div class="ckl-field-title"><FUNC NAME="CKL_GET_CLASS_TITLE" CLASS="[#TYPE]"/></div>
+				<div class="ckl-field-value">
+		</BEFORE>
+		<DO>
+			<IF COND="[#COUNT] GT 1">, </IF>
+			<IF COND="[#MLNOM:#SITELANG]">
+				[#MLNOM:#SITELANG]
+			<ELSEIF COND="[#MLNOM:#PAGELANG]">
+				[#MLNOM:#PAGELANG]
+			<ELSE/>
+				[#G_NAME]
+			</IF>
+		</DO>
+		<AFTER>
+				</div>
+			</div>
+		</AFTER>
+	</LOOP>
+</DEFFUNC>

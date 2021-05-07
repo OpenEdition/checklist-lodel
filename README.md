@@ -24,7 +24,7 @@ Remarque : dans le cas d'une modification du [noyau de Checklist](https://github
 
 ## Développement
 
-Pour voir comment utiliser ou modifier `checklist-config.js`, lire https://github.com/OpenEdition/checklist#utilisation
+Pour voir comment utiliser ou modifier la configuration de Checklist, lire https://github.com/OpenEdition/checklist#utilisation
 
 ## Numéro de version
 

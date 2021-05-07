@@ -27,6 +27,9 @@
 
 	<!--[ Section Titre ]-->
 	<LET VAR="section_contents">
+		<!--[ Surtitre du document ]-->
+		<FUNC NAME="CKL_FIELD_STRING" FIELD="surtitre" VALUE="[#SURTITRE]"/>
+
 		<!--[ Titre du document ]-->
 		<FUNC NAME="CKL_FIELD_STRING" FIELD="titre" VALUE="[#TITRE]"/>
 
@@ -38,7 +41,7 @@
 	<!--[ Section Cartouche ]-->
 	<LET VAR="section_contents">
 		<!--[ Statut de publication ]-->
-		<MACRO NAME="CKL_STATUS" />
+		<MACRO NAME="CKL_FIELD_STATUS" />
 
 		<!--[ Type de document ]-->
 		<LET VAR="type_title"><FUNC NAME="CKL_GET_TYPE_TITLE" TYPE="[#TYPE]" /></LET>
@@ -56,21 +59,29 @@
 			<FUNC NAME="CKL_FIELD_STRING" FIELD="datepublipapier-parent" VALUE="[#DATEPUBLIPAPIER]" CLASSNAME="hidden"/>
 		</LOOP>
 
-		<!--[ Barrière mobile ]-->
+		<!--[ Barrière mobile (OEJ uniquement) ]-->
 		<LET VAR="BM">0</LET>
-		<IF COND="[#DATEPUBLI] GT today()">
-			<LET VAR="BM">1</LET>
+		<IF COND="[%SITE_EM] EQ 'oej'">
+			<IF COND="[#DATEPUBLI] GT today()">
+				<LET VAR="BM">1</LET>
+			</IF>
+			<FUNC NAME="CKL_FIELD_BOOL" FIELD="[#CKL_TRANSLATIONS.BM]" VALUE="[#BM]" OUI="[#CKL_TRANSLATIONS.BM_YES]" NON="[#CKL_TRANSLATIONS.BM_NO]"/>
 		</IF>
-		<FUNC NAME="CKL_FIELD_BOOL" FIELD="Barrière mobile" VALUE="[#BM]" OUI="Ce document est sous barrière mobile." NON="Ce document est en libre accès."/>
 
 		<!--[ Langue ]-->
 		<FUNC NAME="CKL_FIELD_STRING" FIELD="langue" VALUE="[#LANGUE]"/>
+		
+		<!--[ Langue originale ]-->
+		<FUNC NAME="CKL_FIELD_STRING" FIELD="langueoriginale" VALUE="[#LANGUEORIGINALE]"/>
 
 		<!--[ Vignettisation simple ]-->
-		<FUNC NAME="CKL_FIELD_BOOL" FIELD="vignettesimple" VALUE="[#VIGNETTESIMPLE]" OUI="Zoom illustration désactivé" NON=""/>
+		<FUNC NAME="CKL_FIELD_BOOL" FIELD="vignettesimple" VALUE="[#VIGNETTESIMPLE]" OUI="[#CKL_TRANSLATIONS.ZOOM_OFF]" NON=""/>
 
 		<!--[ Format du fichier importé ]-->
 		<MACRO NAME="CKL_A_GET_FORMAT" />
+
+		<!--[ Fichier facsimilé ]-->
+		<MACRO NAME="CKL_A_FACSIMILE"/>
 	</LET>
 	<FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" CLASSNAME="ckl-cartouche" />
 
@@ -95,6 +106,9 @@
 
 	<!--[ Section Métadonnées ]-->
 	<LET VAR="section_contents">
+		<!--[ Pagination ]-->
+		<FUNC NAME="CKL_FIELD_STRING" FIELD="pagination" VALUE="[#PAGINATION]"/>
+		
 		<!--[ Numéro de document ]-->
 		<IF COND="[#NUMERODOCUMENT] AND [#NUMERODOCUMENT] NE '0'">
 			<FUNC NAME="CKL_FIELD_STRING" FIELD="numerodocument" VALUE="[#NUMERODOCUMENT]"/>
@@ -112,11 +126,11 @@
 		<!--[ Entrées d'index ]-->
 		<FUNC NAME="CKL_ENTRIES" CLASSNAME="indexes"/>
 
+		<!--[ Personnes citées ]-->
+		<FUNC NAME="CKL_PERSONNES" TYPE="personnecitee"/>
+
 		<!--[ Entrées d'index Pactols ]-->
 		<FUNC NAME="CKL_ENTRIES" CLASSNAME="pactols"/>
-
-		<!--[ Pagination ]-->
-		<FUNC NAME="CKL_FIELD_STRING" FIELD="pagination" VALUE="[#PAGINATION]"/>
 
 		<!--[ Financement ]-->
 		<MACRO NAME="CKL_FUNDER" />
@@ -141,9 +155,6 @@
 
 	<!--[ Section Fichiers ]-->
 	<LET VAR="section_contents">
-		<!--[ Fichier facsimilé ]-->
-		<MACRO NAME="CKL_A_FACSIMILE"/>
-
 		<!--[ Fichiers ]-->
 		<MACRO NAME="CKL_FICHIERS"/>
 
@@ -179,9 +190,6 @@
 
 			<!--[ Texte intégral ]-->
 			<FUNC NAME="CKL_FIELD_STRING" FIELD="texte" VALUE="[#TEXTE|cleanCallNotes|tocable|tocss('heading')|vignettiser(300, 300)|embedMedia]" CLASSNAME="ckl-field-text" />
-
-			<!--[ Test sur l'existence des images ]-->
-			<FUNC NAME="CKL_A_CHECK_IMAGES_EXISTENCE" TEXT="[#TEXTE]" />
 		</LET>
 		<FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
 	</IF>
@@ -191,9 +199,6 @@
 		<LET VAR="section_contents">
 			<!--[ Bibliographie ]-->
 			<FUNC NAME="CKL_FIELD_STRING" FIELD="bibliographie" VALUE="[(#BIBLIOGRAPHIE|cleanCallNotes|tocss('heading')|vignettiser(300, 300)|embedMedia)]" CLASSNAME="ckl-field-text" />
-
-			<!--[ Test sur l'existence des images ]-->
-			<FUNC NAME="CKL_A_CHECK_IMAGES_EXISTENCE" TEXT="[#BIBLIOGRAPHIE]" />
 		</LET>
 		<FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
 	</IF>
@@ -203,9 +208,6 @@
 		<LET VAR="section_contents">
 			<!--[ Annexes (texte) ]-->
 			<FUNC NAME="CKL_FIELD_STRING" FIELD="annexe" VALUE="[#ANNEXE|cleanCallNotes|tocss('heading')|vignettiser(300, 300)|embedMedia]" CLASSNAME="ckl-field-text" />
-
-			<!--[ Test sur l'existence des images ]-->
-			<FUNC NAME="CKL_A_CHECK_IMAGES_EXISTENCE" TEXT="[#ANNEXE]" />
 		</LET>
 		<FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
 	</IF>
@@ -220,6 +222,9 @@
 	</LET>
 	<FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
 
+	<!--[ Vérification des images ]-->
+	<FUNC NAME="CKL_A_CHECK_IMAGES" TEXT="[#TEXTE] [#BIBLIOGRAPHIE] [#ANNEXE] [#NOTESBASPAGE][#NOTEFIN]" />
+
 	<!--[ Nav entities ]-->
 	<FUNC NAME="CKL_NAV_ENTITIES" POSITION="bottom" />
 </DEFMACRO>
@@ -229,37 +234,37 @@
  */
 <DEFMACRO NAME="CKL_A_TOC">
 	<IF COND="[#TEXTE]">
-		<div class="ckl-field">
-			<div class="ckl-field-title">[#CKL_TRANSLATIONS.OUTLINE]</div>
-			<div class="ckl-field-value">
-				<LET VAR="TOC_PREV_NIVEAU" GLOBAL="1">1</LET>
-				<LET VAR="OUVRIR_UL"><ul></LET>
-				<LET VAR="FERMER_UL"></ul></li></LET>
-				<!--[ [#COUNT] et <DOFIRST> ne fonctionnent pas pour la loop "toc" donc on utilise un workaround avec une variable globale [%TOC_COUNT] ]-->
-				<LET VAR="TOC_COUNT" GLOBAL="1">0</LET>
-				<LOOP NAME="toc" TEXT="[#TEXTE]">
-					<BEFORE>
+		<LET VAR="TOC_PREV_NIVEAU" GLOBAL="1">1</LET>
+		<LET VAR="OUVRIR_UL"><ul></LET>
+		<LET VAR="FERMER_UL"></ul></li></LET>
+		<!--[ [#COUNT] et <DOFIRST> ne fonctionnent pas pour la loop "toc" donc on utilise un workaround avec une variable globale [%TOC_COUNT] ]-->
+		<LET VAR="TOC_COUNT" GLOBAL="1">0</LET>
+		<LOOP NAME="toc" TEXT="[#TEXTE]">
+			<BEFORE>
+				<div class="ckl-field">
+					<div class="ckl-field-title">[#CKL_TRANSLATIONS.OUTLINE]</div>
+					<div class="ckl-field-value">
 						<div class="ckl-a-toc">
 							<ul>
-					</BEFORE>
-					<DO>
-						<LET VAR="TOC_COUNT" GLOBAL="1">[%TOC_COUNT|lmath('+', '1')]</LET>
-						<LET VAR="ECART">[#NIVEAU|lmath('-', [%TOC_PREV_NIVEAU])]</LET>
-						<LET VAR="LIEN"><a href="#tocto[#TOCID]" id="tocfrom[#TOCID]">[#TITRE|removenotes]</a></LET>
-						<IF COND="[#ECART] EQ 0">
-							<IF COND="[%TOC_COUNT] GT 1"></li></IF>
-							<li data-toc-level="[#NIVEAU]">[#LIEN]
-						<ELSEIF COND="[#ECART] GT 0"/>
-							[#OUVRIR_UL|str_repeat([#ECART])]
-							<li data-toc-level="[#NIVEAU]">[#LIEN]
-						<ELSE/>
-							<IF COND="[%TOC_COUNT] GT 1"></li></IF>
-							[#FERMER_UL|str_repeat([#ECART|lmath('*', -1)])]
-							<li data-toc-level="[#NIVEAU]">[#LIEN]
-						</IF>
-						<LET VAR="TOC_PREV_NIVEAU" GLOBAL="1">[#NIVEAU]</LET>
-					</DO>
-					<AFTER>
+			</BEFORE>
+			<DO>
+				<LET VAR="TOC_COUNT" GLOBAL="1">[%TOC_COUNT|lmath('+', '1')]</LET>
+				<LET VAR="ECART">[#NIVEAU|lmath('-', [%TOC_PREV_NIVEAU])]</LET>
+				<LET VAR="LIEN"><a href="#tocto[#TOCID]" id="tocfrom[#TOCID]">[#TITRE|removenotes]</a></LET>
+				<IF COND="[#ECART] EQ 0">
+					<IF COND="[%TOC_COUNT] GT 1"></li></IF>
+					<li data-toc-level="[#NIVEAU]">[#LIEN]
+				<ELSEIF COND="[#ECART] GT 0"/>
+					[#OUVRIR_UL|str_repeat([#ECART])]
+					<li data-toc-level="[#NIVEAU]">[#LIEN]
+				<ELSE/>
+					<IF COND="[%TOC_COUNT] GT 1"></li></IF>
+					[#FERMER_UL|str_repeat([#ECART|lmath('*', -1)])]
+					<li data-toc-level="[#NIVEAU]">[#LIEN]
+				</IF>
+				<LET VAR="TOC_PREV_NIVEAU" GLOBAL="1">[#NIVEAU]</LET>
+			</DO>
+			<AFTER>
 								<!--[ Fermeture des derniers ul/li ]-->
 								</li>
 								<IF COND="[%TOC_PREV_NIVEAU] GT 1">
@@ -267,10 +272,10 @@
 								</IF>
 							</ul>
 						</div>
-					</AFTER>
-				</LOOP>
-			</div>
-		</div>
+					</div>
+				</div>
+			</AFTER>
+		</LOOP>
 	</IF>
 </DEFMACRO>
 
@@ -294,7 +299,7 @@
 <DEFFUNC NAME="CKL_A_DESCRIPTION_PERSONNES" REQUIRED="type, iddoc">
 	<LOOP NAME="ckl_a_description_personnes" SELECT="persons.id" TABLE="relations, persons" WHERE="id1 = '[#IDDOC]' AND id2 = persons.id AND nature = 'G' AND type = '[#TYPE]'" ORDER="degree">
 		<BEFORE>
-			<div class="ckl-field ckl-description-personnes" data-type="[#TYPE]">
+			<div class="ckl-field ckl-description-personnes" data-field="[#TYPE]" data-type="[#TYPE]">
 				<div class="ckl-field-title"><FUNC NAME="CKL_GET_FIELD_TITLE" FIELD="[#TYPE]"/></div>
 				<div class="ckl-field-value">
 		</BEFORE>
@@ -322,13 +327,19 @@
  * Vérifier l'existence des images appelées dans un texte.
  * @param {string} text - Texte à tester.
  */
-<DEFFUNC NAME="CKL_A_CHECK_IMAGES_EXISTENCE" REQUIRED="text">
-	<IF COND="[#TEXT] LIKE /<img src=\"(docannexe\/image\/[0-9]+\/img-[0-9]+\.jpg)\"/">
-		<LOOP NAME="foreach" ARRAY="[#MATCHES.1]">
-			<IF COND="![#VALUE|file_exists]">
-				<div class="ckl-image-not-found hidden">[#VALUE]</div>
-			</IF>
-		</LOOP>
+<DEFFUNC NAME="CKL_A_CHECK_IMAGES" REQUIRED="text">
+	<IF COND="[#TEXT] LIKE /<img src=\"(docannexe\/image\/[0-9]+\/img-[0-9]+\.(jpg|jpeg|png|gif|svg))\"/">
+		<div class="ckl-check-images hidden">
+			<LOOP NAME="foreach" ARRAY="[#MATCHES.1]">
+				<div class="ckl-image" 
+					data-image-src="[#VALUE]" 
+					data-image-exists="[#VALUE|file_exists|defaultvalue(0)]"
+					data-image-width="[#VALUE|imagewidth]"
+					data-image-height="[#VALUE|imageheight]"
+					data-image-size="[#VALUE|nicefilesize]"
+				></div>
+			</LOOP>
+		</div>
 	</IF>
 </DEFFUNC>
 

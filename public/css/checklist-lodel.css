@@ -150,6 +150,54 @@ a:hover, a:active, a:focus {
   margin-right: -16px;
 }
 
+.ckl-issues-filters {
+  display: flex;
+  align-items: baseline;
+  padding: 0 20px 20px 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #C6CDD2;
+}
+
+.ckl-issues-filters > * {
+  margin-right: 10px;
+} 
+
+.ckl-issues-filters-title {
+  font-weight: normal;
+  color: #79848E;
+  font-size: 16px;
+  margin-right: 20px;
+}
+
+.ckl-issues-filters-title .fas {
+  font-size: 80%;
+  margin-right: 5px;
+}
+
+.ckl-issues-filter {
+  padding: 3px;
+  color: #79848E;
+  border: 1px solid #C6CDD2;
+}
+
+.ckl-issue-filters-clear {
+  background: none;
+  cursor: pointer;
+  text-decoration: underline;
+  border: none;
+  color: #79848E;
+}
+
+.ckl-issue-filters-clear:hover {
+  color: #4c535b;
+}
+
+.ckl-issues-none {
+  text-align: center;
+  margin-top: 50px;
+  color: #9CA4AB;
+}
+
 .ckl-issue, .ckl-issue-placeholder {
   background: #f6f8fa;
   flex-grow: 1;
@@ -174,6 +222,10 @@ a:hover, a:active, a:focus {
   font-size: 18px;
   font-weight: bold;
   margin-top: 0;
+}
+
+.ckl-issue-title .ckl-status-icon {
+  margin-right: 8px;
 }
 
 .ckl-issue-title a {
@@ -536,22 +588,22 @@ a.ckl-personne{
 /* Numerotation des paragraphes */
 
 .ckl-field-text {
-    counter-reset: p; /* Set the p counter to 0 */
+  counter-reset: p; /* Set the p counter to 0 */
 }
 
 .ckl-field-text .ckl-field-value > p.texte {
   position: relative;
 }
 
-.ckl-field-text .ckl-field-value > p.texte:not([data-numbering="false"]):after {
-    counter-increment: p; /* Increment the p counter */
-    content: counter(p); /* Display the counter */
-    position: absolute;
-    left: -30px;
-    top: 16px;
-    font-size: 12px;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    color: #586069;
+body:not(.type-index):not(.type-bibliographie) .ckl-field-text .ckl-field-value > p.texte:not([data-numbering="false"]):after {
+  counter-increment: p; /* Increment the p counter */
+  content: counter(p); /* Display the counter */
+  position: absolute;
+  left: -30px;
+  top: 16px;
+  font-size: 12px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  color: #586069;
 }
 
 /* Styles du texte de l'article */
@@ -717,7 +769,7 @@ a.ckl-personne{
 
 /* Indexes */
 
-.ckl-index-shortcuts a {
+.ckl-index-shortcuts > * {
   text-decoration: none;
   margin-right: 5px;
 }
