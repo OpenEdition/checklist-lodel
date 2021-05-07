@@ -224,6 +224,10 @@ a:hover, a:active, a:focus {
   margin-top: 0;
 }
 
+.ckl-issue-title .ckl-status-icon {
+  margin-right: 8px;
+}
+
 .ckl-issue-title a {
   color: #4c535b;
   text-decoration: none;
