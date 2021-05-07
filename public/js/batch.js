@@ -152,10 +152,11 @@
     setProgress(0);
 
     // Get documents data
+    var statusParam = options.selectUnpublished ? "&status=unpublished" : "";
     $.ajax({
       url : "?do=_checklist_get",
       type : "GET",
-      data: "documents=" + ids,
+      data: "documents=" + ids + statusParam,
       dataType : 'json'
     })
     .done(function(data, textStatus) {

@@ -240,6 +240,10 @@
 		<input id="ckl-batch-input" type="text" value="[#INPUT]"/>
 		<div class="ckl-batch-options">
 			<h2 class="ckl-section-title">[#CKL_TRANSLATIONS.BATCH_OPTIONS]</h2>
+			<div class="ckl-batch-option">
+				<input type="checkbox" id="select-unpublished" name="selectUnpublished">
+				<label for="select-unpublished">[#CKL_TRANSLATIONS.BATCH_SELECT_UNPUBLISHED]</label>
+			</div>
 			<IF COND="[%SITE_EM] EQ 'oej'">
 				<div class="ckl-batch-option">
 					<input type="checkbox" id="display-paper" name="displayPaper">

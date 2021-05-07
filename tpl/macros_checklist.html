@@ -1055,41 +1055,48 @@
 /**
  * Récupérer les identifiants d'une publication (récursif).
  * @param {integer} id - Identifiant de la publication (ou plusieurs identifiants séparés par des virgules).
- * @param {boolean} json - Retourner un objet JSON avec les métadonnées des documents. Sinon ne retourner qu'une liste d'identifiants.
+ * @param {boolean} [json] - Retourner un objet JSON avec les métadonnées des documents. Sinon ne retourner qu'une liste d'identifiants.
+ * @param {string} [status] - Status de publication (published, unpublished ou vide pour tout inclure).
  */
-<DEFFUNC NAME="CKL_ISSUE_CONTENTS" REQUIRED="id" OPTIONAL="json">
+<DEFFUNC NAME="CKL_ISSUE_CONTENTS" REQUIRED="id" OPTIONAL="json, status">
 	<LET VAR="is_first_id" GLOBAL="1">1</LET>
 	<LET VAR="id_current_publi" GLOBAL="1"></LET>
+
+	<LET VAR="where_clause"></LET>
+	<IF COND="[#STATUS] EQ 'published'">
+		<LET VAR="where_clause">[#WHERE_CLAUSE] AND alias_entities_publications.status > 0</LET>
+	<ELSEIF COND="[#STATUS] EQ 'unpublished'">
+		<LET VAR="where_clause">[#WHERE_CLAUSE] AND alias_entities_publications.status < 0</LET>
+	</IF>
 
 	<IF COND="[#JSON]">[</IF>
 
 	<!--[ Inclure la publication [#ID] seulement si son type est accepté ]-->
-	<LOOP NAME="ckl_issue_contents_include_publi" TABLE="publications" WHERE="id = '[#ID]' AND (type = 'numero' OR type = 'livre')" />
+	<LOOP NAME="ckl_issue_contents_include_publi" TABLE="publications" WHERE="id IN ([#ID]) AND (type = 'numero' OR type = 'livre') [#WHERE_CLAUSE]" />
 		<LET VAR="id_current_publi" GLOBAL="1">[#ID]</LET>
 		<MACRO NAME="CKL_ISSUE_CONTENTS_DOC" />
-	</LOOP>
 
-	<LOOP NAME="ckl_issue_contents"
-		TABLE="entities, types"
-		SELECT="id, class, type"
-		WHERE="idparent IN ([#ID])
-			AND type NOT IN ('fluxdesyndication','imageaccroche','rubriqueannuelle', 'imageaccrochelibrairie', 'informations', 'actualite', 'adressebibliographique') AND type NOT LIKE '%annexe%'
-			AND entities.idtype = types.id"
-		ORDER="entities.rank">
+		<LOOP NAME="ckl_issue_contents"
+			TABLE="entities, types"
+			SELECT="id, class, type"
+			WHERE="idparent IN ([#ID])
+				AND type NOT IN ('fluxdesyndication','imageaccroche','rubriqueannuelle', 'imageaccrochelibrairie', 'informations', 'actualite', 'adressebibliographique') AND type NOT LIKE '%annexe%'
+				AND entities.idtype = types.id"
+			ORDER="entities.rank">
 
-		<LOOP NAME="ckl_issue_contents_item" TABLE="#_TP_[#CLASS]" WHERE="identity = '[#ID]'">
-			<SWITCH TEST="[#CLASS]">
-				<!--[ Publication : recursion ]-->
-				<DO CASE="publications">
-					<LOOP NAME="ckl_issue_contents_include_publi"></LOOP>
-					<LOOP NAME="ckl_issue_contents"></LOOP>
-				</DO>
+			<LOOP NAME="ckl_issue_contents_item" TABLE="#_TP_[#CLASS]" WHERE="identity = '[#ID]'">
+				<SWITCH TEST="[#CLASS]">
+					<!--[ Publication : recursion ]-->
+					<DO CASE="publications">
+						<LOOP NAME="ckl_issue_contents_include_publi"></LOOP>
+					</DO>
 
-				<!--[ Textes ]-->
-				<DO CASE="textes">
-					<MACRO NAME="CKL_ISSUE_CONTENTS_DOC" />
-				</DO>
-			</SWITCH>
+					<!--[ Textes ]-->
+					<DO CASE="textes">
+						<MACRO NAME="CKL_ISSUE_CONTENTS_DOC" />
+					</DO>
+				</SWITCH>
+			</LOOP>
 		</LOOP>
 	</LOOP>
 
