@@ -518,48 +518,71 @@
 /**
  * Affiche un champ pour le statut de l'entité.
  */
-<DEFMACRO NAME="CKL_STATUS">
+<DEFMACRO NAME="CKL_FIELD_STATUS">
 	<div class="ckl-field ckl-field-status">
 		<div class="ckl-field-title">[#CKL_TRANSLATIONS.STATUS]</div>
 		<div class="ckl-field-value">
-			<IF COND="[#STATUS]==-32">
-				<FUNC NAME="CKL_STATUS_VALUE" ICON="draft" STATUS_NAME="[@EDITION.PERMANENT_UNPUBLISHED]" />
-
-			<ELSEIF COND="[#STATUS]==-8">
-				<FUNC NAME="CKL_STATUS_VALUE" ICON="draft" STATUS_NAME="[@EDITION.DRAFT]" />
-
-			<ELSEIF COND="[#STATUS]==-1">
-				<FUNC NAME="CKL_STATUS_VALUE" ICON="unpublished" STATUS_NAME="[@EDITION.READY_TO_BE_PUBLISHED]" />
-
-			<ELSEIF COND="[#STATUS]==1">
-				<IF COND="[#CLASS]">
-					<LET VAR="status_value" GLOBAL="1" ><FUNC NAME="CKL_STATUS_VALUE" ICON="published" STATUS_NAME="[@EDITION.PUBLISHED]" /></LET>
-					<LET VAR="table">[#TP][#CLASS]</LET>
-					<LOOP NAME="CKL_STATUS_datepubli" TABLE="[#TABLE]" WHERE="identity = '[#ID]'">
-						<IF COND="[#DATEPUBLI|isadate] AND [#DATEPUBLI] GT today()">
-							<LET VAR="status_value" GLOBAL="1" ><FUNC NAME="CKL_STATUS_VALUE" ICON="later_published" STATUS_NAME="[@EDITION.LATER_PUBLISHED]" /></LET>
-						</IF>
-					</LOOP>
-				</IF>
-				[%STATUS_VALUE]
-
-			<ELSEIF COND="[#STATUS]==8">
-				<FUNC NAME="CKL_STATUS_VALUE" ICON="locked" STATUS_NAME="[@EDITION.PROTECTED]" />
-
-			<ELSEIF COND="[#STATUS]==32">
-				<FUNC NAME="CKL_STATUS_VALUE" ICON="locked" STATUS_NAME="[@EDITION.PERMANENT_PUBLISHED]" />
-			</IF>
+			<FUNC NAME="CKL_STATUS" STATUS="[#STATUS]" />
 		</div>
 	</div>
 </DEFMACRO>
 
 /**
- * Affiche d'un statut et de son icone.
- * @param {string} status_name - Nom du statut.
- * @param {string} icon - Nom du fichier de l'icone.
+ * Affiche le statut d'une entité.
+ * @param {number} status - Statut.
+ * @param {boolean} [name] - Afficher le nom du statut.
+ * @param {boolean} [icon] - Afficher l'icone statut.
  */
-<DEFFUNC NAME="CKL_STATUS_VALUE" REQUIRED="status_name, icon">
-	<img class="ckl-status-icon" src="[#SHAREURL]/images/[#ICON].gif" alt="" /> <span class="ckl-status-name">[#STATUS_NAME]</span>
+<DEFFUNC NAME="CKL_STATUS" REQUIRED="status" OPTIONAL="name, icon">
+	<IF COND="![#NAME] AND ![#ICON]">
+		<LET VAR="name">1</LET>
+		<LET VAR="icon">1</LET>
+	</IF>
+
+	<LET VAR="status_name" GLOBAL="1"></LET>
+	<LET VAR="status_icon" GLOBAL="1"></LET>
+
+	<IF COND="[#STATUS]==-32">
+		<LET VAR="status_name" GLOBAL="1">[@EDITION.PERMANENT_UNPUBLISHED]</LET>
+		<LET VAR="status_icon" GLOBAL="1">draft</LET>
+
+	<ELSEIF COND="[#STATUS]==-8">
+		<LET VAR="status_name" GLOBAL="1">[@EDITION.DRAFT]</LET>
+		<LET VAR="status_icon" GLOBAL="1">draft</LET>
+
+	<ELSEIF COND="[#STATUS]==-1">
+		<LET VAR="status_name" GLOBAL="1">[@EDITION.READY_TO_BE_PUBLISHED]</LET>
+		<LET VAR="status_icon" GLOBAL="1">unpublished</LET>
+
+	<ELSEIF COND="[#STATUS]==1">
+		<LET VAR="status_name" GLOBAL="1">[@EDITION.PUBLISHED]</LET>
+		<LET VAR="status_icon" GLOBAL="1">published</LET>
+		
+		<IF COND="[#CLASS] AND [#ID]">
+			<LET VAR="table">[#TP][#CLASS]</LET>
+			<LOOP NAME="ckl_status_datepubli" TABLE="[#TABLE]" WHERE="identity = '[#ID]'">
+				<IF COND="[#DATEPUBLI|isadate] AND [#DATEPUBLI] GT today()">
+					<LET VAR="status_name" GLOBAL="1">[@EDITION.LATER_PUBLISHED]</LET>
+					<LET VAR="status_icon" GLOBAL="1">later_published</LET>
+				</IF>
+			</LOOP>
+		</IF>
+
+	<ELSEIF COND="[#STATUS]==8">
+		<LET VAR="status_name" GLOBAL="1">[@EDITION.PROTECTED]</LET>
+		<LET VAR="status_icon" GLOBAL="1">locked</LET>
+
+	<ELSEIF COND="[#STATUS]==32">
+		<LET VAR="status_name" GLOBAL="1">[@EDITION.PERMANENT_PUBLISHED]</LET>
+		<LET VAR="status_icon" GLOBAL="1">locked</LET>
+	</IF>
+
+	<IF COND="[#ICON] AND [#ICON] NE '0'">
+		<img class="ckl-status-icon" src="[#SHAREURL]/images/[%STATUS_ICON].gif" alt="" />
+	</IF>
+	<IF COND="[#NAME] AND [#NAME] NE '0'">
+		<span class="ckl-status-name">[%STATUS_NAME]</span>
+	</IF>
 </DEFFUNC>
 
 /**
