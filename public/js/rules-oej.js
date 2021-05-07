@@ -264,7 +264,7 @@ window.checklistRules = [
       en: "<p>Some images of the document are not displayed by Lodel. This may be an issue with image format or structure of the source file.</p>"
     },
     condition: "textes",
-    type: "warning",
+    type: "danger",
     displayCount: true,
     action: function ($) {
       var $phpFileExistsIndicators = $("[data-image-exists='0']");
