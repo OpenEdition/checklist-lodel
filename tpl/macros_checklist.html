@@ -1088,15 +1088,25 @@
 <DEFFUNC NAME="CKL_LIST" REQUIRED="id" OPTIONAL="json, filter_status">
 	<LET VAR="list_is_empty" GLOBAL="1">1</LET>
 
-	<LET VAR="ckl_list_where_clause"></LET>
 	<IF COND="[#FILTER_STATUS] EQ 'published'">
-		<LET VAR="ckl_list_where_clause">[#CKL_LIST_WHERE_CLAUSE] AND (type NOT IN ('numero', 'livre') OR alias_entities_publications.status > 0)</LET>
+		<LET VAR="ckl_list_where_clause">(type NOT IN ('numero', 'livre') OR alias_entities_publications.status > 0)</LET>
 	<ELSEIF COND="[#FILTER_STATUS] EQ 'unpublished'">
-		<LET VAR="ckl_list_where_clause">[#CKL_LIST_WHERE_CLAUSE] AND (type NOT IN ('numero', 'livre') OR alias_entities_publications.status < 0)</LET>
+		<LET VAR="ckl_list_where_clause">(type NOT IN ('numero', 'livre') OR alias_entities_publications.status < 0)</LET>
+	<ELSE />
+		<!--[ Tout accepter ]-->
+		<LET VAR="ckl_list_where_clause">alias_entities_publications.id != -1</LET>
 	</IF>
 
 	<IF COND="[#JSON]">[</IF>
-	<FUNC NAME="CKL_LIST_PARENTS" ID="[#ID]" />
+
+	<IF COND="[#ID] AND [#ID] NE 0">
+		<FUNC NAME="CKL_LIST_PARENTS" ID="[#ID]" />
+	<ELSE />
+		<LOOP NAME="ckl_list_siteroot" TABLE="publications" WHERE="idparent = 0">
+			<FUNC NAME="CKL_LIST_PARENTS" ID="[#ID]" />
+		</LOOP>
+	</IF>
+
 	<IF COND="[#JSON]">]</IF>
 </DEFFUNC>
 
@@ -1105,18 +1115,14 @@
  * @param {integer} id - Identifiant de la publication (ou plusieurs identifiants séparés par des virgules). La valeur "0" correspond à tout le site.
  */
 <DEFFUNC NAME="CKL_LIST_PARENTS" REQUIRED="id">
-	<IF COND="[#ID] EQ '0'">
+	<LOOP NAME="ckl_list_parents" TABLE="publications" WHERE="[#CKL_LIST_WHERE_CLAUSE] AND id IN ([#ID])">
+		<!--[ Inclure l'[#ID] de la publication seulement si son type est accepté ]-->
+		<IF COND="[#TYPE] EQ 'numero' OR [#TYPE] EQ 'livre'">
+			<MACRO NAME="CKL_LIST_ITEM" />
+		</IF>
+		<!--[ Boucler sur les enfants ]-->
 		<MACRO NAME="CKL_LIST_CHILDREN" />
-	<ELSE />
-		<LOOP NAME="ckl_list_parents" TABLE="publications" WHERE="id IN ([#ID]) [#CKL_LIST_WHERE_CLAUSE]" />
-			<!--[ Inclure l'[#ID] de la publication seulement si son type est accepté ]-->
-			<IF COND="[#TYPE] EQ 'numero' OR [#TYPE] EQ 'livre'">
-				<MACRO NAME="CKL_LIST_ITEM" />
-			</IF>
-			<!--[ Boucler sur les enfants ]-->
-			<MACRO NAME="CKL_LIST_CHILDREN" />
-		</LOOP>
-	</IF>
+	</LOOP>
 </DEFFUNC>
 
 /**
