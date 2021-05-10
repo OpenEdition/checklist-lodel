@@ -288,6 +288,7 @@
 
     $("#ckl-batch-btn").on("click", function() {
       if ($body.hasClass(runningClass)) return;
+      $body.removeClass(doneClass);
       $body.addClass(runningClass);
       toggleInputs(false);
       
