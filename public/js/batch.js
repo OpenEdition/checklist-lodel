@@ -250,7 +250,8 @@
         }, colHeaders);
 
         var sitename = checklist.getConfig("namespace");
-        var filename = sitename + "-" + ids.replace(/\D+/g, "-").replace(/^0$/, "site") + ".csv";
+        var optionsInfo = (options.displayPaper ? "+paper" : "") + (options.selectUnpublished ? "+unpublished" : "") + (options.displayOk ? "+ok" : "") + (options.displayError ? "+errors" : "");
+        var filename = sitename + "-" + ids.replace(/\D+/g, "-").replace(/^0$/, "site") + (optionsInfo ? optionsInfo : "") + ".csv";
         downloadCSV(filename, table);
         
         // Update UI
