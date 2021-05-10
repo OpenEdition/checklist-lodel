@@ -162,6 +162,8 @@
     .done(function(data, textStatus) {
       if (data.length === 0) {
         alert(window.batchStrings.noDocs);
+        $body.removeClass([runningClass, doneClass]);
+        toggleInputs(true);
         return;
       }
 
