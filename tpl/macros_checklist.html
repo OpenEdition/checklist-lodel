@@ -582,7 +582,7 @@
 		<img class="ckl-status-icon" src="[#SHAREURL]/images/[%STATUS_ICON].gif" alt="" />
 	</IF>
 	<IF COND="[#RAWTEXT] AND [#RAWTEXT] NE '0'">
-		[%STATUS_TEXT]
+		[%STATUS_TEXT|strtolower]
 	<ELSEIF COND="[#TEXT] AND [#TEXT] NE '0'">
 		<span class="ckl-status-name">[%STATUS_TEXT]</span>
 	</IF>
@@ -1079,72 +1079,93 @@
 </DEFMACRO>
 
 /**
- * Récupérer les identifiants d'une publication (récursif).
- * @param {integer} id - Identifiant de la publication (ou plusieurs identifiants séparés par des virgules).
+ * Récupérer récursivement les informations de plusieurs publications et de leurs contenus pour les afficher dans une liste à plat.
+ * @param {integer} id - Identifiant de la publication (ou plusieurs identifiants séparés par des virgules). La valeur "0" correspond à tout le site.
  * @param {boolean} [json] - Retourner un objet JSON avec les métadonnées des documents. Sinon ne retourner qu'une liste d'identifiants.
- * @param {string} [status] - Status de publication (published, unpublished ou vide pour tout inclure).
+ * @param {string} [filter_status] - Status de publication (published, unpublished ou vide pour tout inclure).
  */
-<DEFFUNC NAME="CKL_ISSUE_CONTENTS" REQUIRED="id" OPTIONAL="json, status">
-	<LET VAR="is_first_id" GLOBAL="1">1</LET>
-	<LET VAR="id_current_publi" GLOBAL="1"></LET>
+<DEFFUNC NAME="CKL_LIST" REQUIRED="id" OPTIONAL="json, filter_status">
+	<LET VAR="list_is_empty" GLOBAL="1">1</LET>
 
-	<LET VAR="where_clause"></LET>
-	<IF COND="[#STATUS] EQ 'published'">
-		<LET VAR="where_clause">[#WHERE_CLAUSE] AND alias_entities_publications.status > 0</LET>
-	<ELSEIF COND="[#STATUS] EQ 'unpublished'">
-		<LET VAR="where_clause">[#WHERE_CLAUSE] AND alias_entities_publications.status < 0</LET>
+	<LET VAR="ckl_list_where_clause"></LET>
+	<IF COND="[#FILTER_STATUS] EQ 'published'">
+		<LET VAR="ckl_list_where_clause">[#CKL_LIST_WHERE_CLAUSE] AND (type NOT IN ('numero', 'livre') OR alias_entities_publications.status > 0)</LET>
+	<ELSEIF COND="[#FILTER_STATUS] EQ 'unpublished'">
+		<LET VAR="ckl_list_where_clause">[#CKL_LIST_WHERE_CLAUSE] AND (type NOT IN ('numero', 'livre') OR alias_entities_publications.status < 0)</LET>
 	</IF>
 
 	<IF COND="[#JSON]">[</IF>
-
-	<LOOP NAME="ckl_issue_contents_publication" TABLE="publications" WHERE="id IN ([#ID]) [#WHERE_CLAUSE]" />
-
-		<!--[ Inclure l'[#ID] de la publication seulement si son type est accepté ]-->
-		<IF COND="[#TYPE] EQ 'numero' OR [#TYPE] EQ 'livre'">
-			<LET VAR="id_current_publi" GLOBAL="1">[#ID]</LET>
-			<MACRO NAME="CKL_ISSUE_CONTENTS_DOC" />
-		</IF>
-
-		<LOOP NAME="ckl_issue_contents"
-			TABLE="entities, types"
-			SELECT="id, class, type"
-			WHERE="idparent = [#ID]
-				AND type NOT IN ('fluxdesyndication','imageaccroche','rubriqueannuelle', 'imageaccrochelibrairie', 'informations', 'actualite', 'adressebibliographique') AND type NOT LIKE '%annexe%'
-				AND entities.idtype = types.id"
-			ORDER="entities.rank">
-			
-			<!--[ Publication : recursion ]-->
-			<IF COND="[#CLASS] EQ 'publications'">
-				<LOOP NAME="ckl_issue_contents_item_publication" TABLE="publications" WHERE="id = '[#ID]'">
-					<LET VAR="where_clause"></LET>
-					<LOOP NAME="ckl_issue_contents_publication"></LOOP>
-				</LOOP>
-
-			<!--[ Textes ]-->
-			<ELSEIF COND="[#CLASS] EQ 'textes'">
-				<LOOP NAME="ckl_issue_contents_item_texte" TABLE="textes" WHERE="id = '[#ID]'">
-					<MACRO NAME="CKL_ISSUE_CONTENTS_DOC" />
-				</LOOP>
-			</IF>
-		</LOOP>
-	</LOOP>
-
+	<FUNC NAME="CKL_LIST_PARENTS" ID="[#ID]" />
 	<IF COND="[#JSON]">]</IF>
 </DEFFUNC>
 
-<DEFMACRO NAME="CKL_ISSUE_CONTENTS_DOC" >
-	<IF COND="[%IS_FIRST_ID] EQ '0'">,</IF>
-	<LET VAR="is_first_id" GLOBAL="1">0</LET>
+/**
+ * Boucler sur les publications (utilisation par CKL_LIST).
+ * @param {integer} id - Identifiant de la publication (ou plusieurs identifiants séparés par des virgules). La valeur "0" correspond à tout le site.
+ */
+<DEFFUNC NAME="CKL_LIST_PARENTS" REQUIRED="id">
+	<IF COND="[#ID] EQ '0'">
+		<MACRO NAME="CKL_LIST_CHILDREN" />
+	<ELSE />
+		<LOOP NAME="ckl_list_parents" TABLE="publications" WHERE="id IN ([#ID]) [#CKL_LIST_WHERE_CLAUSE]" />
+			<!--[ Inclure l'[#ID] de la publication seulement si son type est accepté ]-->
+			<IF COND="[#TYPE] EQ 'numero' OR [#TYPE] EQ 'livre'">
+				<MACRO NAME="CKL_LIST_ITEM" />
+			</IF>
+			<!--[ Boucler sur les enfants ]-->
+			<MACRO NAME="CKL_LIST_CHILDREN" />
+		</LOOP>
+	</IF>
+</DEFFUNC>
+
+/**
+ * Boucler sur les contenus d'une publication (utilisation par CKL_LIST).
+ */
+<DEFMACRO NAME="CKL_LIST_CHILDREN">
+	<LOOP NAME="ckl_list_children"
+		TABLE="entities, types"
+		SELECT="id, class, type"
+		WHERE="idparent = [#ID]
+			AND type NOT IN ('fluxdesyndication','imageaccroche','rubriqueannuelle', 'imageaccrochelibrairie', 'informations', 'actualite', 'adressebibliographique') AND type NOT LIKE '%annexe%'
+			AND entities.idtype = types.id"
+		ORDER="entities.rank">
+		
+		<!--[ Publication : recursion ]-->
+		<IF COND="[#CLASS] EQ 'publications'">
+			<LOOP NAME="ckl_list_children_publication" TABLE="publications" WHERE="id = '[#ID]'">
+				<FUNC NAME="CKL_LIST_PARENTS" ID="[#ID]" />
+			</LOOP>
+
+		<!--[ Textes ]-->
+		<ELSEIF COND="[#CLASS] EQ 'textes'">
+			<LOOP NAME="ckl_list_children_texte" TABLE="textes" WHERE="id = '[#ID]'">
+				<MACRO NAME="CKL_LIST_ITEM" />
+			</LOOP>
+		</IF>
+	</LOOP>
+</DEFMACRO>
+
+/**
+ * Afficher un élément dans le format demandé (utilisation par CKL_LIST).
+ */
+<DEFMACRO NAME="CKL_LIST_ITEM">
+	<IF COND="![%LIST_IS_EMPTY]">,</IF>
+	<LET VAR="list_is_empty" GLOBAL="1"></LET>
+	<IF COND="[#CLASS] EQ 'publications'">
+		<LET VAR="idpubli">[#ID]</LET>
+	<ELSE />
+		<LET VAR="idpubli"><FUNC NAME="CKL_FIND_SUPPORTED_PARENT" ID="[#ID]" /></LET>
+	</IF>
+
 	<IF COND="[#JSON]">
-		<LET VAR="doc_status"><FUNC NAME="CKL_STATUS" STATUS="[#STATUS]" RAWTEXT="1" /></LET>
 		{
 			"id": "[#ID]",
 			"href": "<FUNC NAME="CKL_URL" DOCUMENT="[#ID]" />",
 			"publicHref": "[#SITEURL]/[#ID|makeurlwithid]",
-			"idpubli": "[%ID_CURRENT_PUBLI]",
+			"idpubli": "[#IDPUBLI]",
 			"type": "[#TYPE]",
 			"title": "[#TITRE|textebrut|replacequotationmark]",
-			"status": "[#DOC_STATUS|strtolower]",
+			"status": "<FUNC NAME="CKL_STATUS" STATUS="[#STATUS]" RAWTEXT="1" />",
 			"context": <MACRO NAME="CKL_CREATE_CONTEXT_JSON" />
 		}
 	<ELSE />
