@@ -267,6 +267,7 @@
       console.error(err);
       // Lodel session is probably expired => reload page in order to show login form
       setTimeout(function() {
+        alert(batchStrings.loadingError);
         document.location.reload();
       }, 2000);
     });
