@@ -746,8 +746,8 @@ window.checklistRules = [
         var classname = $el.attr("class");
         statement.addMarker({
           name: {
-            fr: "Style inconnu&nbsp: " + classname,
-            en: "Unknown style: " + classname,
+            fr: classname ? "Style inconnu&nbsp: " + classname : "Style inconnu",
+            en: classname ? "Unknown style: " + classname : "Unknown style",
           },
           target: $el,
           position: "prepend",
