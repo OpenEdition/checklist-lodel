@@ -152,7 +152,7 @@
     setProgress(0);
 
     // Get documents data
-    var statusParam = options.selectUnpublished ? "&status=unpublished" : "";
+    var statusParam = options.selectUnpublished ? "&filter_status=unpublished" : "";
     $.ajax({
       url : "?do=_checklist_get",
       type : "GET",
