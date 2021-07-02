@@ -702,9 +702,9 @@ window.checklistRules = [
       var $p = getField($, "texte").find("p").not(".citation, .citationbis, .citationter, .paragraphesansretrait");
       
       var $bad = $p.filter(function() {
-        if ($p.parent("li, td, blockquote").length > 0) return;
+        if ($(this).parent("li, td, blockquote").length > 0) return;
 
-        var text = $(this).text();
+        var text = $(this).text().trim();
         if (text.length < 2) return false;
 
         var sub = text.substring(0, 2);
