@@ -1158,7 +1158,7 @@ window.checklistRules = [
     action: function ($) {
       var $bad = $(".ckl-fichiers .ckl-fichier").filter(function() {
         var type = $(this).find(".ckl-fichier-type").text().trim();
-        if (type !== "facsimile" && type !== "couverture1") return false;
+        if (type !== "facsimile") return false;
 
         var fileinfo = $(this).find(".ckl-fichier-document").attr("data-document-filesize");
         return fileIsTooBig(fileinfo, 30)

@@ -19,6 +19,7 @@ window.getFile = function($, ...types) {
 
 // Return true if filesize from field is greater than maxSizeMo
 window.fileIsTooBig = function(fileinfo, maxSizeMo) {
+  if (fileinfo == null) return false;
   var unit = fileinfo.charAt(fileinfo.length - 1);
   if (unit === "k") return false;
   var filesize = parseFloat(fileinfo.replace(",", "."));
