@@ -274,7 +274,7 @@ window.checklistRules = [
       var $img = $textes.find("img");
       var $imagesUnsupportedExt = $img.filter(function() {
         var src = $(this).attr("src");
-        var re = /\.(jpg|jpeg|png|gif|svg)$/;
+        var re = /\.(jpg|jpeg|png|gif|svg)$/i;
         return !re.test(src);
       });
 
