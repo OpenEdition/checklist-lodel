@@ -52,14 +52,14 @@ window.checklistRules = [
   },
 
   {
-    id: "titreillustration:quality(position)",
+    id: "metasillustration:quality(position)",
     name: {
-      fr: "Titre illustration sans illustration",
-      en: "Illustration title without any illustration"
+      fr: "Métadonnées d’illustration sans illustration",
+      en: "Illustration metadata without any illustration"
     },
     description: {
-      fr: "<p>Un ou plusieurs titres d’illustrations ne sont pas suivis, comme attendu, par une illustration, un tableau ou un média embarqué. L’ordre recommandé pour les métadonnées portant sur les illustrations, tableau et média embarqué est le suivant&nbsp;: titre, illustration, légende, crédits. Il est important de respecter cet ordre pour la bonne génération de la table des illustrations et pour des raisons d’accessibilité.</p><p>Voir <a href=\"https://objs-fr.hypotheses.org/638\">Traitement des images</a></p>",
-      en: "<p>One or several illustration titles aren’t followed by an illustration, table or embedded media, as should be expected. The recommended order for illustration metadata is: title, illustration, caption, credits. It is important to respect this order for the proper generation of the table of illustrations and for accessibility reasons.</p>"
+      fr: "<p>Une ou des métadonnées d’illustrations ne sont pas attachées, comme attendu, à une illustration, un tableau ou un média embarqué. L’ordre recommandé pour les métadonnées portant sur les illustrations, tableau et média embarqué est le suivant&nbsp;: titre, illustration, légende, crédits. Il est important de respecter cet ordre pour la bonne génération de la table des illustrations et pour des raisons d’accessibilité.</p><p>Voir <a href=\"https://objs-fr.hypotheses.org/638\">Traitement des images</a></p>",
+      en: "<p>One or several illustration's metadata aren’t attached to an illustration, table or embedded media, as should be expected. The recommended order for illustration metadata is: title, illustration, caption, credits. It is important to respect this order for the proper generation of the table of illustrations and for accessibility reasons.</p>"
     },
     condition: "textes",
     type: "warning",
@@ -71,12 +71,21 @@ window.checklistRules = [
         });
       };
 
-      var $bad = $(".titreillustration").filter(function() {
+      var $badTitre = $(".titreillustration").filter(function() {
         if ($(this).is("div")) return true;
         var $next = $(this).next();
         var isValid = hasTags($next, ["img", "table", "iframe", "object", "embed"]);
         return !isValid;
       });
+
+      var $badLegendeCredit = $(".legendeillustration, .creditillustration, .crditsillustration").filter(function() {
+        if ($(this).is("div")) return true;
+        var $prev = $(this).prev();
+        var isValid = hasTags($prev, ["img", "table", "iframe", "object", "embed", ".legendeillustration"]);
+        return !isValid;
+      });
+
+      var $bad = $badTitre.add($badLegendeCredit);
 
       var marker = {
         name: {
