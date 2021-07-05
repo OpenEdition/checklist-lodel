@@ -955,7 +955,7 @@
 						TABLE="entities, types"
 						SELECT="id, class, type"
 						WHERE="idparent = '[#CURRENT_PARENT_ID]'
-							AND class IN ('publications', 'textes') AND type NOT LIKE '%annexe%'
+							AND class IN ('publications', 'textes')
 							AND entities.idtype = types.id"
 						ORDER="entities.rank">
 				<IF COND="[#CLASS] EQ 'publications' AND [#TYPE] EQ 'souspartie'">
@@ -1135,7 +1135,8 @@
 		TABLE="entities, types"
 		SELECT="id, class, type"
 		WHERE="idparent = [#ID]
-			AND type NOT IN ('fluxdesyndication','imageaccroche','rubriqueannuelle', 'imageaccrochelibrairie', 'informations', 'actualite', 'adressebibliographique') AND type NOT LIKE '%annexe%'
+			AND class IN ('publications', 'textes')
+			AND type NOT IN ('fluxdesyndication','imageaccroche','rubriqueannuelle', 'imageaccrochelibrairie', 'informations', 'actualite', 'adressebibliographique')
 			AND entities.idtype = types.id"
 		ORDER="entities.rank">
 		
