@@ -893,6 +893,39 @@ window.checklistRules = [
   },
 
   {
+    id: "title:quality(ponctuation)",
+    name: {
+      fr: "Ponctuation à la fin du titre ou d’un intertitre",
+      en: "Punctuation at the end of title or heading",
+    },
+    description: {
+      fr: "<p>Un ou plusieurs intertitres du document se terminent par un signe de ponctuation, ce qui n’est pas typographiquement correct.</p>",
+      en: "<p>One or more headings of the document end with a punctuation mark, which is not typographically correct.</p>"
+    },
+    condition: "textes",
+    type: "info",
+    displayCount: true,
+    action: function ($) {
+      var $titre = getField($, "titre");
+      var $headers = getField($, "texte").find(":header");
+      var $bad = $titre.add($headers).filter(function () {
+        var text = $(this).text().trim();
+        return text.match(/[^\.:;=, ]{2,}[\.:;=,]$/) // Ne pas matcher les mots d'une seule lettre suivies d'un point
+      });
+      var marker = {
+        name: {
+          fr: "Ponctuation",
+          en: "Punctuation"
+        },
+        target: $bad,
+        position: "append",
+        highlight: true
+      };
+      this.resolve($bad.length, marker);
+    }
+  },
+
+  {
     id: "texte:quality(champs)",
     name: {
       fr: "Champs ou liens parasites",
