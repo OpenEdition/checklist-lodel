@@ -1359,7 +1359,7 @@ window.checklistRules = [
     type: "danger",
     displayCount: true,
     action: function ($) {
-      var $bad = $(".checklist-toc-section-contents .checklist-toc-section-contents:empty");
+      var $bad = getField($, "sousparties-vides");
       this.resolve($bad.length);
     }
   },

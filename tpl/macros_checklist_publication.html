@@ -234,6 +234,9 @@
 
 		<!--[ Historique ]-->
 		<FUNC NAME="CKL_FIELD_ML" FIELD="historique" VALUE="[#HISTORIQUE]"/>
+
+		<!--[ Sous-parties vides ]-->
+		<MACRO NAME="CKL_P_SOUSPARTIES_VIDES"/>
 	</LET>
 	<FUNC NAME="CKL_SECTION" CONTENTS="[#SECTION_CONTENTS]" />
 
@@ -331,3 +334,16 @@
 		</AFTER>
 	</LOOP>
 </DEFFUNC>
+
+/**
+ * Champ caché si la publication contient des sousparties vides.
+ */
+<DEFMACRO NAME="CKL_P_SOUSPARTIES_VIDES">
+	<div class="ckl-field hidden" data-field="sousparties-vides">
+		<LOOP NAME="ckl_p_sousparties" TABLE="relations, entities, types" WHERE="id1 = '[#ID]' AND nature = 'P' AND id2 = entities.id AND entities.idtype=types.id AND class = 'publications' AND type = 'souspartie'" SELECT="id AS id_souspartie">
+			<LOOP NAME="ckl_p_sousparties_vides" TABLE="relations, entities" WHERE="id1 = '[#ID_SOUSPARTIE]' AND nature = 'P' AND id2 = entities.id">
+				<ALTERNATIVE><div class="ckl-field-value">[#ID_SOUSPARTIE]</div></ALTERNATIVE>
+			</LOOP>
+		</LOOP>
+	</div>
+</DEFMACRO>
