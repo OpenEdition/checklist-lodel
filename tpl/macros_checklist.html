@@ -356,8 +356,10 @@
 			<LET VAR="publi_id"><FUNC NAME="CKL_FIND_SUPPORTED_PARENT" ID="[#ID]" /></LET>
 		</IF>
 		<IF COND="[%SITE_EM] EQ 'oej'">
-			<LOOP NAME="ckl_create_context_json_numeroouvert" TABLE="publications" WHERE="id='[#PUBLI_ID]' AND numeroouvert" LIMIT="0,1" />
-				"numeroouvert": true,
+			<LOOP NAME="ckl_create_context_json_numeroouvert" TABLE="publications" WHERE="id='[#PUBLI_ID]'" LIMIT="0,1" />
+				<IF COND="[#NUMEROOUVERT]">
+					"numeroouvert": true,
+				</IF>
 			</LOOP>
 		<ELSEIF COND="[%SITE_EM] EQ 'oeb'">
 			<LOOP NAME="ckl_create_context_json_ocr" TABLE="publications" WHERE="id='[#PUBLI_ID]' AND ocr" LIMIT="0,1" />
