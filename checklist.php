@@ -31,6 +31,11 @@ class checklist extends Plugins {
 
 		$checklist_em = $this->_config['checklist_em']['value'];
 		C::set('checklist_em', $checklist_em);
+
+		// Set id in context
+		if (isset($_GET['document'])) {
+			C::set('id', $_GET['document']);
+		}
 	}
 
 	public function postview (&$context) {
