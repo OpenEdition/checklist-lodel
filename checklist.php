@@ -43,7 +43,7 @@ class checklist extends Plugins {
 
 		// If Checklist is active
 		if ($tpl == 'checklist') {
-			$doc_id = $_GET['document'];
+			$doc_id = isset($_GET['document']) ? $_GET['document'] : 0;
 			$class_attr = ' class="actif"';
 
 			// Deactivate active tab
