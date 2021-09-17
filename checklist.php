@@ -31,6 +31,11 @@ class checklist extends Plugins {
 
 		$checklist_em = $this->_config['checklist_em']['value'];
 		C::set('checklist_em', $checklist_em);
+
+		// Set id in context
+		if (isset($_GET['document'])) {
+			C::set('id', $_GET['document']);
+		}
 	}
 
 	public function postview (&$context) {
@@ -43,7 +48,7 @@ class checklist extends Plugins {
 
 		// If Checklist is active
 		if ($tpl == 'checklist') {
-			$doc_id = $_GET['document'];
+			$doc_id = isset($_GET['document']) ? $_GET['document'] : 0;
 			$class_attr = ' class="actif"';
 
 			// Deactivate active tab
