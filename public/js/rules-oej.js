@@ -198,7 +198,7 @@ window.checklistRules = [
         };
 
         var width = Number(this.dataset.imageWidth);
-        var height = Number(this.dataset.imageWidth);
+        var height = Number(this.dataset.imageHeight);
         var resolution = width * height;
         if (resolution > maxResolution) {
           return badFiles.push(src);
