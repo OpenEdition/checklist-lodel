@@ -307,7 +307,7 @@
 			<DO>
 				{
 					"value": "[#ID]",
-					"title": "[#TITRE|removenotes|textebrut]",
+					"title": "[#TITRE|removenotes|replacequotationmark|reg_replace("/(\r\n|\r|\n)+/", " ")|textebrut]",
 					"description": "[#TYPE|majuscule] [#NUMERO|textebrut]"
 				},
 			</DO>
@@ -1176,7 +1176,7 @@
 			"publicHref": "[#SITEURL]/[#ID|makeurlwithid]",
 			"idpubli": "[#IDPUBLI]",
 			"type": "[#TYPE]",
-			"title": "[#TITRE|textebrut|replacequotationmark]",
+			"title": "[#TITRE|removenotes|replacequotationmark|reg_replace("/(\r\n|\r|\n)+/", " ")|textebrut]",
 			"status": "<FUNC NAME="CKL_STATUS" STATUS="[#STATUS]" RAWTEXT="1" />",
 			"context": <MACRO NAME="CKL_CREATE_CONTEXT_JSON" />
 		}
