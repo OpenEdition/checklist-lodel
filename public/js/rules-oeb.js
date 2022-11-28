@@ -945,7 +945,7 @@ window.checklistRules = [
       var $bad = $field.find("a[href ^= '#id_']");
 
       // Orphan Text and Elements
-      var allowedTags = ["p", "h1", "h2", "h3", "h4", "h5", "h6", "ol", "ul", "pre", "address", "blockquote", "dl", "div", "hr", "table"];
+      var allowedTags = ["p", "h1", "h2", "h3", "h4", "h5", "h6", "ol", "ul", "pre", "address", "blockquote", "dl", "div", "hr", "table", "figure"];
       $field.contents().each(function () {
         var isElement = this.nodeType === 1;
         var isText = this.nodeType === 3;
