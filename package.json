@@ -26,7 +26,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.9.0",
     "@openedition/checklist": "^2.0.3",
-    "@yaireo/tagify": "^3.23.1",
+    "@yaireo/tagify": "^4.9.8",
     "jquery": "^3.4.1",
     "largetable": "^1.0.0"
   }
